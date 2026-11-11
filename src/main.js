@@ -40,6 +40,15 @@ function ride(btn, { autoplay = false } = {}) {
   note.hidden = !d.note;
   p.addEventListener('line10:next', changeHere);
   frame.replaceChildren(p);
+  setLineInUrl(picks.indexOf(btn));
+}
+// the address carries the line, so a "copy link to this stop" opens the same line
+function setLineInUrl(k) {
+  try {
+    const u = new URL(location.href);
+    if (k > 0) u.searchParams.set('line', String(k)); else u.searchParams.delete('line');
+    history.replaceState(history.state, '', u);
+  } catch { /* file:// or sandboxed */ }
 }
 
 const board = (b, opts) => {
@@ -56,10 +65,18 @@ function changeHere() {
 }
 frame.querySelector('line10-player')?.addEventListener('line10:next', changeHere);
 
-// come back to the line you were on
+// open the line a link points to, or come back to the line you were on
+const params = new URLSearchParams(location.search);
 let saved = 0;
 try { saved = Number(localStorage.getItem('line10:line')) || 0; } catch { /* private mode */ }
-if (saved > 0 && picks[saved]) ride(picks[saved]);
+const linked = params.has('line') ? Number(params.get('line')) : NaN;
+const first = Number.isInteger(linked) && picks[linked] ? linked : saved;
+if (first > 0 && picks[first]) ride(picks[first]);
+else if (params.has('line')) setLineInUrl(0);
+// a stop link's time is used once, by the first player; later line changes start from the top
+if (params.has('t')) {
+  try { const u = new URL(location.href); u.searchParams.delete('t'); history.replaceState(history.state, '', u); } catch { /* sandboxed */ }
+}
 
 // ---------- "Put it on your site": paint the line, copy the code ----------
 const swatches = [...document.querySelectorAll('.swatch[data-c]')];
@@ -122,3 +139,53 @@ copyBtn.addEventListener('click', async () => {
 // picking another line shows that line's own colour and code
 picks.forEach((b) => b.addEventListener('click', () => paint(b.style.getPropertyValue('--c').trim(), { fromPick: true })));
 paint(colour, { fromPick: true });
+
+// ---------- "Try this": tick off the clever parts as visitors find them ----------
+const tries = document.querySelector('.tries');
+const triesCount = document.getElementById('tries-count');
+const TRIES_KEY = 'line10:tries';
+let found = new Set();
+try { found = new Set(JSON.parse(localStorage.getItem(TRIES_KEY) || '[]')); } catch { /* private mode */ }
+const drawTries = () => {
+  const items = [...tries.querySelectorAll('[data-try]')];
+  items.forEach((li) => {
+    const on = found.has(li.dataset.try);
+    li.classList.toggle('done', on);
+    li.querySelector('.vh').textContent = on ? ' (done)' : ' (not yet)';
+  });
+  const n = items.filter((li) => found.has(li.dataset.try)).length;
+  triesCount.textContent = n === items.length ? 'You rode the whole line' : `${n} of ${items.length} found`;
+  tries.classList.toggle('all', n === items.length);
+};
+const tick = (k) => {
+  if (found.has(k)) return;
+  found.add(k);
+  try { localStorage.setItem(TRIES_KEY, JSON.stringify([...found])); } catch { /* private mode */ }
+  drawTries();
+};
+// phones have no N key: there the hint points at the Next stop button in Settings
+if (matchMedia('(hover: none) and (pointer: coarse)').matches) {
+  tries.querySelector('[data-try="next"] > span:not(.vh)').textContent = 'Jump to the next stop';
+}
+drawTries();
+let lastInput = -Infinity;                           // a speed or board change only counts when the visitor made it
+frame.addEventListener('pointerdown', (e) => {
+  lastInput = performance.now();
+  if (e.target.closest?.('.l10-slider')) tick('drag');
+}, true);
+frame.addEventListener('keydown', (e) => {
+  lastInput = performance.now();
+  if (e.altKey || e.ctrlKey || e.metaKey) return;
+  if (e.target.closest?.('.l10-slider') && /^Arrow/.test(e.key)) tick('drag');
+  if ((e.key === 'n' || e.key === 'N' || e.key === ']') && !e.target.closest?.('input, textarea')) tick('next');
+}, true);
+frame.addEventListener('click', (e) => {
+  if (e.target.closest?.('.l10-nextstop, .l10-m-next')) tick('next');
+}, true);
+frame.addEventListener('ratechange', () => { if (performance.now() - lastInput < 2000) tick('speed'); }, true);
+new MutationObserver(() => { if (performance.now() - lastInput < 2000) tick('board'); })   // the board's look changed by the visitor
+  .observe(frame, { subtree: true, attributes: true, attributeFilter: ['data-board', 'data-board-pos', 'data-board-style', 'data-board-flip'] });
+frame.addEventListener('line10:share', () => tick('share'));
+new MutationObserver((list) => {
+  if (list.some((m) => m.target.hasAttribute?.('data-terminus'))) tick('end');
+}).observe(frame, { subtree: true, attributes: true, attributeFilter: ['data-terminus'] });

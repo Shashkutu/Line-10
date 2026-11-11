@@ -20,6 +20,8 @@
 - **Small players.** Below about 770px the bar keeps the essentials and a Settings menu holds the rest. No control leaves the player from 250px wide.
 - **Phones.** Below 540px the line and the buttons move into a strip under the picture, so nothing covers the video and every button stays 44px. Fullscreen goes back to the overlay.
 - **Taps.** Click the picture to play or pause and double-click for fullscreen. On touch, double-tap the left or right third to skip 5 seconds. On phones a tap plays or pauses, and dragging the train gives a small buzz at each station where the phone supports it.
+- **Share a stop.** "Copy link to this stop" in the stations menu copies a link that opens the player at that station.
+- **Continue your ride.** Leave mid-video and come back: the player picks up where you were and offers Start over (R).
 - **Ambient light.** A soft glow taken from the picture itself lights the page around the player, and the poster fades into the first frame.
 - **Any line colour** with one attribute.
 
@@ -58,6 +60,8 @@ The `release/` folder holds the built files. Keep the files in it together, beca
 | `next-title`, `next-number`, `next-line` | Offer a "Change here for…" button at the end. |
 | `autoplay` | Start playing as soon as the video is ready. |
 | `ambient` | Set to `off` to turn off the soft glow of the picture around the player. |
+| `start` | Start at this many seconds (a `?t=` in the page address does the same for the first player). |
+| `resume` | Set to `off` to stop the player picking up where each viewer left off. |
 
 When the viewer picks "Change here", the player fires a `line10:next` event. What happens next is up to the page:
 
@@ -88,6 +92,7 @@ player.addEventListener('line10:next', () => { /* load the next video */ });
 | 0–9, Home, End | Jump through the video |
 | S | Settings (small players) |
 | N, R | At the end of the line: change to the next line, or ride again |
+| R | After continuing a ride: start over |
 
 Every control has a label and a tooltip with its keys, menus work with the arrow keys and close with Esc, and the current station is announced to screen readers. Reduced motion turns off the flips and pulses, and forced-colours mode gets solid system surfaces.
 

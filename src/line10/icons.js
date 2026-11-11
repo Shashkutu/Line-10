@@ -6,6 +6,7 @@ const svg = (body, cls = '') =>
 export const icons = {
   play: (c) => svg('<path class="l10-solid" d="M8 5.6v12.8a1 1 0 0 0 1.5.86l10.2-6.4a1 1 0 0 0 0-1.72L9.5 4.74A1 1 0 0 0 8 5.6z"/>', c),
   pause: (c) => svg('<rect class="l10-solid" x="6.5" y="5" width="4" height="14" rx="1.2"/><rect class="l10-solid" x="13.5" y="5" width="4" height="14" rx="1.2"/>', c),
+  link: (c) => svg('<path d="M10 14a4 4 0 0 0 5.66 0l3-3a4 4 0 0 0-5.66-5.66l-1 1"/><path d="M14 10a4 4 0 0 0-5.66 0l-3 3a4 4 0 0 0 5.66 5.66l1-1"/>', c),
   restart: (c) => svg('<path d="M5 12a7 7 0 1 0 2.05-4.95"/><path d="M5 4.5V8h3.5"/>', c),
   // skip icons: a circular arrow with the seconds drawn in its centre
   back: (c, n = 5) => svg(`<path d="M12 4.6a7.4 7.4 0 1 1-6.9 4.8"/><path d="M12 2l-3 2.6 3 2.6"/><text class="l10-solid l10-skipnum" x="12" y="15.3" text-anchor="middle">${n}</text>`, c),

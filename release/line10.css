@@ -1510,3 +1510,60 @@ media-tooltip.l10-tip[trigger$="-gear"] { translate: 0 6px !important; }
 .l10[data-dock]:not([data-board="off"]) .l10-board { margin: 10px; }
 /* the very smallest phones: no room for the board above the picture */
 @container l10 (max-height: 150px) { .l10[data-dock] .l10-board { display: none; } }
+
+/* ---------- a short note on the picture: where a ride continued from, or a copied link ---------- */
+.l10-toast {
+  position: absolute;
+  left: var(--l10-pad);
+  bottom: calc(var(--l10-panel-h, 76px) + 10px);
+  z-index: 4;
+  display: none;
+  align-items: center;
+  gap: 12px;
+  max-width: calc(100% - 2 * var(--l10-pad));
+  padding: 7px 7px 7px 14px;
+  color: var(--l10-text, #f4f1ea);
+  font-size: 13px;
+  background: rgb(12 14 18 / 0.9);
+  border: 1px solid var(--l10-edge);
+  border-left: 4px solid var(--l10-line);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.l10-toast[data-show] { display: flex; animation: l10-note-in 220ms var(--l10-ease); }
+.l10-toast-btn[hidden] ~ * { display: none; }
+.l10-toast:not(:has(.l10-toast-btn:not([hidden]))) { padding-right: 14px; min-height: 36px; }
+@keyframes l10-note-in { from { opacity: 0; translate: 0 6px; } }
+.l10-toast-text { line-height: 1.3; }
+.l10-toast-text b { font-weight: 800; }
+.l10-toast-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  min-height: 32px;
+  padding: 0 12px 0 9px;
+  color: inherit;
+  font: 800 11px var(--l10-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgb(255 255 255 / 0.1);
+  border: 0;
+  border-radius: 7px;
+  cursor: pointer;
+}
+.l10-toast-btn svg { width: 16px; height: 16px; }
+.l10-toast-btn:hover { background: rgb(255 255 255 / 0.18); }
+.l10-toast-btn:focus-visible { outline: 2px solid var(--l10-line); outline-offset: 2px; }
+.l10[data-dock] .l10-toast { bottom: var(--l10-pad); }
+.l10[data-terminus] .l10-toast { display: none; }
+@container l10 (max-width: 420px) { .l10-toast { font-size: 12px; gap: 8px; } .l10-toast-btn span { display: none; } .l10-toast-btn { padding: 0 8px; min-width: 32px; justify-content: center; } }
+@media (prefers-reduced-motion: reduce) { .l10-toast[data-show] { animation: none; } }
+@media (forced-colors: active) { .l10-toast { background: Canvas; border-color: CanvasText; } .l10-toast-btn { border: 1px solid ButtonText; } }
+
+/* the share row under the station list */
+.l10-menu-rule { height: 1px; margin: 4px 10px; background: rgb(255 255 255 / 0.1); flex: none; }
+.l10-share .l10-menu-ico { margin-right: 2px; }
+.l10-toast-dot { margin: 0 0.45em; opacity: 0.6; }

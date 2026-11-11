@@ -182,7 +182,7 @@ const moreMenu = (id) => `
     <media-menu-content class="l10-menu-content">
       <span class="l10-menu-label" aria-hidden="true">Settings</span>
       ${navRow(id, 'm-st', 'l10-m-st', i.stations('l10-menu-ico'), 'Stations')}
-      <media-menu-content class="l10-menu-content" id="${id('m-st')}">${backRow('Stations')}<div class="l10-menu-group l10-stlist"></div></media-menu-content>
+      <media-menu-content class="l10-menu-content" id="${id('m-st')}">${backRow('Stations')}<div class="l10-menu-group l10-stlist"></div><div class="l10-menu-rule" aria-hidden="true"></div><media-menu-item class="l10-menu-item l10-share">${i.link('l10-menu-ico')}<span class="l10-menu-text">Copy link to this stop</span></media-menu-item></media-menu-content>
       <media-menu-item class="l10-menu-item l10-m-next">${i.nextStop('l10-menu-ico')}<span class="l10-menu-text">Next stop</span><span class="l10-menu-value" data-m="l10-m-next"></span></media-menu-item>
       ${navRow(id, 'm-svc', 'l10-m-svc', i.service('l10-menu-ico'), 'Speed')}
       <media-menu-content class="l10-menu-content l10-flip-list" id="${id('m-svc')}">${backRow('Speed')}${rateGroup()}</media-menu-content>
@@ -334,6 +334,7 @@ function template(o) {
                   <media-menu-content class="l10-menu-content">
                     <span class="l10-menu-label" aria-hidden="true">Stations</span>
                     <div class="l10-menu-group l10-stlist"></div>
+                    <div class="l10-menu-rule" aria-hidden="true"></div><media-menu-item class="l10-menu-item l10-share">${i.link('l10-menu-ico')}<span class="l10-menu-text">Copy link to this stop</span></media-menu-item>
                   </media-menu-content>
                 </media-menu>
                 <button type="button" class="l10-btn l10-pill l10-nextstop" id="${id('next')}" aria-keyshortcuts="]" hidden>
@@ -404,6 +405,13 @@ function template(o) {
         <button type="button" class="l10-term-btn l10-term-again" id="${id('tagain')}" aria-keyshortcuts="R">${i.restart()}<span>Ride again</span></button>
         ${tip(id('tagain'), ['R'], { label: 'Ride again' })}
       </div>
+    </div>
+
+    <!-- A short note: where a ride continued from, or that a link was copied. -->
+    <div class="l10-toast">
+      <span class="l10-toast-text" role="status"></span>
+      <button type="button" class="l10-toast-btn" id="${id('over')}" aria-keyshortcuts="R" hidden>${i.restart()}<span>Start over</span></button>
+      ${tip(id('over'), ['R'], { label: 'Start over' })}
     </div>
 
     <div class="l10-indicators" aria-hidden="true">
@@ -667,6 +675,85 @@ class Line10Player extends HTMLElement {
       const it = e.target.closest('.l10-st-item');
       if (it) media.currentTime = stations[Number(it.dataset.k)].start;
     }));
+    // ---------- a short note on the picture ----------
+    const toastEl = $('.l10-toast');
+    const toastText = $('.l10-toast-text');
+    const overBtn = $('.l10-toast-btn');
+    let toastT = 0;
+    const hideToast = () => { toastEl.removeAttribute('data-show'); overBtn.hidden = true; };
+    const toast = (html, { over = false, ms = 2400 } = {}) => {
+      toastText.innerHTML = html;
+      overBtn.hidden = !over;
+      toastEl.setAttribute('data-show', '');
+      clearTimeout(toastT);
+      if (ms) toastT = setTimeout(hideToast, ms);
+    };
+    const stationAt = (t) => stations.find((s) => t >= s.start && t < s.end) || stations[stations.length - 1];
+
+    // ---------- share: copy a link that opens the player at this stop ----------
+    root.querySelectorAll('.l10-share').forEach((it) => it.addEventListener('select', async () => {
+      const st = stationAt(media.currentTime || 0);
+      const url = new URL(location.href);
+      url.hash = '';
+      url.searchParams.set('t', String(Math.floor(st ? st.start : media.currentTime || 0)));
+      const text = url.toString();
+      let ok = true;
+      try { await navigator.clipboard.writeText(text); }
+      catch {
+        try {
+          const ta = Object.assign(document.createElement('textarea'), { value: text });
+          document.body.append(ta); ta.select(); ok = document.execCommand('copy'); ta.remove();
+        } catch { ok = false; }
+      }
+      toast(ok ? `Link copied${st ? `<span class="l10-toast-dot">·</span><b>${esc(st.name)}</b>` : ''}` : "Couldn't copy the link");
+      this.dispatchEvent(new CustomEvent('line10:share', { bubbles: true, detail: { url: text, station: st?.name } }));
+    }));
+
+    // ---------- continue the ride: start where a link points, or where this viewer left off ----------
+    const posKey = `line10:pos:${this.getAttribute('playback-id') || this.getAttribute('src') || ''}`;
+    const fromUrl = document.querySelector('line10-player') === this ? parseFloat(new URLSearchParams(location.search).get('t')) : NaN;
+    let startAt = parseFloat(this.getAttribute('start'));
+    let resumed = false;
+    if (!Number.isFinite(startAt)) startAt = fromUrl;
+    if (!Number.isFinite(startAt) && this.getAttribute('resume') !== 'off' && !this.hasAttribute('autoplay')) {
+      try { const v = parseFloat(localStorage.getItem(posKey)); if (v > 0) { startAt = v; resumed = true; } } catch { /* private mode */ }
+    }
+    const goStart = () => {
+      if (!Number.isFinite(startAt) || !(media.duration > 0)) return;
+      const at = Math.max(0, Math.min(startAt, media.duration - 2));
+      startAt = NaN;
+      if (at < 1) return;
+      media.currentTime = at;
+      setTimeout(() => {                      // the station names arrive with the chapters track
+        const st = stationAt(at);
+        const where = st ? `<b>${esc(st.name)}</b><span class="l10-toast-dot">·</span>${clock(at)}` : `<b>${clock(at)}</b>`;
+        toast(`${resumed ? 'Continued from' : 'Starting at'} ${where}`, { over: true, ms: 0 });
+      }, 350);
+    };
+    media.addEventListener('loadedmetadata', goStart);
+    if (media.readyState >= 1) goStart();
+    overBtn.addEventListener('click', () => {
+      media.currentTime = 0;
+      hideToast();
+      try { localStorage.removeItem(posKey); } catch { /* private mode */ }
+      root.focus({ preventScroll: true });
+    });
+    media.addEventListener('playing', () => { if (!overBtn.hidden) { clearTimeout(toastT); toastT = setTimeout(hideToast, 5000); } });
+    const savePos = () => {
+      if (Number.isFinite(startAt) || this.getAttribute('resume') === 'off') return;   // not before the start point is applied
+      const t = media.currentTime;
+      const d = media.duration;
+      try {
+        if (!(d > 0) || t < 5 || t > d - 8 || media.ended) localStorage.removeItem(posKey);
+        else localStorage.setItem(posKey, t.toFixed(1));
+      } catch { /* private mode */ }
+    };
+    let saved = 0;
+    media.addEventListener('timeupdate', () => { const n = performance.now(); if (n - saved > 2000) { saved = n; savePos(); } });
+    media.addEventListener('pause', savePos);
+    media.addEventListener('ended', savePos);
+    window.addEventListener('pagehide', savePos, whileAlive);
+
     // the centre play/skip buttons repeat the ones in the bar: keep them for the mouse
     // and touch, but out of the tab order and the screen-reader tree
     const center = $('.l10-center');
@@ -682,6 +769,7 @@ class Line10Player extends HTMLElement {
         const b = $(e.key.toLowerCase() === 'n' ? '.l10-term-next' : '.l10-term-again');
         if (!b.hidden) { b.click(); e.preventDefault(); return; }
       }
+      if (/^r$/i.test(e.key) && !overBtn.hidden) { overBtn.click(); e.preventDefault(); return; }
       if (e.key === ']' || e.key === 'n') { jump(1); e.preventDefault(); }
       if (e.key === '[' || e.key === 'p') { jump(-1); e.preventDefault(); }
     });
