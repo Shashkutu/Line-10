@@ -18,6 +18,7 @@
 - **Quality menu** with Auto and every rendition of the stream.
 - **Picture-in-picture with the whole player** where the browser supports Document Picture-in-Picture, and the browser's own PiP with captions elsewhere.
 - **Small players.** Below about 770px the bar keeps the essentials and a Settings menu holds the rest. No control leaves the player from 250px wide.
+- **Phones.** Below 540px the line and the buttons move into a strip under the picture, so nothing covers the video and every button stays 44px. Fullscreen goes back to the overlay.
 - **Any line colour** with one attribute.
 
 ## Use it
@@ -83,6 +84,7 @@ player.addEventListener('line10:next', () => { /* load the next video */ });
 | I | Picture-in-picture |
 | 0–9, Home, End | Jump through the video |
 | S | Settings (small players) |
+| N, R | At the end of the line: change to the next line, or ride again |
 
 Every control has a label and a tooltip with its keys, menus work with the arrow keys and close with Esc, and the current station is announced to screen readers. Reduced motion turns off the flips and pulses, and forced-colours mode gets solid system surfaces.
 

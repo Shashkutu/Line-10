@@ -43,6 +43,7 @@
   user-select: none;
 }
 .l10 *, .l10 *::before, .l10 *::after { box-sizing: border-box; }
+.l10-player { display: block; }
 
 .l10 > video,
 .l10 > mux-video,
@@ -118,7 +119,7 @@
 .l10-controls:not([data-visible]):not(:has(:focus-visible))::before,
 .l10-controls:not([data-visible]):not(:has(:focus-visible))::after { opacity: 0; }
 .l10-controls:not([data-visible]):not(:has(:focus-visible)) .l10-content { translate: 0 8px; }
-.l10-controls:not([data-visible]):not(:has(:focus-visible)) .l10-content * { pointer-events: none !important; }
+.l10-controls:not([data-visible]):not(:has(:focus-visible)) .l10-content *:not(.l10[data-dock] .l10-panel, .l10[data-dock] .l10-panel *) { pointer-events: none !important; }
 
 /* ---------- buttons ---------- */
 .l10-btn {
@@ -874,53 +875,39 @@
   -webkit-backdrop-filter: blur(14px) saturate(1.3);
   box-shadow: 0 10px 30px rgb(0 0 0 / 0.45);
 }
-.l10-hold-track {
-  position: relative;
+/* a dot-matrix sign: the lamps light up left to right, like a platform display */
+.l10-hold-track { display: flex; gap: 4px; }
+.l10-hold-track i {
   display: block;
-  width: 132px;
-  height: 16px;
-  /* the rail, with a stop at each end */
-  background:
-    radial-gradient(circle at 6px 50%, var(--l10-sign) 0 3.5px, var(--l10-line) 3.5px 6px, transparent 6.5px),
-    radial-gradient(circle at calc(100% - 6px) 50%, var(--l10-sign) 0 3.5px, var(--l10-line) 3.5px 6px, transparent 6.5px),
-    linear-gradient(var(--l10-rail), var(--l10-rail)) 6px 50% / calc(100% - 12px) 4px no-repeat;
-}
-.l10-hold-train {
-  position: absolute;
-  top: 50%;
-  left: 14px;
-  display: flex;
-  align-items: center;
-  gap: 2.5px;
-  width: 28px;
-  height: 13px;
-  padding: 0 6px 2px 4px;
-  translate: 0 -50%;
+  width: 6px;
+  height: 6px;
   background: var(--l10-sign);
-  border-radius: 4px 7px 7px 4px;
-  box-shadow: 0 0 0 2px #0d0f12, inset 0 -3px 0 var(--l10-line);
-  animation: l10-shuttle 1.8s var(--l10-ease) infinite alternate;
+  border-radius: 50%;
+  opacity: 0.16;
+  animation: l10-led 1.5s linear infinite;
+  animation-delay: calc(var(--i) * 75ms);
 }
-.l10-hold-train i { display: block; width: 4px; height: 4px; background: #22262d; border-radius: 1px; }
 .l10-hold-text {
   color: var(--l10-sign);
   font: 700 10.5px var(--l10-mono);
   letter-spacing: 0.16em;
   text-transform: uppercase;
+  text-indent: 0.16em;               /* the tracking after the last letter, balanced so it sits centred */
 }
-.l10-hold-text::after { content: ""; display: inline-block; width: 1.4em; text-align: left; animation: l10-dots 1.5s steps(1) infinite; }
-@keyframes l10-shuttle { from { left: 14px; scale: 1 1; } to { left: calc(100% - 42px); scale: -1 1; } }
-@keyframes l10-dots { 0% { content: ""; } 25% { content: "."; } 50% { content: ".."; } 75% { content: "..."; } }
+@keyframes l10-led {
+  0%, 62%, 100% { opacity: 0.16; box-shadow: none; }
+  8%, 40% { opacity: 1; box-shadow: 0 0 6px var(--l10-sign); }
+}
 /* while the train is held, the centre buttons step aside */
 .l10:has(.l10-buffering[data-visible]) .l10-center { opacity: 0; }
 @media (prefers-reduced-motion: reduce) {
-  .l10-hold-train { animation: none; left: calc(50% - 14px); }
-  .l10-hold-text::after { animation: none; content: "..."; }
+  .l10-hold-track i { animation: none; opacity: 0.7; }
 }
 @container l10 (max-height: 215px) {
   .l10-buffering { place-items: start center; padding-top: 12px; }   /* clear of the line */
   .l10-hold { gap: 7px; padding: 9px 12px 7px; }
-  .l10-hold-track { width: 96px; }
+  .l10-hold-track { gap: 3px; }
+  .l10-hold-track i { width: 5px; height: 5px; }
 }
 
 /* ---------- terminus: the end of the line ---------- */
@@ -1372,14 +1359,14 @@ media-error-dialog:not([data-open]) .l10-backdrop { display: none; }
 @container l10 (max-width: 300px) { .l10-time { padding: 1px 6px 0; font-size: 11px; } }
 /* very short players (a 16:9 player on a small phone): the board steps aside so the controls fit */
 @container l10 (max-height: 215px) {
-  .l10-board { display: none; }
-  .l10-route { height: 40px; }
+  .l10:not([data-dock]) .l10-board { display: none; }
+  .l10:not([data-dock]) .l10-route { height: 40px; }
 }
 /* tiny players (under ~170px tall): dots only on the line, names are in the Stations list */
 @container l10 (max-height: 170px) {
-  .l10-name, .l10-stop .l10-dot::before { display: none; }
-  .l10-route, .l10[data-two-rows] .l10-route { height: 28px; }
-  .l10-panel { padding-bottom: 2px; }
+  .l10:not([data-dock]) :is(.l10-name, .l10-stop .l10-dot::before) { display: none; }
+  .l10:not([data-dock]) .l10-route, .l10[data-two-rows]:not([data-dock]) .l10-route { height: 28px; }
+  .l10:not([data-dock]) .l10-panel { padding-bottom: 2px; }
 }
 
 /* the smallest players show the time left instead of "now / total" */
@@ -1476,3 +1463,29 @@ media-error-dialog:not([data-open]) .l10-backdrop { display: none; }
 /* the board gear's tooltip grows inwards, so it never leaves the player */
 media-tooltip.l10-tip[trigger$="-gear"] { translate: 0 6px !important; }
 .l10[data-board-pos="right"] media-tooltip.l10-tip[trigger$="-gear"] { translate: calc(-100% + 44px) 6px !important; }
+
+/* ---------- phones: the line and the buttons sit in a strip under the picture ----------
+   (set by the script on players narrower than 540px, outside fullscreen and PiP)
+   The picture keeps only the board and the cards; the strip never hides. */
+.l10[data-dock] {
+  overflow: visible;
+  /* round the picture's top corners and the strip's bottom corners as one shape */
+  clip-path: inset(0 0 calc(-1 * var(--l10-dock-h, 0px)) 0 round var(--l10-radius));
+}
+.l10[data-dock] .l10-controls::after { display: none; }
+.l10[data-dock] .l10-panel {
+  position: absolute;
+  top: 100%;
+  inset-inline: 0;
+  padding: 8px 10px 6px;
+  background: var(--l10-panel-solid);
+  border-top: 1px solid var(--l10-edge);
+}
+.l10[data-dock] .l10-controls:not([data-visible]):not(:has(:focus-visible)) .l10-content { opacity: 1; translate: none; }
+.l10[data-dock] .l10-content > media-tooltip-group > :not(.l10-panel) { transition: opacity var(--l10-med) var(--l10-ease); }
+.l10[data-dock] .l10-controls:not([data-visible]):not(:has(:focus-visible)) .l10-content > media-tooltip-group > :not(.l10-panel) { opacity: 0; }
+.l10.l10[data-dock] .l10-captions { bottom: calc(var(--l10-pad) + 2px); }
+.l10[data-dock] .l10-endcard { top: 50%; }
+.l10[data-dock]:not([data-board="off"]) .l10-board { margin: 10px; }
+/* the very smallest phones: no room for the board above the picture */
+@container l10 (max-height: 150px) { .l10[data-dock] .l10-board { display: none; } }

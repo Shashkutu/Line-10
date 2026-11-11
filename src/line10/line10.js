@@ -107,6 +107,7 @@ const savePrefs = (p) => { try { localStorage.setItem(KEY, JSON.stringify(p)); }
 let count = 0;
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 const clock = (t) => { t = Math.max(0, Math.floor(t || 0)); return `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`; };
+const DOCK_W = 540;                        // players this narrow put the controls under the picture
 const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // Tooltips: the label comes from the control itself (Play, Mute…); the keys are drawn as key caps.
@@ -384,7 +385,7 @@ function template(o) {
     <!-- Buffering: the train is held between two stops until the signal clears. -->
     <media-buffering-indicator class="l10-buffering">
       <span class="l10-hold" aria-hidden="true">
-        <span class="l10-hold-track"><span class="l10-hold-train"><i></i><i></i><i></i></span></span>
+        <span class="l10-hold-track">${Array.from({ length: 12 }, (_, i) => `<i style="--i:${i}"></i>`).join('')}</span>
         <span class="l10-hold-text">Held at a signal</span>
       </span>
     </media-buffering-indicator>
@@ -394,12 +395,14 @@ function template(o) {
       <span class="l10-term-tag">Terminus</span>
       <b class="l10-term-name"></b>
       <div class="l10-term-actions">
-        <button type="button" class="l10-term-btn l10-term-next" hidden>
+        <button type="button" class="l10-term-btn l10-term-next" id="${id('tnext')}" aria-keyshortcuts="N" hidden>
           <span class="l10-badge l10-term-badge"></span>
           <span class="l10-term-label"><small>Change here for</small><b class="l10-term-next-name"></b></span>
           ${i.chevron('l10-term-arrow')}
         </button>
-        <button type="button" class="l10-term-btn l10-term-again">${i.restart()}<span>Ride again</span></button>
+        ${tip(id('tnext'), ['N'], { label: 'Next line' })}
+        <button type="button" class="l10-term-btn l10-term-again" id="${id('tagain')}" aria-keyshortcuts="R">${i.restart()}<span>Ride again</span></button>
+        ${tip(id('tagain'), ['R'], { label: 'Ride again' })}
       </div>
     </div>
 
@@ -668,6 +671,11 @@ class Line10Player extends HTMLElement {
     // [ and ] move between stations, like "previous / next stop"
     root.addEventListener('keydown', (e) => {
       if (e.target.closest('input, textarea, [role="menu"]') || e.altKey || e.ctrlKey || e.metaKey) return;
+      // at the terminus, N changes to the next line and R rides again
+      if (root.hasAttribute('data-terminus') && /^[nr]$/i.test(e.key)) {
+        const b = $(e.key.toLowerCase() === 'n' ? '.l10-term-next' : '.l10-term-again');
+        if (!b.hidden) { b.click(); e.preventDefault(); return; }
+      }
       if (e.key === ']' || e.key === 'n') { jump(1); e.preventDefault(); }
       if (e.key === '[' || e.key === 'p') { jump(-1); e.preventDefault(); }
     });
@@ -1118,7 +1126,23 @@ class Line10Player extends HTMLElement {
     applyLook();
     // the captions sit just above the panel while the controls are out
     const panel = $('.l10-panel');
-    new ResizeObserver(() => root.style.setProperty('--l10-panel-h', `${panel.offsetHeight}px`)).observe(panel);
+    // phones: the line and the buttons sit in a strip under the picture instead of on top of it
+    // (not in fullscreen, picture-in-picture or a vertical player, where the picture has the room)
+    const holder = root.parentElement;
+    const dock = () => {
+      let fs = false;
+      try { fs = root.matches(':fullscreen'); } catch { try { fs = root.matches(':-webkit-full-screen'); } catch { /* old browser */ } }
+      const w = root.clientWidth;
+      const on = !this.getAttribute('ratio') && !fs && !root.hasAttribute('data-docpip') && w > 0 && w <= DOCK_W;
+      if (on !== root.hasAttribute('data-dock')) root.toggleAttribute('data-dock', on);
+      holder.style.paddingBottom = on ? `${panel.offsetHeight}px` : '';
+      holder.style.setProperty('--l10-dock-h', on ? `${panel.offsetHeight}px` : '0px');
+    };
+    new ResizeObserver(() => { root.style.setProperty('--l10-panel-h', `${panel.offsetHeight}px`); dock(); }).observe(panel);
+    new ResizeObserver(dock).observe(root);
+    new MutationObserver(dock).observe(root, { attributes: true, attributeFilter: ['data-docpip'] });
+    document.addEventListener('fullscreenchange', dock, whileAlive);
+    document.addEventListener('webkitfullscreenchange', dock, whileAlive);
 
     media.addEventListener('timeupdate', update);
     media.addEventListener('seeked', update);

@@ -160,6 +160,8 @@ kbd {
 /* before the player script runs: hold the 16:9 space and show the poster, so nothing jumps */
 line10-player:not([data-ready]) { display: block; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 16px; background: #050608; }
 line10-player:not([data-ready]) > .l10-preposter { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* phones: keep room for the strip of controls that sits under the picture, so nothing jumps */
+@media (max-width: 602px) { .frame:not(.is-vertical) line10-player:not([data-ready]) { box-sizing: content-box; padding-bottom: 125px; } }
 .nb { white-space: nowrap; }
 
 /* ---------- put it on your site ---------- */
@@ -180,7 +182,9 @@ line10-player:not([data-ready]) > .l10-preposter { display: block; width: 100%; 
 .swatch:focus-visible, .swatch-any:focus-within { outline: 2px solid #f4f1ea; outline-offset: 3px; }
 .swatch-any { --c: conic-gradient(#ff5a5f, #ffb000, #3ddc84, #2ad1ff, #b28dff, #ff7ac6, #ff5a5f); color: #0b0c0f; font-weight: 900; font-size: 20px; }
 .swatch-any input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
-.swatch-any span { display: grid; place-items: center; width: 22px; height: 22px; padding-bottom: 2px; background: #f4f1ea; border-radius: 50%; line-height: 1; }
+.swatch-any span { position: relative; width: 22px; height: 22px; background: #f4f1ea; border-radius: 50%; pointer-events: none; }
+.swatch-any span::before, .swatch-any span::after { content: ""; position: absolute; left: 50%; top: 50%; width: 12px; height: 2.5px; background: #0b0c0f; border-radius: 2px; translate: -50% -50%; }
+.swatch-any span::after { rotate: 90deg; }
 .use-code pre {
   margin: 0 0 12px; padding: 14px 16px; overflow-x: auto; color: #d7dbe0; background: #07080a; border: 1px solid var(--edge); border-radius: 10px;
   font: 500 12.5px/1.65 "Overpass Mono", ui-monospace, monospace; tab-size: 2;
