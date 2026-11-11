@@ -19,6 +19,8 @@
 - **Picture-in-picture with the whole player** where the browser supports Document Picture-in-Picture, and the browser's own PiP with captions elsewhere.
 - **Small players.** Below about 770px the bar keeps the essentials and a Settings menu holds the rest. No control leaves the player from 250px wide.
 - **Phones.** Below 540px the line and the buttons move into a strip under the picture, so nothing covers the video and every button stays 44px. Fullscreen goes back to the overlay.
+- **Taps.** Click the picture to play or pause and double-click for fullscreen. On touch, double-tap the left or right third to skip 5 seconds. On phones a tap plays or pauses, and dragging the train gives a small buzz at each station where the phone supports it.
+- **Ambient light.** A soft glow taken from the picture itself lights the page around the player, and the poster fades into the first frame.
 - **Any line colour** with one attribute.
 
 ## Use it
@@ -55,6 +57,7 @@ The `release/` folder holds the built files. Keep the files in it together, beca
 | `ratio` | Aspect ratio, for example `9 / 16`. The default is 16:9. |
 | `next-title`, `next-number`, `next-line` | Offer a "Change here for…" button at the end. |
 | `autoplay` | Start playing as soon as the video is ready. |
+| `ambient` | Set to `off` to turn off the soft glow of the picture around the player. |
 
 When the viewer picks "Change here", the player fires a `line10:next` event. What happens next is up to the page:
 

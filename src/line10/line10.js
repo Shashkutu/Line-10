@@ -415,6 +415,17 @@ function template(o) {
       <media-status-indicator class="l10-ind"><media-status-indicator-value class="l10-ind-value"></media-status-indicator-value></media-status-indicator>
     </div>
 
+    <!-- taps on the picture: a click plays or pauses and a double click goes fullscreen; on touch a tap shows the
+         controls (on phones, where they sit under the picture, it plays or pauses), and a double tap on the left or
+         right third skips 5 seconds (the middle third goes fullscreen) -->
+    <media-gesture type="tap" action="togglePaused" pointer="mouse"></media-gesture>
+    <media-gesture type="doubletap" action="toggleFullscreen" pointer="mouse"></media-gesture>
+    <media-gesture class="l10-g-controls" type="tap" action="toggleControls" pointer="touch"></media-gesture>
+    <media-gesture class="l10-g-play" type="tap" action="togglePaused" pointer="touch" disabled></media-gesture>
+    <media-gesture type="doubletap" action="seekStep" region="left" value="-5" pointer="touch"></media-gesture>
+    <media-gesture type="doubletap" action="seekStep" region="right" value="5" pointer="touch"></media-gesture>
+    <media-gesture type="doubletap" action="toggleFullscreen" region="center" pointer="touch"></media-gesture>
+
     <media-hotkey keys="Space" action="togglePaused"></media-hotkey>
     <media-hotkey keys="k" action="togglePaused"></media-hotkey>
     <media-hotkey keys="m" action="toggleMuted"></media-hotkey>
@@ -432,11 +443,6 @@ function template(o) {
     <media-hotkey keys="f" action="toggleFullscreen"></media-hotkey>
     <media-hotkey keys="c" action="toggleSubtitles"></media-hotkey>
     ${'documentPictureInPicture' in window ? '' : '<media-hotkey keys="i" action="togglePictureInPicture"></media-hotkey>'}
-
-    <media-gesture type="tap" action="toggleControls" pointer="touch"></media-gesture>
-    <media-gesture type="doubletap" action="seekStep" value="-5" region="left"></media-gesture>
-    <media-gesture type="doubletap" action="toggleFullscreen" region="center"></media-gesture>
-    <media-gesture type="doubletap" action="seekStep" value="5" region="right"></media-gesture>
 
     <media-status-announcer class="l10-sr"></media-status-announcer>
     <div class="l10-sr l10-sr-board" aria-live="polite" aria-atomic="true"></div>
@@ -800,6 +806,25 @@ class Line10Player extends HTMLElement {
         if (resumeAfterDrag) { resumeAfterDrag = false; setTimeout(() => media.play().catch(() => {}), 0); }
       };
       const win = slider.ownerDocument.defaultView || window;   // the PiP window when popped out
+      // a small buzz as the train passes each station (phones that support it; iPhones ignore it)
+      let at = -2;
+      const buzz = (ev) => {
+        const r = slider.getBoundingClientRect();
+        const dur = media.duration;
+        if (!stations.length || !r.width || !Number.isFinite(dur)) return;
+        const t = Math.min(Math.max((ev.clientX - r.left) / r.width, 0), 1) * dur;
+        let k = stations.findIndex((s) => t >= s.start && t < s.end);
+        if (k < 0) k = stations.length - 1;
+        if (at !== -2 && k !== at) { try { navigator.vibrate?.(9); } catch { /* not allowed */ } }
+        at = k;
+      };
+      if (e.pointerType === 'touch' && navigator.vibrate) {
+        buzz(e);
+        win.addEventListener('pointermove', buzz, true);
+        const stop = () => { win.removeEventListener('pointermove', buzz, true); win.removeEventListener('pointerup', stop, true); win.removeEventListener('pointercancel', stop, true); };
+        win.addEventListener('pointerup', stop, true);
+        win.addEventListener('pointercancel', stop, true);
+      }
       win.addEventListener('pointerup', done, true);
       win.addEventListener('pointercancel', done, true);
     });
@@ -1129,6 +1154,70 @@ class Line10Player extends HTMLElement {
     // phones: the line and the buttons sit in a strip under the picture instead of on top of it
     // (not in fullscreen, picture-in-picture or a vertical player, where the picture has the room)
     const holder = root.parentElement;
+    const gPlay = $('.l10-g-play');
+    const gControls = $('.l10-g-controls');
+
+    // clicks on the board, the cards, the menus or the strip are not clicks on the picture
+    const INTERACTIVE = 'button, a, input, select, textarea, [role="slider"], [role="button"], [role^="menuitem"], [tabindex]';
+    const shield = (e) => { if (!e.target.closest?.(INTERACTIVE)) e.stopPropagation(); };
+    [panel, $('.l10-board'), $('.l10-endcard'), ...root.querySelectorAll('media-menu, media-popover')]
+      .forEach((el) => el?.addEventListener('pointerup', shield));
+    // a click that closes an open menu only closes it (it doesn't also play or pause the video);
+    // a closing menu keeps data-open while it animates out, so this still sees it
+    const tapMouse = $('media-gesture[action="togglePaused"][pointer="mouse"]');
+    const openPop = () => [...root.querySelectorAll('media-menu, media-popover')].some((m) => m.hasAttribute('data-open'));
+    let calm = 0;
+    holder.addEventListener('pointerdown', (e) => {
+      if (!openPop() || e.target.closest('media-menu, media-popover')) return;
+      tapMouse.setAttribute('disabled', '');
+      gPlay.setAttribute('disabled', '');
+      clearTimeout(calm);
+      calm = setTimeout(() => {
+        tapMouse.removeAttribute('disabled');
+        gPlay.toggleAttribute('disabled', !root.hasAttribute('data-dock'));
+      }, 450);
+    }, true);
+
+    // ambient light: a tiny copy of the picture, blurred, glows softly around the player
+    const glow = this.getAttribute('ambient') === 'off' ? null : document.createElement('canvas');
+    if (glow) {
+      glow.className = 'l10-glow';
+      glow.width = 32;
+      glow.height = 18;
+      glow.setAttribute('aria-hidden', 'true');
+      holder.prepend(glow);
+      const g = glow.getContext('2d');
+      const frameOf = () => (media instanceof HTMLVideoElement ? media : media.nativeEl || media.shadowRoot?.querySelector('video'));
+      let seen = true;
+      let timer = 0;
+      const paint = (mix) => {
+        const v = frameOf();
+        let src = v && v.readyState >= 2 && !root.querySelector('.l10-poster[data-visible]') ? v : null;
+        if (!src) {
+          const img = root.querySelector('.l10-poster img');
+          if (img?.complete && img.naturalWidth) src = img;
+        }
+        if (!src) return;
+        try {
+          g.globalAlpha = mix;               // blend into the last frame, so the light drifts instead of flickering
+          g.drawImage(src, 0, 0, glow.width, glow.height);
+          glow.toggleAttribute('data-on', true);
+        } catch { /* a frame that can't be drawn yet */ }
+      };
+      const loop = () => {
+        clearTimeout(timer);
+        if (media.paused || !root.isConnected) return;
+        if (seen) paint(0.18);
+        timer = setTimeout(loop, 120);
+      };
+      new IntersectionObserver(([e]) => { seen = e.isIntersecting; }).observe(root);
+      media.addEventListener('play', loop);
+      media.addEventListener('playing', loop);
+      ['loadeddata', 'seeked', 'emptied'].forEach((ev) => media.addEventListener(ev, () => paint(1)));
+      root.querySelector('.l10-poster img')?.addEventListener('load', () => paint(1));
+      paint(1);
+    }
+
     const dock = () => {
       let fs = false;
       try { fs = root.matches(':fullscreen'); } catch { try { fs = root.matches(':-webkit-full-screen'); } catch { /* old browser */ } }
@@ -1136,6 +1225,9 @@ class Line10Player extends HTMLElement {
       const on = !this.getAttribute('ratio') && !fs && !root.hasAttribute('data-docpip') && w > 0 && w <= DOCK_W;
       if (on !== root.hasAttribute('data-dock')) root.toggleAttribute('data-dock', on);
       holder.style.paddingBottom = on ? `${panel.offsetHeight}px` : '';
+      gPlay.toggleAttribute('disabled', !on);  // under-the-picture controls: a tap on the picture plays or pauses
+      gControls.toggleAttribute('disabled', on);
+      if (glow) glow.style.height = `${root.offsetHeight}px`;
       holder.style.setProperty('--l10-dock-h', on ? `${panel.offsetHeight}px` : '0px');
     };
     new ResizeObserver(() => { root.style.setProperty('--l10-panel-h', `${panel.offsetHeight}px`); dock(); }).observe(panel);

@@ -667,10 +667,10 @@ function ct(e) {
 	let t = e.style.getPropertyValue("anchor-name").trim();
 	return !t || t === "none" ? [] : t.split(",").map((e) => e.trim()).filter(Boolean);
 }
-function I(e, t) {
+function lt(e, t) {
 	for (let [n, r] of Object.entries(t)) typeof r == "string" && e.style.setProperty(st(n), r);
 }
-function lt(e, t) {
+function ut(e, t) {
 	return [...t].map((t) => {
 		let n = st(t);
 		return {
@@ -680,22 +680,22 @@ function lt(e, t) {
 		};
 	});
 }
-function ut(e, t) {
+function dt(e, t) {
 	for (let { property: n, value: r, priority: i } of t) r ? e.style.setProperty(n, r, i) : e.style.removeProperty(n);
 }
-function dt(e, t, n) {
-	let r = lt(e, Object.keys(t));
+function ft(e, t, n) {
+	let r = ut(e, Object.keys(t));
 	try {
-		return I(e, t), n();
+		return lt(e, t), n();
 	} finally {
-		ut(e, r);
+		dt(e, r);
 	}
 }
-function ft(e, t, { source: n = "inline-or-computed" } = {}) {
+function pt(e, t, { source: n = "inline-or-computed" } = {}) {
 	let r = st(t), i = n !== "computed" && e instanceof HTMLElement ? e.style.getPropertyValue(r) : "";
-	return !i && n !== "inline" && (i = getComputedStyle(e).getPropertyValue(r)), i.trim() ? pt(e, i) : null;
+	return !i && n !== "inline" && (i = getComputedStyle(e).getPropertyValue(r)), i.trim() ? I(e, i) : null;
 }
-function pt(e, t) {
+function I(e, t) {
 	let n = t.trim();
 	if (!n) return 0;
 	let r = Number.parseFloat(n);
@@ -733,7 +733,7 @@ function ht(e, t) {
 }
 function gt(e, t = {}) {
 	let { styles: n, ...r } = t, i = () => mt(e, r);
-	return n ? dt(e, n, i) : i();
+	return n ? ft(e, n, i) : i();
 }
 function _t(e) {
 	let t = getComputedStyle(e);
@@ -3490,7 +3490,7 @@ function Ha() {
 	}
 	function p(e) {
 		return Ge(e, (e) => {
-			let t = ft(e, Ma.availableWidth);
+			let t = pt(e, Ma.availableWidth);
 			return t !== null && t > 0 ? t : void 0;
 		}) ?? null;
 	}
@@ -3722,9 +3722,9 @@ function eo(e, t, n, r = {
 function to(e, t = Na) {
 	let n = getComputedStyle(e);
 	return {
-		sideOffset: pt(e, n.getPropertyValue(t.sideOffset)),
-		alignOffset: pt(e, n.getPropertyValue(t.alignOffset)),
-		boundaryOffset: pt(e, n.getPropertyValue(t.boundaryOffset))
+		sideOffset: I(e, n.getPropertyValue(t.sideOffset)),
+		alignOffset: I(e, n.getPropertyValue(t.alignOffset)),
+		boundaryOffset: I(e, n.getPropertyValue(t.boundaryOffset))
 	};
 }
 function no(e, t) {
@@ -3841,11 +3841,11 @@ var oo = [
 				style: u
 			};
 		}, u = l(c());
-		if (this.#p(e.popup, e.cssVars ?? Na), I(e.popup, u.style), e.onSideChange?.(u.side), n || !e.onSideChange) return;
+		if (this.#p(e.popup, e.cssVars ?? Na), lt(e.popup, u.style), e.onSideChange?.(u.side), n || !e.onSideChange) return;
 		let d = c();
 		if (d.width === u.popupRect.width && d.height === u.popupRect.height) return;
 		let f = l(d);
-		I(e.popup, f.style), f.side !== u.side && e.onSideChange(f.side);
+		lt(e.popup, f.style), f.side !== u.side && e.onSideChange(f.side);
 	}
 	#p(e, t) {
 		if (this.#s) return;
@@ -3856,10 +3856,10 @@ var oo = [
 			t.availableWidth,
 			t.availableHeight
 		];
-		this.#s = lt(e, n);
+		this.#s = ut(e, n);
 	}
 	#m(e) {
-		this.#s &&= (ut(e, this.#s), null);
+		this.#s &&= (dt(e, this.#s), null);
 	}
 	#h(e, t, n) {
 		if (!Xe()) return;
@@ -7536,7 +7536,7 @@ var Zu = t(Symbol("@videojs/slider")), Qu = class extends L {
 			getStepPercent: () => this.#e.getWheelStepPercent(),
 			onValueChange: (e) => this.#r.value?.setVolume(this.#e.rawValueFromPercent(e) / 100)
 		});
-		U(this, this.#a.rootProps, { signal: e }), U(this, a, { signal: e }), I(this, this.#a.rootStyle), this.#a.input.subscribe(() => this.requestUpdate(), { signal: e });
+		U(this, this.#a.rootProps, { signal: e }), U(this, a, { signal: e }), lt(this, this.#a.rootStyle), this.#a.input.subscribe(() => this.requestUpdate(), { signal: e });
 	}
 	disconnectedCallback() {
 		this.#c(), super.disconnectedCallback(), this.#o?.abort(), this.#o = null;
@@ -7556,7 +7556,7 @@ var Zu = t(Symbol("@videojs/slider")), Qu = class extends L {
 		if (!t) return;
 		this.#e.setInput(this.#a.input.current), this.#e.setMedia(t);
 		let n = this.#e.getState(), r = po(this.#a.adjustForAlignment(n)), i = this.#e.getAttrs(n);
-		I(this, r), W(this, n, Tu), U(this, { hidden: n.hidden ? "" : void 0 }), this.#n.setValue({
+		lt(this, r), W(this, n, Tu), U(this, { hidden: n.hidden ? "" : void 0 }), this.#n.setValue({
 			state: n,
 			stateAttrMap: Tu,
 			pointerValue: this.#e.valueFromPercent(n.pointerPercent),
@@ -7670,7 +7670,7 @@ var $u = class extends L {
 			onResize: () => {
 				this.thumbAlignment === "edge" && this.requestUpdate();
 			}
-		}), U(this, this.#l.rootProps, { signal: e }), I(this, this.#l.rootStyle), this.#l.input.subscribe(() => this.requestUpdate(), { signal: e }), this.#o.state.subscribe(() => this.requestUpdate(), { signal: e });
+		}), U(this, this.#l.rootProps, { signal: e }), lt(this, this.#l.rootStyle), this.#l.input.subscribe(() => this.requestUpdate(), { signal: e }), this.#o.state.subscribe(() => this.requestUpdate(), { signal: e });
 	}
 	disconnectedCallback() {
 		this.#p(), this.#f(), this.#o.destroy(), super.disconnectedCallback(), this.#u?.abort(), this.#u = null;
@@ -7720,7 +7720,7 @@ var $u = class extends L {
 			...i,
 			fillPercent: a
 		}, s = mo(this.#l.adjustForAlignment(o)), c = Object.fromEntries(Object.entries(s).filter(([e, t]) => this.#c[e] !== t));
-		I(this, c), this.#c = s;
+		lt(this, c), this.#c = s;
 		let l = this.#e.getAttrs(i);
 		W(this, i, $l), this.#n.setValue({
 			state: i,
@@ -7911,7 +7911,7 @@ var od = class extends L {
 		super.disconnectedCallback(), this.#t?.(), this.#t = null;
 	}
 	#r() {
-		I(this, ho(this.#n, this.overflow));
+		lt(this, ho(this.#n, this.overflow));
 	}
 	update(e) {
 		super.update(e);
@@ -10439,6 +10439,17 @@ function Zf(e) {
       <media-status-indicator class="l10-ind"><media-status-indicator-value class="l10-ind-value"></media-status-indicator-value></media-status-indicator>
     </div>
 
+    <!-- taps on the picture: a click plays or pauses and a double click goes fullscreen; on touch a tap shows the
+         controls (on phones, where they sit under the picture, it plays or pauses), and a double tap on the left or
+         right third skips 5 seconds (the middle third goes fullscreen) -->
+    <media-gesture type="tap" action="togglePaused" pointer="mouse"></media-gesture>
+    <media-gesture type="doubletap" action="toggleFullscreen" pointer="mouse"></media-gesture>
+    <media-gesture class="l10-g-controls" type="tap" action="toggleControls" pointer="touch"></media-gesture>
+    <media-gesture class="l10-g-play" type="tap" action="togglePaused" pointer="touch" disabled></media-gesture>
+    <media-gesture type="doubletap" action="seekStep" region="left" value="-5" pointer="touch"></media-gesture>
+    <media-gesture type="doubletap" action="seekStep" region="right" value="5" pointer="touch"></media-gesture>
+    <media-gesture type="doubletap" action="toggleFullscreen" region="center" pointer="touch"></media-gesture>
+
     <media-hotkey keys="Space" action="togglePaused"></media-hotkey>
     <media-hotkey keys="k" action="togglePaused"></media-hotkey>
     <media-hotkey keys="m" action="toggleMuted"></media-hotkey>
@@ -10456,11 +10467,6 @@ function Zf(e) {
     <media-hotkey keys="f" action="toggleFullscreen"></media-hotkey>
     <media-hotkey keys="c" action="toggleSubtitles"></media-hotkey>
     ${"documentPictureInPicture" in window ? "" : "<media-hotkey keys=\"i\" action=\"togglePictureInPicture\"></media-hotkey>"}
-
-    <media-gesture type="tap" action="toggleControls" pointer="touch"></media-gesture>
-    <media-gesture type="doubletap" action="seekStep" value="-5" region="left"></media-gesture>
-    <media-gesture type="doubletap" action="toggleFullscreen" region="center"></media-gesture>
-    <media-gesture type="doubletap" action="seekStep" value="5" region="right"></media-gesture>
 
     <media-status-announcer class="l10-sr"></media-status-announcer>
     <div class="l10-sr l10-sr-board" aria-live="polite" aria-atomic="true"></div>
@@ -10724,7 +10730,22 @@ var ep = class extends HTMLElement {
 			M = !a.paused, M && a.pause();
 			let t = () => {
 				n.removeEventListener("pointerup", t, !0), n.removeEventListener("pointercancel", t, !0), M && (M = !1, setTimeout(() => a.play().catch(() => {}), 0));
-			}, n = j.ownerDocument.defaultView || window;
+			}, n = j.ownerDocument.defaultView || window, r = -2, i = (e) => {
+				let t = j.getBoundingClientRect(), n = a.duration;
+				if (!m.length || !t.width || !Number.isFinite(n)) return;
+				let i = Math.min(Math.max((e.clientX - t.left) / t.width, 0), 1) * n, o = m.findIndex((e) => i >= e.start && i < e.end);
+				if (o < 0 && (o = m.length - 1), r !== -2 && o !== r) try {
+					navigator.vibrate?.(9);
+				} catch {}
+				r = o;
+			};
+			if (e.pointerType === "touch" && navigator.vibrate) {
+				i(e), n.addEventListener("pointermove", i, !0);
+				let t = () => {
+					n.removeEventListener("pointermove", i, !0), n.removeEventListener("pointerup", t, !0), n.removeEventListener("pointercancel", t, !0);
+				};
+				n.addEventListener("pointerup", t, !0), n.addEventListener("pointercancel", t, !0);
+			}
 			n.addEventListener("pointerup", t, !0), n.addEventListener("pointercancel", t, !0);
 		});
 		let fe = () => {
@@ -10934,7 +10955,45 @@ var ep = class extends HTMLElement {
 		}), t.signal.addEventListener("abort", () => {
 			clearInterval(P), clearInterval(ze), clearTimeout(D);
 		}), ne();
-		let ot = r(".l10-panel"), st = i.parentElement, ct = () => {
+		let ot = r(".l10-panel"), st = i.parentElement, ct = r(".l10-g-play"), lt = r(".l10-g-controls"), ut = (e) => {
+			e.target.closest?.("button, a, input, select, textarea, [role=\"slider\"], [role=\"button\"], [role^=\"menuitem\"], [tabindex]") || e.stopPropagation();
+		};
+		[
+			ot,
+			r(".l10-board"),
+			r(".l10-endcard"),
+			...i.querySelectorAll("media-menu, media-popover")
+		].forEach((e) => e?.addEventListener("pointerup", ut));
+		let dt = r("media-gesture[action=\"togglePaused\"][pointer=\"mouse\"]"), ft = () => [...i.querySelectorAll("media-menu, media-popover")].some((e) => e.hasAttribute("data-open")), pt = 0;
+		st.addEventListener("pointerdown", (e) => {
+			ft() && !e.target.closest("media-menu, media-popover") && (dt.setAttribute("disabled", ""), ct.setAttribute("disabled", ""), clearTimeout(pt), pt = setTimeout(() => {
+				dt.removeAttribute("disabled"), ct.toggleAttribute("disabled", !i.hasAttribute("data-dock"));
+			}, 450));
+		}, !0);
+		let I = this.getAttribute("ambient") === "off" ? null : document.createElement("canvas");
+		if (I) {
+			I.className = "l10-glow", I.width = 32, I.height = 18, I.setAttribute("aria-hidden", "true"), st.prepend(I);
+			let e = I.getContext("2d"), t = () => a instanceof HTMLVideoElement ? a : a.nativeEl || a.shadowRoot?.querySelector("video"), n = !0, r = 0, o = (n) => {
+				let r = t(), a = r && r.readyState >= 2 && !i.querySelector(".l10-poster[data-visible]") ? r : null;
+				if (!a) {
+					let e = i.querySelector(".l10-poster img");
+					e?.complete && e.naturalWidth && (a = e);
+				}
+				if (a) try {
+					e.globalAlpha = n, e.drawImage(a, 0, 0, I.width, I.height), I.toggleAttribute("data-on", !0);
+				} catch {}
+			}, s = () => {
+				clearTimeout(r), !a.paused && i.isConnected && (n && o(.18), r = setTimeout(s, 120));
+			};
+			new IntersectionObserver(([e]) => {
+				n = e.isIntersecting;
+			}).observe(i), a.addEventListener("play", s), a.addEventListener("playing", s), [
+				"loadeddata",
+				"seeked",
+				"emptied"
+			].forEach((e) => a.addEventListener(e, () => o(1))), i.querySelector(".l10-poster img")?.addEventListener("load", () => o(1)), o(1);
+		}
+		let mt = () => {
 			let e = !1;
 			try {
 				e = i.matches(":fullscreen");
@@ -10944,15 +11003,15 @@ var ep = class extends HTMLElement {
 				} catch {}
 			}
 			let t = i.clientWidth, n = !this.getAttribute("ratio") && !e && !i.hasAttribute("data-docpip") && t > 0 && t <= Rf;
-			n !== i.hasAttribute("data-dock") && i.toggleAttribute("data-dock", n), st.style.paddingBottom = n ? `${ot.offsetHeight}px` : "", st.style.setProperty("--l10-dock-h", n ? `${ot.offsetHeight}px` : "0px");
+			n !== i.hasAttribute("data-dock") && i.toggleAttribute("data-dock", n), st.style.paddingBottom = n ? `${ot.offsetHeight}px` : "", ct.toggleAttribute("disabled", !n), lt.toggleAttribute("disabled", n), I && (I.style.height = `${i.offsetHeight}px`), st.style.setProperty("--l10-dock-h", n ? `${ot.offsetHeight}px` : "0px");
 		};
 		new ResizeObserver(() => {
-			i.style.setProperty("--l10-panel-h", `${ot.offsetHeight}px`), ct();
-		}).observe(ot), new ResizeObserver(ct).observe(i), new MutationObserver(ct).observe(i, {
+			i.style.setProperty("--l10-panel-h", `${ot.offsetHeight}px`), mt();
+		}).observe(ot), new ResizeObserver(mt).observe(i), new MutationObserver(mt).observe(i, {
 			attributes: !0,
 			attributeFilter: ["data-docpip"]
-		}), document.addEventListener("fullscreenchange", ct, n), document.addEventListener("webkitfullscreenchange", ct, n), a.addEventListener("timeupdate", v), a.addEventListener("seeked", v), a.addEventListener("ended", v), r(".l10-endcard");
-		let I = r(".l10-term-next"), lt = (e) => {
+		}), document.addEventListener("fullscreenchange", mt, n), document.addEventListener("webkitfullscreenchange", mt, n), a.addEventListener("timeupdate", v), a.addEventListener("seeked", v), a.addEventListener("ended", v), r(".l10-endcard");
+		let ht = r(".l10-term-next"), gt = (e) => {
 			let t = /^#?([0-9a-f]{6})$/i.exec((e || "").trim());
 			if (!t) return "#14110a";
 			let [n, r, i] = [
@@ -10964,22 +11023,22 @@ var ep = class extends HTMLElement {
 		};
 		this.#t = () => {
 			let e = this.getAttribute("next-title");
-			if (I.hidden = !e, !e) return;
+			if (ht.hidden = !e, !e) return;
 			let t = this.getAttribute("next-line") || "";
-			r(".l10-term-next-name").textContent = e, r(".l10-term-badge").textContent = this.getAttribute("next-number") || "", I.style.setProperty("--l10-next", t || "var(--l10-line)"), I.style.setProperty("--l10-next-ink", t ? lt(t) : "var(--l10-line-ink)"), I.setAttribute("aria-label", `Change here for ${e}`);
-		}, this.#t(), I.addEventListener("click", () => this.dispatchEvent(new CustomEvent("line10:next", { bubbles: !0 }))), r(".l10-term-again").addEventListener("click", () => {
+			r(".l10-term-next-name").textContent = e, r(".l10-term-badge").textContent = this.getAttribute("next-number") || "", ht.style.setProperty("--l10-next", t || "var(--l10-line)"), ht.style.setProperty("--l10-next-ink", t ? gt(t) : "var(--l10-line-ink)"), ht.setAttribute("aria-label", `Change here for ${e}`);
+		}, this.#t(), ht.addEventListener("click", () => this.dispatchEvent(new CustomEvent("line10:next", { bubbles: !0 }))), r(".l10-term-again").addEventListener("click", () => {
 			a.ended || (a.currentTime = 0), a.play().catch(() => {}), i.focus({ preventScroll: !0 });
 		});
-		let ut = !1, dt = 0;
+		let _t = !1, vt = 0;
 		if (a.addEventListener("ended", () => {
-			ut = !0;
+			_t = !0;
 		}), a.addEventListener("play", () => {
-			ut && (dt = performance.now());
+			_t && (vt = performance.now());
 		}), a.addEventListener("playing", () => {
-			ut = !1, dt = 0;
+			_t = !1, vt = 0;
 		}), a.addEventListener("pause", () => {
-			if (!dt || performance.now() - dt > 4e3) return;
-			dt = 0;
+			if (!vt || performance.now() - vt > 4e3) return;
+			vt = 0;
 			let e = () => a.play().catch(() => {});
 			a.seeking ? a.addEventListener("seeked", e, { once: !0 }) : e();
 		}), this.hasAttribute("autoplay")) {
@@ -10987,11 +11046,11 @@ var ep = class extends HTMLElement {
 			a.readyState >= 2 ? e() : a.addEventListener("canplay", e, { once: !0 });
 		}
 		a.addEventListener("ratechange", C), a.addEventListener("loadedmetadata", _), a.addEventListener("durationchange", _);
-		let ft = (e) => {
+		let yt = (e) => {
 			e.kind === "chapters" && (e.mode === "disabled" && (e.mode = "hidden"), e.addEventListener("cuechange", _));
 		};
-		[...a.textTracks || []].forEach(ft), a.textTracks?.addEventListener?.("addtrack", (e) => {
-			ft(e.track), setTimeout(_, 200);
+		[...a.textTracks || []].forEach(yt), a.textTracks?.addEventListener?.("addtrack", (e) => {
+			yt(e.track), setTimeout(_, 200);
 		}), i.querySelectorAll("track[kind=\"chapters\"]").forEach((e) => e.addEventListener("load", _)), setTimeout(_, 400), v();
 	}
 };
