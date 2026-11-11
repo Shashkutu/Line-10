@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Line 10 — a Video.js v10 skin</title>
+<meta name="description" content="Line 10: a Video.js v10 player skin where the timeline is a metro line. Chapters are stations, the playhead is a train. By Alexander Atanasov.">
+<meta name="theme-color" content="#0b0c0f">
+<link rel="canonical" href="https://me.aleex.workers.dev/line10/">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Line 10">
+<meta property="og:title" content="Line 10 — a Video.js v10 skin">
+<meta property="og:description" content="A video player where the timeline is a metro line. Chapters are stations, the playhead is a train. By Alexander Atanasov.">
+<meta property="og:url" content="https://me.aleex.workers.dev/line10/">
+<meta property="og:image" content="https://me.aleex.workers.dev/line10/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Line 10 video player: a metro-line timeline with station stops, a departure board and a train as the playhead.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Line 10 — a Video.js v10 skin">
+<meta name="twitter:description" content="A video player where the timeline is a metro line. Chapters are stations, the playhead is a train.">
+<meta name="twitter:image" content="https://me.aleex.workers.dev/line10/og.jpg">
+<link rel="preconnect" href="https://image.mux.com">
+<link rel="preload" href="./fonts/overpass-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="./fonts/overpass-latin-900-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="./fonts/overpass-mono-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Overpass Fallback";font-weight:100 600;src:local("Arial"),local("ArialMT"),local("Liberation Sans"),local("Helvetica");size-adjust:100.4%;ascent-override:87.9%;descent-override:38.1%;line-gap-override:0%}
+@font-face{font-family:"Overpass Fallback";font-weight:700 900;src:local("Arial Bold"),local("Arial-BoldMT"),local("Liberation Sans Bold"),local("Helvetica Bold");size-adjust:100.9%;ascent-override:87.5%;descent-override:38%;line-gap-override:0%}
+@font-face{font-family:"Overpass";font-style:normal;font-weight:400;font-display:swap;src:url(./fonts/overpass-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Overpass";font-style:normal;font-weight:600;font-display:swap;src:url(./fonts/overpass-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Overpass";font-style:normal;font-weight:700;font-display:swap;src:url(./fonts/overpass-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:"Overpass";font-style:normal;font-weight:800;font-display:swap;src:url(./fonts/overpass-latin-800-normal.woff2) format("woff2")}
+@font-face{font-family:"Overpass";font-style:normal;font-weight:900;font-display:swap;src:url(./fonts/overpass-latin-900-normal.woff2) format("woff2")}
+@font-face{font-family:"Overpass Mono";font-style:normal;font-weight:600;font-display:swap;src:url(./fonts/overpass-mono-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Overpass Mono";font-style:normal;font-weight:700;font-display:swap;src:url(./fonts/overpass-mono-latin-700-normal.woff2) format("woff2")}
+</style>
+<link rel="stylesheet" href="./src/line10/line10.css">
+<link rel="stylesheet" href="./src/demo.css">
+<script type="module" src="./src/main.js"></script>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="./" aria-label="Line 10 home"><span class="brand-badge">10</span><span>Line 10</span></a>
+  <span class="top-meta">A Video.js v10 skin</span>
+</header>
+
+<main>
+  <section class="hero">
+    <p class="eyebrow"><span class="dot"></span> Now boarding</p>
+    <h1>Every video is a <em>journey.</em></h1>
+    <p class="lede">Line 10 turns the player into a metro line. Chapters become stations, the playhead is a train, the title clatters onto a split-flap departure board, and playback speed is the service you ride.</p>
+    <svg class="map-art" viewBox="0 0 360 260" aria-hidden="true">
+      <path d="M20 200 H120 Q150 200 165 170 L215 70 Q230 40 260 40 H340" stroke="#ffb000"/>
+      <path d="M20 60 H110 Q140 60 155 90 L205 190 Q220 220 250 220 H340" stroke="#ff5a5f"/>
+      <path d="M20 130 H340" stroke="#2ad1ff"/>
+      <g class="st"><circle cx="60" cy="200"/><circle cx="190" cy="120"/><circle cx="300" cy="40"/><circle cx="60" cy="60"/><circle cx="300" cy="220"/><circle cx="60" cy="130"/><circle cx="300" cy="130"/></g>
+      <g class="ic"><rect x="174" y="114" width="32" height="12" rx="6"/></g>
+      <text x="60" y="226">Highlands</text><text x="300" y="22">Castle Keep</text><text x="60" y="44">Iron Yard</text><text x="300" y="246">North Studio</text><text x="60" y="152">Milan</text><text x="300" y="152">Hamburg</text>
+    </svg>
+  </section>
+
+  <section class="stage" aria-label="Player">
+    <nav class="lines" aria-label="Choose a line">
+      <button type="button" class="line-pick" aria-pressed="true" style="--c:#ffb000;--ink:#14110a"
+        data-number="10" data-playback-id="Twh27TlSFoMydGwFXu01LxduhbOtmfAdcDJD6EXfaWgo" data-poster="https://image.mux.com/Twh27TlSFoMydGwFXu01LxduhbOtmfAdcDJD6EXfaWgo/thumbnail.webp?time=24&amp;width=1280"
+        data-title="Echoes of the Castle Keep" data-captions="./media/castles.en.vtt" data-chapters="./media/castles.chapters.vtt">
+        <span class="pick-badge">10</span><span class="pick-text"><b>Castle Line</b><small>Narrated<i class="sep">·</i>up to 4K</small></span>
+      </button>
+      <button type="button" class="line-pick" aria-pressed="false" style="--c:#ff5a5f;--ink:#1e0607"
+        data-number="N" data-playback-id="Apw02lr3FPatzAewBBXTtH5ca8JO00XAV9f2Aiy00ZrfLo" data-poster="./media/studio-north.jpg"
+        data-title="Studio North — homepage promo" data-captions="./media/studio-north.en.vtt" data-chapters="./media/studio-north.chapters.vtt">
+        <span class="pick-badge">N</span><span class="pick-text"><b>Studio North</b><small>Dark footage<i class="sep">·</i>6 stops</small></span>
+      </button>
+      <button type="button" class="line-pick" aria-pressed="false" style="--c:#2ad1ff;--ink:#04161c"
+        data-number="M" data-playback-id="b8LwYDJz9lzvUaEwjrSJOQxxoZi00xrmwYZ143jXOVTM" data-poster="./media/metro-tour.jpg"
+        data-title="Metro Tour — six cities" data-captions="./media/metro-tour.en.vtt" data-chapters="./media/metro-tour.chapters.vtt">
+        <span class="pick-badge">M</span><span class="pick-text"><b>Metro Tour</b><small>Bright footage<i class="sep">·</i>6 cities</small></span>
+      </button>
+    </nav>
+
+    <div class="frame" id="frame">
+      <line10-player playback-id="Twh27TlSFoMydGwFXu01LxduhbOtmfAdcDJD6EXfaWgo" poster="https://image.mux.com/Twh27TlSFoMydGwFXu01LxduhbOtmfAdcDJD6EXfaWgo/thumbnail.webp?time=24&amp;width=1280" number="10" line="#ffb000"
+        title="Echoes of the Castle Keep" captions="./media/castles.en.vtt" chapters="./media/castles.chapters.vtt" next-title="Studio North" next-number="N" next-line="#ff5a5f"><img class="l10-preposter" src="https://image.mux.com/Twh27TlSFoMydGwFXu01LxduhbOtmfAdcDJD6EXfaWgo/thumbnail.webp?time=24&amp;width=1280" srcset="https://image.mux.com/Twh27TlSFoMydGwFXu01LxduhbOtmfAdcDJD6EXfaWgo/thumbnail.webp?time=24&amp;width=640 640w, https://image.mux.com/Twh27TlSFoMydGwFXu01LxduhbOtmfAdcDJD6EXfaWgo/thumbnail.webp?time=24&amp;width=960 960w, https://image.mux.com/Twh27TlSFoMydGwFXu01LxduhbOtmfAdcDJD6EXfaWgo/thumbnail.webp?time=24&amp;width=1280 1280w" sizes="(max-width: 1180px) 100vw, 1140px" fetchpriority="high" alt=""></line10-player>
+    </div>
+    <p class="line-note" id="line-note" hidden></p>
+  </section>
+
+  <section class="use" aria-labelledby="use-title">
+    <h2 id="use-title">Put it on your site</h2>
+    <div class="use-grid">
+      <div class="use-paint">
+        <b>Paint your line</b>
+        <p>One attribute themes the whole skin. Pick a colour and watch the player above change.</p>
+        <div class="swatches" role="group" aria-label="Line colour">
+          <button type="button" class="swatch" style="--c:#ffb000" data-c="#ffb000" aria-label="Amber" aria-pressed="true"></button>
+          <button type="button" class="swatch" style="--c:#ff5a5f" data-c="#ff5a5f" aria-label="Coral" aria-pressed="false"></button>
+          <button type="button" class="swatch" style="--c:#2ad1ff" data-c="#2ad1ff" aria-label="Cyan" aria-pressed="false"></button>
+          <button type="button" class="swatch" style="--c:#3ddc84" data-c="#3ddc84" aria-label="Green" aria-pressed="false"></button>
+          <button type="button" class="swatch" style="--c:#b28dff" data-c="#b28dff" aria-label="Violet" aria-pressed="false"></button>
+          <button type="button" class="swatch" style="--c:#ff7ac6" data-c="#ff7ac6" aria-label="Pink" aria-pressed="false"></button>
+          <label class="swatch swatch-any" title="Any colour"><input type="color" id="any-colour" value="#ffb000" aria-label="Any colour"><span aria-hidden="true">+</span></label>
+        </div>
+      </div>
+      <div class="use-code">
+        <div class="use-head"><span>HTML</span><button type="button" class="copy" id="copy-code">Copy</button></div>
+        <pre tabindex="0" aria-label="Embed code"><code id="embed-code"></code></pre>
+        <p class="use-note">Built from Video.js v10 components. Chapters and captions are plain WebVTT files, and <code>playback-id</code> is a Mux playback ID (or use <code>src</code> for any video file).</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="map" aria-labelledby="map-title">
+    <h2 id="map-title">How to ride</h2>
+    <ol class="legend">
+      <li><span class="lg lg-stop" aria-hidden="true"></span><div><b>Stations are chapters</b><p>Each chapter of the video is a stop on the line. Hover the line to see the station sign with a preview frame.</p></div></li>
+      <li><span class="lg lg-train" aria-hidden="true"><i></i><i></i><i></i></span><div><b>The train is the playhead</b><p>Drag it, click anywhere on the line, or use the arrow keys.</p></div></li>
+      <li><span class="lg lg-board" aria-hidden="true">NOW</span><div><b>Departure board</b><p>Shows the current station, the next stop and how long until you get there.</p></div></li>
+      <li><span class="lg lg-next" aria-hidden="true">]</span><div><b>Next stop</b><p>Jump to the next chapter with the button, or press <kbd>[</kbd> and <kbd>]</kbd>.</p></div></li>
+      <li><span class="lg lg-svc" aria-hidden="true">1.5×</span><div><b>Service is speed</b><p>Slow, Night, Local, Limited, Express (1.5×) and Rapid (2×).</p></div></li>
+      <li><span class="lg lg-key" aria-hidden="true"><i>K</i><i>J</i><i>L</i></span><div><b>Keyboard and screen readers</b><p>Space/K play, ←/J and →/L skip 5&nbsp;s, <span class="nb">[ ]</span> stations, ↑↓ volume, M mute, <span class="nb">&lt; &gt;</span> speed, F fullscreen, C captions, I picture-in-picture, 0–9 jump, and S for Settings on small screens. Built on Video.js components, so every control is labelled and every menu closes with Esc.</p></div></li>
+    </ol>
+  </section>
+</main>
+
+<footer class="foot">
+  <span>Designed &amp; built by <a href="https://me.aleex.workers.dev">Alexander Atanasov</a></span>
+  <span>Video.js v10<i class="sep">·</i>Mux<i class="sep">·</i>HTML &amp; CSS</span>
+  <span>Footage: Pexels and Mux sample videos</span>
+</footer>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "name": "line10",
+  "version": "1.0.0",
+  "description": "Line 10: a Video.js v10 skin where the timeline is a metro line.",
+  "license": "Apache-2.0",
+  "author": "Alexander Atanasov",
+  "homepage": "https://me.aleex.workers.dev/line10/",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:lib": "vite build -c lib.config.js"
+  },
+  "dependencies": {
+    "@fontsource/overpass": "^5.3.0",
+    "@fontsource/overpass-mono": "^5.3.0",
+    "@videojs/html": "^10.3.0",
+    "@videojs/mux-video": "^10.3.0"
+  },
+  "devDependencies": {
+    "vite": "^8.3.7"
+  }
+}
