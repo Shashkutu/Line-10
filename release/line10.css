@@ -881,7 +881,7 @@
   display: block;
   width: 6px;
   height: 6px;
-  background: var(--l10-sign);
+  background: var(--l10-line);       /* the lamps take the line's own colour */
   border-radius: 50%;
   opacity: 0.16;
   animation: l10-led 1.5s linear infinite;
@@ -896,7 +896,7 @@
 }
 @keyframes l10-led {
   0%, 62%, 100% { opacity: 0.16; box-shadow: none; }
-  8%, 40% { opacity: 1; box-shadow: 0 0 6px var(--l10-sign); }
+  8%, 40% { opacity: 1; box-shadow: 0 0 6px var(--l10-line); }
 }
 /* while the train is held, the centre buttons step aside */
 .l10:has(.l10-buffering[data-visible]) .l10-center { opacity: 0; }
@@ -981,6 +981,7 @@
 @container l10 (max-width: 300px) { .l10-term-again span { display: none; } .l10-term-again { padding: 0 13px; } }
 @media (prefers-reduced-motion: reduce) { .l10[data-terminus] .l10-endcard { animation: none; } }
 @media (forced-colors: active) { .l10-endcard, .l10-hold { background: Canvas; border: 1px solid CanvasText; } }
+@media (forced-colors: active) { .l10-hold-track i { forced-color-adjust: none; background: CanvasText; box-shadow: none !important; } }
 
 .l10-indicators {
   position: absolute;
