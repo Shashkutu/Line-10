@@ -10368,23 +10368,23 @@ function Yf(e) {
 	return t.sort((e, t) => e.start - t.start), t.filter((e, n) => n === 0 || e.start !== t[n - 1].start);
 }
 var Xf = "ABCDEFGHIJKLMNOPRSTUVWXYZ0123456789";
-function Zf(e, t) {
-	let n = Number(e.dataset.len) || t.length, r = String(t).toUpperCase().slice(0, n).padEnd(n, " ");
-	if (e.dataset.text === r) return;
-	let i = !e.children.length;
-	i && (e.innerHTML = Array.from({ length: n }, () => "<span class=\"l10-tile\"><span> </span></span>").join("")), e.dataset.text = r;
-	let a = i || Nf() || e.closest(".l10")?.dataset.boardFlip === "off";
+function Zf(e, t, n = !1) {
+	let r = Number(e.dataset.len) || t.length, i = String(t).toUpperCase().slice(0, r).padEnd(r, " ");
+	if (e.dataset.text === i) return;
+	let a = !e.children.length;
+	a && (e.innerHTML = Array.from({ length: r }, () => "<span class=\"l10-tile\"><span> </span></span>").join("")), e.dataset.text = i;
+	let o = n || a || Nf() || e.closest(".l10")?.dataset.boardFlip === "off";
 	[...e.children].forEach((e, t) => {
-		let n = e.firstElementChild, i = r[t];
-		if (clearTimeout(e._t), n.textContent === i) return;
-		if (a) {
-			n.textContent = i;
+		let n = e.firstElementChild, r = i[t];
+		if (clearTimeout(e._t), n.textContent === r) return;
+		if (o) {
+			n.textContent = r;
 			return;
 		}
-		let o = i === " " ? 1 : 2 + t * 7 % 3, s = () => {
-			e.classList.remove("l10-flip"), e.offsetWidth, e.classList.add("l10-flip"), n.textContent = o > 1 ? Xf[Math.random() * 35 | 0] : i, --o > 0 && (e._t = setTimeout(s, 70));
+		let a = r === " " ? 1 : 1 + t % 2, s = () => {
+			e.classList.remove("l10-flip"), e.offsetWidth, e.classList.add("l10-flip"), n.textContent = a > 1 ? Xf[Math.random() * 35 | 0] : r, --a > 0 && (e._t = setTimeout(s, 60));
 		};
-		e._t = setTimeout(s, t * 28);
+		e._t = setTimeout(s, t * 20);
 	});
 }
 var Qf = class extends HTMLElement {
@@ -10393,10 +10393,13 @@ var Qf = class extends HTMLElement {
 		"next-title",
 		"next-number",
 		"next-line",
-		"stations"
+		"stations",
+		"board",
+		"share",
+		"stops"
 	];
 	attributeChangedCallback(e, t, n) {
-		this.dataset.ready != null && (e === "line" ? this.querySelector(".l10")?.style.setProperty("--l10-line", n || "") : e === "stations" ? this.#n?.() : this.#t?.());
+		this.dataset.ready != null && (e === "line" ? this.querySelector(".l10")?.style.setProperty("--l10-line", n || "") : e === "stations" || e === "stops" ? this.#n?.() : e === "board" || e === "share" ? this.#r?.() : this.#t?.());
 	}
 	connectedCallback() {
 		if (this.dataset.ready != null) return;
@@ -10417,21 +10420,22 @@ var Qf = class extends HTMLElement {
 			ratio: e("ratio")
 		}), this.removeAttribute("title");
 		let r = this.querySelector(".l10-poster img");
-		n && r && (n.classList.remove("l10-preposter"), r.replaceWith(n)), e("playback-id") ? customElements.whenDefined("mux-video").then(() => this.#i(t)) : this.#i(t);
+		n && r && (n.classList.remove("l10-preposter"), r.replaceWith(n)), e("playback-id") ? customElements.whenDefined("mux-video").then(() => this.#a(t)) : this.#a(t);
 	}
 	#e = null;
 	#t = null;
 	#n = null;
 	#r = null;
+	#i = null;
 	get stations() {
-		return this.#r?.() ?? [];
+		return this.#i?.() ?? [];
 	}
 	disconnectedCallback() {
 		setTimeout(() => {
 			this.isConnected || (this.#e?.abort(), this.#e = null);
 		}, 0);
 	}
-	#i(e) {
+	#a(e) {
 		let t = this.#e = new AbortController(), n = { signal: t.signal }, r = (e) => this.querySelector(e), i = r(".l10"), a = i.querySelector("video, mux-video"), o = r(".l10-stations"), s = r(".l10-nextstop"), c = r(".l10-stbtn"), l = [...i.querySelectorAll(".l10-stlist")], u = r(".l10-sr-board"), d = r(".l10-service-name"), f = r(".l10-arrival"), p = {
 			now: r("[data-flap=\"now\"]"),
 			next: r("[data-flap=\"next\"]"),
@@ -10454,33 +10458,31 @@ var Qf = class extends HTMLElement {
 		let _ = () => {
 			let e = a.duration;
 			if (!Number.isFinite(e) || e <= 0) return;
-			let t, n = Yf(this.getAttribute("stations"));
-			if (n) {
-				let r = n.filter((t) => t.start < e);
-				if (!r.length) return;
-				t = r.map((t, n) => ({
-					start: t.start,
-					end: n < r.length - 1 ? r[n + 1].start : e,
-					name: t.name
-				}));
-			} else {
-				let e = [...a.textTracks || []].find((e) => e.kind === "chapters");
-				if (!e) return;
-				e.mode === "disabled" && (e.mode = "hidden");
-				let n = [...e.cues || []];
-				if (!n.length) return;
-				t = n.map((e) => ({
-					start: e.startTime,
-					end: e.endTime,
-					name: e.text.trim()
-				}));
+			let t = [], n = this.getAttribute("stops") === "off" ? null : Yf(this.getAttribute("stations"));
+			if (this.getAttribute("stops") !== "off") {
+				if (n) {
+					let r = n.filter((t) => t.start < e);
+					t = r.map((t, n) => ({
+						start: t.start,
+						end: n < r.length - 1 ? r[n + 1].start : e,
+						name: t.name
+					}));
+				} else {
+					let e = [...a.textTracks || []].find((e) => e.kind === "chapters");
+					if (e?.mode === "disabled" && (e.mode = "hidden"), e && !e.cues?.length) return;
+					t = [...e?.cues || []].map((e) => ({
+						start: e.startTime,
+						end: e.endTime,
+						name: e.text.trim()
+					}));
+				}
 			}
 			let u = JSON.stringify([e, t]);
 			if (u === g) return;
-			g = u, m = t, o.innerHTML = m.map((t, n) => `
+			g = u, m = t, o.innerHTML = m.length ? m.map((t, n) => `
         <span class="l10-stop${n === m.length - 1 ? " l10-terminus" : ""}${n === 0 ? " l10-origin" : ""}" style="--at:${t.start / e * 100}%">
           <span class="l10-dot"></span><span class="l10-name" title="${Q(t.name)}">${Q(qf(t.name))}</span>
-        </span>`).join("") + "<span class=\"l10-endcap\"></span>", i.style.setProperty("--l10-stops", m.length);
+        </span>`).join("") + "<span class=\"l10-endcap\"></span>" : "<span class=\"l10-stop l10-origin\" data-state=\"passed\" style=\"--at:0%\"><span class=\"l10-dot\"></span></span><span class=\"l10-endcap\"></span>", i.style.setProperty("--l10-stops", m.length);
 			let d = m.map((e, t) => `
         <media-menu-item class="l10-menu-item l10-st-item" data-k="${t}">
           <span class="l10-menu-dot" aria-hidden="true"></span>
@@ -10500,7 +10502,7 @@ var Qf = class extends HTMLElement {
 		}, v = () => {
 			let t = a.currentTime || 0, n = a.duration || 0, c = a.ended || !!(n && t >= n - .05);
 			if (i.hasAttribute("data-terminus") !== c && (i.toggleAttribute("data-terminus", c), r(".l10-term-name").textContent = m[m.length - 1]?.name || e.split(/[—–-]/)[0].trim() || ""), !m.length) {
-				Zf(p.now, e.split(/[—–-]/)[0].trim() || "Line 10"), Zf(p.next, n ? "Terminus" : ""), Zf(p.eta, n ? jf(n - t) : "");
+				Zf(p.now, e.split(/[—–-]/)[0].trim() || "Line 10"), Zf(p.next, n ? "Terminus" : ""), Zf(p.eta, n ? jf(n - t) : "", !0);
 				return;
 			}
 			let d = m.findIndex((e) => t >= e.start && t < e.end);
@@ -10508,10 +10510,13 @@ var Qf = class extends HTMLElement {
 				e.dataset.state = t < d ? "passed" : t === d ? "current" : "ahead";
 			});
 			let g = m[d + 1];
-			Zf(p.now, c ? "Terminus" : qf(m[d].name)), Zf(p.next, c ? "Change here" : g ? qf(g.name) : "Terminus"), Zf(p.eta, c ? "" : jf((g ? g.start : n) - t)), s.setAttribute("aria-label", g ? `Next stop: ${g.name}` : "Last stop reached"), s.toggleAttribute("data-last", !g), d !== h && (h !== -1 && !a.paused && !c && (r(".l10-arrival-name").textContent = m[d].name, f.classList.remove("l10-show"), f.offsetWidth, f.classList.add("l10-show")), h = d, y(), l.forEach((e) => e.querySelectorAll(".l10-st-item").forEach((e, t) => e.toggleAttribute("data-current", t === d))), u.textContent = c ? "Terminus." : `Now at ${m[d].name}.${g ? ` Next: ${g.name}.` : " Last stop."}`);
+			Zf(p.now, c ? "Terminus" : qf(m[d].name)), Zf(p.next, c ? "Change here" : g ? qf(g.name) : "Terminus"), Zf(p.eta, c ? "" : jf((g ? g.start : n) - t), !0), s.setAttribute("aria-label", g ? `Next stop: ${g.name}` : "Last stop reached"), s.toggleAttribute("data-last", !g), d !== h && (h !== -1 && !a.paused && !c && (r(".l10-arrival-name").textContent = m[d].name, f.classList.remove("l10-show"), f.offsetWidth, f.classList.add("l10-show")), h = d, y(), l.forEach((e) => e.querySelectorAll(".l10-st-item").forEach((e, t) => e.toggleAttribute("data-current", t === d))), u.textContent = c ? "Terminus." : `Now at ${m[d].name}.${g ? ` Next: ${g.name}.` : " Last stop."}`);
 		}, y = () => {
 			let e = [...o.querySelectorAll(".l10-stop")];
-			if (!e.length) return;
+			if (!e.length || !m.length) {
+				i.removeAttribute("data-two-rows");
+				return;
+			}
 			let t = o.clientWidth;
 			if (!t) return;
 			let n = e.map((e, n) => {
@@ -10627,7 +10632,7 @@ var Qf = class extends HTMLElement {
 						return;
 					}
 				}
-				/^r$/i.test(e.key) && !C.hidden ? (C.click(), e.preventDefault()) : /^u$/i.test(e.key) ? (x.hasAttribute("data-show") && /Link copied|Copy this link/.test(S.textContent) ? T() : ee.click(), e.preventDefault()) : ((e.key === "]" || e.key === "n") && (b(1), e.preventDefault()), (e.key === "[" || e.key === "p") && (b(-1), e.preventDefault()));
+				/^r$/i.test(e.key) && !C.hidden ? (C.click(), e.preventDefault()) : /^u$/i.test(e.key) && ee.offsetParent ? (x.hasAttribute("data-show") && /Link copied|Copy this link/.test(S.textContent) ? T() : ee.click(), e.preventDefault()) : ((e.key === "]" || e.key === "n") && (b(1), e.preventDefault()), (e.key === "[" || e.key === "p") && (b(-1), e.preventDefault()));
 			}
 		});
 		let se = () => {
@@ -11096,7 +11101,9 @@ var Qf = class extends HTMLElement {
 		};
 		[...a.textTracks || []].forEach(Vt), a.textTracks?.addEventListener?.("addtrack", (e) => {
 			Vt(e.track), setTimeout(_, 200);
-		}), i.querySelectorAll("track[kind=\"chapters\"]").forEach((e) => e.addEventListener("load", _)), setTimeout(_, 400), this.#n = _, this.#r = () => m.map((e) => ({ ...e })), v();
+		}), i.querySelectorAll("track[kind=\"chapters\"]").forEach((e) => e.addEventListener("load", _)), setTimeout(_, 400), this.#n = _, this.#r = () => {
+			i.toggleAttribute("data-no-board", this.getAttribute("board") === "off"), i.toggleAttribute("data-no-share", this.getAttribute("share") === "off"), It();
+		}, this.#r(), this.#i = () => m.map((e) => ({ ...e })), v();
 	}
 };
 customElements.get("line10-player") || customElements.define("line10-player", Qf);

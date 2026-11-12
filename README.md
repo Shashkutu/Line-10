@@ -6,6 +6,16 @@
 
 ![The Line 10 player](docs/cover.jpg)
 
+## Use it in one line
+
+Add the files once, then each player is one tag:
+
+```html
+<line10-player src="video.mp4" title="My video" chapters="chapters.vtt" line="#ffb000"></line10-player>
+```
+
+Want a plain skin? Leave parts out with `board="off"`, `share="off"` or `stops="off"`. Full setup and every option are under [Use it](#use-it).
+
 ## What it does
 
 - **Stations are chapters.** The seek bar is a metro line with a stop for each chapter. Hover the line for a station sign with a preview frame.
@@ -14,7 +24,7 @@
 - **Service is speed.** Slow, Night, Local, Limited, Express and Rapid.
 - **Held at a signal.** While the video buffers, a small train waits between two stops.
 - **Terminus.** At the end, a card offers "Ride again" and, if the page provides one, a change to the next line.
-- **Settings that stick.** Board size, background (solid to transparent), side and flip letters, caption size, colour, background, outline, shadow and brackets, volume, speed and quality are remembered.
+- **Viewer settings.** Board size, background (solid to transparent), side and flip letters, caption size, colour, background, outline, shadow and brackets, volume, speed and quality, carried over between videos during a visit.
 - **Quality menu** with Auto and every rendition of the stream.
 - **Picture-in-picture with the whole player** where the browser supports Document Picture-in-Picture, and the browser's own PiP with captions elsewhere.
 - **Small players.** Below about 770px the bar keeps the essentials and a Settings menu holds the rest. No control leaves the player from 250px wide.
@@ -53,7 +63,7 @@ The `release/` folder holds the built files. Keep the files in it together, beca
 | `playback-id` | A Mux playback ID. Streams with every rendition and uses Mux's storyboard for the preview frames. |
 | `src` | Any video file or stream URL, used when there is no `playback-id`. |
 | `title` | Shown on the departure board. |
-| `chapters` | A WebVTT chapters file. Each cue becomes a station. Without it, the line is a plain track. |
+| `chapters` | A WebVTT chapters file. Each cue becomes a station. Without it, the line runs from a start dot to the end of the line. |
 | `captions` | A WebVTT captions file. Text in `[square brackets]` is drawn with the viewer's bracket style. |
 | `poster` | Poster image. |
 | `storyboard` | A WebVTT thumbnail track for preview frames (not needed with `playback-id`). |
@@ -63,6 +73,9 @@ The `release/` folder holds the built files. Keep the files in it together, beca
 | `next-title`, `next-number`, `next-line` | Offer a "Change here for…" button at the end. |
 | `autoplay` | Start playing as soon as the video is ready. |
 | `ambient` | Set to `off` to turn off the soft glow of the picture around the player. |
+| `board` | Set to `off` to leave out the departure board (and its share button). |
+| `share` | Set to `off` to leave out the share button (and the U key). |
+| `stops` | Set to `off` to ignore chapters and show a plain line from start to end, with no station names or Next stop button. |
 | `stations` | The stops, in one line: `"0:00 Highlands; 0:13 Eilean Donan"` (instead of a chapters file). See [Stations](#stations). |
 | `start` | Start at this many seconds. A `?t=25` (or `?sec=25`) in the page address does the same for the first player, like a YouTube link. |
 

@@ -1679,3 +1679,7 @@ button.l10-time { pointer-events: auto; }
 .l10[data-dock] .l10-boardmenu media-menu-item:is(:has(> .l10-menu-value[data-for="boardPos"]), :has(> .l10-menu-value[data-for="boardStyle"])) { display: none; }
 .l10[data-dock][data-board="compact"] .l10-board { align-items: center; padding: 8px 6px 8px 10px; }
 .l10-moremenu .l10-more-rule:not(:has(~ media-menu-item:not([data-hidden]))) { display: none; }   /* no divider when nothing follows it */
+
+/* board="off" / share="off" on the player: those parts are left out */
+.l10[data-no-board] .l10-board { display: none !important; }
+.l10[data-no-share] .l10-sharebtn { display: none !important; }

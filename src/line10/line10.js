@@ -528,14 +528,14 @@ function parseStations(text) {
 
 // ---- split-flap departure board ----------------------------------------
 const FLAP_CHARS = 'ABCDEFGHIJKLMNOPRSTUVWXYZ0123456789';
-function setFlaps(el, text) {
+function setFlaps(el, text, instant = false) {
   const len = Number(el.dataset.len) || text.length;
   const target = String(text).toUpperCase().slice(0, len).padEnd(len, ' ');
   if (el.dataset.text === target) return;
   const first = !el.children.length;
   if (first) el.innerHTML = Array.from({ length: len }, () => '<span class="l10-tile"><span> </span></span>').join('');
   el.dataset.text = target;
-  const calm = first || reduced() || el.closest('.l10')?.dataset.boardFlip === 'off';
+  const calm = instant || first || reduced() || el.closest('.l10')?.dataset.boardFlip === 'off';
   [...el.children].forEach((tile, k) => {
     const face = tile.firstElementChild;
     const to = target[k];
@@ -543,22 +543,23 @@ function setFlaps(el, text) {
     if (face.textContent === to) return;
     if (calm) { face.textContent = to; return; }
     // a few random letters clatter past before the right one lands, left to right
-    let steps = to === ' ' ? 1 : 2 + ((k * 7) % 3);
+    let steps = to === ' ' ? 1 : 1 + (k % 2);   // short: one or two letters, then the right one
     const tick = () => {
       tile.classList.remove('l10-flip'); void tile.offsetWidth; tile.classList.add('l10-flip');
       face.textContent = steps > 1 ? FLAP_CHARS[(Math.random() * FLAP_CHARS.length) | 0] : to;
-      if (--steps > 0) tile._t = setTimeout(tick, 70);
+      if (--steps > 0) tile._t = setTimeout(tick, 60);
     };
-    tile._t = setTimeout(tick, k * 28);
+    tile._t = setTimeout(tick, k * 20);
   });
 }
 
 class Line10Player extends HTMLElement {
-  static observedAttributes = ['line', 'next-title', 'next-number', 'next-line', 'stations'];
+  static observedAttributes = ['line', 'next-title', 'next-number', 'next-line', 'stations', 'board', 'share', 'stops'];
   attributeChangedCallback(name, _old, value) {
     if (this.dataset.ready == null) return;
     if (name === 'line') this.querySelector('.l10')?.style.setProperty('--l10-line', value || '');
-    else if (name === 'stations') this.#restation?.();
+    else if (name === 'stations' || name === 'stops') this.#restation?.();
+    else if (name === 'board' || name === 'share') this.#parts?.();
     else this.#offerNext?.();
   }
 
@@ -587,6 +588,7 @@ class Line10Player extends HTMLElement {
   #off = null;
   #offerNext = null;
   #restation = null;
+  #parts = null;
   #getStations = null;
   /** The stations the line shows now: [{ start, end, name }] (seconds). */
   get stations() { return this.#getStations?.() ?? []; }
@@ -628,25 +630,24 @@ class Line10Player extends HTMLElement {
     const readStations = () => {
       const dur = media.duration;
       if (!Number.isFinite(dur) || dur <= 0) return;
-      let next;
-      const listed = parseStations(this.getAttribute('stations'));
-      if (listed) {
+      // stops="off" or no chapters: a plain line from the start to the end of the line
+      let next = [];
+      const listed = this.getAttribute('stops') === 'off' ? null : parseStations(this.getAttribute('stations'));
+      if (this.getAttribute('stops') === 'off') { /* no stations */ }
+      else if (listed) {
         const inside = listed.filter((x) => x.start < dur);
-        if (!inside.length) return;
         next = inside.map((x, k) => ({ start: x.start, end: k < inside.length - 1 ? inside[k + 1].start : dur, name: x.name }));
       } else {
         const track = [...(media.textTracks || [])].find((t) => t.kind === 'chapters');
-        if (!track) return;
-        if (track.mode === 'disabled') track.mode = 'hidden';
-        const cues = [...(track.cues || [])];
-        if (!cues.length) return;
-        next = cues.map((c) => ({ start: c.startTime, end: c.endTime, name: c.text.trim() }));
+        if (track?.mode === 'disabled') track.mode = 'hidden';
+        if (track && !track.cues?.length) return;      // the chapters are still loading
+        next = [...(track?.cues || [])].map((c) => ({ start: c.startTime, end: c.endTime, name: c.text.trim() }));
       }
       const sig = JSON.stringify([dur, next]);
       if (sig === drawn) return;          // cuechange fires at every station; only redraw when the route changes
       drawn = sig;
       stations = next;
-      stationsEl.innerHTML = stations.map((s, k) => `
+      stationsEl.innerHTML = !stations.length ? '<span class="l10-stop l10-origin" data-state="passed" style="--at:0%"><span class="l10-dot"></span></span><span class="l10-endcap"></span>' : stations.map((s, k) => `
         <span class="l10-stop${k === stations.length - 1 ? ' l10-terminus' : ''}${k === 0 ? ' l10-origin' : ''}" style="--at:${(s.start / dur) * 100}%">
           <span class="l10-dot"></span><span class="l10-name" title="${esc(s.name)}">${esc(boardName(s.name))}</span>
         </span>`).join('') + '<span class="l10-endcap"></span>';
@@ -679,7 +680,7 @@ class Line10Player extends HTMLElement {
       if (!stations.length) {
         setFlaps(flaps.now, title.split(/[—–-]/)[0].trim() || 'Line 10');
         setFlaps(flaps.next, dur ? 'Terminus' : '');
-        setFlaps(flaps.eta, dur ? clock(dur - t) : '');
+        setFlaps(flaps.eta, dur ? clock(dur - t) : '', true);
         return;
       }
       let k = stations.findIndex((s) => t >= s.start && t < s.end);
@@ -689,7 +690,7 @@ class Line10Player extends HTMLElement {
       const next = stations[k + 1];
       setFlaps(flaps.now, ended ? 'Terminus' : boardName(stations[k].name));
       setFlaps(flaps.next, ended ? 'Change here' : next ? boardName(next.name) : 'Terminus');
-      setFlaps(flaps.eta, ended ? '' : clock((next ? next.start : dur) - t));
+      setFlaps(flaps.eta, ended ? '' : clock((next ? next.start : dur) - t), true);   // the countdown just changes
       nextBtn.setAttribute('aria-label', next ? `Next stop: ${next.name}` : 'Last stop reached');
       nextBtn.toggleAttribute('data-last', !next);
       if (k !== current) {
@@ -710,7 +711,7 @@ class Line10Player extends HTMLElement {
     // overlap hide the less important one (current > next > the rest).
     const layoutNames = () => {
       const stops = [...stationsEl.querySelectorAll('.l10-stop')];
-      if (!stops.length) return;
+      if (!stops.length || !stations.length) { root.removeAttribute('data-two-rows'); return; }
       const W = stationsEl.clientWidth;
       if (!W) return;
       const boxes = stops.map((el, k) => {
@@ -855,7 +856,7 @@ class Line10Player extends HTMLElement {
         if (!b.hidden) { b.click(); e.preventDefault(); return; }
       }
       if (/^r$/i.test(e.key) && !overBtn.hidden) { overBtn.click(); e.preventDefault(); return; }
-      if (/^u$/i.test(e.key)) {
+      if (/^u$/i.test(e.key) && shareBtn.offsetParent) {
         if (toastEl.hasAttribute('data-show') && /Link copied|Copy this link/.test(toastText.textContent)) hideToast();   // U again closes the note
         else shareBtn.click();
         e.preventDefault(); return;
@@ -1604,6 +1605,13 @@ class Line10Player extends HTMLElement {
     root.querySelectorAll('track[kind="chapters"]').forEach((tr) => tr.addEventListener('load', readStations));
     setTimeout(readStations, 400);
     this.#restation = readStations;
+    // board="off" / share="off": leave those parts out (the player then works as a plain skin)
+    this.#parts = () => {
+      root.toggleAttribute('data-no-board', this.getAttribute('board') === 'off');
+      root.toggleAttribute('data-no-share', this.getAttribute('share') === 'off');
+      dock();
+    };
+    this.#parts();
     this.#getStations = () => stations.map((x) => ({ ...x }));
     update();
   }
