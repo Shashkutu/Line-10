@@ -14,13 +14,13 @@
 - **Service is speed.** Slow, Night, Local, Limited, Express and Rapid.
 - **Held at a signal.** While the video buffers, a small train waits between two stops.
 - **Terminus.** At the end, a card offers "Ride again" and, if the page provides one, a change to the next line.
-- **Settings that stick.** Board size, position and style, caption size, colour, background, outline, shadow and brackets, volume, speed and quality are remembered.
+- **Settings that stick.** Board size, background (solid to transparent), side and flip letters, caption size, colour, background, outline, shadow and brackets, volume, speed and quality are remembered.
 - **Quality menu** with Auto and every rendition of the stream.
 - **Picture-in-picture with the whole player** where the browser supports Document Picture-in-Picture, and the browser's own PiP with captions elsewhere.
 - **Small players.** Below about 770px the bar keeps the essentials and a Settings menu holds the rest. No control leaves the player from 250px wide.
 - **Phones.** Below 540px the line and the buttons move into a strip under the picture, so nothing covers the video and every button stays 44px. Fullscreen goes back to the overlay.
 - **Taps.** Click the picture to play or pause and double-click for fullscreen. On touch, double-tap the left or right third to skip 5 seconds. On phones a tap plays or pauses, and dragging the train gives a small buzz at each station where the phone supports it.
-- **Share a stop.** The link button on the departure board (or U) shares the station you're at: phones open their share sheet, desktops copy the link, and if a browser blocks copying the link is shown ready to copy.
+- **Share a stop.** The link button on the departure board (or U) shares a link to the exact second you're at: phones open their share sheet, desktops copy the link, and if a browser blocks copying the link is shown ready to copy.
 - **Time links.** A link ending in `?t=25` opens the player at 0:25 with a Start over (R) note; a plain link starts at the beginning.
 - **Nothing stored.** Every visit starts from the same defaults (Auto quality, 40% volume on desktop, phone volume on phones); choices carry over between videos during a visit only.
 - **Time display.** Click the time (or T) to switch between the total length and the time left. 

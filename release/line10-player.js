@@ -5466,7 +5466,7 @@ var Sc = class e {
 	disabled: "data-disabled",
 	hidden: "data-hidden",
 	availability: "data-availability"
-}, wc = class e {
+}, Y = class e {
 	static defaultProps = {
 		side: "top",
 		align: "center",
@@ -5515,12 +5515,12 @@ var Sc = class e {
 			"aria-modal": e.modal === !0 ? "true" : void 0
 		};
 	}
-}, Tc = {
+}, wc = {
 	open: "data-open",
 	side: "data-side",
 	align: "data-align",
 	...ua
-}, Ec = "data-popup", Dc = `[${Ec}]`, Oc = class {
+}, Tc = "data-popup", Ec = `[${Tc}]`, Dc = class {
 	#e = null;
 	#t = "none";
 	setMedia(e) {
@@ -5539,12 +5539,12 @@ var Sc = class e {
 			error: this.#t === "error"
 		};
 	}
-}, kc = {
+}, Oc = {
 	visible: "data-visible",
 	loading: "data-loading",
 	loaded: "data-loaded",
 	error: "data-error"
-}, Ac = "auto", jc = [
+}, kc = "auto", Ac = [
 	4320,
 	2160,
 	1440,
@@ -5554,51 +5554,51 @@ var Sc = class e {
 	360,
 	240
 ];
-function Mc(e) {
+function jc(e) {
 	return e >= 1e6 ? `${Math.round(e / 1e5) / 10} Mbps` : `${Math.round(e / 1e3)} kbps`;
 }
-function Nc(e) {
+function Mc(e) {
 	let t = Math.round(e * 9 / 16);
-	return jc.includes(t) ? t : void 0;
+	return Ac.includes(t) ? t : void 0;
 }
-function Pc(e) {
+function Nc(e) {
 	let { width: t, height: n } = e;
-	if (t && n) return t > n && t * 9 > n * 16 ? Nc(t) ?? n : Math.min(t, n);
+	if (t && n) return t > n && t * 9 > n * 16 ? Mc(t) ?? n : Math.min(t, n);
 	if (n) return n;
-	if (t) return Nc(t) ?? t;
+	if (t) return Mc(t) ?? t;
 }
-function Fc(e, t) {
-	let n = Pc(e);
-	return !!(n && t.some((t) => t !== e && Pc(t) === n));
+function Pc(e, t) {
+	let n = Nc(e);
+	return !!(n && t.some((t) => t !== e && Nc(t) === n));
 }
-function Ic(e) {
-	let t = Pc(e);
-	return t ? `${t}p` : e.bitrate ? Mc(e.bitrate) : Ko;
+function Fc(e) {
+	let t = Nc(e);
+	return t ? `${t}p` : e.bitrate ? jc(e.bitrate) : Ko;
 }
-function Lc(e, t = []) {
-	if (Pc(e) && e.bitrate && Fc(e, t)) return Mc(e.bitrate);
+function Ic(e, t = []) {
+	if (Nc(e) && e.bitrate && Pc(e, t)) return jc(e.bitrate);
 }
-function Rc(e) {
-	let t = Pc(e);
+function Lc(e) {
+	let t = Nc(e);
 	if (t) {
 		if (t >= 4320) return "8K";
 		if (t >= 2160) return "4K";
 		if (t >= 1080) return "HD";
 	}
 }
-var zc = class e {
+var Rc = class e {
 	static defaultProps = {
 		label: "",
-		formatRendition: Ic,
+		formatRendition: Fc,
 		disabled: !1
 	};
 	state = P({
 		options: [{
-			value: Ac,
+			value: kc,
 			label: Yo,
 			disabled: !1
 		}],
-		value: Ac,
+		value: kc,
 		disabled: !0,
 		hidden: !0,
 		availability: "unavailable",
@@ -5616,13 +5616,13 @@ var zc = class e {
 		return J(this.#e.label, e) || Ko;
 	}
 	getRenditionLabel(t) {
-		return this.#e.formatRendition === e.defaultProps.formatRendition ? Ic(t) : this.#e.formatRendition(t);
+		return this.#e.formatRendition === e.defaultProps.formatRendition ? Fc(t) : this.#e.formatRendition(t);
 	}
 	getRenditionBadge(t, n = []) {
-		if (this.#e.formatRendition === e.defaultProps.formatRendition) return Lc(t, n);
+		if (this.#e.formatRendition === e.defaultProps.formatRendition) return Ic(t, n);
 	}
 	getRenditionTier(t) {
-		if (this.#e.formatRendition === e.defaultProps.formatRendition) return Rc(t);
+		if (this.#e.formatRendition === e.defaultProps.formatRendition) return Lc(t);
 	}
 	getAttrs(e) {
 		return {
@@ -5645,14 +5645,14 @@ var zc = class e {
 				...r && { badge: r }
 			};
 		}, { activeVideoRendition: i } = e, a = i && e.videoRenditionList.some((e) => e.id === i.id) ? r(i) : void 0, o = {
-			value: Ac,
+			value: kc,
 			label: t === -1 && a ? Xo : Yo,
 			disabled: !1,
 			...t === -1 && a && { labelParams: { label: ei(a.label) } }
 		};
 		return this.state.patch({
 			options: [o, ...e.videoRenditionList.map(r)],
-			value: t === -1 ? Ac : e.videoRenditionList[t].id,
+			value: t === -1 ? kc : e.videoRenditionList[t].id,
 			disabled: this.#e.disabled || n === "unavailable",
 			hidden: n === "unavailable",
 			availability: n
@@ -5664,18 +5664,18 @@ var zc = class e {
 	selectValue(e, t) {
 		this.select(e, t);
 	}
-}, Bc = {
+}, zc = {
 	value: "data-quality",
 	disabled: "data-disabled",
 	hidden: "data-hidden",
 	availability: "data-availability"
-}, Vc = "seek.", Hc = {
-	key: `${Vc}forward`,
+}, Bc = "seek.", Vc = {
+	key: `${Bc}forward`,
 	text: "Seek forward {seconds} seconds"
-}, Uc = {
-	key: `${Vc}backward`,
+}, Hc = {
+	key: `${Bc}backward`,
 	text: "Seek backward {seconds} seconds"
-}, Wc = class e {
+}, Uc = class e {
 	static defaultProps = {
 		seconds: 30,
 		label: "",
@@ -5696,7 +5696,7 @@ var zc = class e {
 	}
 	getLabel(e) {
 		let t = J(this.#e.label, e);
-		return t === void 0 ? e.direction === "backward" ? Uc : Hc : t;
+		return t === void 0 ? e.direction === "backward" ? Hc : Vc : t;
 	}
 	getLabelParams(e) {
 		if (J(this.#e.label, e) === void 0) return { seconds: Math.abs(this.#e.seconds) };
@@ -5720,11 +5720,11 @@ var zc = class e {
 	async seek(e) {
 		this.#e.disabled || await e.seek(e.currentTime + this.#e.seconds);
 	}
-}, Gc = {
+}, Wc = {
 	seeking: "data-seeking",
 	direction: "data-direction"
-}, Kc = /* @__PURE__ */ new Map();
-function qc(e, t, n) {
+}, Gc = /* @__PURE__ */ new Map();
+function Kc(e, t, n) {
 	if (e === "digital") {
 		let e = new Intl.NumberFormat(n, { useGrouping: !1 }), r = new Intl.NumberFormat(n, {
 			minimumIntegerDigits: 2,
@@ -5757,65 +5757,65 @@ function qc(e, t, n) {
 	}) : { format: (t) => [...t].join(e === "narrow" ? " " : ", ") };
 	return { format: (e) => i.format(r.filter(([t]) => e[t] !== void 0).map(([t, n]) => n.format(e[t] ?? 0))) };
 }
-function Jc(e) {
+function qc(e) {
 	return e === void 0 ? "" : Array.isArray(e) ? e.join(":") : e;
 }
-function Yc(e, t = "long", n) {
-	let r = `${Jc(e)}:${t}:${n ?? ""}`, i = Kc.get(r);
-	return i || (i = qc(t, n, e), Kc.set(r, i)), i;
+function Jc(e, t = "long", n) {
+	let r = `${qc(e)}:${t}:${n ?? ""}`, i = Gc.get(r);
+	return i || (i = Kc(t, n, e), Gc.set(r, i)), i;
 }
-function Xc(t) {
+function Yc(t) {
 	return e(t) && Number.isFinite(t);
 }
-function Zc(e, t, n) {
-	if (!Xc(e)) return "0:00";
-	let r = e < 0, i = Math.floor(Math.abs(e)), a = Math.floor(i / 3600), o = Math.floor(i % 3600 / 60), s = i % 60, c = Xc(t ?? 0) ? Math.abs(t ?? 0) : 0, l = Math.floor(c / 3600), u = Math.floor(c / 60 % 60), d = a > 0 || l > 0, f = d || u >= 10, p = d ? {
+function Xc(e, t, n) {
+	if (!Yc(e)) return "0:00";
+	let r = e < 0, i = Math.floor(Math.abs(e)), a = Math.floor(i / 3600), o = Math.floor(i % 3600 / 60), s = i % 60, c = Yc(t ?? 0) ? Math.abs(t ?? 0) : 0, l = Math.floor(c / 3600), u = Math.floor(c / 60 % 60), d = a > 0 || l > 0, f = d || u >= 10, p = d ? {
 		hours: a,
 		minutes: o,
 		seconds: s
 	} : {
 		minutes: o,
 		seconds: s
-	}, { locale: m = "en" } = n ?? {}, h = Yc(m, "digital", d ? "always" : "auto").format(p);
+	}, { locale: m = "en" } = n ?? {}, h = Jc(m, "digital", d ? "always" : "auto").format(p);
 	if (!f) {
 		let e = new Intl.NumberFormat(m, { useGrouping: !1 }).format(0);
 		h = h.replace(RegExp(`^${e}(?=\\p{Nd}\\D)`, "u"), "");
 	}
 	return `${r ? "-" : ""}${h}`;
 }
-function Qc(e) {
-	if (!Xc(e)) return "PT0S";
+function Zc(e) {
+	if (!Yc(e)) return "PT0S";
 	let t = Math.abs(e), n = Math.floor(t / 3600), r = Math.floor(t / 60 % 60), i = Math.floor(t % 60), a = "PT";
 	return n > 0 && (a += `${n}H`), r > 0 && (a += `${r}M`), (i > 0 || a === "PT") && (a += `${i}S`), a;
 }
-function $c(e, t) {
-	if (!Xc(e)) return "";
+function Qc(e, t) {
+	if (!Yc(e)) return "";
 	let { locale: n = "en", style: r = "long", formatRemaining: i } = t ?? {}, a = e < 0, o = Math.floor(Math.abs(e)), s = Math.floor(o / 3600), c = Math.floor(o % 3600 / 60), l = o % 60, u = {};
 	s > 0 && (u.hours = s), c > 0 && (u.minutes = c), (l > 0 || s === 0 && c === 0) && (u.seconds = l);
-	let d = Yc(n, r).format(u);
+	let d = Jc(n, r).format(u);
 	return a ? i ? i(d) : St(n) ? `${d} remaining` : d : d;
 }
 // node_modules/@videojs/core/dist/default/core/ui/seek-indicator/status.js
-function el(e) {
+function $c(e) {
 	return e === "seekStep" || e === "seekToPercent";
 }
-function tl(e, t) {
+function el(e, t) {
 	let n = t === void 0 ? void 0 : { locale: t };
-	return Zc(e.currentTime ?? 0, e.duration, n);
+	return Xc(e.currentTime ?? 0, e.duration, n);
 }
-function nl(e) {
+function tl(e) {
 	return e.value ?? e.currentTime;
 }
-function rl(e) {
+function nl(e) {
 	return e.value === void 0 ? !e.key || e.key < "0" || e.key > "9" ? null : Number(e.key) * 10 : H(e.value, 0, 100);
 }
-function il(e, t) {
+function rl(e, t) {
 	if (e.action === "seekStep" && e.value !== void 0) {
 		if (e.value > 0) return "forward";
 		if (e.value < 0) return "backward";
 	}
 	if (e.action === "seekToPercent") {
-		let n = rl(e);
+		let n = nl(e);
 		if (n === null || t.duration === void 0 || t.duration <= 0) return null;
 		let r = n / 100 * t.duration, i = t.currentTime ?? 0;
 		if (r > i) return "forward";
@@ -5824,7 +5824,7 @@ function il(e, t) {
 	return null;
 }
 // node_modules/@videojs/core/dist/default/core/ui/seek-indicator/core.js
-var al = {
+var il = {
 	open: !1,
 	generation: 0,
 	direction: null,
@@ -5834,8 +5834,8 @@ var al = {
 	currentTime: "0:00",
 	transitionStarting: !1,
 	transitionEnding: !1
-}, ol = class {
-	state = P({ ...al });
+}, al = class {
+	state = P({ ...il });
 	#e = {};
 	#t = null;
 	#n = new fa(() => {
@@ -5857,8 +5857,8 @@ var al = {
 		this.#n.close();
 	}
 	processEvent(e, t) {
-		if (!el(e.action)) return !1;
-		let n = this.state.current, r = il(e, t), i = n.open && e.action === "seekStep" && n.direction === r;
+		if (!$c(e.action)) return !1;
+		let n = this.state.current, r = rl(e, t), i = n.open && e.action === "seekStep" && n.direction === r;
 		i || (this.#t = t.currentTime ?? null);
 		let a = this.#r(e, t, i), o = i ? n.seekTotal + Math.abs(a) : Math.abs(a), s = e.action === "seekStep" && o > 0 ? new Intl.NumberFormat(this.#e.locale ?? "en", {
 			style: "unit",
@@ -5873,7 +5873,7 @@ var al = {
 			count: i ? n.count + 1 : 1,
 			seekTotal: o,
 			value: s,
-			currentTime: tl(t, this.#e.locale)
+			currentTime: el(t, this.#e.locale)
 		}), this.#n.arm(), !0;
 	}
 	#r(e, t, n) {
@@ -5882,12 +5882,12 @@ var al = {
 		let r = this.#t, i = t.duration ?? Infinity, a = this.state.current.seekTotal, o = Math.abs(e.value);
 		return (e.value < 0 ? Math.max(0, r - a) : Math.max(0, i - r - a)) >= o ? e.value : 0;
 	}
-}, sl = {
+}, ol = {
 	open: "data-open",
 	direction: "data-direction",
 	transitionStarting: "data-starting-style",
 	transitionEnding: "data-ending-style"
-}, cl = class e {
+}, sl = class e {
 	static defaultProps = {
 		label: "",
 		step: 1,
@@ -5978,13 +5978,13 @@ var al = {
 		let r = t / n * 100 / 2, i = r, a = 100 - r;
 		return i + e / 100 * (a - i);
 	}
-}, ll = {
+}, cl = {
 	dragging: "data-dragging",
 	pointing: "data-pointing",
 	interactive: "data-interactive",
 	orientation: "data-orientation",
 	disabled: "data-disabled"
-}, ul = class {
+}, ll = class {
 	getGeometry(e) {
 		let { ranges: t, min: n, max: r, orientation: i } = e, a = r - n;
 		if (!Number.isFinite(a) || a <= 0) return [];
@@ -6018,34 +6018,34 @@ var al = {
 			interactive: s || c || l && o
 		};
 	}
-}, dl = {
+}, ul = {
 	...Xs,
 	volumeWithValue: (e) => U(Ys, { value: e }),
-	seekedTo: (e) => U(Ws, { time: $c(e) }),
+	seekedTo: (e) => U(Ws, { time: Qc(e) }),
 	playbackRate: (e) => U(_c, { rate: e })
 };
-function fl(e, t = "en") {
+function dl(e, t = "en") {
 	return {
 		...Zs(e),
 		volumeWithValue: (t) => e(Ys, { value: t }),
-		seekedTo: (n) => e(Ws, { time: $c(n, { locale: t }) }),
+		seekedTo: (n) => e(Ws, { time: Qc(n, { locale: t }) }),
 		playbackRate: (t) => e(_c, { rate: t })
 	};
 }
 // node_modules/@videojs/core/dist/default/core/ui/volume-indicator/status.js
-function pl(e) {
+function fl(e) {
 	return e === "toggleMuted" || e === "volumeStep";
 }
-function ml(e) {
+function pl(e) {
 	return e <= 0 ? "off" : e <= .5 ? "low" : "high";
 }
-function hl(e) {
+function ml(e) {
 	return `${Math.round(H(e, 0, 1) * 100)}%`;
 }
-function gl(e) {
+function hl(e) {
 	return e.value ?? "";
 }
-function _l(e, t) {
+function gl(e, t) {
 	let n = t.muted === !0, r = t.volume ?? 0;
 	if (e.action === "toggleMuted") return {
 		snapshotVolume: r,
@@ -6066,8 +6066,8 @@ function _l(e, t) {
 		nextVolume: r
 	};
 }
-function vl(e, t, n = Xs, r) {
-	let i = r ?? _l(e, t), a = i.nextMuted ? "off" : ml(i.nextVolume), o = i.nextMuted ? "0%" : hl(i.nextVolume);
+function _l(e, t, n = Xs, r) {
+	let i = r ?? gl(e, t), a = i.nextMuted ? "off" : pl(i.nextVolume), o = i.nextMuted ? "0%" : ml(i.nextVolume);
 	return {
 		status: a === "off" ? "volume-off" : a === "low" ? "volume-low" : "volume-high",
 		label: a === "off" ? n.muted : n.volume,
@@ -6076,20 +6076,20 @@ function vl(e, t, n = Xs, r) {
 	};
 }
 // node_modules/@videojs/core/dist/default/core/ui/status-announcer/status.js
-function yl(e, t, n = dl) {
+function vl(e, t, n = ul) {
 	let r = [];
-	return xl(e.paused, t.paused) && r.push(t.paused ? n.paused : n.playing), xl(e.subtitlesShowing, t.subtitlesShowing) && t.subtitlesAvailable !== !1 && r.push(t.subtitlesShowing ? n.captionsOn : n.captionsOff), xl(e.isFullscreen, t.isFullscreen) && r.push(t.isFullscreen ? n.fullscreen : n.exitFullscreen), xl(e.isPictureInPicture, t.isPictureInPicture) && r.push(t.isPictureInPicture ? n.pictureInPicture : n.exitPictureInPicture), xl(e.playbackRate, t.playbackRate) && r.push(n.playbackRate(`${t.playbackRate}×`)), r.length > 0 ? r.join(". ") : null;
+	return bl(e.paused, t.paused) && r.push(t.paused ? n.paused : n.playing), bl(e.subtitlesShowing, t.subtitlesShowing) && t.subtitlesAvailable !== !1 && r.push(t.subtitlesShowing ? n.captionsOn : n.captionsOff), bl(e.isFullscreen, t.isFullscreen) && r.push(t.isFullscreen ? n.fullscreen : n.exitFullscreen), bl(e.isPictureInPicture, t.isPictureInPicture) && r.push(t.isPictureInPicture ? n.pictureInPicture : n.exitPictureInPicture), bl(e.playbackRate, t.playbackRate) && r.push(n.playbackRate(`${t.playbackRate}×`)), r.length > 0 ? r.join(". ") : null;
 }
-function bl(e, t, n = dl) {
-	if (!xl(e.volume, t.volume) && !xl(e.muted, t.muted)) return null;
+function yl(e, t, n = ul) {
+	if (!bl(e.volume, t.volume) && !bl(e.muted, t.muted)) return null;
 	let r = t.volume ?? e.volume, i = t.muted ?? e.muted;
-	return r === void 0 && i === void 0 ? null : i || (r ?? 0) <= 0 ? n.muted : n.volumeWithValue(hl(r ?? 0));
+	return r === void 0 && i === void 0 ? null : i || (r ?? 0) <= 0 ? n.muted : n.volumeWithValue(ml(r ?? 0));
 }
-function xl(e, t) {
+function bl(e, t) {
 	return e !== void 0 && t !== void 0 && !Object.is(e, t);
 }
 // node_modules/@videojs/core/dist/default/core/ui/status-announcer/core.js
-var Sl = 200, Cl = class {
+var xl = 200, Sl = class {
 	state = P({
 		generation: 0,
 		label: null
@@ -6112,12 +6112,12 @@ var Sl = 200, Cl = class {
 	processSnapshot(e) {
 		let t = this.#t;
 		if (this.#t = e, !t) return !1;
-		let n = this.#o(), r = yl(t, e, n), i = r !== null && this.#s(r), a = this.#l(t, e, n, i), o = this.#c(t, e, n, i || a);
+		let n = this.#o(), r = vl(t, e, n), i = r !== null && this.#s(r), a = this.#l(t, e, n, i), o = this.#c(t, e, n, i || a);
 		return i || a || o;
 	}
 	#o() {
 		return {
-			...dl,
+			...ul,
 			...this.#e.labels
 		};
 	}
@@ -6128,7 +6128,7 @@ var Sl = 200, Cl = class {
 		}), this.#a.arm(), !0;
 	}
 	#c(e, t, n, r) {
-		let i = bl(e, t, n);
+		let i = yl(e, t, n);
 		return i === null || r || !this.#d() ? !1 : (this.#u(i), !0);
 	}
 	#l(e, t, n, r) {
@@ -6141,7 +6141,7 @@ var Sl = 200, Cl = class {
 	#u(e) {
 		this.#f(), this.#i = setTimeout(() => {
 			this.#i = null, this.#d() && this.#s(e);
-		}, Sl);
+		}, xl);
 	}
 	#d() {
 		return this.#e.shouldAnnounce?.() !== !1;
@@ -6149,13 +6149,13 @@ var Sl = 200, Cl = class {
 	#f() {
 		this.#i !== null && (clearTimeout(this.#i), this.#i = null);
 	}
-}, wl = {
+}, Cl = {
 	loading: "data-loading",
 	error: "data-error",
 	hidden: "data-hidden"
 };
 // node_modules/@videojs/core/dist/default/core/ui/thumbnail/media-fragment.js
-function Tl(t, n) {
+function wl(t, n) {
 	let r = t.trim().split("#"), i = r[0] ?? "", a = r[1], o = n ? new URL(i, n).href : i;
 	if (!a) return { url: o };
 	let s = a.indexOf("=");
@@ -6171,10 +6171,10 @@ function Tl(t, n) {
 		y: u.y
 	}), d;
 }
-function El(e, t) {
+function Tl(e, t) {
 	let n = [];
 	for (let r of e) {
-		let e = Tl(r.text, t), i = {
+		let e = wl(r.text, t), i = {
 			url: e.url,
 			startTime: r.startTime,
 			endTime: r.endTime
@@ -6184,44 +6184,44 @@ function El(e, t) {
 	return n;
 }
 // node_modules/@videojs/core/dist/default/i18n/text/time.js
-var Y = "time.", Dl = {
-	key: `${Y}current`,
+var El = "time.", Dl = {
+	key: `${El}current`,
 	text: "Current time"
 }, Ol = {
-	key: `${Y}duration`,
+	key: `${El}duration`,
 	text: "Duration"
 }, kl = {
-	key: `${Y}remaining`,
+	key: `${El}remaining`,
 	text: "Remaining"
 }, Al = {
-	key: `${Y}elapsedSuffix`,
+	key: `${El}elapsedSuffix`,
 	text: "{duration} elapsed"
 }, jl = {
-	key: `${Y}durationSuffix`,
+	key: `${El}durationSuffix`,
 	text: "{duration} duration"
 }, Ml = {
-	key: `${Y}remainingSuffix`,
+	key: `${El}remainingSuffix`,
 	text: "{duration} remaining"
 }, Nl = {
-	key: `${Y}showElapsed`,
+	key: `${El}showElapsed`,
 	text: "Show elapsed time, {duration}."
 }, Pl = {
-	key: `${Y}showDuration`,
+	key: `${El}showDuration`,
 	text: "Show duration, {duration}."
 }, Fl = {
-	key: `${Y}showRemaining`,
+	key: `${El}showRemaining`,
 	text: "Show remaining time, {duration}."
 }, Il = {
-	key: `${Y}toggleElapsed`,
+	key: `${El}toggleElapsed`,
 	text: "Toggle between elapsed and remaining time."
 }, Ll = {
-	key: `${Y}toggleDuration`,
+	key: `${El}toggleDuration`,
 	text: "Toggle between duration and remaining time."
 }, Rl = {
-	key: `${Y}position`,
+	key: `${El}position`,
 	text: "{current} of {duration}"
 }, zl = {
-	key: `${Y}unknown`,
+	key: `${El}unknown`,
 	text: "Media not loaded, unknown time."
 }, Bl = {
 	current: Nl,
@@ -6268,15 +6268,15 @@ var Y = "time.", Dl = {
 	}
 	#i() {
 		let e = this.#t, t = this.#r(), n = Jt(e), r = this.#n === void 0 ? void 0 : { locale: this.#n };
-		return Zc(Math.abs(t), n, r);
+		return Xc(Math.abs(t), n, r);
 	}
 	#a() {
 		let { type: e } = this.#e, t = this.#r();
-		return $c(e === "remaining" ? t < 0 ? t : -Math.abs(t) : t);
+		return Qc(e === "remaining" ? t < 0 ? t : -Math.abs(t) : t);
 	}
 	#o() {
 		let e = this.#r();
-		return Qc(Math.abs(e));
+		return Zc(Math.abs(e));
 	}
 	#s(e, t) {
 		return e === "current" ? t === "remaining" ? "current" : "remaining" : t === "duration" ? "remaining" : "duration";
@@ -6287,7 +6287,7 @@ var Y = "time.", Dl = {
 	}
 	getLabelParams(e) {
 		if (J(this.#e.label, e) !== void 0 || e.disabled || !this.#e.toggle) return;
-		let t = this.#n === void 0 ? void 0 : { locale: this.#n }, n = $c(Math.abs(e.seconds), t);
+		let t = this.#n === void 0 ? void 0 : { locale: this.#n }, n = Qc(Math.abs(e.seconds), t);
 		switch (e.type) {
 			case "current": return { duration: `${n} elapsed` };
 			case "duration": return { duration: `${n} duration` };
@@ -6326,9 +6326,9 @@ var Y = "time.", Dl = {
 }, Gl = {
 	key: "slider.seek",
 	text: "Seek"
-}, Kl = class e extends cl {
+}, Kl = class e extends sl {
 	static defaultProps = {
-		...cl.defaultProps,
+		...sl.defaultProps,
 		label: "",
 		changeThrottle: 100,
 		pauseOnDrag: !1
@@ -6377,7 +6377,7 @@ var Y = "time.", Dl = {
 		return e.dragging ? this.rawValueFromPercent(e.pointerPercent) : e.value;
 	}
 	#o(e) {
-		return this.#n === void 0 ? $c(e) : $c(e, { locale: this.#n });
+		return this.#n === void 0 ? Qc(e) : Qc(e, { locale: this.#n });
 	}
 	getValueText(e) {
 		return e.duration <= 0 ? zl : Number.isFinite(e.duration) ? Rl : this.getValueTextParams(e).current;
@@ -6410,7 +6410,7 @@ var Y = "time.", Dl = {
 		};
 	}
 }, ql = {
-	...ll,
+	...cl,
 	seeking: "data-seeking"
 };
 // node_modules/@videojs/core/dist/default/core/ui/time-slider/chapters/core.js
@@ -6618,8 +6618,8 @@ var Xl = class {
 		this.#a(), this.#n.close();
 	}
 	processEvent(e, t) {
-		if (!pl(e.action)) return !1;
-		let n = this.state.current, r = _l(e, t), i = vl(e, t, {
+		if (!fl(e.action)) return !1;
+		let n = this.state.current, r = gl(e, t), i = _l(e, t, {
 			...Xs,
 			...this.#e.labels
 		}, r), a = cu(e, r.snapshotVolume, r.nextVolume), o = a !== null && !e.repeat;
@@ -6659,8 +6659,8 @@ var lu = {
 	max: "data-max",
 	transitionStarting: "data-starting-style",
 	transitionEnding: "data-ending-style"
-}, uu = { fill: "--media-volume-fill" }, du = class extends wc {
-	static defaultProps = wc.defaultProps;
+}, uu = { fill: "--media-volume-fill" }, du = class extends Y {
+	static defaultProps = Y.defaultProps;
 	#e = null;
 	setMedia(e) {
 		this.#e = e;
@@ -6709,9 +6709,9 @@ function _u(t, n) {
 	return gu(r);
 }
 // node_modules/@videojs/core/dist/default/core/ui/volume-slider/core.js
-var vu = class e extends cl {
+var vu = class e extends sl {
 	static defaultProps = {
-		...cl.defaultProps,
+		...sl.defaultProps,
 		label: "",
 		step: 5,
 		wheelStep: 5
@@ -6764,7 +6764,7 @@ var vu = class e extends cl {
 		};
 	}
 }, yu = {
-	...ll,
+	...cl,
 	availability: "data-availability",
 	hidden: "data-hidden"
 }, bu = {
@@ -6837,7 +6837,7 @@ var Eu = class extends B {
 	static {
 		this.tagName = "media-poster";
 	}
-	#e = new Oc();
+	#e = new Dc();
 	#t = this.attachShadow({ mode: "open" });
 	#n = Tu();
 	#r = new MutationObserver(() => this.requestUpdate());
@@ -6877,7 +6877,7 @@ var Eu = class extends B {
 			poster: this.#a.value?.poster ?? ""
 		});
 		let { src: n } = this.#e.getState();
-		this.#f(Le(this, Ue) ?? this.#n), this.#p(n), this.#e.setImageLoadState(this.#d), q(this, this.#e.getState(), kc);
+		this.#f(Le(this, Ue) ?? this.#n), this.#p(n), this.#e.setImageLoadState(this.#d), q(this, this.#e.getState(), Oc);
 	}
 	#f(e) {
 		if (e === this.#o || (this.#s && this.#o?.removeAttribute("src"), this.#l?.abort(), this.#l = null, this.#o = e, this.#s = e !== null && !Cu(e), this.#c = "pending", e === this.#n ? this.#t.append(this.#n) : e && this.#n.remove(), !e)) return;
@@ -6945,7 +6945,7 @@ var Ou = t(Symbol("@videojs/controls")), ku = class extends B {
 		this.#r = t.visible, n && !t.visible && this.#i();
 	}
 	#i() {
-		for (let e of this.querySelectorAll(Dc)) {
+		for (let e of this.querySelectorAll(Ec)) {
 			let t = e;
 			r(t.close) && t.close("imperative-action");
 		}
@@ -7134,7 +7134,7 @@ o(Iu);
 // node_modules/@videojs/html/dist/default/ui/seek-button/element.js
 var Lu = class extends Pu {
 	constructor(...e) {
-		super(...e), this.seconds = Wc.defaultProps.seconds, this.core = new Wc(), this.stateAttrMap = Gc, this.mediaState = new F(this, O, Oi), this.hotkeyAction = "seekStep";
+		super(...e), this.seconds = Uc.defaultProps.seconds, this.core = new Uc(), this.stateAttrMap = Wc, this.mediaState = new F(this, O, Oi), this.hotkeyAction = "seekStep";
 	}
 	static {
 		this.tagName = "media-seek-button";
@@ -7225,7 +7225,7 @@ function Vu(e) {
 // node_modules/@videojs/html/dist/default/ui/popover/element.js
 var Hu = class extends B {
 	constructor(...e) {
-		super(...e), this.open = wc.defaultProps.open, this.defaultOpen = wc.defaultProps.defaultOpen, this.side = wc.defaultProps.side, this.align = wc.defaultProps.align, this.modal = wc.defaultProps.modal, this.closeOnEscape = wc.defaultProps.closeOnEscape, this.closeOnOutsideClick = wc.defaultProps.closeOnOutsideClick, this.openOnHover = wc.defaultProps.openOnHover, this.delay = wc.defaultProps.delay, this.closeDelay = wc.defaultProps.closeDelay, this.boundary = "container", this.#e = new wc(), this.#t = new j(this, {
+		super(...e), this.open = Y.defaultProps.open, this.defaultOpen = Y.defaultProps.defaultOpen, this.side = Y.defaultProps.side, this.align = Y.defaultProps.align, this.modal = Y.defaultProps.modal, this.closeOnEscape = Y.defaultProps.closeOnEscape, this.closeOnOutsideClick = Y.defaultProps.closeOnOutsideClick, this.openOnHover = Y.defaultProps.openOnHover, this.delay = Y.defaultProps.delay, this.closeDelay = Y.defaultProps.closeDelay, this.boundary = "container", this.#e = new Y(), this.#t = new j(this, {
 			context: s,
 			subscribe: !0
 		}), this.#n = new j(this, { context: Vo }), this.#r = new Bu(this), this.#i = null, this.#a = null, this.#o = null, this.#s = null, this.#c = null;
@@ -7273,7 +7273,7 @@ var Hu = class extends B {
 	#s;
 	#c;
 	connectedCallback() {
-		super.connectedCallback(), this.destroyed || (this.setAttribute(Ec, ""), this.#o = new AbortController(), this.#i = Da({
+		super.connectedCallback(), this.destroyed || (this.setAttribute(Tc, ""), this.#o = new AbortController(), this.#i = Da({
 			transition: wo(),
 			onOpenChange: (e, t) => {
 				this.open = e, this.dispatchEvent(new CustomEvent("open-change", { detail: {
@@ -7317,7 +7317,7 @@ var Hu = class extends B {
 		let n = this.#i.input.current;
 		this.#e.setInput(n);
 		let r = this.#e.getState();
-		K(this, this.#e.getPopupAttrs(r)), q(this, r, Tc), r.open ? At(this) : jt(this), this.#c && K(this.#c, this.#e.getTriggerAttrs(r, this.id)), r.open ? this.#r.sync({
+		K(this, this.#e.getPopupAttrs(r)), q(this, r, wc), r.open ? At(this) : jt(this), this.#c && K(this.#c, this.#e.getTriggerAttrs(r, this.id)), r.open ? this.#r.sync({
 			anchorName: this.id,
 			position: {
 				side: r.side,
@@ -7326,7 +7326,7 @@ var Hu = class extends B {
 			trigger: this.#c,
 			boundary: this.boundary,
 			container: this.#t.value?.container ?? null,
-			onSideChange: (e) => this.setAttribute(Tc.side, e)
+			onSideChange: (e) => this.setAttribute(wc.side, e)
 		}) : this.#r.cleanup();
 	}
 	#l(e) {
@@ -7637,7 +7637,7 @@ var qu = class extends B {
 				"aria-valuetext": U(l["aria-valuetext"], this.#s.value, this.#e.getValueTextParams(i))
 			},
 			thumbProps: this.#l.thumbProps,
-			formatValue: (e) => Zc(e, i.duration, { locale: this.#s.locale })
+			formatValue: (e) => Xc(e, i.duration, { locale: this.#s.locale })
 		});
 	}
 };
@@ -7648,7 +7648,7 @@ var Ju = class extends B {
 	static {
 		this.tagName = "media-time-slider-chapters";
 	}
-	#e = new ul();
+	#e = new ll();
 	#t = new Xl();
 	#n = new j(this, {
 		context: Gu,
@@ -7903,17 +7903,17 @@ var id = class extends B {
 		else if (t !== this.#d) {
 			this.#d = t;
 			let e = t?.thumbnailsTrack;
-			this.#l = e && e.cues.length > 0 ? El(e.cues, e.src ?? void 0) : [];
+			this.#l = e && e.cues.length > 0 ? Tl(e.cues, e.src ?? void 0) : [];
 		}
 		let n = this.#e.findActiveThumbnail(this.#l, this.time), r = Le(this, Ue) ?? this.#n;
 		if (this.#_(r), this.#m(r, t), this.#f?.updateSrc(n?.url), this.#v(n?.url), this.#f?.connect(), !n) {
 			this.#g();
 			let e = this.#e.getState(!1, !1, void 0);
-			K(this, this.#e.getAttrs(e)), q(this, e, wl);
+			K(this, this.#e.getAttrs(e)), q(this, e, Cl);
 			return;
 		}
 		let i = this.#f, a = this.#e.getState(i?.loading ?? !1, i?.error ?? !1, n);
-		if (K(this, this.#e.getAttrs(a)), q(this, a, wl), i?.naturalWidth && i.naturalHeight) {
+		if (K(this, this.#e.getAttrs(a)), q(this, a, Cl), i?.naturalWidth && i.naturalHeight) {
 			let e = i.readConstraints(), t = this.#e.resize(n, i.naturalWidth, i.naturalHeight, e);
 			t && this.#h(t);
 		}
@@ -8070,7 +8070,7 @@ var sd = class extends B {
 	}
 	#l(e) {
 		if (!this.#e.getLabelParams(e)) return;
-		let t = $c(Math.abs(e.seconds), { locale: this.#r.locale }), n = {
+		let t = Qc(Math.abs(e.seconds), { locale: this.#r.locale }), n = {
 			current: Al,
 			duration: jl,
 			remaining: Ml
@@ -8190,7 +8190,7 @@ var ud = t(Symbol("@videojs/radio-group")), dd = Symbol("@videojs/menu"), fd = S
 		return this.#s;
 	}
 	connectedCallback() {
-		super.connectedCallback(), this.destroyed || (this.setAttribute(Ec, ""), this.#l = new AbortController(), this.#s = za(), this.#s.setElement(this), this.#o = Ia({
+		super.connectedCallback(), this.destroyed || (this.setAttribute(Tc, ""), this.#l = new AbortController(), this.#s = za(), this.#s.setElement(this), this.#o = Ia({
 			transition: wo(),
 			onOpenChange: (e, t) => {
 				this.dispatchEvent(new CustomEvent("open-change", {
@@ -8873,7 +8873,7 @@ o(Md);
 // node_modules/@videojs/html/dist/default/ui/quality-radio-group/element.js
 var Nd = class extends Td {
 	constructor(...e) {
-		super(...e), this.disabled = !1, this.label = "", this.formatRendition = zc.defaultProps.formatRendition, this.#e = new zc(), this.#t = new Bo(this, Lo), this.#n = new F(this, O, Ei), this.#r = new jd(this, {
+		super(...e), this.disabled = !1, this.label = "", this.formatRendition = Rc.defaultProps.formatRendition, this.#e = new Rc(), this.#t = new Bo(this, Lo), this.#n = new F(this, O, Ei), this.#r = new jd(this, {
 			renderItem: (e, t, n) => this.#i(e, t, n.tier, n.badge),
 			setItemAttributes: (e, t) => e.setAttribute("data-rendition", t.value),
 			getOptionCacheKey: (e) => `${e.tier ?? ""}:${e.badge ?? ""}`,
@@ -8906,7 +8906,7 @@ var Nd = class extends Td {
 			formatRendition: this.formatRendition,
 			disabled: this.disabled,
 			label: this.label
-		}), this.#e.setMedia(t), n = this.#e.getState(), this.applyDefaultAriaLabel(U(this.#e.getLabel(n), this.#t.value)), this.#r.sync(n, this.#t.value, this.#t.locale), this.publishMenuOptionState(n.disabled, n.hidden, n.availability)) : this.publishMenuOptionState(!0, !0, "unsupported"), super.update(e), n && q(this, n, Bc);
+		}), this.#e.setMedia(t), n = this.#e.getState(), this.applyDefaultAriaLabel(U(this.#e.getLabel(n), this.#t.value)), this.#r.sync(n, this.#t.value, this.#t.locale), this.publishMenuOptionState(n.disabled, n.hidden, n.availability)) : this.publishMenuOptionState(!0, !0, "unsupported"), super.update(e), n && q(this, n, zc);
 	}
 	#i(e, t, n, r) {
 		let i = e.querySelector("[data-part~=\"label\"]"), a = e.querySelector("[data-part~=\"tier\"]"), o = e.querySelector("[data-part~=\"badge\"]");
@@ -9128,7 +9128,7 @@ var Gd = class extends B {
 	#l;
 	#u;
 	connectedCallback() {
-		super.connectedCallback(), this.destroyed || (this.setAttribute(Ec, ""), this.#c = new AbortController(), this.#o = Co({
+		super.connectedCallback(), this.destroyed || (this.setAttribute(Tc, ""), this.#c = new AbortController(), this.#o = Co({
 			transition: wo(),
 			onOpenChange: (e, t) => {
 				this.open = e, this.dispatchEvent(new CustomEvent("open-change", { detail: {
@@ -9365,11 +9365,11 @@ var Jd = class extends B {
 		} };
 	}
 	#e = new Bo(this, Lo);
-	#t = new ol();
+	#t = new al();
 	#n = wo();
 	#r = new Yd({
 		host: this,
-		dataAttrs: sl,
+		dataAttrs: ol,
 		render: Zd
 	});
 	get core() {
@@ -9390,7 +9390,7 @@ var Jd = class extends B {
 };
 function Zd(e, t) {
 	let n = e.querySelector("media-seek-indicator-value");
-	n && (n.textContent = nl(t));
+	n && (n.textContent = tl(t));
 }
 // node_modules/@videojs/html/dist/default/define/ui/seek-indicator.js
 o(Xd);
@@ -9443,7 +9443,7 @@ var $d = class extends Jd {
 };
 function ef(e, t) {
 	let n = e.querySelector("media-volume-indicator-fill"), r = e.querySelector("media-volume-indicator-value");
-	t.fill ? n?.style.setProperty(uu.fill, t.fill) : n?.style.removeProperty(uu.fill), r && (r.textContent = gl(t));
+	t.fill ? n?.style.setProperty(uu.fill, t.fill) : n?.style.removeProperty(uu.fill), r && (r.textContent = hl(t));
 }
 // node_modules/@videojs/html/dist/default/define/ui/volume-indicator.js
 o($d);
@@ -9598,7 +9598,7 @@ var of = class extends B {
 		} };
 	}
 	#e = new Bo(this, Lo);
-	#t = new Cl();
+	#t = new Sl();
 	#n = null;
 	#r = new j(this, {
 		context: O,
@@ -9623,7 +9623,7 @@ var of = class extends B {
 	willUpdate(e) {
 		super.willUpdate(e), this.#t.setProps({
 			closeDelay: this.closeDelay,
-			labels: fl(this.#e.value, this.#e.locale),
+			labels: dl(this.#e.value, this.#e.locale),
 			shouldAnnounce: () => go(this.#i.value?.container)
 		});
 	}
@@ -9881,13 +9881,15 @@ var X = (e, t = "") => `<svg class="l10-icon ${t}" viewBox="0 0 24 24" aria-hidd
 		["compact", "Compact"],
 		["off", "Hidden"]
 	],
-	boardPos: [["right", "Top right"], ["left", "Top left"]],
+	boardPos: [["left", "Left"], ["right", "Right"]],
 	boardStyle: [
-		["solid", "Solid"],
-		["glass", "Glass"],
-		["clear", "No panel"]
+		["100", "Solid"],
+		["75", "75%"],
+		["50", "50%"],
+		["25", "25%"],
+		["0", "Transparent"]
 	],
-	boardFlip: [["on", "Flip letters"], ["off", "Instant"]],
+	boardFlip: [["on", "On"], ["off", "Off"]],
 	capSize: [
 		["xl", "Extra large"],
 		["l", "Large"],
@@ -9927,22 +9929,17 @@ var X = (e, t = "") => `<svg class="l10-icon ${t}" viewBox="0 0 24 24" aria-hidd
 		["single", "‘ ’"],
 		["none", "No brackets"]
 	]
-}, yf = [
-	["boardSize", "Size"],
-	["boardPos", "Position"],
-	["boardStyle", "Style"],
-	["boardFlip", "Letters"]
-], bf = [
+}, yf = [["boardSize", "Size"], ["boardStyle", "Background"]], bf = [["boardPos", "Position"], ["boardFlip", "Flip letters"]], xf = [
 	["capSize", "Text size"],
 	["capColor", "Text colour"],
 	["capBg", "Background"],
 	["capEdge", "Outline"],
 	["capShadow", "Shadow"],
 	["capBrackets", "Brackets"]
-], xf = {
+], Sf = {
 	boardSize: "full",
 	boardPos: "left",
-	boardStyle: "glass",
+	boardStyle: "75",
 	boardFlip: "on",
 	capSize: "m",
 	capColor: "white",
@@ -9956,44 +9953,49 @@ var X = (e, t = "") => `<svg class="l10-icon ${t}" viewBox="0 0 24 24" aria-hidd
 	captions: !1,
 	timeMode: "total",
 	quality: "auto"
-}, Sf = {
+}, Cf = {
 	square: ["[", "]"],
 	round: ["(", ")"],
 	double: ["“", "”"],
 	single: ["‘", "’"],
 	none: ["", ""]
-}, Cf = { ...xf }, wf = () => ({ ...Cf }), Tf = (e) => {
-	Object.assign(Cf, e);
+}, wf = { ...Sf }, Tf = () => ({ ...wf }), Ef = (e) => {
+	Object.assign(wf, e);
 };
 try {
 	localStorage.removeItem("line10:prefs");
 } catch {}
-var Ef = (() => {
+var Df = (() => {
 	try {
 		let e = new URLSearchParams(location.search), t = parseFloat(e.get("t") ?? e.get("sec"));
 		return t >= 0 ? t : NaN;
 	} catch {
 		return NaN;
 	}
-})(), Df = !1, Of = () => {
+})(), Of = !1, kf = () => {
 	let e = navigator.userAgent || "";
 	return /Android|iPhone|iPad|iPod|Mobile|Silk|Kindle|Opera Mini|IEMobile|SamsungBrowser/i.test(e) || /Macintosh/.test(e) && navigator.maxTouchPoints > 1 ? !0 : matchMedia("(hover: none) and (pointer: coarse)").matches;
-}, kf = 0, Q = (e) => String(e ?? "").replace(/[&<>"]/g, (e) => ({
+}, Af = 0, Q = (e) => String(e ?? "").replace(/[&<>"]/g, (e) => ({
 	"&": "&amp;",
 	"<": "&lt;",
 	">": "&gt;",
 	"\"": "&quot;"
-})[e]), Af = (e) => (e = Math.max(0, Math.floor(e || 0)), `${Math.floor(e / 60)}:${String(e % 60).padStart(2, "0")}`), jf = 540, Mf = () => matchMedia("(prefers-reduced-motion: reduce)").matches, Nf = (e) => e.map((e) => `<kbd class="l10-key">${e}</kbd>`).join(""), $ = (e, t = [], { label: n = "", delay: r = "", side: i = "top" } = {}) => `
+})[e]), jf = (e) => (e = Math.max(0, Math.floor(e || 0)), `${Math.floor(e / 60)}:${String(e % 60).padStart(2, "0")}`), Mf = 540, Nf = () => matchMedia("(prefers-reduced-motion: reduce)").matches, Pf = (e) => e.map((e) => `<kbd class="l10-key">${e}</kbd>`).join(""), $ = (e, t = [], { label: n = "", delay: r = "", side: i = "top" } = {}) => `
   <media-tooltip id="${e}-tip" trigger="${e}" side="${i === "left" || i === "right" ? "top" : i}" align="${i === "top" ? "center" : "start"}" class="l10-pop l10-tip${i === "left" ? " l10-tip-end" : i === "top" ? " l10-tip-mid" : ""}"${r ? ` delay="${r}"` : ""}>
     <media-tooltip-label>${n}</media-tooltip-label>
-    ${t.length ? `<span class="l10-keys">${Nf(t)}</span>` : ""}
-  </media-tooltip>`, Pf = (e, t, n, r, i, a = "top", o = "end") => `
+    ${t.length ? `<span class="l10-keys">${Pf(t)}</span>` : ""}
+  </media-tooltip>`, Ff = (e, t, n, r, i, a = "top", o = "end", s = []) => `
   <media-menu id="${t}" side="${a}" align="${o}" class="l10-pop l10-menu l10-setmenu ${i}">
     <media-menu-content class="l10-menu-content">
       <span class="l10-menu-label" aria-hidden="true">${n}</span>
-      ${Ff(e, "pg-", r)}
+      ${If(e, "pg-", r)}
+      ${s.length ? `<div class="l10-menu-rule l10-switch-rule" aria-hidden="true"></div>${s.map(([e, t]) => `
+      <media-menu-item class="l10-menu-item l10-menu-switch" data-switch="${e}">
+        <span class="l10-menu-text">${t}</span>
+        <span class="l10-menu-value" data-for="${e}"></span>
+      </media-menu-item>`).join("")}` : ""}
     </media-menu-content>
-  </media-menu>`, Ff = (e, t, n) => `
+  </media-menu>`, If = (e, t, n) => `
       ${n.map(([n, r]) => `
       <media-menu-item commandfor="${e(t + n)}" class="l10-menu-item l10-menu-nav">
         <span class="l10-menu-text">${r}</span>
@@ -10010,7 +10012,7 @@ var Ef = (() => {
             <media-menu-item-indicator force-mount class="l10-menu-check">${Z.check()}</media-menu-item-indicator>
           </media-menu-radio-item>`).join("")}
         </media-menu-radio-group>
-      </media-menu-content>`).join("")}`, If = (e = "") => `
+      </media-menu-content>`).join("")}`, Lf = (e = "") => `
                     <media-playback-rate-radio-group class="l10-menu-group ${e}" rates="${_f}" aria-label="Service">
                       <media-menu-group-label class="l10-menu-label">Service</media-menu-group-label>
                       <template>
@@ -10020,7 +10022,7 @@ var Ef = (() => {
                           <media-menu-item-indicator force-mount class="l10-menu-check">${Z.check()}</media-menu-item-indicator>
                         </media-menu-radio-item>
                       </template>
-                    </media-playback-rate-radio-group>`, Lf = () => `
+                    </media-playback-rate-radio-group>`, Rf = () => `
                     <media-quality-radio-group class="l10-menu-group l10-qgroup">
                       <template>
                         <media-menu-radio-item class="l10-menu-item">
@@ -10030,27 +10032,27 @@ var Ef = (() => {
                           <media-menu-item-indicator force-mount class="l10-menu-check">${Z.check()}</media-menu-item-indicator>
                         </media-menu-radio-item>
                       </template>
-                    </media-quality-radio-group>`, Rf = (e, t, n, r, i) => `
+                    </media-quality-radio-group>`, zf = (e, t, n, r, i) => `
       <media-menu-item commandfor="${e(t)}" class="l10-menu-item l10-menu-nav ${n}">
         ${r}<span class="l10-menu-text">${i}</span><span class="l10-menu-value" data-m="${n}"></span>${Z.chevron("l10-menu-chev")}
-      </media-menu-item>`, zf = (e) => `<media-menu-item class="l10-menu-item l10-menu-back">${Z.back2("l10-menu-chev")}<span class="l10-menu-text">${e}</span></media-menu-item>`, Bf = (e) => `
+      </media-menu-item>`, Bf = (e) => `<media-menu-item class="l10-menu-item l10-menu-back">${Z.back2("l10-menu-chev")}<span class="l10-menu-text">${e}</span></media-menu-item>`, Vf = (e) => `
   <media-menu id="${e("more-menu")}" side="top" align="end" class="l10-pop l10-menu l10-setmenu l10-moremenu">
     <span class="l10-more-cue" aria-hidden="true">${Z.chevron()}</span>
     <media-menu-content class="l10-menu-content">
       <span class="l10-menu-label" aria-hidden="true">Settings</span>
-      ${Rf(e, "m-st", "l10-m-st", Z.stations("l10-menu-ico"), "Stations")}
-      <media-menu-content class="l10-menu-content" id="${e("m-st")}">${zf("Stations")}<div class="l10-menu-group l10-stlist"></div></media-menu-content>
-      ${Rf(e, "m-svc", "l10-m-svc", Z.service("l10-menu-ico"), "Speed")}
-      <media-menu-content class="l10-menu-content l10-flip-list" id="${e("m-svc")}">${zf("Speed")}${If()}</media-menu-content>
-      ${Rf(e, "m-q", "l10-m-q", Z.quality("l10-menu-ico"), "Quality")}
-      <media-menu-content class="l10-menu-content l10-flip-list" id="${e("m-q")}">${zf("Quality")}${Lf()}</media-menu-content>
-      ${Rf(e, "m-cs", "l10-m-cs", Z.captionStyle("l10-menu-ico"), "Caption style")}
-      <media-menu-content class="l10-menu-content l10-cspage" id="${e("m-cs")}" data-show="list">${zf("Caption style")}
-        <div class="l10-csview" data-view="list">${bf.map(([e, t]) => `
+      ${zf(e, "m-st", "l10-m-st", Z.stations("l10-menu-ico"), "Stations")}
+      <media-menu-content class="l10-menu-content" id="${e("m-st")}">${Bf("Stations")}<div class="l10-menu-group l10-stlist"></div></media-menu-content>
+      ${zf(e, "m-svc", "l10-m-svc", Z.service("l10-menu-ico"), "Speed")}
+      <media-menu-content class="l10-menu-content l10-flip-list" id="${e("m-svc")}">${Bf("Speed")}${Lf()}</media-menu-content>
+      ${zf(e, "m-q", "l10-m-q", Z.quality("l10-menu-ico"), "Quality")}
+      <media-menu-content class="l10-menu-content l10-flip-list" id="${e("m-q")}">${Bf("Quality")}${Rf()}</media-menu-content>
+      ${zf(e, "m-cs", "l10-m-cs", Z.captionStyle("l10-menu-ico"), "Caption style")}
+      <media-menu-content class="l10-menu-content l10-cspage" id="${e("m-cs")}" data-show="list">${Bf("Caption style")}
+        <div class="l10-csview" data-view="list">${xf.map(([e, t]) => `
           <media-menu-item class="l10-menu-item l10-menu-nav l10-csrow" data-k="${e}">
             <span class="l10-menu-text">${t}</span><span class="l10-menu-value" data-for="${e}"></span>${Z.chevron("l10-menu-chev")}
           </media-menu-item>`).join("")}
-        </div>${bf.map(([e, t]) => `
+        </div>${xf.map(([e, t]) => `
         <div class="l10-csview" data-view="${e}" hidden>
           <media-menu-item class="l10-menu-item l10-menu-back l10-csback">${Z.back2("l10-menu-chev")}<span class="l10-menu-text">${t}</span></media-menu-item>
           <div class="l10-menu-group" role="group" aria-label="${t}">${vf[e].map(([t, n]) => `
@@ -10067,16 +10069,16 @@ var Ef = (() => {
       <media-menu-item class="l10-menu-item l10-m-pip">${Z.pipIn("l10-menu-ico")}<span class="l10-menu-text l10-m-pip-text">Picture-in-picture</span></media-menu-item>
       <media-menu-item class="l10-menu-item l10-m-mute">${Z.vol3("l10-menu-ico")}<span class="l10-menu-text">Sound</span><span class="l10-menu-value" data-m="l10-m-mute"></span></media-menu-item>
     </media-menu-content>
-  </media-menu>`, Vf = "(max-width: 1180px) 100vw, 1140px", Hf = (e) => /image\.mux\.com\/.+[?&]width=\d+/.test(e) ? [
+  </media-menu>`, Hf = "(max-width: 1180px) 100vw, 1140px", Uf = (e) => /image\.mux\.com\/.+[?&]width=\d+/.test(e) ? [
 	640,
 	960,
 	1280
-].map((t) => `${e.replace(/([?&]width=)\d+/, `$1${t}`)} ${t}w`).join(", ") : "", Uf = (e, t) => {
-	let n = Hf(e);
-	return `<img src="${Q(e)}"${n ? ` srcset="${Q(n)}" sizes="${Vf}"` : ""}${t ? " fetchpriority=\"high\"" : ""} alt="">`;
+].map((t) => `${e.replace(/([?&]width=)\d+/, `$1${t}`)} ${t}w`).join(", ") : "", Wf = (e, t) => {
+	let n = Uf(e);
+	return `<img src="${Q(e)}"${n ? ` srcset="${Q(n)}" sizes="${Hf}"` : ""}${t ? " fetchpriority=\"high\"" : ""} alt="">`;
 };
-function Wf(e) {
-	let t = ++kf, n = (e) => `l10-${t}-${e}`, r = `
+function Gf(e) {
+	let t = ++Af, n = (e) => `l10-${t}-${e}`, r = `
       ${e.captions ? `<track kind="captions" srclang="en" label="English" src="${Q(e.captions)}">` : ""}
       ${e.chapters ? `<track kind="chapters" srclang="en" label="Stations" src="${Q(e.chapters)}" default>` : ""}`, i = e.playbackId ? `<mux-video src="https://stream.mux.com/${Q(e.playbackId)}.m3u8" playsinline preload="metadata" crossorigin="anonymous">${r}</mux-video>` : `<video src="${Q(e.src)}" playsinline preload="metadata" crossorigin="anonymous">${r}
       ${e.storyboard ? `<track kind="metadata" label="thumbnails" src="${Q(e.storyboard)}" default>` : ""}</video>`, a = [e.line ? `--l10-line:${Q(e.line)}` : "", e.ratio ? `aspect-ratio:${Q(e.ratio)}` : ""].filter(Boolean).join(";"), o = Q(e.number || "10");
@@ -10084,7 +10086,7 @@ function Wf(e) {
 <video-player class="l10-player" ${e.title ? `content-title="${Q(e.title)}"` : ""}>
   <media-container class="l10" data-preset="video"${a ? ` style="${a}"` : ""}>
     ${i}
-    <media-poster class="l10-poster">${e.poster ? Uf(e.poster, t === 1) : ""}</media-poster>
+    <media-poster class="l10-poster">${e.poster ? Wf(e.poster, t === 1) : ""}</media-poster>
 
     <media-controls class="l10-controls">
       <media-controls-content class="l10-content">
@@ -10115,7 +10117,7 @@ function Wf(e) {
 		label: "Share this stop",
 		side: "bottom"
 	})}
-          ${Pf(n, n("board-menu"), "Departure board", yf, "l10-boardmenu", "bottom", "start")}
+          ${Ff(n, n("board-menu"), "Departure board", yf, "l10-boardmenu", "bottom", "start", bf)}
           <media-title class="l10-sr"></media-title>
 
           <media-controls-group class="l10-center">
@@ -10176,7 +10178,7 @@ function Wf(e) {
                     <media-slider-thumb class="l10-vthumb"></media-slider-thumb>
                   </media-volume-slider>
                   <!-- after 2 s of hovering, a hint explains the control and its keys -->
-                  <span class="l10-vol-hint" aria-hidden="true"><b>Volume</b><span>${Nf(["M"])} mute</span><span>${Nf(["↑", "↓"])} louder / quieter</span><span>Drag or click the fader</span></span>
+                  <span class="l10-vol-hint" aria-hidden="true"><b>Volume</b><span>${Pf(["M"])} mute</span><span>${Pf(["↑", "↓"])} louder / quieter</span><span>Drag or click the fader</span></span>
                 </media-volume-popover>
                 <button type="button" class="l10-time" id="${n("time")}" aria-keyshortcuts="T" aria-label="Show time left" aria-pressed="false">
                   <media-time-group class="l10-time-in">
@@ -10220,7 +10222,7 @@ function Wf(e) {
 	})}
                 <media-menu id="${n("svc-menu")}" side="top" align="end" class="l10-pop l10-menu l10-flip-list">
                   <media-menu-content class="l10-menu-content">
-                    ${If()}
+                    ${Lf()}
                   </media-menu-content>
                 </media-menu>
                 <button type="button" class="l10-btn l10-pill l10-quality" id="${n("q")}" commandfor="${n("q-menu")}" aria-label="Quality" aria-keyshortcuts="Q" aria-haspopup="menu" data-off><span class="l10-pill-text l10-quality-name">Auto</span></button>
@@ -10231,7 +10233,7 @@ function Wf(e) {
                 <media-menu id="${n("q-menu")}" side="top" align="end" class="l10-pop l10-menu l10-qmenu l10-flip-list">
                   <media-menu-content class="l10-menu-content">
                     <span class="l10-menu-label" aria-hidden="true">Quality</span>
-                    ${Lf()}
+                    ${Rf()}
                   </media-menu-content>
                 </media-menu>
                 <media-captions-button class="l10-btn l10-cc" id="${n("cc")}">${Z.ccOff("l10-i-cc-off")}${Z.ccOn("l10-i-cc-on")}</media-captions-button>
@@ -10243,13 +10245,13 @@ function Wf(e) {
 	})}
                 <media-pip-button class="l10-btn l10-pip" id="${n("pip")}">${Z.pipIn("l10-i-pip-in")}${Z.pipOut("l10-i-pip-out")}</media-pip-button>
                 ${$(n("pip"), ["I"], { side: "left" })}
-                ${Pf(n, n("capset-menu"), "Caption style", bf, "l10-capmenu")}
+                ${Ff(n, n("capset-menu"), "Caption style", xf, "l10-capmenu")}
                 <button type="button" class="l10-btn l10-more" id="${n("more")}" aria-keyshortcuts="S" commandfor="${n("more-menu")}" aria-label="Settings" aria-haspopup="menu">${Z.settings()}</button>
                 ${$(n("more"), ["S"], {
 		label: "Settings",
 		side: "left"
 	})}
-                ${Bf(n)}
+                ${Vf(n)}
                 <media-fullscreen-button class="l10-btn l10-fs" id="${n("fs")}">${Z.fsIn("l10-i-fs-in")}${Z.fsOut("l10-i-fs-out")}</media-fullscreen-button>
                 ${$(n("fs"), ["F"], { side: "left" })}
               </media-controls-group>
@@ -10350,14 +10352,14 @@ function Wf(e) {
   </media-container>
 </video-player>`;
 }
-var Gf = 13, Kf = (e) => e.length > Gf ? `${e.slice(0, 12).trimEnd()}…` : e, qf = (e) => e.split(":").reduce((e, t) => e * 60 + Number(t), 0);
-function Jf(e) {
+var Kf = 13, qf = (e) => e.length > Kf ? `${e.slice(0, 12).trimEnd()}…` : e, Jf = (e) => e.split(":").reduce((e, t) => e * 60 + Number(t), 0);
+function Yf(e) {
 	if (e == null || !String(e).trim()) return null;
 	let t = [];
 	for (let n of String(e).split(/[;\n]+/)) {
 		let e = n.trim().match(/^(\d+(?::\d{1,2}){0,2}(?:\.\d+)?)\s+(.+)$/);
 		if (!e) continue;
-		let r = qf(e[1]), i = e[2].replace(/\s+/g, " ").trim().slice(0, 40);
+		let r = Jf(e[1]), i = e[2].replace(/\s+/g, " ").trim().slice(0, 40);
 		Number.isFinite(r) && i && t.push({
 			start: r,
 			name: i
@@ -10365,13 +10367,13 @@ function Jf(e) {
 	}
 	return t.sort((e, t) => e.start - t.start), t.filter((e, n) => n === 0 || e.start !== t[n - 1].start);
 }
-var Yf = "ABCDEFGHIJKLMNOPRSTUVWXYZ0123456789";
-function Xf(e, t) {
+var Xf = "ABCDEFGHIJKLMNOPRSTUVWXYZ0123456789";
+function Zf(e, t) {
 	let n = Number(e.dataset.len) || t.length, r = String(t).toUpperCase().slice(0, n).padEnd(n, " ");
 	if (e.dataset.text === r) return;
 	let i = !e.children.length;
 	i && (e.innerHTML = Array.from({ length: n }, () => "<span class=\"l10-tile\"><span> </span></span>").join("")), e.dataset.text = r;
-	let a = i || Mf() || e.closest(".l10")?.dataset.boardFlip === "off";
+	let a = i || Nf() || e.closest(".l10")?.dataset.boardFlip === "off";
 	[...e.children].forEach((e, t) => {
 		let n = e.firstElementChild, i = r[t];
 		if (clearTimeout(e._t), n.textContent === i) return;
@@ -10380,12 +10382,12 @@ function Xf(e, t) {
 			return;
 		}
 		let o = i === " " ? 1 : 2 + t * 7 % 3, s = () => {
-			e.classList.remove("l10-flip"), e.offsetWidth, e.classList.add("l10-flip"), n.textContent = o > 1 ? Yf[Math.random() * 35 | 0] : i, --o > 0 && (e._t = setTimeout(s, 70));
+			e.classList.remove("l10-flip"), e.offsetWidth, e.classList.add("l10-flip"), n.textContent = o > 1 ? Xf[Math.random() * 35 | 0] : i, --o > 0 && (e._t = setTimeout(s, 70));
 		};
 		e._t = setTimeout(s, t * 28);
 	});
 }
-var Zf = class extends HTMLElement {
+var Qf = class extends HTMLElement {
 	static observedAttributes = [
 		"line",
 		"next-title",
@@ -10402,7 +10404,7 @@ var Zf = class extends HTMLElement {
 		let e = (e) => this.getAttribute(e), t = e("title") || "";
 		e("playback-id") && import("./mux-video-BHPpuX82.js");
 		let n = this.querySelector("img.l10-preposter");
-		this.innerHTML = Wf({
+		this.innerHTML = Gf({
 			src: e("src"),
 			poster: e("poster"),
 			title: e("title"),
@@ -10452,7 +10454,7 @@ var Zf = class extends HTMLElement {
 		let _ = () => {
 			let e = a.duration;
 			if (!Number.isFinite(e) || e <= 0) return;
-			let t, n = Jf(this.getAttribute("stations"));
+			let t, n = Yf(this.getAttribute("stations"));
 			if (n) {
 				let r = n.filter((t) => t.start < e);
 				if (!r.length) return;
@@ -10477,13 +10479,13 @@ var Zf = class extends HTMLElement {
 			if (u === g) return;
 			g = u, m = t, o.innerHTML = m.map((t, n) => `
         <span class="l10-stop${n === m.length - 1 ? " l10-terminus" : ""}${n === 0 ? " l10-origin" : ""}" style="--at:${t.start / e * 100}%">
-          <span class="l10-dot"></span><span class="l10-name" title="${Q(t.name)}">${Q(Kf(t.name))}</span>
+          <span class="l10-dot"></span><span class="l10-name" title="${Q(t.name)}">${Q(qf(t.name))}</span>
         </span>`).join("") + "<span class=\"l10-endcap\"></span>", i.style.setProperty("--l10-stops", m.length);
 			let d = m.map((e, t) => `
         <media-menu-item class="l10-menu-item l10-st-item" data-k="${t}">
           <span class="l10-menu-dot" aria-hidden="true"></span>
           <span class="l10-menu-text">${Q(e.name)}</span>
-          <span class="l10-st-time">${Af(e.start)}</span>
+          <span class="l10-st-time">${jf(e.start)}</span>
         </media-menu-item>`).join("");
 			l.forEach((e) => {
 				e.innerHTML = d;
@@ -10498,7 +10500,7 @@ var Zf = class extends HTMLElement {
 		}, v = () => {
 			let t = a.currentTime || 0, n = a.duration || 0, c = a.ended || !!(n && t >= n - .05);
 			if (i.hasAttribute("data-terminus") !== c && (i.toggleAttribute("data-terminus", c), r(".l10-term-name").textContent = m[m.length - 1]?.name || e.split(/[—–-]/)[0].trim() || ""), !m.length) {
-				Xf(p.now, e.split(/[—–-]/)[0].trim() || "Line 10"), Xf(p.next, n ? "Terminus" : ""), Xf(p.eta, n ? Af(n - t) : "");
+				Zf(p.now, e.split(/[—–-]/)[0].trim() || "Line 10"), Zf(p.next, n ? "Terminus" : ""), Zf(p.eta, n ? jf(n - t) : "");
 				return;
 			}
 			let d = m.findIndex((e) => t >= e.start && t < e.end);
@@ -10506,7 +10508,7 @@ var Zf = class extends HTMLElement {
 				e.dataset.state = t < d ? "passed" : t === d ? "current" : "ahead";
 			});
 			let g = m[d + 1];
-			Xf(p.now, c ? "Terminus" : Kf(m[d].name)), Xf(p.next, c ? "Change here" : g ? Kf(g.name) : "Terminus"), Xf(p.eta, c ? "" : Af((g ? g.start : n) - t)), s.setAttribute("aria-label", g ? `Next stop: ${g.name}` : "Last stop reached"), s.toggleAttribute("data-last", !g), d !== h && (h !== -1 && !a.paused && !c && (r(".l10-arrival-name").textContent = m[d].name, f.classList.remove("l10-show"), f.offsetWidth, f.classList.add("l10-show")), h = d, y(), l.forEach((e) => e.querySelectorAll(".l10-st-item").forEach((e, t) => e.toggleAttribute("data-current", t === d))), u.textContent = c ? "Terminus." : `Now at ${m[d].name}.${g ? ` Next: ${g.name}.` : " Last stop."}`);
+			Zf(p.now, c ? "Terminus" : qf(m[d].name)), Zf(p.next, c ? "Change here" : g ? qf(g.name) : "Terminus"), Zf(p.eta, c ? "" : jf((g ? g.start : n) - t)), s.setAttribute("aria-label", g ? `Next stop: ${g.name}` : "Last stop reached"), s.toggleAttribute("data-last", !g), d !== h && (h !== -1 && !a.paused && !c && (r(".l10-arrival-name").textContent = m[d].name, f.classList.remove("l10-show"), f.offsetWidth, f.classList.add("l10-show")), h = d, y(), l.forEach((e) => e.querySelectorAll(".l10-st-item").forEach((e, t) => e.toggleAttribute("data-current", t === d))), u.textContent = c ? "Terminus." : `Now at ${m[d].name}.${g ? ` Next: ${g.name}.` : " Last stop."}`);
 		}, y = () => {
 			let e = [...o.querySelectorAll(".l10-stop")];
 			if (!e.length) return;
@@ -10555,9 +10557,9 @@ var Zf = class extends HTMLElement {
 		}));
 		ee.addEventListener("click", async () => {
 			let t = i.ownerDocument, n = t.defaultView || window, r = D(a.currentTime || 0), o = new URL(location.href);
-			o.hash = "", o.searchParams.set("t", String(Math.floor(r ? r.start : a.currentTime || 0)));
+			o.hash = "", o.searchParams.set("t", String(Math.floor(a.currentTime || 0)));
 			let s = o.toString(), c = r ? `<span class="l10-toast-dot">·</span><b>${Q(r.name)}</b>` : "";
-			if (Of() && n.navigator.share) try {
+			if (kf() && n.navigator.share) try {
 				await n.navigator.share({
 					title: `${e}${r ? ` — ${r.name}` : ""}`,
 					url: s
@@ -10590,12 +10592,12 @@ var Zf = class extends HTMLElement {
 			e && e !== a && !e.dataset.l10Fs && (e.dataset.l10Fs = "1", e.addEventListener("webkitbeginfullscreen", re));
 		});
 		let ie = parseFloat(this.getAttribute("start"));
-		!Number.isFinite(ie) && !Df && Number.isFinite(Ef) && this.isConnected && document.querySelector("line10-player") === this && (ie = Ef, Df = !0);
+		!Number.isFinite(ie) && !Of && Number.isFinite(Df) && this.isConnected && document.querySelector("line10-player") === this && (ie = Df, Of = !0);
 		let ae = () => {
 			if (!Number.isFinite(ie) || !(a.duration > 0)) return;
 			let e = Math.max(0, Math.min(ie, a.duration - 2));
 			ie = NaN, e < 1 || (a.currentTime = e, setTimeout(() => {
-				let t = D(e), n = t ? `<b>${Q(t.name)}</b><span class="l10-toast-dot">·</span>${Af(e)}` : `<b>${Af(e)}</b>`;
+				let t = D(e), n = t ? `<b>${Q(t.name)}</b><span class="l10-toast-dot">·</span>${jf(e)}` : `<b>${jf(e)}</b>`;
 				E(`Starting at ${n}`, {
 					over: !0,
 					ms: 0
@@ -10630,7 +10632,7 @@ var Zf = class extends HTMLElement {
 		});
 		let se = () => {
 			d.textContent = gf[a.playbackRate] || "Custom", r(".l10-service-rate").textContent = `${a.playbackRate}×`;
-		}, k = wf(), ce = () => {}, A = 0, le = 0, j = !1;
+		}, k = Tf(), ce = () => {}, A = 0, le = 0, j = !1;
 		k.board && !k.boardSize && (k.boardSize = k.board), k.boardPos === "center" && (k.boardPos = "left");
 		let ue = {
 			timeMode: "time",
@@ -10644,20 +10646,20 @@ var Zf = class extends HTMLElement {
 			capEdge: "capedge",
 			capShadow: "capshadow"
 		}, M = (e) => {
-			let t = k[e] ?? xf[e], n = i.hasAttribute("data-dock");
+			let t = k[e] ?? Sf[e], n = i.hasAttribute("data-dock");
 			return e === "boardSize" && n && t === "off" ? "compact" : e === "boardPos" && n ? "left" : e === "boardSize" && t === "full" && !n && i.hasAttribute("data-board-tight") ? "compact" : t;
 		}, N = () => {
 			let e = i.hasAttribute("data-dock");
 			for (let [t, n] of Object.entries(ue)) {
-				let r = (t === "boardSize" || t === "boardPos") && e ? M(t) : k[t] ?? xf[t];
+				let r = (t === "boardSize" || t === "boardPos") && e ? M(t) : k[t] ?? Sf[t];
 				i.dataset[n] !== r && (i.dataset[n] = r);
 			}
 			i.querySelectorAll("media-menu-radio-group[data-pref=\"boardSize\"] media-menu-radio-item[value=\"off\"]").forEach((t) => {
 				t.hidden = e, t.toggleAttribute("data-hidden", e);
-			}), i.querySelectorAll(".l10-menu-value[data-for=\"boardPos\"]").forEach((t) => t.closest("media-menu-item").toggleAttribute("data-hidden", e)), i.querySelectorAll(".l10-menu-value[data-for]").forEach((e) => {
+			}), i.querySelectorAll(".l10-menu-value[data-for=\"boardPos\"], .l10-menu-value[data-for=\"boardStyle\"]").forEach((t) => t.closest("media-menu-item").toggleAttribute("data-hidden", e)), i.querySelectorAll(".l10-menu-value[data-for]").forEach((e) => {
 				let t = e.dataset.for;
 				e.textContent = (vf[t].find(([e]) => e === M(t)) || [])[1] || "";
-			});
+			}), i.querySelectorAll(".l10-menu-switch").forEach((e) => e.setAttribute("aria-label", `${e.querySelector(".l10-menu-text").textContent}: ${e.querySelector(".l10-menu-value").textContent || ""}`));
 			let t = i.hasAttribute("data-board-tight") && !e;
 			i.querySelectorAll("media-menu-radio-group[data-pref=\"boardSize\"] media-menu-radio-item[value=\"full\"]").forEach((e) => {
 				e.hidden = t, e.toggleAttribute("data-hidden", t);
@@ -10666,10 +10668,14 @@ var Zf = class extends HTMLElement {
 				e.value !== t && (e.value = t);
 			}), j = !1, de.setAttribute("align", e || k.boardPos === "right" ? "end" : k.boardPos === "center" ? "center" : "start"), ce();
 		}, de = r(".l10-boardmenu"), fe = (e, t) => {
-			k[e] = t, Tf(k), e.startsWith("board") && requestAnimationFrame(() => requestAnimationFrame(() => de.requestUpdate?.())), e.startsWith("cap") && (A = Date.now() + 2600), N(), e.startsWith("cap") && (clearTimeout(le), le = setTimeout(() => ce(), 2700));
+			k[e] = t, Ef(k), e.startsWith("board") && requestAnimationFrame(() => requestAnimationFrame(() => de.requestUpdate?.())), e.startsWith("cap") && (A = Date.now() + 2600), N(), e.startsWith("cap") && (clearTimeout(le), le = setTimeout(() => ce(), 2700));
 		};
-		i.querySelectorAll("media-menu-radio-group[data-pref]").forEach((e) => {
-			e.value = k[e.dataset.pref] ?? xf[e.dataset.pref], e.addEventListener("value-change", (t) => {
+		i.querySelectorAll(".l10-menu-switch").forEach((e) => e.addEventListener("select", (t) => {
+			t.preventDefault();
+			let n = e.dataset.switch, r = k[n] ?? Sf[n];
+			fe(n, (vf[n].find(([e]) => e !== r) || vf[n][0])[0]);
+		})), i.querySelectorAll("media-menu-radio-group[data-pref]").forEach((e) => {
+			e.value = k[e.dataset.pref] ?? Sf[e.dataset.pref], e.addEventListener("value-change", (t) => {
 				j || k[e.dataset.pref] === t.detail.value || fe(e.dataset.pref, t.detail.value);
 			});
 		});
@@ -10679,7 +10685,7 @@ var Zf = class extends HTMLElement {
 		};
 		pe(), new ResizeObserver(pe).observe(i);
 		let me = r(".l10-cspage"), he = () => me.querySelectorAll(".l10-csopt").forEach((e) => {
-			let t = (k[e.dataset.k] ?? xf[e.dataset.k]) === e.dataset.v;
+			let t = (k[e.dataset.k] ?? Sf[e.dataset.k]) === e.dataset.v;
 			e.toggleAttribute("data-checked", t), e.setAttribute("aria-label", `${e.querySelector(".l10-menu-text").textContent}${t ? ", selected" : ""}`);
 		}), ge = (e) => {
 			me.dataset.show = e, me.querySelectorAll(".l10-csview").forEach((t) => {
@@ -10692,7 +10698,7 @@ var Zf = class extends HTMLElement {
 			let t = e.target.closest(".l10-csrow, .l10-csback, .l10-csopt");
 			t && (e.preventDefault(), t.classList.contains("l10-csrow") ? ge(t.dataset.k) : t.classList.contains("l10-csback") ? ge("list") : (fe(t.dataset.k, t.dataset.v), he()));
 		});
-		let _e = Of();
+		let _e = kf();
 		i.toggleAttribute("data-touch", _e);
 		let ve = !1, ye = () => {
 			ve || (ve = !0, _e ? (a.volume = 1, a.muted = !1) : (Number.isFinite(k.volume) && (a.volume = Math.min(1, Math.max(0, k.volume))), a.muted = !!k.muted), k.rate && gf[k.rate] && (a.playbackRate = k.rate, a.defaultPlaybackRate = k.rate), be());
@@ -10701,9 +10707,9 @@ var Zf = class extends HTMLElement {
 			t && k.captions && t.mode !== "showing" && (t.mode = "showing");
 		};
 		a.addEventListener("loadedmetadata", ye), a.readyState >= 1 && ye(), a.addEventListener("volumechange", () => {
-			ve && (_e || (k.volume = a.volume, k.muted = a.muted, Tf(k)));
+			ve && (_e || (k.volume = a.volume, k.muted = a.muted, Ef(k)));
 		}), a.addEventListener("ratechange", () => {
-			ve && (k.rate = a.playbackRate, Tf(k));
+			ve && (k.rate = a.playbackRate, Ef(k));
 		});
 		let xe = 0, Se = () => {
 			xe = Date.now();
@@ -10711,7 +10717,7 @@ var Zf = class extends HTMLElement {
 		r(".l10-cc").addEventListener("click", Se), i.addEventListener("keydown", (e) => {
 			(e.key === "c" || e.key === "C") && Se();
 		}), a.textTracks?.addEventListener?.("change", () => {
-			!ve || Date.now() - xe > 1500 || (k.captions = [...a.textTracks].some((e) => (e.kind === "captions" || e.kind === "subtitles") && e.mode === "showing"), Tf(k), this.dispatchEvent(new CustomEvent("line10:captions", {
+			!ve || Date.now() - xe > 1500 || (k.captions = [...a.textTracks].some((e) => (e.kind === "captions" || e.kind === "subtitles") && e.mode === "showing"), Ef(k), this.dispatchEvent(new CustomEvent("line10:captions", {
 				bubbles: !0,
 				detail: { on: k.captions }
 			})));
@@ -10754,7 +10760,7 @@ var Zf = class extends HTMLElement {
 		Ee(), a.localName.includes("-") && customElements.whenDefined(a.localName).then(Ee), a.addEventListener("loadedmetadata", Ee);
 		let De = r(".l10-captions"), Oe = r(".l10-cap-text"), ke = (e) => e.kind === "captions" || e.kind === "subtitles";
 		ce = () => {
-			let e = [...a.textTracks || []].find((e) => ke(e) && e.mode === "showing"), [t, n] = Sf[k.capBrackets] || Sf.square, r = e ? [...e.activeCues || []].map((e) => (e.text || "").replace(/<[^>]+>/g, "").replace(/\[([^\]]*)\]/g, (e, r) => `${t}${r.trim()}${n}`)).join("\n") : "", i = Date.now() < A ? `${t ? `${t}music${n} ` : ""}Captions will look like this` : r;
+			let e = [...a.textTracks || []].find((e) => ke(e) && e.mode === "showing"), [t, n] = Cf[k.capBrackets] || Cf.square, r = e ? [...e.activeCues || []].map((e) => (e.text || "").replace(/<[^>]+>/g, "").replace(/\[([^\]]*)\]/g, (e, r) => `${t}${r.trim()}${n}`)).join("\n") : "", i = Date.now() < A ? `${t ? `${t}music${n} ` : ""}Captions will look like this` : r;
 			Oe.textContent = i, De.toggleAttribute("data-empty", !i);
 		};
 		let Ae = (e) => {
@@ -10809,11 +10815,11 @@ var Zf = class extends HTMLElement {
 			He = !0;
 			let t = String(e.detail?.value), n = Re().find((e) => e.getAttribute("data-rendition") === t);
 			if (!n && /auto|^-1$/i.test(t)) {
-				k.quality = "auto", Tf(k);
+				k.quality = "auto", Ef(k);
 				return;
 			}
 			let r = n ? Fe(n) : parseInt(t, 10);
-			r && (k.quality = r, Tf(k));
+			r && (k.quality = r, Ef(k));
 		});
 		Ge(), i.querySelectorAll(".l10-flip-list").forEach((e) => e.addEventListener("keydown", (e) => {
 			if (e._l10 || e.key !== "ArrowUp" && e.key !== "ArrowDown") return;
@@ -10946,11 +10952,11 @@ var Zf = class extends HTMLElement {
 			}, 800);
 		}));
 		let Ct = r(".l10-time"), wt = i.querySelector(`media-tooltip[trigger="${Ct.id}"] media-tooltip-label`), Tt = () => {
-			let e = (k.timeMode ?? xf.timeMode) === "left";
+			let e = (k.timeMode ?? Sf.timeMode) === "left";
 			Ct.setAttribute("aria-pressed", String(e)), Ct.setAttribute("aria-label", e ? "Show total time" : "Show time left"), wt && (wt.textContent = e ? "Show total time" : "Show time left");
 		};
 		Tt(), Ct.addEventListener("click", () => {
-			fe("timeMode", (k.timeMode ?? xf.timeMode) === "left" ? "total" : "left"), Tt();
+			fe("timeMode", (k.timeMode ?? Sf.timeMode) === "left" ? "total" : "left"), Tt();
 		});
 		let Et = (e, t) => {
 			let n = r(e);
@@ -11037,7 +11043,7 @@ var Zf = class extends HTMLElement {
 					e = i.matches(":-webkit-full-screen");
 				} catch {}
 			}
-			let t = i.clientWidth, n = !this.getAttribute("ratio") && !e && !i.hasAttribute("data-docpip") && t > 0 && t <= jf;
+			let t = i.clientWidth, n = !this.getAttribute("ratio") && !e && !i.hasAttribute("data-docpip") && t > 0 && t <= Mf;
 			n !== i.hasAttribute("data-dock") && (i.toggleAttribute("data-dock", n), N());
 			let r = n ? Lt.offsetHeight : 0;
 			kt.style.paddingTop = n ? `${r}px` : "", kt.style.setProperty("--l10-dock-top", `${r}px`), kt.style.paddingBottom = n ? `${Ot.offsetHeight}px` : "", At.toggleAttribute("disabled", !n), jt.toggleAttribute("disabled", n), R && (R.style.height = `${i.offsetHeight}px`, R.style.top = n ? `${r}px` : ""), kt.style.setProperty("--l10-dock-h", n ? `${Ot.offsetHeight}px` : "0px");
@@ -11093,5 +11099,5 @@ var Zf = class extends HTMLElement {
 		}), i.querySelectorAll("track[kind=\"chapters\"]").forEach((e) => e.addEventListener("load", _)), setTimeout(_, 400), this.#n = _, this.#r = () => m.map((e) => ({ ...e })), v();
 	}
 };
-customElements.get("line10-player") || customElements.define("line10-player", Zf);
+customElements.get("line10-player") || customElements.define("line10-player", Qf);
 export { gf as SERVICES };

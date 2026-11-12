@@ -80,9 +80,9 @@ const RATES = '0.5 0.75 1 1.25 1.5 2';   // shown fastest at the top (the list i
 // Viewer settings, remembered between videos and visits.
 const PREFS = {
   boardSize: [['full', 'Full'], ['compact', 'Compact'], ['off', 'Hidden']],
-  boardPos: [['right', 'Top right'], ['left', 'Top left']],
-  boardStyle: [['solid', 'Solid'], ['glass', 'Glass'], ['clear', 'No panel']],
-  boardFlip: [['on', 'Flip letters'], ['off', 'Instant']],
+  boardPos: [['left', 'Left'], ['right', 'Right']],
+  boardStyle: [['100', 'Solid'], ['75', '75%'], ['50', '50%'], ['25', '25%'], ['0', 'Transparent']],
+  boardFlip: [['on', 'On'], ['off', 'Off']],
   capSize: [['xl', 'Extra large'], ['l', 'Large'], ['m', 'Medium'], ['s', 'Small'], ['xs', 'Extra small']],
   capColor: [['white', 'White'], ['yellow', 'Yellow'], ['line', 'Line colour']],
   capBg: [['100', 'Solid'], ['75', '75%'], ['50', '50%'], ['25', '25%'], ['0', 'Transparent']],
@@ -90,10 +90,12 @@ const PREFS = {
   capShadow: [['glow', 'All around'], ['br', 'Down-right ↘'], ['b', 'Down ↓'], ['bl', 'Down-left ↙'], ['off', 'Off']],
   capBrackets: [['square', '[ ]'], ['round', '( )'], ['double', '“ ”'], ['single', '‘ ’'], ['none', 'No brackets']],
 };
-const BOARD_ROWS = [['boardSize', 'Size'], ['boardPos', 'Position'], ['boardStyle', 'Style'], ['boardFlip', 'Letters']];
+const BOARD_ROWS = [['boardSize', 'Size'], ['boardStyle', 'Background']];
+// two-choice settings: one tap flips them, no page of choices
+const BOARD_SWITCHES = [['boardPos', 'Position'], ['boardFlip', 'Flip letters']];
 const CAPTION_ROWS = [['capSize', 'Text size'], ['capColor', 'Text colour'], ['capBg', 'Background'], ['capEdge', 'Outline'], ['capShadow', 'Shadow'], ['capBrackets', 'Brackets']];
 const DEFAULTS = {
-  boardSize: 'full', boardPos: 'left', boardStyle: 'glass', boardFlip: 'on',
+  boardSize: 'full', boardPos: 'left', boardStyle: '75', boardFlip: 'on',
   capSize: 'm', capColor: 'white', capBg: '75', capEdge: 'none', capShadow: 'off', capBrackets: 'square',
   volume: 0.4, muted: false, rate: 1, captions: false, timeMode: 'total', quality: 'auto',
 };
@@ -140,11 +142,16 @@ const tip = (id, keys = [], { label = '', delay = '', side = 'top' } = {}) => `
   </media-tooltip>`;
 
 // A settings menu: a list of rows, each opening its own page of choices.
-const settingsMenu = (id, menuId, title, rows, cls, side = 'top', align = 'end') => `
+const settingsMenu = (id, menuId, title, rows, cls, side = 'top', align = 'end', switches = []) => `
   <media-menu id="${menuId}" side="${side}" align="${align}" class="l10-pop l10-menu l10-setmenu ${cls}">
     <media-menu-content class="l10-menu-content">
       <span class="l10-menu-label" aria-hidden="true">${title}</span>
       ${prefPages(id, 'pg-', rows)}
+      ${switches.length ? `<div class="l10-menu-rule l10-switch-rule" aria-hidden="true"></div>${switches.map(([k, label]) => `
+      <media-menu-item class="l10-menu-item l10-menu-switch" data-switch="${k}">
+        <span class="l10-menu-text">${label}</span>
+        <span class="l10-menu-value" data-for="${k}"></span>
+      </media-menu-item>`).join('')}` : ''}
     </media-menu-content>
   </media-menu>`;
 // rows that each open a page of choices (used by the board menu, the caption menu and the small-player menu)
@@ -282,7 +289,7 @@ function template(o) {
           </div>
           ${tip(id('gear'), ['B'], { label: 'Departure board settings', side: 'bottom' })}
           ${tip(id('share'), ['U'], { label: 'Share this stop', side: 'bottom' })}
-          ${settingsMenu(id, id('board-menu'), 'Departure board', BOARD_ROWS, 'l10-boardmenu', 'bottom', 'start')}
+          ${settingsMenu(id, id('board-menu'), 'Departure board', BOARD_ROWS, 'l10-boardmenu', 'bottom', 'start', BOARD_SWITCHES)}
           <media-title class="l10-sr"></media-title>
 
           <media-controls-group class="l10-center">
@@ -766,7 +773,7 @@ class Line10Player extends HTMLElement {
       const st = stationAt(media.currentTime || 0);
       const u = new URL(location.href);
       u.hash = '';
-      u.searchParams.set('t', String(Math.floor(st ? st.start : media.currentTime || 0)));
+      u.searchParams.set('t', String(Math.floor(media.currentTime || 0)));   // the exact second playing now
       const url = u.toString();
       const name = st ? `<span class="l10-toast-dot">·</span><b>${esc(st.name)}</b>` : '';
       if (isMobileDevice() && win.navigator.share) {
@@ -887,12 +894,13 @@ class Line10Player extends HTMLElement {
         it.hidden = docked;
         it.toggleAttribute('data-hidden', docked);
       });
-      // (the Position row is hidden by the CSS while docked; arrow keys skip it via data-hidden)
-      root.querySelectorAll('.l10-menu-value[data-for="boardPos"]').forEach((el) => el.closest('media-menu-item').toggleAttribute('data-hidden', docked));
+      // (the Position and Background rows are hidden by the CSS while docked; arrow keys skip them via data-hidden)
+      root.querySelectorAll('.l10-menu-value[data-for="boardPos"], .l10-menu-value[data-for="boardStyle"]').forEach((el) => el.closest('media-menu-item').toggleAttribute('data-hidden', docked));
       root.querySelectorAll('.l10-menu-value[data-for]').forEach((el) => {
         const k = el.dataset.for;
         el.textContent = (PREFS[k].find(([v]) => v === shown(k)) || [])[1] || '';
       });
+      root.querySelectorAll('.l10-menu-switch').forEach((it) => it.setAttribute('aria-label', `${it.querySelector('.l10-menu-text').textContent}: ${it.querySelector('.l10-menu-value').textContent || ''}`));
       const tight = root.hasAttribute('data-board-tight') && !docked;
       root.querySelectorAll('media-menu-radio-group[data-pref="boardSize"] media-menu-radio-item[value="full"]').forEach((it) => {
         it.hidden = tight;
@@ -914,6 +922,13 @@ class Line10Player extends HTMLElement {
       applyLook();
       if (k.startsWith('cap')) { clearTimeout(previewTimer); previewTimer = setTimeout(() => drawCaptions(), 2700); }
     };
+    // one-tap switches (board side, flip letters): the menu stays open and the value changes in place
+    root.querySelectorAll('.l10-menu-switch').forEach((it) => it.addEventListener('select', (e) => {
+      e.preventDefault();
+      const k = it.dataset.switch;
+      const cur = prefs[k] ?? DEFAULTS[k];
+      setPref(k, (PREFS[k].find(([v]) => v !== cur) || PREFS[k][0])[0]);
+    }));
     root.querySelectorAll('media-menu-radio-group[data-pref]').forEach((g) => {
       g.value = prefs[g.dataset.pref] ?? DEFAULTS[g.dataset.pref];
       g.addEventListener('value-change', (e) => {
