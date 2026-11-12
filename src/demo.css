@@ -324,3 +324,17 @@ line10-player:not([data-ready]) > .l10-preposter { display: block; width: 100%; 
 @media (forced-colors: active) { .se-row::before { border-color: CanvasText; color: CanvasText; } .se-row input[aria-invalid="true"] { border-color: Mark; } }
 .use-paint .se-rules b { display: inline; margin: 0; font-size: inherit; font-weight: 800; }
 .stations-edit .use-note code { white-space: normal; overflow-wrap: anywhere; }
+
+/* the time box: what's typed in white over the grey rest of "0:00" */
+.se-clock { position: relative; }
+.se-clock .se-ghost {
+  position: absolute; inset: 0; display: flex; align-items: center; padding: 0 13px;   /* 12px + the box's 1px border */
+  background: #07080a; border-radius: 10px; pointer-events: none; white-space: pre;
+  font: 600 14px "Overpass Mono", ui-monospace, monospace;
+}
+.se-typed { color: #f4f1ea; }
+.se-rest { color: rgb(244 241 234 / 0.3); }
+.se-row .se-clock .se-time { position: relative; color: transparent; caret-color: #f4f1ea; background: transparent; }
+.se-row .se-clock .se-time::selection { color: transparent; background: color-mix(in srgb, var(--page-line) 40%, transparent); }
+.se-row .se-clock .se-time[readonly] + * , .se-row .se-clock:has(.se-time[readonly]) .se-typed { color: var(--dim); }
+@media (max-width: 640px) { .se-clock .se-ghost { padding: 0 10px; font-size: 13.5px; } }

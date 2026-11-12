@@ -196,24 +196,32 @@ const seReset = document.getElementById('se-reset');
 const seMsg = document.getElementById('se-msg');
 const seLine = document.getElementById('se-line');
 const NAME_MAX = 13, MIN_STOPS = 2, MAX_STOPS = 12;
-let rows = [];                                       // [{ t: '0:13', name: 'Eilean Donan' }]
+let rows = [];                                       // [{ d: '013', name: 'Eilean Donan' }]: the time as typed digits
 let original = [];
 let duration = 0;
 let edited = false;
 const fmt = (sec) => { sec = Math.max(0, Math.round(sec)); return `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`; };
-const secs = (txt) => {
-  const m = String(txt).trim().match(/^(\d+)(?::(\d{1,2}))?$/);
-  if (!m) return NaN;
-  return m[2] == null ? Number(m[1]) : Number(m[1]) * 60 + Number(m[2]);
+// The time box is a little timer you type into: digits fill in from the left and the colon is added for
+// you (1 → 1:00, 11 → 1:10, 111 → 1:11, 1111 → 11:11); what isn't typed yet shows in grey.
+const digitsOf = (clockText) => String(clockText).replace(/\D/g, '').slice(0, 4);
+const fromDigits = (d) => {
+  if (!d) return { typed: '', rest: '0:00', sec: NaN };
+  if (d.length === 1) return { typed: d, rest: ':00', sec: Number(d) * 60 };
+  if (d.length === 2) return { typed: `${d[0]}:${d[1]}`, rest: '0', sec: Number(d[0]) * 60 + Number(d[1]) * 10 };
+  if (d.length === 3) return { typed: `${d[0]}:${d.slice(1)}`, rest: '', sec: Number(d[0]) * 60 + Number(d.slice(1)) };
+  return { typed: `${d.slice(0, 2)}:${d.slice(2)}`, rest: '', sec: Number(d.slice(0, 2)) * 60 + Number(d.slice(2)) };
 };
+// the tens of seconds can't go past 5 (no 1:70)
+const fine = (d) => !((d.length === 2 || d.length === 3) && Number(d[1]) > 5) && !(d.length === 4 && Number(d[2]) > 5);
+const secs = (d) => fromDigits(d).sec;
 const player = () => frame.querySelector('line10-player');
 const escAttr = (x) => String(x).replace(/[&"<>;]/g, (c) => ({ '&': '&amp;', '"': '&quot;', '<': '&lt;', '>': '&gt;', ';': ',' })[c]);
 
 function drawRows() {
   seList.innerHTML = rows.map((r, k) => `
     <li class="se-row">
-      <span class="se-field"><input class="se-time" value="${escAttr(r.t)}" inputmode="numeric" autocomplete="off" spellcheck="false"
-        aria-label="Stop ${k + 1} time"${k === 0 ? ' readonly title="The first stop is where the ride starts"' : ''}></span>
+      <span class="se-field se-clock"><span class="se-ghost" aria-hidden="true"><span class="se-typed">${fromDigits(r.d).typed}</span><span class="se-rest">${fromDigits(r.d).rest}</span></span><input class="se-time" value="${fromDigits(r.d).typed}" inputmode="numeric" pattern="[0-9:]*" autocomplete="off" spellcheck="false"
+        aria-label="Stop ${k + 1} time, minutes and seconds" placeholder=""${k === 0 ? ' readonly title="The first stop is where the ride starts"' : ''}></span>
       <span class="se-field"><input class="se-name" value="${escAttr(r.name)}" maxlength="${NAME_MAX}" autocomplete="off"
         aria-label="Stop ${k + 1} name"><span class="se-count${r.name.length >= NAME_MAX ? ' full' : ''}" aria-hidden="true">${r.name.length}/${NAME_MAX}</span></span>
       <button type="button" class="se-del" aria-label="Remove ${escAttr(r.name || `stop ${k + 1}`)}"${rows.length <= MIN_STOPS ? ' disabled' : ''}><i aria-hidden="true"></i></button>
@@ -229,11 +237,11 @@ function apply() {
   const good = [];
   seList.querySelectorAll('.se-row').forEach((li, k) => {
     const r = rows[k];
-    const t = k === 0 ? 0 : secs(r.t);
+    const t = k === 0 ? 0 : secs(r.d);
     const tIn = li.querySelector('.se-time');
     const nIn = li.querySelector('.se-name');
     let tBad = false;
-    if (!Number.isFinite(t)) { tBad = true; bad ||= `Stop ${k + 1}: write the time as m:ss, like 0:25.`; }
+    if (!Number.isFinite(t)) { tBad = true; bad ||= `Stop ${k + 1} needs a time.`; }
     else if (t <= last) { tBad = true; bad ||= `Stop ${k + 1} has to come after ${fmt(last)}.`; }
     else if (duration && t >= duration) { tBad = true; bad ||= `Stop ${k + 1} is past the end of the video (${fmt(duration)}).`; }
     const nBad = !r.name.trim();
@@ -257,7 +265,12 @@ seList.addEventListener('input', (e) => {
   const li = e.target.closest('.se-row');
   if (!li) return;
   const k = [...seList.children].indexOf(li);
-  if (e.target.classList.contains('se-time')) rows[k].t = e.target.value;
+  if (e.target.classList.contains('se-time')) {
+    let d = digitsOf(e.target.value);
+    while (d && !fine(d)) d = d.slice(0, -1);         // a digit that would make 1:70 isn't taken
+    rows[k].d = d;
+    drawClock(li, d);
+  }
   if (e.target.classList.contains('se-name')) {
     rows[k].name = e.target.value.slice(0, NAME_MAX);
     const c = li.querySelector('.se-count');
@@ -270,13 +283,36 @@ seList.addEventListener('input', (e) => {
   clearTimeout(applyT);
   applyT = setTimeout(apply, 200);
 });
+// show the typed part, the grey rest of 0:00, and keep the caret at the end of what was typed
+function drawClock(li, d) {
+  const f = fromDigits(d);
+  const box = li.querySelector('.se-time');
+  box.value = f.typed;
+  li.querySelector('.se-typed').textContent = f.typed;
+  li.querySelector('.se-rest').textContent = f.rest;
+  if (document.activeElement === box) box.setSelectionRange(f.typed.length, f.typed.length);
+}
+// leaving the box finishes the time: 1 → 1:00, 1:1 → 1:10
+seList.addEventListener('focusout', (e) => {
+  if (!e.target.classList?.contains('se-time') || e.target.readOnly) return;
+  const li = e.target.closest('.se-row');
+  const k = [...seList.children].indexOf(li);
+  const d = rows[k].d;
+  if (d.length === 1 || d.length === 2) { rows[k].d = d.padEnd(3, '0'); drawClock(li, rows[k].d); apply(); }
+});
+// clicking into the box puts the caret after the digits (typing always continues from the left)
+seList.addEventListener('focusin', (e) => {
+  if (!e.target.classList?.contains('se-time')) return;
+  const v = e.target.value.length;
+  requestAnimationFrame(() => e.target.setSelectionRange(v, v));
+});
 seList.addEventListener('click', (e) => {
   const del = e.target.closest('.se-del');
   if (!del || del.disabled) return;
   const k = [...seList.children].indexOf(del.closest('.se-row'));
   const gone = rows[k].name;
   rows.splice(k, 1);
-  if (k === 0) rows[0].t = '0:00';                  // the next stop becomes the start of the line
+  if (k === 0) rows[0].d = '000';                   // the next stop becomes the start of the line
   edited = true;
   drawRows();
   apply();
@@ -285,9 +321,9 @@ seList.addEventListener('click', (e) => {
 });
 seAdd.addEventListener('click', () => {
   if (rows.length >= MAX_STOPS) return;
-  const lastT = secs(rows[rows.length - 1]?.t) || 0;
+  const lastT = (rows.length ? secs(rows[rows.length - 1].d) : 0) || 0;
   const end = duration || lastT + 20;
-  rows.push({ t: fmt(Math.min(end - 1, lastT + Math.max(2, (end - lastT) / 2))), name: 'New stop' });
+  rows.push({ d: digitsOf(fmt(Math.min(end - 1, lastT + Math.max(2, (end - lastT) / 2)))), name: 'New stop' });
   edited = true;
   drawRows();
   apply();
@@ -309,7 +345,7 @@ seReset.addEventListener('click', () => {
 frame.addEventListener('line10:stations', (e) => {
   if (e.detail.fromAttribute) { duration = e.detail.duration; return; }
   duration = e.detail.duration;
-  original = e.detail.stations.map((x) => ({ t: fmt(x.start), name: x.name.slice(0, 40) }));
+  original = e.detail.stations.map((x) => ({ d: digitsOf(fmt(x.start)), name: x.name.slice(0, 40) }));
   rows = original.map((r) => ({ ...r }));
   edited = false;
   stationsAttr = '';
