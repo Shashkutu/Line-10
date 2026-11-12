@@ -10502,7 +10502,7 @@ var Qf = class extends HTMLElement {
 		}, v = () => {
 			let t = a.currentTime || 0, n = a.duration || 0, c = a.ended || !!(n && t >= n - .05);
 			if (i.hasAttribute("data-terminus") !== c && (i.toggleAttribute("data-terminus", c), r(".l10-term-name").textContent = m[m.length - 1]?.name || e.split(/[—–-]/)[0].trim() || ""), !m.length) {
-				Zf(p.now, e.split(/[—–-]/)[0].trim() || "Line 10"), Zf(p.next, n ? "Terminus" : ""), Zf(p.eta, n ? jf(n - t) : "", !0);
+				Zf(p.now, c ? "Terminus" : t < .5 ? "Departing" : "En route"), Zf(p.next, c ? "Change here" : n ? "Terminus" : ""), Zf(p.eta, c || !n ? "" : jf(n - t), !0);
 				return;
 			}
 			let d = m.findIndex((e) => t >= e.start && t < e.end);

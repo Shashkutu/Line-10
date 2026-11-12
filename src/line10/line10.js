@@ -678,9 +678,10 @@ class Line10Player extends HTMLElement {
         $('.l10-term-name').textContent = stations[stations.length - 1]?.name || title.split(/[—–-]/)[0].trim() || '';
       }
       if (!stations.length) {
-        setFlaps(flaps.now, title.split(/[—–-]/)[0].trim() || 'Line 10');
-        setFlaps(flaps.next, dur ? 'Terminus' : '');
-        setFlaps(flaps.eta, dur ? clock(dur - t) : '', true);
+        // no stations: the title is already in the board's heading, so the rows show the journey
+        setFlaps(flaps.now, ended ? 'Terminus' : t < 0.5 ? 'Departing' : 'En route');
+        setFlaps(flaps.next, ended ? 'Change here' : dur ? 'Terminus' : '');
+        setFlaps(flaps.eta, ended || !dur ? '' : clock(dur - t), true);
         return;
       }
       let k = stations.findIndex((s) => t >= s.start && t < s.end);
