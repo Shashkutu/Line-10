@@ -182,7 +182,7 @@ const moreMenu = (id) => `
     <media-menu-content class="l10-menu-content">
       <span class="l10-menu-label" aria-hidden="true">Settings</span>
       ${navRow(id, 'm-st', 'l10-m-st', i.stations('l10-menu-ico'), 'Stations')}
-      <media-menu-content class="l10-menu-content" id="${id('m-st')}">${backRow('Stations')}<div class="l10-menu-group l10-stlist"></div><div class="l10-menu-rule" aria-hidden="true"></div><media-menu-item class="l10-menu-item l10-share">${i.link('l10-menu-ico')}<span class="l10-menu-text">Copy link to this stop</span></media-menu-item></media-menu-content>
+      <media-menu-content class="l10-menu-content" id="${id('m-st')}">${backRow('Stations')}<div class="l10-menu-group l10-stlist"></div></media-menu-content>
       <media-menu-item class="l10-menu-item l10-m-next">${i.nextStop('l10-menu-ico')}<span class="l10-menu-text">Next stop</span><span class="l10-menu-value" data-m="l10-m-next"></span></media-menu-item>
       ${navRow(id, 'm-svc', 'l10-m-svc', i.service('l10-menu-ico'), 'Speed')}
       <media-menu-content class="l10-menu-content l10-flip-list" id="${id('m-svc')}">${backRow('Speed')}${rateGroup()}</media-menu-content>
@@ -253,9 +253,13 @@ function template(o) {
                 <div class="l10-board-row l10-row-next"><span class="l10-board-label">Next</span><span class="l10-flaps" data-flap="next" data-len="13"></span><span class="l10-flaps l10-eta" data-flap="eta" data-len="4"></span></div>
               </div>
             </div>
-            <button type="button" class="l10-gear" id="${id('gear')}" commandfor="${id('board-menu')}" aria-label="Departure board settings" aria-haspopup="menu">${i.gear()}</button>
+            <div class="l10-board-tools">
+              <button type="button" class="l10-gear" id="${id('gear')}" commandfor="${id('board-menu')}" aria-label="Departure board settings" aria-haspopup="menu">${i.gear()}</button>
+              <button type="button" class="l10-gear l10-sharebtn" id="${id('share')}" aria-label="Share this stop" aria-keyshortcuts="U">${i.link()}</button>
+            </div>
           </div>
           ${tip(id('gear'), [], { label: 'Departure board settings', side: 'bottom' })}
+          ${tip(id('share'), ['U'], { label: 'Share this stop', side: 'bottom' })}
           ${settingsMenu(id, id('board-menu'), 'Departure board', BOARD_ROWS, 'l10-boardmenu', 'bottom', 'start')}
           <media-title class="l10-sr"></media-title>
 
@@ -334,7 +338,6 @@ function template(o) {
                   <media-menu-content class="l10-menu-content">
                     <span class="l10-menu-label" aria-hidden="true">Stations</span>
                     <div class="l10-menu-group l10-stlist"></div>
-                    <div class="l10-menu-rule" aria-hidden="true"></div><media-menu-item class="l10-menu-item l10-share">${i.link('l10-menu-ico')}<span class="l10-menu-text">Copy link to this stop</span></media-menu-item>
                   </media-menu-content>
                 </media-menu>
                 <button type="button" class="l10-btn l10-pill l10-nextstop" id="${id('next')}" aria-keyshortcuts="]" hidden>
@@ -690,24 +693,54 @@ class Line10Player extends HTMLElement {
     };
     const stationAt = (t) => stations.find((s) => t >= s.start && t < s.end) || stations[stations.length - 1];
 
-    // ---------- share: copy a link that opens the player at this stop ----------
-    root.querySelectorAll('.l10-share').forEach((it) => it.addEventListener('select', async () => {
+    // ---------- share this stop: a link that opens the player at the station on the board ----------
+    // A real button (phones only allow sharing or copying from a tap on one). Phones get their own
+    // share sheet; elsewhere the link is copied, and if the browser refuses, it is shown ready to copy.
+    const shareBtn = $('.l10-sharebtn');
+    const shared = (how, st) => this.dispatchEvent(new CustomEvent('line10:share', { bubbles: true, detail: { how, station: st?.name } }));
+    shareBtn.addEventListener('click', async () => {
+      const doc = root.ownerDocument;                 // the PiP window's own document when popped out
+      const win = doc.defaultView || window;
       const st = stationAt(media.currentTime || 0);
-      const url = new URL(location.href);
-      url.hash = '';
-      url.searchParams.set('t', String(Math.floor(st ? st.start : media.currentTime || 0)));
-      const text = url.toString();
-      let ok = true;
-      try { await navigator.clipboard.writeText(text); }
-      catch {
+      const u = new URL(location.href);
+      u.hash = '';
+      u.searchParams.set('t', String(Math.floor(st ? st.start : media.currentTime || 0)));
+      const url = u.toString();
+      const name = st ? `<span class="l10-toast-dot">·</span><b>${esc(st.name)}</b>` : '';
+      if (win.matchMedia('(hover: none) and (pointer: coarse)').matches && win.navigator.share) {
         try {
-          const ta = Object.assign(document.createElement('textarea'), { value: text });
-          document.body.append(ta); ta.select(); ok = document.execCommand('copy'); ta.remove();
+          await win.navigator.share({ title: `${title}${st ? ` — ${st.name}` : ''}`, url });
+          shared('share', st);
+          return;
+        } catch (err) {
+          if (err?.name === 'AbortError') return;     // the viewer closed the share sheet
+        }
+      }
+      let ok = false;
+      try { await win.navigator.clipboard.writeText(url); ok = true; } catch { /* blocked */ }
+      if (!ok) {
+        try {
+          const ta = Object.assign(doc.createElement('textarea'), { value: url });
+          ta.setAttribute('readonly', '');
+          ta.style.cssText = 'position:fixed;opacity:0';
+          doc.body.append(ta); ta.select(); ok = doc.execCommand('copy'); ta.remove();
         } catch { ok = false; }
       }
-      toast(ok ? `Link copied${st ? `<span class="l10-toast-dot">·</span><b>${esc(st.name)}</b>` : ''}` : "Couldn't copy the link");
-      this.dispatchEvent(new CustomEvent('line10:share', { bubbles: true, detail: { url: text, station: st?.name } }));
-    }));
+      if (ok) {
+        toast(`Link copied${name}`);
+      } else {                                         // show the link itself, selected, so it can be copied by hand
+        toast(`<span>Copy this link</span><input class="l10-toast-link" readonly value="${esc(url)}" aria-label="Link to this stop">`, { ms: 9000 });
+        const f = toastEl.querySelector('.l10-toast-link');
+        f.focus({ preventScroll: true }); f.select();
+      }
+      shared(ok ? 'copy' : 'show', st);
+    });
+
+    // iPhones go fullscreen on the <video> itself: tell the page about that too
+    const innerVideo = () => (media instanceof HTMLVideoElement ? media : media.nativeEl || media.shadowRoot?.querySelector('video'));
+    const fsSeen = () => this.dispatchEvent(new CustomEvent('line10:fullscreen', { bubbles: true }));
+    media.addEventListener('webkitbeginfullscreen', fsSeen);
+    media.addEventListener('loadedmetadata', () => { const v = innerVideo(); if (v && v !== media && !v.dataset.l10Fs) { v.dataset.l10Fs = '1'; v.addEventListener('webkitbeginfullscreen', fsSeen); } });
 
     // ---------- continue the ride: start where a link points, or where this viewer left off ----------
     const posKey = `line10:pos:${this.getAttribute('playback-id') || this.getAttribute('src') || ''}`;
@@ -770,6 +803,7 @@ class Line10Player extends HTMLElement {
         if (!b.hidden) { b.click(); e.preventDefault(); return; }
       }
       if (/^r$/i.test(e.key) && !overBtn.hidden) { overBtn.click(); e.preventDefault(); return; }
+      if (/^u$/i.test(e.key)) { shareBtn.click(); e.preventDefault(); return; }
       if (e.key === ']' || e.key === 'n') { jump(1); e.preventDefault(); }
       if (e.key === '[' || e.key === 'p') { jump(-1); e.preventDefault(); }
     });
@@ -783,14 +817,25 @@ class Line10Player extends HTMLElement {
     if (prefs.board && !prefs.boardSize) prefs.boardSize = prefs.board;
     if (prefs.boardPos === 'center') prefs.boardPos = 'left';   // older saved setting
     const LOOK = { boardSize: 'board', boardPos: 'boardPos', boardStyle: 'boardStyle', boardFlip: 'boardFlip', capSize: 'capsize', capColor: 'capcolor', capBg: 'capbg', capEdge: 'capedge', capShadow: 'capshadow' };
+    // a short player (a phone, a small window) only has room for the one-line board: there "Full" isn't
+    // offered and the menu shows Compact, while the saved choice stays Full for bigger screens
+    const shown = (k) => {
+      const v = prefs[k] ?? DEFAULTS[k];
+      return k === 'boardSize' && v === 'full' && root.hasAttribute('data-board-tight') ? 'compact' : v;
+    };
     const applyLook = () => {
       for (const [k, attr] of Object.entries(LOOK)) root.dataset[attr] = prefs[k] ?? DEFAULTS[k];
       root.querySelectorAll('.l10-menu-value[data-for]').forEach((el) => {
         const k = el.dataset.for;
-        el.textContent = (PREFS[k].find(([v]) => v === prefs[k]) || [])[1] || '';
+        el.textContent = (PREFS[k].find(([v]) => v === shown(k)) || [])[1] || '';
+      });
+      const tight = root.hasAttribute('data-board-tight');
+      root.querySelectorAll('media-menu-radio-group[data-pref="boardSize"] media-menu-radio-item[value="full"]').forEach((it) => {
+        it.hidden = tight;
+        it.toggleAttribute('data-hidden', tight);
       });
       syncing = true;
-      root.querySelectorAll('media-menu-radio-group[data-pref]').forEach((g) => { const v = prefs[g.dataset.pref] ?? DEFAULTS[g.dataset.pref]; if (g.value !== v) g.value = v; });
+      root.querySelectorAll('media-menu-radio-group[data-pref]').forEach((g) => { const v = shown(g.dataset.pref); if (g.value !== v) g.value = v; });
       syncing = false;
       boardMenu.setAttribute('align', prefs.boardPos === 'right' ? 'end' : prefs.boardPos === 'center' ? 'center' : 'start');
       drawCaptions();
@@ -809,6 +854,12 @@ class Line10Player extends HTMLElement {
         setPref(g.dataset.pref, e.detail.value);
       });
     });
+    const roomy = () => {
+      const tight = root.clientHeight > 0 && root.clientHeight <= 360;     // matches the one-line board in the CSS
+      if (tight !== root.hasAttribute('data-board-tight')) { root.toggleAttribute('data-board-tight', tight); applyLook(); }
+    };
+    roomy();
+    new ResizeObserver(roomy).observe(root);
     // the small-player menu: Caption style opens a list of rows, each row its own list of choices
     // (drawn inside one page, since the player's menus go two levels deep)
     const csPage = $('.l10-cspage');
@@ -870,6 +921,7 @@ class Line10Player extends HTMLElement {
       if (!restored || Date.now() - ccTouched > 1500) return;
       prefs.captions = [...media.textTracks].some((x) => (x.kind === 'captions' || x.kind === 'subtitles') && x.mode === 'showing');
       savePrefs(prefs);
+      this.dispatchEvent(new CustomEvent('line10:captions', { bubbles: true, detail: { on: prefs.captions } }));
     });
 
     // volume icon: muted / 1 wave (1–33) / 2 waves (34–65) / 3 waves (66–100)
@@ -1145,6 +1197,7 @@ class Line10Player extends HTMLElement {
       const doc = root.ownerDocument;
       const el = doc.fullscreenElement || doc.webkitFullscreenElement;
       const mine = Boolean(el && (el === root || el.contains(root) || root.contains(el)));
+      if (mine) this.dispatchEvent(new CustomEvent('line10:fullscreen', { bubbles: true }));
       const so = screen.orientation;
       if (mine && touchPhone() && so?.lock) {
         const w = media.videoWidth || 16, h = media.videoHeight || 9;

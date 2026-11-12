@@ -20,7 +20,7 @@
 - **Small players.** Below about 770px the bar keeps the essentials and a Settings menu holds the rest. No control leaves the player from 250px wide.
 - **Phones.** Below 540px the line and the buttons move into a strip under the picture, so nothing covers the video and every button stays 44px. Fullscreen goes back to the overlay.
 - **Taps.** Click the picture to play or pause and double-click for fullscreen. On touch, double-tap the left or right third to skip 5 seconds. On phones a tap plays or pauses, and dragging the train gives a small buzz at each station where the phone supports it.
-- **Share a stop.** "Copy link to this stop" in the stations menu copies a link that opens the player at that station.
+- **Share a stop.** The link button on the departure board (or U) shares the station you're at: phones open their share sheet, desktops copy the link, and if a browser blocks copying the link is shown ready to copy.
 - **Continue your ride.** Leave mid-video and come back: the player picks up where you were and offers Start over (R).
 - **Ambient light.** A soft glow taken from the picture itself lights the page around the player, and the poster fades into the first frame.
 - **Any line colour** with one attribute.
@@ -93,6 +93,7 @@ player.addEventListener('line10:next', () => { /* load the next video */ });
 | S | Settings (small players) |
 | N, R | At the end of the line: change to the next line, or ride again |
 | R | After continuing a ride: start over |
+| U | Share this stop |
 
 Every control has a label and a tooltip with its keys, menus work with the arrow keys and close with Esc, and the current station is announced to screen readers. Reduced motion turns off the flips and pulses, and forced-colours mode gets solid system surfaces.
 

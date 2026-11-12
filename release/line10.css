@@ -215,9 +215,9 @@
   align-self: start;
   display: flex;
   align-items: flex-start;
-  gap: 8px;
+  gap: 6px;
   margin: var(--l10-pad);
-  padding: 10px 8px 11px 12px;
+  padding: 9px 8px 9px 11px;
   min-width: 0;
   max-width: calc(100% - 2 * var(--l10-pad));
   background: linear-gradient(rgb(20 22 27 / 0.9), rgb(10 11 14 / 0.9));
@@ -231,11 +231,11 @@
 .l10-board-head {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-  padding-bottom: 8px;
+  gap: 7px;
+  margin-bottom: 7px;
+  padding-bottom: 7px;
   border-bottom: 1px dashed rgb(255 255 255 / 0.12);
-  font-size: 11px;
+  font-size: 10.5px;
   color: var(--l10-dim);
 }
 .l10-board-title {
@@ -264,7 +264,7 @@
   font-variant-numeric: tabular-nums;
 }
 .l10-badge-sm { min-width: 18px; height: 18px; font-size: 10px; padding: 1px 4px 0; }
-.l10-board-rows { display: grid; gap: 5px; }
+.l10-board-rows { display: grid; gap: 4px; }
 .l10-board-row { display: flex; align-items: center; gap: 8px; }
 .l10-board-label {
   width: 34px;
@@ -291,7 +291,7 @@
   border-radius: 3px;
   box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.55), inset 0 1px 0 rgb(255 255 255 / 0.06);
   font-family: var(--l10-mono);
-  font-size: 15px;
+  font-size: 13.5px;
   font-weight: 700;
   line-height: 1;
   color: var(--l10-sign);
@@ -1125,7 +1125,6 @@ media-error-dialog:not([data-open]) .l10-backdrop { display: none; }
   flex: none;
   width: 44px;            /* 44px tap area, 28px visible circle */
   height: 44px;
-  margin: -12px -10px -8px -8px;
   padding: 8px;
   background-clip: content-box;
   color: var(--l10-dim);
@@ -1139,7 +1138,7 @@ media-error-dialog:not([data-open]) .l10-backdrop { display: none; }
 .l10-gear .l10-icon { width: 18px; height: 18px; stroke-width: 1.7; transition: rotate 600ms var(--l10-ease); }
 @media (hover: hover) and (pointer: fine) {
   .l10-gear:hover { color: var(--l10-sign); background-color: rgb(255 255 255 / 0.1); }
-  .l10-gear:hover .l10-icon { rotate: 90deg; }
+  .l10-gear:not(.l10-sharebtn):hover .l10-icon { rotate: 90deg; }
 }
 .l10-gear[aria-expanded="true"] { color: var(--l10-line); }
 .l10-gear[aria-expanded="true"] .l10-icon { rotate: 90deg; }
@@ -1149,7 +1148,6 @@ media-error-dialog:not([data-open]) .l10-backdrop { display: none; }
 .l10[data-board="compact"] .l10-row-next,
 .l10[data-board="compact"] .l10-row-now .l10-board-label { display: none; }
 .l10[data-board="compact"] .l10-board { align-items: center; padding: 5px 5px 5px 6px; border-radius: 10px; }
-.l10[data-board="compact"] .l10-gear { margin: -8px; }
 .l10[data-board="compact"] .l10-row-now { gap: 8px; }
 .l10[data-board="compact"] .l10-row-now::before {
   content: attr(data-badge);
@@ -1160,8 +1158,7 @@ media-error-dialog:not([data-open]) .l10-backdrop { display: none; }
 }
 /* hidden: only the gear stays, so the board can be brought back */
 .l10[data-board="off"] .l10-board-body { display: none; }
-.l10[data-board="off"] .l10-board { display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border-radius: 50%; }
-.l10[data-board="off"] .l10-board .l10-gear { margin: -3px; padding: 6px; }
+.l10[data-board="off"] .l10-board { align-items: center; height: 40px; padding: 0 2px; border-radius: 999px; }
 /* position */
 .l10[data-board-pos="center"] .l10-board { justify-self: center; }
 .l10[data-board-pos="right"] .l10-board { justify-self: end; }
@@ -1173,16 +1170,14 @@ media-error-dialog:not([data-open]) .l10-backdrop { display: none; }
 .l10[data-board-style="clear"] .l10-tile { box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.55), 0 2px 6px rgb(0 0 0 / 0.5); }
 
 /* departure board on the right: mirrored, gear on the inside edge */
-.l10[data-board-pos="right"] .l10-board { flex-direction: row-reverse; padding: 10px 12px 11px 8px; }
-.l10[data-board-pos="right"] .l10-gear { margin: -12px -8px -8px -10px; }
+.l10[data-board-pos="right"] .l10-board { flex-direction: row-reverse; padding: 9px 11px 9px 8px; }
 .l10[data-board-pos="right"] .l10-board-head,
 .l10[data-board-pos="right"] .l10-board-row { flex-direction: row-reverse; }
 .l10[data-board-pos="right"] .l10-board-title { text-align: right; }
 .l10[data-board-pos="right"] .l10-board-label { text-align: right; }
 .l10[data-board-pos="right"] .l10-eta { margin: 0 6px 0 0; }
 .l10[data-board-pos="right"][data-board="compact"] .l10-board { padding-inline: 6px 5px; }
-.l10[data-board-pos="right"][data-board="off"] .l10-board { padding: 0; }
-.l10[data-board-pos="right"][data-board="compact"] .l10-gear { margin: -8px; }
+.l10[data-board-pos="right"][data-board="off"] .l10-board { padding: 0 2px; }
 
 /* quality */
 .l10-quality { position: relative; padding: 0 12px; }
@@ -1236,16 +1231,16 @@ media-error-dialog:not([data-open]) .l10-backdrop { display: none; }
   .l10-time-sep, .l10-time-dur { display: none; }
 }
 @container l10 (max-width: 760px) {
-  .l10-tile { font-size: 13px; }
-  .l10-row-next .l10-tile, .l10-eta .l10-tile { font-size: 11.5px; }
+  .l10-tile { font-size: 12px; }
+  .l10-row-next .l10-tile, .l10-eta .l10-tile { font-size: 10.5px; }
 }
 @container l10 (max-width: 560px) {
   .l10-board { padding: 8px 9px 9px; border-radius: 10px; }
   .l10-board-head { margin-bottom: 6px; padding-bottom: 6px; }
   .l10-eta { display: none; }
   .l10-board-label { width: 30px; font-size: 9px; }
-  .l10-tile { font-size: 12px; }
-  .l10-row-next .l10-tile { font-size: 11px; }
+  .l10-tile { font-size: 11.5px; }
+  .l10-row-next .l10-tile { font-size: 10.5px; }
   /* narrow players: the volume / seek bubble sits top-right, clear of the board */
   .l10-indicators { justify-items: end; padding-right: var(--l10-pad); }
 }
@@ -1256,8 +1251,8 @@ media-error-dialog:not([data-open]) .l10-backdrop { display: none; }
 .l10:has(.l10-menu[data-open]) .l10-sign { opacity: 0; }
 @container l10 (min-width: 1100px) {
   .l10 { font-size: 15px; }
-  .l10-tile { font-size: 17px; }
-  .l10-row-next .l10-tile, .l10-eta .l10-tile { font-size: 14px; }
+  .l10-tile { font-size: 15px; }
+  .l10-row-next .l10-tile, .l10-eta .l10-tile { font-size: 12.5px; }
   .l10-name { font-size: 12.5px; }
 }
 
@@ -1482,8 +1477,8 @@ media-error-dialog:not([data-open]) .l10-backdrop { display: none; }
 @keyframes l10-cue { 0%, 100% { translate: 0 0; } 50% { translate: 0 3px; } }
 @media (prefers-reduced-motion: reduce) { .l10-more-cue svg { animation: none; } }
 /* the board gear's tooltip grows inwards, so it never leaves the player */
-media-tooltip.l10-tip[trigger$="-gear"] { translate: 0 6px !important; }
-.l10[data-board-pos="right"] media-tooltip.l10-tip[trigger$="-gear"] { translate: calc(-100% + 44px) 6px !important; }
+media-tooltip.l10-tip:is([trigger$="-gear"], [trigger$="-share"]) { translate: 0 6px !important; }
+.l10[data-board-pos="right"] media-tooltip.l10-tip:is([trigger$="-gear"], [trigger$="-share"]) { translate: calc(-100% + 44px) 6px !important; }
 
 /* ---------- phones: the line and the buttons sit in a strip under the picture ----------
    (set by the script on players narrower than 540px, outside fullscreen and PiP)
@@ -1567,3 +1562,53 @@ media-tooltip.l10-tip[trigger$="-gear"] { translate: 0 6px !important; }
 .l10-menu-rule { height: 1px; margin: 4px 10px; background: rgb(255 255 255 / 0.1); flex: none; }
 .l10-share .l10-menu-ico { margin-right: 2px; }
 .l10-toast-dot { margin: 0 0.45em; opacity: 0.6; }
+
+/* ---------- the board's own buttons: settings, and share this stop ----------
+   Each is a 44px tap area around a 28px circle (8px padding). The box's negative margins let the
+   circles sit in the board's padding; circles are 6px apart in every layout, mirrored on the right.
+   Full board: stacked beside the rows. One-line and hidden board: side by side. */
+.l10-board-tools {
+  display: flex;
+  flex-direction: column;
+  flex: none;
+  margin: -11px -10px -11px -6px;
+  pointer-events: auto;
+}
+.l10-board-tools .l10-gear + .l10-gear { margin-top: -10px; }
+.l10-sharebtn .l10-icon { width: 17px; height: 17px; stroke-width: 1.8; }
+.l10[data-board-pos="right"] .l10-board-tools { margin: -11px -6px -11px -10px; }
+/* one line: same padding on both sides, buttons in a row */
+.l10[data-board="compact"] .l10-board { padding: 5px 5px 5px 6px; }
+.l10[data-board-pos="right"][data-board="compact"] .l10-board { padding: 5px 6px 5px 5px; }
+.l10:is([data-board="compact"], [data-board="off"]) .l10-board-tools { flex-direction: row; margin: -8px -6px -8px -4px; }
+.l10:is([data-board="compact"], [data-board="off"]) .l10-board-tools .l10-gear + .l10-gear { margin: 0 0 0 -10px; }
+.l10[data-board-pos="right"]:is([data-board="compact"], [data-board="off"]) .l10-board-tools { flex-direction: row-reverse; margin: -8px -4px -8px -6px; }
+.l10[data-board-pos="right"]:is([data-board="compact"], [data-board="off"]) .l10-board-tools .l10-gear + .l10-gear { margin: 0 -10px 0 0; }
+/* hidden board: a pill with just the two buttons, 6px around each circle */
+.l10[data-board="off"] .l10-board, .l10[data-board-pos="right"][data-board="off"] .l10-board { padding: 0; }
+.l10[data-board="off"] .l10-board-tools, .l10[data-board-pos="right"][data-board="off"] .l10-board-tools { margin: -2px; }
+@container l10 (max-height: 360px) {
+  .l10:not([data-board="off"]) .l10-board { padding: 5px 5px 5px 6px; }
+  .l10[data-board-pos="right"]:not([data-board="off"]) .l10-board { padding: 5px 6px 5px 5px; }
+  .l10-board-tools { flex-direction: row; margin: -8px -6px -8px -4px; }
+  .l10-board-tools .l10-gear + .l10-gear { margin: 0 0 0 -10px; }
+  .l10[data-board-pos="right"] .l10-board-tools { flex-direction: row-reverse; margin: -8px -4px -8px -6px; }
+  .l10[data-board-pos="right"] .l10-board-tools .l10-gear + .l10-gear { margin: 0 -10px 0 0; }
+  .l10[data-board="off"] .l10-board-tools, .l10[data-board-pos="right"][data-board="off"] .l10-board-tools { margin: -2px; }
+}
+
+/* the link itself, when the browser won't copy it */
+.l10-toast-link {
+  width: min(320px, 46cqw);
+  min-width: 140px;
+  height: 30px;
+  padding: 0 8px;
+  color: inherit;
+  font: 600 12px var(--l10-mono);
+  background: rgb(255 255 255 / 0.08);
+  border: 1px solid rgb(255 255 255 / 0.2);
+  border-radius: 6px;
+}
+.l10-toast-link:focus-visible { outline: 2px solid var(--l10-line); outline-offset: 1px; }
+.l10-toast-text:has(.l10-toast-link) { display: flex; align-items: center; gap: 10px; }
+.l10-menu-item[hidden] { display: none; }

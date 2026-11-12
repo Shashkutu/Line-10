@@ -186,6 +186,8 @@ frame.addEventListener('ratechange', () => { if (performance.now() - lastInput <
 new MutationObserver(() => { if (performance.now() - lastInput < 2000) tick('board'); })   // the board's look changed by the visitor
   .observe(frame, { subtree: true, attributes: true, attributeFilter: ['data-board', 'data-board-pos', 'data-board-style', 'data-board-flip'] });
 frame.addEventListener('line10:share', () => tick('share'));
+frame.addEventListener('line10:captions', (e) => { if (e.detail?.on) tick('captions'); });
+frame.addEventListener('line10:fullscreen', () => tick('fullscreen'));
 new MutationObserver((list) => {
   if (list.some((m) => m.target.hasAttribute?.('data-terminus'))) tick('end');
 }).observe(frame, { subtree: true, attributes: true, attributeFilter: ['data-terminus'] });
