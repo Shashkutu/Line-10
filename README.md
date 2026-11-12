@@ -100,7 +100,8 @@ player.addEventListener('line10:next', () => { /* load the next video */ });
 | A | All stations |
 | Q | Quality |
 | Shift + C | Caption style |
-| U | Share this stop |
+| U | Share this stop (again: close the note) |
+| Esc | Close any menu in one press, or the note on the picture; leaves fullscreen |
 
 Every control has a label and a tooltip with its keys, menus work with the arrow keys and close with Esc, and the current station is announced to screen readers. Reduced motion turns off the flips and pulses, and forced-colours mode gets solid system surfaces.
 

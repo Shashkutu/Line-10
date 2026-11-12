@@ -10745,7 +10745,7 @@ var rp = class extends HTMLElement {
 						return;
 					}
 				}
-				/^r$/i.test(e.key) && !C.hidden ? (C.click(), e.preventDefault()) : /^u$/i.test(e.key) ? (ee.click(), e.preventDefault()) : ((e.key === "]" || e.key === "n") && (b(1), e.preventDefault()), (e.key === "[" || e.key === "p") && (b(-1), e.preventDefault()));
+				/^r$/i.test(e.key) && !C.hidden ? (C.click(), e.preventDefault()) : /^u$/i.test(e.key) ? (x.hasAttribute("data-show") && /Link copied|Copy this link/.test(S.textContent) ? T() : ee.click(), e.preventDefault()) : ((e.key === "]" || e.key === "n") && (b(1), e.preventDefault()), (e.key === "[" || e.key === "p") && (b(-1), e.preventDefault()));
 			}
 		});
 		let se = () => {
@@ -11075,6 +11075,13 @@ var rp = class extends HTMLElement {
 			}, 60), !0);
 		};
 		i.addEventListener("keydown", (e) => {
+			if (e.key !== "Escape") return;
+			let t = i.ownerDocument, n = [...i.querySelectorAll("media-menu[data-open]")].find((e) => t.querySelector(`[commandfor="${e.id}"]`)?.closest(".l10") === i);
+			if (n) {
+				let r = t.querySelector(`[commandfor="${n.id}"]`);
+				e.preventDefault(), e.stopImmediatePropagation(), r.click(), r.focus();
+			} else x.hasAttribute("data-show") && (e.preventDefault(), T(), i.focus({ preventScroll: !0 }));
+		}, !0), i.addEventListener("keydown", (e) => {
 			if (e.altKey || e.ctrlKey || e.metaKey || e.target.closest("input, textarea")) return;
 			let t = !!e.target.closest("[role=\"menu\"], media-menu"), n = !1;
 			(e.key === "t" || e.key === "T") && !t ? (wt.click(), n = !0) : e.key === "b" || e.key === "B" ? n = Dt(".l10-board-tools .l10-gear:not(.l10-sharebtn)") : e.key === "a" || e.key === "A" ? n = Dt(".l10-stbtn", ".l10-m-st") : e.key === "q" || e.key === "Q" ? n = Dt(".l10-quality", ".l10-m-q") : e.key === "C" && e.shiftKey && (n = Dt(".l10-capset", ".l10-m-cs")), n && (e.preventDefault(), e.stopImmediatePropagation());

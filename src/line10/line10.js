@@ -812,7 +812,11 @@ class Line10Player extends HTMLElement {
         if (!b.hidden) { b.click(); e.preventDefault(); return; }
       }
       if (/^r$/i.test(e.key) && !overBtn.hidden) { overBtn.click(); e.preventDefault(); return; }
-      if (/^u$/i.test(e.key)) { shareBtn.click(); e.preventDefault(); return; }
+      if (/^u$/i.test(e.key)) {
+        if (toastEl.hasAttribute('data-show') && /Link copied|Copy this link/.test(toastText.textContent)) hideToast();   // U again closes the note
+        else shareBtn.click();
+        e.preventDefault(); return;
+      }
       if (e.key === ']' || e.key === 'n') { jump(1); e.preventDefault(); }
       if (e.key === '[' || e.key === 'p') { jump(-1); e.preventDefault(); }
     });
@@ -1325,6 +1329,20 @@ class Line10Player extends HTMLElement {
       setTimeout(() => { row.click(); setTimeout(() => (row.ownerDocument.getElementById(row.getAttribute('commandfor'))?.querySelector('[role^="menuitem"]:not([data-hidden]), media-menu-item:not([data-hidden]), media-menu-radio-item:not([hidden])'))?.focus(), 80); }, 60);
       return true;
     };
+    // Esc closes the whole menu in one press, even from a page inside it (← still goes back a page),
+    // and closes the note on the picture when no menu is open. Fullscreen: the browser's own Esc.
+    root.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      const doc = root.ownerDocument;
+      const open = [...root.querySelectorAll('media-menu[data-open]')].find((m) => doc.querySelector(`[commandfor="${m.id}"]`)?.closest('.l10') === root);
+      if (open) {
+        const trigger = doc.querySelector(`[commandfor="${open.id}"]`);
+        e.preventDefault(); e.stopImmediatePropagation();
+        trigger.click(); trigger.focus();
+        return;
+      }
+      if (toastEl.hasAttribute('data-show')) { e.preventDefault(); hideToast(); root.focus({ preventScroll: true }); }
+    }, true);
     root.addEventListener('keydown', (e) => {
       if (e.altKey || e.ctrlKey || e.metaKey || e.target.closest('input, textarea')) return;
       const inMenu = Boolean(e.target.closest('[role="menu"], media-menu'));
