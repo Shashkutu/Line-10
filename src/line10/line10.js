@@ -59,8 +59,6 @@ import '@videojs/html/ui/tooltip-shortcut';
 import '@videojs/html/ui/buffering-indicator';
 import '@videojs/html/ui/seek-indicator';
 import '@videojs/html/ui/seek-indicator-value';
-import '@videojs/html/ui/status-indicator';
-import '@videojs/html/ui/status-indicator-value';
 import '@videojs/html/ui/volume-indicator';
 import '@videojs/html/ui/volume-indicator-fill';
 import '@videojs/html/ui/volume-indicator-value';
@@ -204,12 +202,10 @@ const moreMenu = (id) => `
       <span class="l10-menu-label" aria-hidden="true">Settings</span>
       ${navRow(id, 'm-st', 'l10-m-st', i.stations('l10-menu-ico'), 'Stations')}
       <media-menu-content class="l10-menu-content" id="${id('m-st')}">${backRow('Stations')}<div class="l10-menu-group l10-stlist"></div></media-menu-content>
-      <media-menu-item class="l10-menu-item l10-m-next">${i.nextStop('l10-menu-ico')}<span class="l10-menu-text">Next stop</span><span class="l10-menu-value" data-m="l10-m-next"></span></media-menu-item>
       ${navRow(id, 'm-svc', 'l10-m-svc', i.service('l10-menu-ico'), 'Speed')}
       <media-menu-content class="l10-menu-content l10-flip-list" id="${id('m-svc')}">${backRow('Speed')}${rateGroup()}</media-menu-content>
       ${navRow(id, 'm-q', 'l10-m-q', i.quality('l10-menu-ico'), 'Quality')}
       <media-menu-content class="l10-menu-content l10-flip-list" id="${id('m-q')}">${backRow('Quality')}${qualityGroup()}</media-menu-content>
-      <media-menu-item class="l10-menu-item l10-m-cc">${i.ccOff('l10-menu-ico')}<span class="l10-menu-text">Captions</span><span class="l10-menu-value" data-m="l10-m-cc"></span></media-menu-item>
       ${navRow(id, 'm-cs', 'l10-m-cs', i.captionStyle('l10-menu-ico'), 'Caption style')}
       <media-menu-content class="l10-menu-content l10-cspage" id="${id('m-cs')}" data-show="list">${backRow('Caption style')}
         <div class="l10-csview" data-view="list">${CAPTION_ROWS.map(([k, label]) => `
@@ -226,6 +222,10 @@ const moreMenu = (id) => `
           </div>
         </div>`).join('')}
       </media-menu-content>
+      <!-- pages first, then the one-tap actions and switches -->
+      <div class="l10-menu-rule l10-more-rule" aria-hidden="true"></div>
+      <media-menu-item class="l10-menu-item l10-m-next">${i.nextStop('l10-menu-ico')}<span class="l10-menu-text">Next stop</span><span class="l10-menu-value" data-m="l10-m-next"></span></media-menu-item>
+      <media-menu-item class="l10-menu-item l10-m-cc">${i.ccOff('l10-menu-ico')}<span class="l10-menu-text">Captions</span><span class="l10-menu-value" data-m="l10-m-cc"></span></media-menu-item>
       <media-menu-item class="l10-menu-item l10-m-pip">${i.pipIn('l10-menu-ico')}<span class="l10-menu-text l10-m-pip-text">Picture-in-picture</span></media-menu-item>
       <media-menu-item class="l10-menu-item l10-m-mute">${i.vol3('l10-menu-ico')}<span class="l10-menu-text">Sound</span><span class="l10-menu-value" data-m="l10-m-mute"></span></media-menu-item>
     </media-menu-content>
@@ -449,7 +449,6 @@ function template(o) {
         <span class="l10-ind-gauge"><media-volume-indicator-fill class="l10-ind-fill"></media-volume-indicator-fill></span>
         <media-volume-indicator-value class="l10-ind-value"></media-volume-indicator-value>
       </media-volume-indicator>
-      <media-status-indicator class="l10-ind"><media-status-indicator-value class="l10-ind-value"></media-status-indicator-value></media-status-indicator>
     </div>
 
     <!-- taps on the picture: a click plays or pauses and a double click goes fullscreen; on touch a tap shows the
@@ -498,6 +497,28 @@ function template(o) {
 </video-player>`;
 }
 
+// ---- stations ----------------------------------------------------------
+// The board has 13 tiles, so a station name is best kept to 13 characters; a longer one is shortened
+// with "…" on the board and the line (the station menus show it in full).
+const NAME_FIT = 13;
+const boardName = (n) => (n.length > NAME_FIT ? `${n.slice(0, NAME_FIT - 1).trimEnd()}…` : n);
+// stations="0:00 Highlands; 0:13 Eilean Donan; 1:05 Castle Keep" — the quick alternative to a chapters
+// .vtt file. Times are m:ss, h:mm:ss or seconds; entries are split by ";" or new lines; order doesn't matter.
+const toSeconds = (t) => t.split(':').reduce((acc, part) => acc * 60 + Number(part), 0);
+function parseStations(text) {
+  if (text == null || !String(text).trim()) return null;
+  const out = [];
+  for (const raw of String(text).split(/[;\n]+/)) {
+    const m = raw.trim().match(/^(\d+(?::\d{1,2}){0,2}(?:\.\d+)?)\s+(.+)$/);
+    if (!m) continue;
+    const start = toSeconds(m[1]);
+    const name = m[2].replace(/\s+/g, ' ').trim().slice(0, 40);
+    if (Number.isFinite(start) && name) out.push({ start, name });
+  }
+  out.sort((x, y) => x.start - y.start);
+  return out.filter((st, k) => k === 0 || st.start !== out[k - 1].start);
+}
+
 // ---- split-flap departure board ----------------------------------------
 const FLAP_CHARS = 'ABCDEFGHIJKLMNOPRSTUVWXYZ0123456789';
 function setFlaps(el, text) {
@@ -526,10 +547,11 @@ function setFlaps(el, text) {
 }
 
 class Line10Player extends HTMLElement {
-  static observedAttributes = ['line', 'next-title', 'next-number', 'next-line'];
+  static observedAttributes = ['line', 'next-title', 'next-number', 'next-line', 'stations'];
   attributeChangedCallback(name, _old, value) {
     if (this.dataset.ready == null) return;
     if (name === 'line') this.querySelector('.l10')?.style.setProperty('--l10-line', value || '');
+    else if (name === 'stations') this.#restation?.();
     else this.#offerNext?.();
   }
 
@@ -557,6 +579,10 @@ class Line10Player extends HTMLElement {
   // (moving it into a picture-in-picture window and back does not count)
   #off = null;
   #offerNext = null;
+  #restation = null;
+  #getStations = null;
+  /** The stations the line shows now: [{ start, end, name }] (seconds). */
+  get stations() { return this.#getStations?.() ?? []; }
   disconnectedCallback() {
     setTimeout(() => { if (!this.isConnected) { this.#off?.abort(); this.#off = null; } }, 0);
   }
@@ -593,20 +619,29 @@ class Line10Player extends HTMLElement {
     }
 
     const readStations = () => {
-      const track = [...(media.textTracks || [])].find((t) => t.kind === 'chapters');
-      if (!track) return;
-      if (track.mode === 'disabled') track.mode = 'hidden';
-      const cues = [...(track.cues || [])];
       const dur = media.duration;
-      if (!cues.length || !Number.isFinite(dur) || dur <= 0) return;
-      const next = cues.map((c) => ({ start: c.startTime, end: c.endTime, name: c.text.trim() }));
+      if (!Number.isFinite(dur) || dur <= 0) return;
+      let next;
+      const listed = parseStations(this.getAttribute('stations'));
+      if (listed) {
+        const inside = listed.filter((x) => x.start < dur);
+        if (!inside.length) return;
+        next = inside.map((x, k) => ({ start: x.start, end: k < inside.length - 1 ? inside[k + 1].start : dur, name: x.name }));
+      } else {
+        const track = [...(media.textTracks || [])].find((t) => t.kind === 'chapters');
+        if (!track) return;
+        if (track.mode === 'disabled') track.mode = 'hidden';
+        const cues = [...(track.cues || [])];
+        if (!cues.length) return;
+        next = cues.map((c) => ({ start: c.startTime, end: c.endTime, name: c.text.trim() }));
+      }
       const sig = JSON.stringify([dur, next]);
       if (sig === drawn) return;          // cuechange fires at every station; only redraw when the route changes
       drawn = sig;
       stations = next;
       stationsEl.innerHTML = stations.map((s, k) => `
         <span class="l10-stop${k === stations.length - 1 ? ' l10-terminus' : ''}${k === 0 ? ' l10-origin' : ''}" style="--at:${(s.start / dur) * 100}%">
-          <span class="l10-dot"></span><span class="l10-name">${esc(s.name)}</span>
+          <span class="l10-dot"></span><span class="l10-name" title="${esc(s.name)}">${esc(boardName(s.name))}</span>
         </span>`).join('') + '<span class="l10-endcap"></span>';
       root.style.setProperty('--l10-stops', stations.length);
       const stHTML = stations.map((s, k) => `
@@ -623,6 +658,7 @@ class Line10Player extends HTMLElement {
       nextBtn.hidden = stations.length < 2;
       current = -1;
       update();
+      this.dispatchEvent(new CustomEvent('line10:stations', { bubbles: true, detail: { stations: stations.map((x) => ({ ...x })), duration: dur, fromAttribute: Boolean(listed) } }));
     };
 
     const update = () => {
@@ -644,8 +680,8 @@ class Line10Player extends HTMLElement {
       const stops = stationsEl.querySelectorAll('.l10-stop');
       stops.forEach((el, j) => { el.dataset.state = j < k ? 'passed' : j === k ? 'current' : 'ahead'; });
       const next = stations[k + 1];
-      setFlaps(flaps.now, ended ? 'Terminus' : stations[k].name);
-      setFlaps(flaps.next, ended ? 'Change here' : next ? next.name : 'Terminus');
+      setFlaps(flaps.now, ended ? 'Terminus' : boardName(stations[k].name));
+      setFlaps(flaps.next, ended ? 'Change here' : next ? boardName(next.name) : 'Terminus');
       setFlaps(flaps.eta, ended ? '' : clock((next ? next.start : dur) - t));
       nextBtn.setAttribute('aria-label', next ? `Next stop: ${next.name}` : 'Last stop reached');
       nextBtn.toggleAttribute('data-last', !next);
@@ -832,17 +868,32 @@ class Line10Player extends HTMLElement {
     const LOOK = { timeMode: 'time', boardSize: 'board', boardPos: 'boardPos', boardStyle: 'boardStyle', boardFlip: 'boardFlip', capSize: 'capsize', capColor: 'capcolor', capBg: 'capbg', capEdge: 'capedge', capShadow: 'capshadow' };
     // a short player (a phone, a small window) only has room for the one-line board: there "Full" isn't
     // offered and the menu shows Compact, while the saved choice stays Full for bigger screens
+    // On phones the board is a strip above the picture: it never covers anything, so there is no
+    // "Hidden" and no side to pick there (the saved choices still apply on bigger screens).
     const shown = (k) => {
       const v = prefs[k] ?? DEFAULTS[k];
-      return k === 'boardSize' && v === 'full' && root.hasAttribute('data-board-tight') ? 'compact' : v;
+      const docked = root.hasAttribute('data-dock');
+      if (k === 'boardSize' && docked && v === 'off') return 'compact';
+      if (k === 'boardPos' && docked) return 'left';
+      return k === 'boardSize' && v === 'full' && !docked && root.hasAttribute('data-board-tight') ? 'compact' : v;
     };
     const applyLook = () => {
-      for (const [k, attr] of Object.entries(LOOK)) root.dataset[attr] = prefs[k] ?? DEFAULTS[k];
+      const docked = root.hasAttribute('data-dock');
+      for (const [k, attr] of Object.entries(LOOK)) {
+        const v = (k === 'boardSize' || k === 'boardPos') && docked ? shown(k) : prefs[k] ?? DEFAULTS[k];
+        if (root.dataset[attr] !== v) root.dataset[attr] = v;
+      }
+      root.querySelectorAll('media-menu-radio-group[data-pref="boardSize"] media-menu-radio-item[value="off"]').forEach((it) => {
+        it.hidden = docked;
+        it.toggleAttribute('data-hidden', docked);
+      });
+      // (the Position row is hidden by the CSS while docked; arrow keys skip it via data-hidden)
+      root.querySelectorAll('.l10-menu-value[data-for="boardPos"]').forEach((el) => el.closest('media-menu-item').toggleAttribute('data-hidden', docked));
       root.querySelectorAll('.l10-menu-value[data-for]').forEach((el) => {
         const k = el.dataset.for;
         el.textContent = (PREFS[k].find(([v]) => v === shown(k)) || [])[1] || '';
       });
-      const tight = root.hasAttribute('data-board-tight');
+      const tight = root.hasAttribute('data-board-tight') && !docked;
       root.querySelectorAll('media-menu-radio-group[data-pref="boardSize"] media-menu-radio-item[value="full"]').forEach((it) => {
         it.hidden = tight;
         it.toggleAttribute('data-hidden', tight);
@@ -850,7 +901,8 @@ class Line10Player extends HTMLElement {
       syncing = true;
       root.querySelectorAll('media-menu-radio-group[data-pref]').forEach((g) => { const v = shown(g.dataset.pref); if (g.value !== v) g.value = v; });
       syncing = false;
-      boardMenu.setAttribute('align', prefs.boardPos === 'right' ? 'end' : prefs.boardPos === 'center' ? 'center' : 'start');
+      // on phones the gear sits at the right end of the strip: the menu opens leftwards from it
+      boardMenu.setAttribute('align', docked || prefs.boardPos === 'right' ? 'end' : prefs.boardPos === 'center' ? 'center' : 'start');
       drawCaptions();
     };
     const boardMenu = $('.l10-boardmenu');
@@ -1460,14 +1512,19 @@ class Line10Player extends HTMLElement {
       try { fs = root.matches(':fullscreen'); } catch { try { fs = root.matches(':-webkit-full-screen'); } catch { /* old browser */ } }
       const w = root.clientWidth;
       const on = !this.getAttribute('ratio') && !fs && !root.hasAttribute('data-docpip') && w > 0 && w <= DOCK_W;
-      if (on !== root.hasAttribute('data-dock')) root.toggleAttribute('data-dock', on);
+      if (on !== root.hasAttribute('data-dock')) { root.toggleAttribute('data-dock', on); applyLook(); }
+      const top = on ? boardEl.offsetHeight : 0;
+      holder.style.paddingTop = on ? `${top}px` : '';
+      holder.style.setProperty('--l10-dock-top', `${top}px`);
       holder.style.paddingBottom = on ? `${panel.offsetHeight}px` : '';
       gPlay.toggleAttribute('disabled', !on);  // under-the-picture controls: a tap on the picture plays or pauses
       gControls.toggleAttribute('disabled', on);
-      if (glow) glow.style.height = `${root.offsetHeight}px`;
+      if (glow) { glow.style.height = `${root.offsetHeight}px`; glow.style.top = on ? `${top}px` : ''; }
       holder.style.setProperty('--l10-dock-h', on ? `${panel.offsetHeight}px` : '0px');
     };
+    const boardEl = $('.l10-board');
     new ResizeObserver(() => { root.style.setProperty('--l10-panel-h', `${panel.offsetHeight}px`); dock(); }).observe(panel);
+    new ResizeObserver(() => { if (root.hasAttribute('data-dock')) dock(); }).observe(boardEl);
     new ResizeObserver(dock).observe(root);
     new MutationObserver(dock).observe(root, { attributes: true, attributeFilter: ['data-docpip'] });
     document.addEventListener('fullscreenchange', dock, whileAlive);
@@ -1531,6 +1588,8 @@ class Line10Player extends HTMLElement {
     media.textTracks?.addEventListener?.('addtrack', (e) => { hook(e.track); setTimeout(readStations, 200); });
     root.querySelectorAll('track[kind="chapters"]').forEach((tr) => tr.addEventListener('load', readStations));
     setTimeout(readStations, 400);
+    this.#restation = readStations;
+    this.#getStations = () => stations.map((x) => ({ ...x }));
     update();
   }
 }

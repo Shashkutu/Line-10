@@ -63,6 +63,7 @@ The `release/` folder holds the built files. Keep the files in it together, beca
 | `next-title`, `next-number`, `next-line` | Offer a "Change here for…" button at the end. |
 | `autoplay` | Start playing as soon as the video is ready. |
 | `ambient` | Set to `off` to turn off the soft glow of the picture around the player. |
+| `stations` | The stops, in one line: `"0:00 Highlands; 0:13 Eilean Donan"` (instead of a chapters file). See [Stations](#stations). |
 | `start` | Start at this many seconds. A `?t=25` (or `?sec=25`) in the page address does the same for the first player, like a YouTube link. |
 
 When the viewer picks "Change here", the player fires a `line10:next` event. What happens next is up to the page:
@@ -71,7 +72,45 @@ When the viewer picks "Change here", the player fires a `line10:next` event. Wha
 player.addEventListener('line10:next', () => { /* load the next video */ });
 ```
 
-### Theming
+### Stations
+
+Stations are the video's chapters. The line, the departure board, the station menus, "Next stop" and the
+"Now arriving" sign all read them while the video plays, so nothing is fixed: change the stations and
+everything follows.
+
+There are two ways to give a line its stations:
+
+```html
+<!-- 1. One attribute: "time name", separated by ";" (or new lines). Times are m:ss, h:mm:ss or seconds. -->
+<line10-player src="ride.mp4"
+  stations="0:00 Highlands; 0:13 Eilean Donan; 0:41 Stirling; 1:05 Castle Keep"></line10-player>
+
+<!-- 2. A WebVTT chapters file -->
+<line10-player src="ride.mp4" chapters="chapters.vtt"></line10-player>
+```
+
+```
+WEBVTT
+
+00:00.000 --> 00:13.000
+Highlands
+
+00:13.000 --> 00:41.000
+Eilean Donan
+```
+
+- **Add, remove, rename or move** a station by editing that list or file. With the attribute you can do it
+  live (`player.setAttribute('stations', …)`); the line redraws at once.
+- **Names:** keep them to **13 characters**, the width of the board. Longer names are shortened with "…" on
+  the board and the line, and shown in full in the station menus.
+- **Order:** the first stop is where the ride starts (0:00); the stations are sorted by time; a station
+  after the end of the video is left out.
+- `player.stations` returns the stations the line shows now, and the player fires `line10:stations`
+  (with `{ stations, duration }`) each time it draws them.
+
+The demo page has a live editor for this ("Make your own stations").
+
+## Theming
 
 - `line` sets the accent colour.
 - `--media-accent-text-color` sets the text colour used on top of the accent.

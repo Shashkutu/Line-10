@@ -100,6 +100,28 @@
     </div>
   </section>
 
+  <section class="use stations-edit" aria-labelledby="se-title">
+    <h2 id="se-title">Make your own stations</h2>
+    <div class="use-grid">
+      <div class="use-paint">
+        <b>Stations are just chapters</b>
+        <p>Rename them, move them, add or remove them here, and the line, the departure board and the station menus above change straight away. Nothing on the board is fixed: it reads the stations as the train rides.</p>
+        <ul class="se-rules">
+          <li><b>13 characters</b> per name, the width of the board. Longer names get "…".</li>
+          <li>The first stop is at <b>0:00</b>, and the times go in order.</li>
+          <li>From <b>2 to 12</b> stops on a line.</li>
+        </ul>
+        <p class="use-note">On your own site, list them in one attribute, like <code>stations="0:00 Highlands; 0:13 Eilean Donan"</code>, or point <code>chapters</code> at a WebVTT file. Your stations also go into the code below.</p>
+      </div>
+      <div class="use-code se-editor">
+        <div class="use-head"><span id="se-line">STATIONS</span><button type="button" class="copy" id="se-reset" disabled>Reset</button></div>
+        <ol class="se-list" id="se-list" aria-describedby="se-msg"></ol>
+        <button type="button" class="se-add" id="se-add"><span aria-hidden="true">+</span> Add a station</button>
+        <p class="se-msg" id="se-msg" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+
   <section class="use" aria-labelledby="use-title">
     <h2 id="use-title">Put it on your site</h2>
     <div class="use-grid">

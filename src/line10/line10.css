@@ -139,7 +139,7 @@
 .l10-controls:not([data-visible]):not(:has(:focus-visible))::before,
 .l10-controls:not([data-visible]):not(:has(:focus-visible))::after { opacity: 0; }
 .l10-controls:not([data-visible]):not(:has(:focus-visible)) .l10-content { translate: 0 8px; }
-.l10-controls:not([data-visible]):not(:has(:focus-visible)) .l10-content *:not(.l10[data-dock] .l10-panel, .l10[data-dock] .l10-panel *) { pointer-events: none !important; }
+.l10-controls:not([data-visible]):not(:has(:focus-visible)) .l10-content *:not(.l10[data-dock] :is(.l10-panel, .l10-board), .l10[data-dock] :is(.l10-panel, .l10-board) *) { pointer-events: none !important; }
 
 /* ---------- buttons ---------- */
 .l10-btn {
@@ -995,7 +995,7 @@
   .l10-term-btn { padding: 0 12px; font-size: 12.5px; }
   .l10-term-next { padding-left: 6px; }
   .l10-term-label b { max-width: 110px; }
-  .l10[data-terminus] .l10-board { display: none; }     /* the card says "terminus" already */
+  .l10[data-terminus]:not([data-dock]) .l10-board { display: none; }     /* the card says "terminus" already */
 }
 @container l10 (max-height: 170px) { .l10-endcard { top: 31%; padding: 4px; border-top-width: 2px; } }
 @container l10 (max-width: 300px) { .l10-term-again span { display: none; } .l10-term-again { padding: 0 13px; } }
@@ -1255,13 +1255,13 @@ media-error-dialog:not([data-open]) .l10-backdrop { display: none; }
 
 /* short players (a 16:9 player on a phone): one-line board, slimmer centre */
 @container l10 (max-height: 360px) {
-  .l10-board { padding: 6px 8px 6px 6px; border-radius: 10px; }
-  .l10-board-rows { display: block; }
-  .l10-board-head { display: none; }
-  .l10-row-next { display: none; }
-  .l10-row-now { gap: 8px; }
-  .l10-row-now .l10-board-label { display: none; }
-  .l10-row-now::before {
+  .l10:not([data-dock]) .l10-board { padding: 6px 8px 6px 6px; border-radius: 10px; }
+  .l10:not([data-dock]) .l10-board-rows { display: block; }
+  .l10:not([data-dock]) .l10-board-head { display: none; }
+  .l10:not([data-dock]) .l10-row-next { display: none; }
+  .l10:not([data-dock]) .l10-row-now { gap: 8px; }
+  .l10:not([data-dock]) .l10-row-now .l10-board-label { display: none; }
+  .l10:not([data-dock]) .l10-row-now::before {
     content: attr(data-badge);
     display: inline-grid; place-items: center;
     min-width: 22px; height: 22px; padding: 1px 5px 0;
@@ -1482,7 +1482,7 @@ media-tooltip.l10-tip:is([trigger$="-gear"], [trigger$="-share"]) { translate: 0
 .l10[data-dock] {
   overflow: visible;
   /* round the picture's top corners and the strip's bottom corners as one shape */
-  clip-path: inset(0 0 calc(-1 * var(--l10-dock-h, 0px)) 0 round var(--l10-radius));
+  clip-path: inset(calc(-1 * var(--l10-dock-top, 0px)) 0 calc(-1 * var(--l10-dock-h, 0px)) 0 round var(--l10-radius));
 }
 .l10[data-dock] .l10-controls::after { display: none; }
 .l10[data-dock] .l10-panel {
@@ -1494,13 +1494,11 @@ media-tooltip.l10-tip:is([trigger$="-gear"], [trigger$="-share"]) { translate: 0
   border-top: 1px solid var(--l10-edge);
 }
 .l10[data-dock] .l10-controls:not([data-visible]):not(:has(:focus-visible)) .l10-content { opacity: 1; translate: none; }
-.l10[data-dock] .l10-content > media-tooltip-group > :not(.l10-panel) { transition: opacity var(--l10-med) var(--l10-ease); }
-.l10[data-dock] .l10-controls:not([data-visible]):not(:has(:focus-visible)) .l10-content > media-tooltip-group > :not(.l10-panel) { opacity: 0; }
+.l10[data-dock] .l10-content > media-tooltip-group > :not(.l10-panel, .l10-board) { transition: opacity var(--l10-med) var(--l10-ease); }
+.l10[data-dock] .l10-controls:not([data-visible]):not(:has(:focus-visible)) .l10-content > media-tooltip-group > :not(.l10-panel, .l10-board) { opacity: 0; }
 .l10.l10[data-dock] .l10-captions { bottom: calc(var(--l10-pad) + 2px); }
 .l10[data-dock] .l10-endcard { top: 50%; }
-.l10[data-dock]:not([data-board="off"]) .l10-board { margin: 10px; }
 /* the very smallest phones: no room for the board above the picture */
-@container l10 (max-height: 150px) { .l10[data-dock] .l10-board { display: none; } }
 
 /* ---------- a short note on the picture: where a ride continued from, or a copied link ---------- */
 .l10-toast {
@@ -1584,13 +1582,13 @@ media-tooltip.l10-tip:is([trigger$="-gear"], [trigger$="-share"]) { translate: 0
 .l10[data-board="off"] .l10-board, .l10[data-board-pos="right"][data-board="off"] .l10-board { padding: 0; }
 .l10[data-board="off"] .l10-board-tools, .l10[data-board-pos="right"][data-board="off"] .l10-board-tools { margin: -2px; }
 @container l10 (max-height: 360px) {
-  .l10:not([data-board="off"]) .l10-board { padding: 5px 5px 5px 6px; }
-  .l10[data-board-pos="right"]:not([data-board="off"]) .l10-board { padding: 5px 6px 5px 5px; }
-  .l10-board-tools { flex-direction: row; margin: -8px -6px -8px -4px; }
-  .l10-board-tools .l10-gear + .l10-gear { margin: 0 0 0 -10px; }
-  .l10[data-board-pos="right"] .l10-board-tools { flex-direction: row-reverse; margin: -8px -4px -8px -6px; }
-  .l10[data-board-pos="right"] .l10-board-tools .l10-gear + .l10-gear { margin: 0 -10px 0 0; }
-  .l10[data-board="off"] .l10-board-tools, .l10[data-board-pos="right"][data-board="off"] .l10-board-tools { margin: -2px; }
+  .l10:not([data-dock], [data-board="off"]) .l10-board { padding: 5px 5px 5px 6px; }
+  .l10[data-board-pos="right"]:not([data-dock], [data-board="off"]) .l10-board { padding: 5px 6px 5px 5px; }
+  .l10:not([data-dock]) .l10-board-tools { flex-direction: row; margin: -8px -6px -8px -4px; }
+  .l10:not([data-dock]) .l10-board-tools .l10-gear + .l10-gear { margin: 0 0 0 -10px; }
+  .l10[data-board-pos="right"]:not([data-dock]) .l10-board-tools { flex-direction: row-reverse; margin: -8px -4px -8px -6px; }
+  .l10[data-board-pos="right"]:not([data-dock]) .l10-board-tools .l10-gear + .l10-gear { margin: 0 -10px 0 0; }
+  .l10:not([data-dock])[data-board="off"] .l10-board-tools, .l10[data-board-pos="right"]:not([data-dock])[data-board="off"] .l10-board-tools { margin: -2px; }
 }
 
 /* the link itself, when the browser won't copy it */
@@ -1651,3 +1649,27 @@ button.l10-time { pointer-events: auto; }
 .l10-m-mute { display: none; }
 /* a 240px desktop player: Mute steps into Settings (phones have no volume control at all) */
 @container l10 (max-width: 280px) { .l10:not([data-touch]) .l10-mute { display: none; } .l10:not([data-touch]) .l10-moremenu .l10-m-mute { display: grid; } }
+
+/* ---------- phones: the departure board is a strip above the picture ----------
+   Together with the strip of controls below, the picture stays completely clear. Full or one-line. */
+.l10[data-dock] .l10-board {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  margin: 0;
+  padding: 11px 10px 10px 12px;       /* 11px/10px: the buttons' 44px tap areas stay inside the player */
+  background: var(--l10-panel-solid);
+  border: 0;
+  border-bottom: 1px solid var(--l10-edge);
+  border-radius: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.l10[data-dock] .l10-board-body { flex: 1; min-width: 0; }
+.l10.l10[data-dock] .l10-board { max-width: none; width: auto; justify-self: stretch; }
+@container l10 (max-width: 300px) { .l10[data-dock] .l10-tile { font-size: 10px; } .l10[data-dock] .l10-row-next .l10-tile, .l10[data-dock] .l10-eta .l10-tile { font-size: 9.5px; } .l10[data-dock] .l10-board-label { width: 28px; } }
+.l10[data-dock] .l10-boardmenu .l10-menu-nav:has(> .l10-menu-value[data-for="boardPos"]) { display: none; }
+.l10[data-dock][data-board="compact"] .l10-board { align-items: center; padding: 8px 6px 8px 10px; }
+.l10-moremenu .l10-more-rule:not(:has(~ media-menu-item:not([data-hidden]))) { display: none; }   /* no divider when nothing follows it */

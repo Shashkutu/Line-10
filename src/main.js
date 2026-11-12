@@ -87,6 +87,7 @@ const inkFor = (hex) => {
   return 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.32 ? '#14110a' : '#ffffff';
 };
 const current = () => picks.find((b) => b.getAttribute('aria-pressed') === 'true') || picks[0];
+let stationsAttr = '';                                 // set by the stations editor below
 let colour = current().style.getPropertyValue('--c').trim();
 
 function embedText() {
@@ -98,7 +99,7 @@ function embedText() {
     '<line10-player',
     `  playback-id="${d.playbackId}"`,
     `  title="${d.title}"`,
-    '  chapters="chapters.vtt"',
+    stationsAttr ? `  stations="${stationsAttr}"` : '  chapters="chapters.vtt"',
     '  captions="captions.en.vtt"',
     `  number="${d.number}"`,
     `  line="${colour}"></line10-player>`,
@@ -187,3 +188,133 @@ frame.addEventListener('line10:fullscreen', () => tick('fullscreen'));
 new MutationObserver((list) => {
   if (list.some((m) => m.target.hasAttribute?.('data-terminus'))) tick('end');
 }).observe(frame, { subtree: true, attributes: true, attributeFilter: ['data-terminus'] });
+
+// ---------- "Make your own stations": edit the line live ----------
+const seList = document.getElementById('se-list');
+const seAdd = document.getElementById('se-add');
+const seReset = document.getElementById('se-reset');
+const seMsg = document.getElementById('se-msg');
+const seLine = document.getElementById('se-line');
+const NAME_MAX = 13, MIN_STOPS = 2, MAX_STOPS = 12;
+let rows = [];                                       // [{ t: '0:13', name: 'Eilean Donan' }]
+let original = [];
+let duration = 0;
+let edited = false;
+const fmt = (sec) => { sec = Math.max(0, Math.round(sec)); return `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`; };
+const secs = (txt) => {
+  const m = String(txt).trim().match(/^(\d+)(?::(\d{1,2}))?$/);
+  if (!m) return NaN;
+  return m[2] == null ? Number(m[1]) : Number(m[1]) * 60 + Number(m[2]);
+};
+const player = () => frame.querySelector('line10-player');
+const escAttr = (x) => String(x).replace(/[&"<>;]/g, (c) => ({ '&': '&amp;', '"': '&quot;', '<': '&lt;', '>': '&gt;', ';': ',' })[c]);
+
+function drawRows() {
+  seList.innerHTML = rows.map((r, k) => `
+    <li class="se-row">
+      <span class="se-field"><input class="se-time" value="${escAttr(r.t)}" inputmode="numeric" autocomplete="off" spellcheck="false"
+        aria-label="Stop ${k + 1} time"${k === 0 ? ' readonly title="The first stop is where the ride starts"' : ''}></span>
+      <span class="se-field"><input class="se-name" value="${escAttr(r.name)}" maxlength="${NAME_MAX}" autocomplete="off"
+        aria-label="Stop ${k + 1} name"><span class="se-count${r.name.length >= NAME_MAX ? ' full' : ''}" aria-hidden="true">${r.name.length}/${NAME_MAX}</span></span>
+      <button type="button" class="se-del" aria-label="Remove ${escAttr(r.name || `stop ${k + 1}`)}"${rows.length <= MIN_STOPS ? ' disabled' : ''}><i aria-hidden="true"></i></button>
+    </li>`).join('');
+  seAdd.disabled = rows.length >= MAX_STOPS;
+  seReset.disabled = !edited;
+}
+
+// check the rows; apply the good ones to the player
+function apply() {
+  let bad = '';
+  let last = -1;
+  const good = [];
+  seList.querySelectorAll('.se-row').forEach((li, k) => {
+    const r = rows[k];
+    const t = k === 0 ? 0 : secs(r.t);
+    const tIn = li.querySelector('.se-time');
+    const nIn = li.querySelector('.se-name');
+    let tBad = false;
+    if (!Number.isFinite(t)) { tBad = true; bad ||= `Stop ${k + 1}: write the time as m:ss, like 0:25.`; }
+    else if (t <= last) { tBad = true; bad ||= `Stop ${k + 1} has to come after ${fmt(last)}.`; }
+    else if (duration && t >= duration) { tBad = true; bad ||= `Stop ${k + 1} is past the end of the video (${fmt(duration)}).`; }
+    const nBad = !r.name.trim();
+    if (nBad) bad ||= `Stop ${k + 1} needs a name.`;
+    tIn.setAttribute('aria-invalid', String(tBad));
+    nIn.setAttribute('aria-invalid', String(nBad));
+    if (!tBad) last = t;
+    if (!tBad && !nBad) good.push(`${fmt(t)} ${r.name.trim().replace(/;/g, ',')}`);
+  });
+  seMsg.textContent = bad || (edited ? `The line now has ${good.length} stops.` : '');
+  seMsg.classList.toggle('bad', Boolean(bad));
+  if (!edited) return;
+  stationsAttr = good.join('; ');
+  const p = player();
+  if (p && good.length >= MIN_STOPS) p.setAttribute('stations', stationsAttr);
+  drawCode();
+}
+
+let applyT = 0;
+seList.addEventListener('input', (e) => {
+  const li = e.target.closest('.se-row');
+  if (!li) return;
+  const k = [...seList.children].indexOf(li);
+  if (e.target.classList.contains('se-time')) rows[k].t = e.target.value;
+  if (e.target.classList.contains('se-name')) {
+    rows[k].name = e.target.value.slice(0, NAME_MAX);
+    const c = li.querySelector('.se-count');
+    c.textContent = `${rows[k].name.length}/${NAME_MAX}`;
+    c.classList.toggle('full', rows[k].name.length >= NAME_MAX);
+    li.querySelector('.se-del').setAttribute('aria-label', `Remove ${rows[k].name || `stop ${k + 1}`}`);
+  }
+  edited = true;
+  seReset.disabled = false;
+  clearTimeout(applyT);
+  applyT = setTimeout(apply, 200);
+});
+seList.addEventListener('click', (e) => {
+  const del = e.target.closest('.se-del');
+  if (!del || del.disabled) return;
+  const k = [...seList.children].indexOf(del.closest('.se-row'));
+  const gone = rows[k].name;
+  rows.splice(k, 1);
+  if (k === 0) rows[0].t = '0:00';                  // the next stop becomes the start of the line
+  edited = true;
+  drawRows();
+  apply();
+  seMsg.textContent = `Removed ${gone || 'the stop'}. ${seMsg.textContent}`;
+  (seList.children[Math.min(k, rows.length - 1)]?.querySelector('.se-name') || seAdd).focus();
+});
+seAdd.addEventListener('click', () => {
+  if (rows.length >= MAX_STOPS) return;
+  const lastT = secs(rows[rows.length - 1]?.t) || 0;
+  const end = duration || lastT + 20;
+  rows.push({ t: fmt(Math.min(end - 1, lastT + Math.max(2, (end - lastT) / 2))), name: 'New stop' });
+  edited = true;
+  drawRows();
+  apply();
+  const n = seList.lastElementChild.querySelector('.se-name');
+  n.focus(); n.select();
+});
+seReset.addEventListener('click', () => {
+  rows = original.map((r) => ({ ...r }));
+  edited = false;
+  stationsAttr = '';
+  player()?.removeAttribute('stations');
+  drawRows();
+  apply();
+  seMsg.textContent = 'Back to the original stations.';
+  drawCode();
+  seList.querySelector('.se-name')?.focus();
+});
+// each line brings its own stations: the editor starts from them (a new line starts fresh)
+frame.addEventListener('line10:stations', (e) => {
+  if (e.detail.fromAttribute) { duration = e.detail.duration; return; }
+  duration = e.detail.duration;
+  original = e.detail.stations.map((x) => ({ t: fmt(x.start), name: x.name.slice(0, 40) }));
+  rows = original.map((r) => ({ ...r }));
+  edited = false;
+  stationsAttr = '';
+  seLine.textContent = `${current().querySelector('.pick-text b').textContent.toUpperCase()} · STATIONS`;
+  drawRows();
+  apply();
+  drawCode();
+});
