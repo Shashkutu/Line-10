@@ -97,12 +97,33 @@ const CAPTION_ROWS = [['capSize', 'Text size'], ['capColor', 'Text colour'], ['c
 const DEFAULTS = {
   boardSize: 'full', boardPos: 'left', boardStyle: 'glass', boardFlip: 'on',
   capSize: 'm', capColor: 'white', capBg: '75', capEdge: 'none', capShadow: 'off', capBrackets: 'square',
-  volume: 1, muted: false, rate: 1, captions: false, timeMode: 'total',
+  volume: 0.4, muted: false, rate: 1, captions: false, timeMode: 'total', quality: 'auto',
 };
 const BRACKETS = { square: ['[', ']'], round: ['(', ')'], double: ['“', '”'], single: ['‘', '’'], none: ['', ''] };
-const KEY = 'line10:prefs';
-const loadPrefs = () => { try { return { ...DEFAULTS, ...JSON.parse(localStorage.getItem(KEY) || '{}') }; } catch { return { ...DEFAULTS }; } };
-const savePrefs = (p) => { try { localStorage.setItem(KEY, JSON.stringify(p)); } catch { /* private mode */ } };
+// Nothing is stored in the browser: every visit starts from the same defaults. Within one visit the
+// choices carry over from one video to the next (changing lines keeps your speed, captions and board).
+const session = { ...DEFAULTS };
+const loadPrefs = () => ({ ...session });
+const savePrefs = (p) => { Object.assign(session, p); };
+try { localStorage.removeItem('line10:prefs'); } catch { /* private mode */ }
+
+// A link's time (?t=25, or ?sec=25, like YouTube), read the moment this file loads: Mux players finish
+// setting up only after their engine arrives, and by then the page may have tidied its address.
+// It is used once, by the first player on the page.
+const LINK_T = (() => {
+  try { const q = new URLSearchParams(location.search); const v = parseFloat(q.get('t') ?? q.get('sec')); return v >= 0 ? v : NaN; }
+  catch { return NaN; }
+})();
+let linkTUsed = false;
+
+// a phone or tablet (any browser, including ones that report a mouse-like pointer, and iPads that
+// call themselves Macs): no hover, and hardware buttons for the volume
+const isMobileDevice = () => {
+  const ua = navigator.userAgent || '';
+  if (/Android|iPhone|iPad|iPod|Mobile|Silk|Kindle|Opera Mini|IEMobile|SamsungBrowser/i.test(ua)) return true;
+  if (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1) return true;
+  return matchMedia('(hover: none) and (pointer: coarse)').matches;
+};
 
 let count = 0;
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
@@ -712,7 +733,7 @@ class Line10Player extends HTMLElement {
       u.searchParams.set('t', String(Math.floor(st ? st.start : media.currentTime || 0)));
       const url = u.toString();
       const name = st ? `<span class="l10-toast-dot">·</span><b>${esc(st.name)}</b>` : '';
-      if (win.matchMedia('(hover: none) and (pointer: coarse)').matches && win.navigator.share) {
+      if (isMobileDevice() && win.navigator.share) {
         try {
           await win.navigator.share({ title: `${title}${st ? ` — ${st.name}` : ''}`, url });
           shared('share', st);
@@ -749,10 +770,11 @@ class Line10Player extends HTMLElement {
 
     // ---------- continue the ride: start where a link points, or where this viewer left off ----------
     // like YouTube: a link with ?t=25 (or ?sec=25) starts at 0:25; a plain link starts at the beginning
-    const q = new URLSearchParams(location.search);
-    const fromUrl = document.querySelector('line10-player') === this ? parseFloat(q.get('t') ?? q.get('sec')) : NaN;
     let startAt = parseFloat(this.getAttribute('start'));
-    if (!Number.isFinite(startAt)) startAt = fromUrl;
+    if (!Number.isFinite(startAt) && !linkTUsed && Number.isFinite(LINK_T) && this.isConnected && document.querySelector('line10-player') === this) {
+      startAt = LINK_T;
+      linkTUsed = true;
+    }
     const goStart = () => {
       if (!Number.isFinite(startAt) || !(media.duration > 0)) return;
       const at = Math.max(0, Math.min(startAt, media.duration - 2));
@@ -830,6 +852,8 @@ class Line10Player extends HTMLElement {
     const boardMenu = $('.l10-boardmenu');
     const setPref = (k, v) => {
       prefs[k] = v; savePrefs(prefs);
+      // the board just changed size or side under its open menu: place the menu again against the gear
+      if (k.startsWith('board')) requestAnimationFrame(() => requestAnimationFrame(() => boardMenu.requestUpdate?.()));
       if (k.startsWith('cap')) previewUntil = Date.now() + 2600;   // show a sample caption
       applyLook();
       if (k.startsWith('cap')) { clearTimeout(previewTimer); previewTimer = setTimeout(() => drawCaptions(), 2700); }
@@ -874,7 +898,7 @@ class Line10Player extends HTMLElement {
     });
 
     // phones and tablets have no hover to open the fader, and their own volume buttons: no volume control there
-    const touchOnly = matchMedia('(hover: none) and (pointer: coarse)').matches;
+    const touchOnly = isMobileDevice();
     root.toggleAttribute('data-touch', touchOnly);
     // volume, mute, speed and captions carry over to the next video and the next visit
     let restored = false;
@@ -1285,20 +1309,27 @@ class Line10Player extends HTMLElement {
 
     // menu keys: B board settings, A all stations, Q quality, Shift+C caption style.
     // When the bar has folded a button into Settings, the key opens Settings at that page instead.
+    // pressing the same key again closes the menu
     const openMenu = (btnSel, rowSel) => {
       const btn = $(btnSel);
-      if (btn && btn.offsetParent && !btn.hasAttribute('data-off')) { btn.focus(); btn.click(); return true; }
+      if (btn && btn.offsetParent && !btn.hasAttribute('data-off')) {
+        const menu = root.ownerDocument.getElementById(btn.getAttribute('commandfor'));
+        if (menu?.hasAttribute('data-open')) { btn.click(); btn.focus(); return true; }
+        btn.focus(); btn.click(); return true;
+      }
       const row = rowSel && $(rowSel);
       if (!row || !moreBtn.offsetParent || row.hasAttribute('data-off') || row.hasAttribute('data-hidden')) return false;
+      if (moreBtn.getAttribute('aria-expanded') === 'true') { moreBtn.click(); moreBtn.focus(); return true; }
       syncMore(); showCs('list');
       moreBtn.focus(); moreBtn.click();
       setTimeout(() => { row.click(); setTimeout(() => (row.ownerDocument.getElementById(row.getAttribute('commandfor'))?.querySelector('[role^="menuitem"]:not([data-hidden]), media-menu-item:not([data-hidden]), media-menu-radio-item:not([hidden])'))?.focus(), 80); }, 60);
       return true;
     };
     root.addEventListener('keydown', (e) => {
-      if (e.altKey || e.ctrlKey || e.metaKey || e.target.closest('input, textarea, [role="menu"]')) return;
+      if (e.altKey || e.ctrlKey || e.metaKey || e.target.closest('input, textarea')) return;
+      const inMenu = Boolean(e.target.closest('[role="menu"], media-menu'));
       let done = false;
-      if (e.key === 't' || e.key === 'T') { timeBtn.click(); done = true; }
+      if ((e.key === 't' || e.key === 'T') && !inMenu) { timeBtn.click(); done = true; }
       else if (e.key === 'b' || e.key === 'B') done = openMenu('.l10-board-tools .l10-gear:not(.l10-sharebtn)');
       else if (e.key === 'a' || e.key === 'A') done = openMenu('.l10-stbtn', '.l10-m-st');
       else if (e.key === 'q' || e.key === 'Q') done = openMenu('.l10-quality', '.l10-m-q');
@@ -1308,9 +1339,10 @@ class Line10Player extends HTMLElement {
 
     // S opens Settings (when the player is small enough to have it)
     root.addEventListener('keydown', (e) => {
-      if ((e.key !== 's' && e.key !== 'S') || e.altKey || e.ctrlKey || e.metaKey || e.target.closest('input, textarea, [role="menu"]')) return;
+      if ((e.key !== 's' && e.key !== 'S') || e.altKey || e.ctrlKey || e.metaKey || e.target.closest('input, textarea')) return;
       if (!moreBtn.offsetParent) return;
       e.preventDefault();
+      if (moreBtn.getAttribute('aria-expanded') === 'true') { moreBtn.click(); moreBtn.focus(); return; }   // S again closes it
       syncMore(); showCs('list');
       moreBtn.focus();
       moreBtn.click();

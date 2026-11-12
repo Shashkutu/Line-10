@@ -4,7 +4,7 @@ const frame = document.getElementById('frame');
 const picks = [...document.querySelectorAll('.line-pick')];
 const note = document.getElementById('line-note');
 
-function ride(btn, { autoplay = false } = {}) {
+function ride(btn, { autoplay = false, start = NaN } = {}) {
   const d = btn.dataset;
   const color = btn.style.getPropertyValue('--c').trim();
   const ink = btn.style.getPropertyValue('--ink').trim();
@@ -34,6 +34,7 @@ function ride(btn, { autoplay = false } = {}) {
   set('next-number', next.dataset.number);
   set('next-line', next.style.getPropertyValue('--c').trim());
   if (autoplay) p.setAttribute('autoplay', '');
+  if (Number.isFinite(start)) p.setAttribute('start', String(start));
   p.style.setProperty('--media-accent-text-color', ink);
   frame.classList.toggle('is-vertical', Boolean(d.ratio));
   note.textContent = d.note || '';
@@ -65,13 +66,13 @@ frame.querySelector('line10-player')?.addEventListener('line10:next', changeHere
 // open the line a link points to (?line=2); a plain link opens the first line
 const params = new URLSearchParams(location.search);
 const linked = params.has('line') ? Number(params.get('line')) : 0;
-if (Number.isInteger(linked) && linked > 0 && picks[linked]) ride(picks[linked]);
+if (Number.isInteger(linked) && linked > 0 && picks[linked]) ride(picks[linked], { start: parseFloat(params.get('t') ?? params.get('sec')) });
 else if (params.has('line')) setLineInUrl(0);
 // a link's time (?t=25, or ?sec=25) is used once, by the first player; later line changes start from the top
 if (params.has('t') || params.has('sec')) {
   try { const u = new URL(location.href); u.searchParams.delete('t'); u.searchParams.delete('sec'); history.replaceState(history.state, '', u); } catch { /* sandboxed */ }
 }
-try { Object.keys(localStorage).filter((k) => k === 'line10:line' || k === 'line10:tries' || k.startsWith('line10:pos:')).forEach((k) => localStorage.removeItem(k)); } catch { /* private mode */ }
+try { Object.keys(localStorage).filter((k) => k.startsWith('line10:')).forEach((k) => localStorage.removeItem(k)); } catch { /* private mode */ }   // nothing is kept between visits
 
 // ---------- "Put it on your site": paint the line, copy the code ----------
 const swatches = [...document.querySelectorAll('.swatch[data-c]')];
@@ -156,7 +157,7 @@ const tick = (k) => {
   drawTries();
 };
 // phones have no N key: there the hint points at the Next stop button in Settings
-if (matchMedia('(hover: none) and (pointer: coarse)').matches) {
+if (/Android|iPhone|iPad|iPod|Mobile|SamsungBrowser/i.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1) || matchMedia('(hover: none) and (pointer: coarse)').matches) {
   tries.querySelector('[data-try="next"] > span:not(.vh)').textContent = 'Jump to the next stop';
 }
 drawTries();
@@ -175,8 +176,11 @@ frame.addEventListener('click', (e) => {
   if (e.target.closest?.('.l10-nextstop, .l10-m-next')) tick('next');
 }, true);
 frame.addEventListener('ratechange', () => { if (performance.now() - lastInput < 2000) tick('speed'); }, true);
-new MutationObserver(() => { if (performance.now() - lastInput < 2000) tick('board'); })   // the board's look changed by the visitor
-  .observe(frame, { subtree: true, attributes: true, attributeFilter: ['data-board', 'data-board-pos', 'data-board-style', 'data-board-flip'] });
+// the board's look changed by the visitor (a real change of value: other settings re-apply these unchanged)
+new MutationObserver((list) => {
+  if (performance.now() - lastInput > 2000) return;
+  if (list.some((m) => m.oldValue !== m.target.getAttribute(m.attributeName))) tick('board');
+}).observe(frame, { subtree: true, attributes: true, attributeOldValue: true, attributeFilter: ['data-board', 'data-board-pos', 'data-board-style', 'data-board-flip'] });
 frame.addEventListener('line10:share', () => tick('share'));
 frame.addEventListener('line10:captions', (e) => { if (e.detail?.on) tick('captions'); });
 frame.addEventListener('line10:fullscreen', () => tick('fullscreen'));

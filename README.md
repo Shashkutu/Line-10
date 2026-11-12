@@ -22,7 +22,8 @@
 - **Taps.** Click the picture to play or pause and double-click for fullscreen. On touch, double-tap the left or right third to skip 5 seconds. On phones a tap plays or pauses, and dragging the train gives a small buzz at each station where the phone supports it.
 - **Share a stop.** The link button on the departure board (or U) shares the station you're at: phones open their share sheet, desktops copy the link, and if a browser blocks copying the link is shown ready to copy.
 - **Time links.** A link ending in `?t=25` opens the player at 0:25 with a Start over (R) note; a plain link starts at the beginning.
-- **Time display.** Click the time (or T) to switch between the total length and the time left. Remembered with the other viewer settings.
+- **Nothing stored.** Every visit starts from the same defaults (Auto quality, 40% volume on desktop, phone volume on phones); choices carry over between videos during a visit only.
+- **Time display.** Click the time (or T) to switch between the total length and the time left. 
 - **Phones.** No volume control on phones and tablets: the phone's own buttons set the volume. Skips show arrows on the side you skip to.
 - **Ambient light.** A soft glow taken from the picture itself lights the page around the player, and the poster fades into the first frame.
 - **Any line colour** with one attribute.
