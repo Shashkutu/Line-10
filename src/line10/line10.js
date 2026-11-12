@@ -97,7 +97,7 @@ const CAPTION_ROWS = [['capSize', 'Text size'], ['capColor', 'Text colour'], ['c
 const DEFAULTS = {
   boardSize: 'full', boardPos: 'left', boardStyle: 'glass', boardFlip: 'on',
   capSize: 'm', capColor: 'white', capBg: '75', capEdge: 'none', capShadow: 'off', capBrackets: 'square',
-  volume: 1, muted: false, rate: 1, captions: false,
+  volume: 1, muted: false, rate: 1, captions: false, timeMode: 'total',
 };
 const BRACKETS = { square: ['[', ']'], round: ['(', ')'], double: ['“', '”'], single: ['‘', '’'], none: ['', ''] };
 const KEY = 'line10:prefs';
@@ -206,6 +206,7 @@ const moreMenu = (id) => `
         </div>`).join('')}
       </media-menu-content>
       <media-menu-item class="l10-menu-item l10-m-pip">${i.pipIn('l10-menu-ico')}<span class="l10-menu-text l10-m-pip-text">Picture-in-picture</span></media-menu-item>
+      <media-menu-item class="l10-menu-item l10-m-mute">${i.vol3('l10-menu-ico')}<span class="l10-menu-text">Sound</span><span class="l10-menu-value" data-m="l10-m-mute"></span></media-menu-item>
     </media-menu-content>
   </media-menu>`;
 
@@ -254,11 +255,11 @@ function template(o) {
               </div>
             </div>
             <div class="l10-board-tools">
-              <button type="button" class="l10-gear" id="${id('gear')}" commandfor="${id('board-menu')}" aria-label="Departure board settings" aria-haspopup="menu">${i.gear()}</button>
+              <button type="button" class="l10-gear" id="${id('gear')}" commandfor="${id('board-menu')}" aria-label="Departure board settings" aria-keyshortcuts="B" aria-haspopup="menu">${i.gear()}</button>
               <button type="button" class="l10-gear l10-sharebtn" id="${id('share')}" aria-label="Share this stop" aria-keyshortcuts="U">${i.link()}</button>
             </div>
           </div>
-          ${tip(id('gear'), [], { label: 'Departure board settings', side: 'bottom' })}
+          ${tip(id('gear'), ['B'], { label: 'Departure board settings', side: 'bottom' })}
           ${tip(id('share'), ['U'], { label: 'Share this stop', side: 'bottom' })}
           ${settingsMenu(id, id('board-menu'), 'Departure board', BOARD_ROWS, 'l10-boardmenu', 'bottom', 'start')}
           <media-title class="l10-sr"></media-title>
@@ -323,17 +324,20 @@ function template(o) {
                   <!-- after 2 s of hovering, a hint explains the control and its keys -->
                   <span class="l10-vol-hint" aria-hidden="true"><b>Volume</b><span>${kbd(['M'])} mute</span><span>${kbd(['↑', '↓'])} louder / quieter</span><span>Drag or click the fader</span></span>
                 </media-volume-popover>
-                <media-time-group class="l10-time">
-                  <media-time type="current" class="l10-time-now"></media-time>
-                  <media-time-separator class="l10-time-sep"></media-time-separator>
-                  <media-time type="duration" class="l10-time-dur"></media-time>
-                  <media-time type="remaining" class="l10-time-left"></media-time>
-                </media-time-group>
+                <button type="button" class="l10-time" id="${id('time')}" aria-keyshortcuts="T" aria-label="Show time left" aria-pressed="false">
+                  <media-time-group class="l10-time-in">
+                    <media-time type="current" class="l10-time-now"></media-time>
+                    <media-time-separator class="l10-time-sep"></media-time-separator>
+                    <media-time type="duration" class="l10-time-dur"></media-time>
+                    <media-time type="remaining" class="l10-time-left"></media-time>
+                  </media-time-group>
+                </button>
+                ${tip(id('time'), ['T'], { label: 'Show time left', side: 'right' })}
               </media-controls-group>
 
               <media-controls-group class="l10-group l10-group-end">
-                <button type="button" class="l10-btn l10-stbtn" id="${id('st')}" commandfor="${id('st-menu')}" aria-label="All stations" aria-haspopup="menu" data-off>${i.stations()}</button>
-                ${tip(id('st'), [], { label: 'All stations', side: 'left' })}
+                <button type="button" class="l10-btn l10-stbtn" id="${id('st')}" commandfor="${id('st-menu')}" aria-label="All stations" aria-keyshortcuts="A" aria-haspopup="menu" data-off>${i.stations()}</button>
+                ${tip(id('st'), ['A'], { label: 'All stations', side: 'left' })}
                 <media-menu id="${id('st-menu')}" side="top" align="end" class="l10-pop l10-menu l10-stmenu">
                   <media-menu-content class="l10-menu-content">
                     <span class="l10-menu-label" aria-hidden="true">Stations</span>
@@ -353,8 +357,8 @@ function template(o) {
                     ${rateGroup()}
                   </media-menu-content>
                 </media-menu>
-                <button type="button" class="l10-btn l10-pill l10-quality" id="${id('q')}" commandfor="${id('q-menu')}" aria-label="Quality" aria-haspopup="menu" data-off><span class="l10-pill-text l10-quality-name">Auto</span></button>
-                ${tip(id('q'), [], { label: 'Quality', side: 'left' })}
+                <button type="button" class="l10-btn l10-pill l10-quality" id="${id('q')}" commandfor="${id('q-menu')}" aria-label="Quality" aria-keyshortcuts="Q" aria-haspopup="menu" data-off><span class="l10-pill-text l10-quality-name">Auto</span></button>
+                ${tip(id('q'), ['Q'], { label: 'Quality', side: 'left' })}
                 <media-menu id="${id('q-menu')}" side="top" align="end" class="l10-pop l10-menu l10-qmenu l10-flip-list">
                   <media-menu-content class="l10-menu-content">
                     <span class="l10-menu-label" aria-hidden="true">Quality</span>
@@ -363,8 +367,8 @@ function template(o) {
                 </media-menu>
                 <media-captions-button class="l10-btn l10-cc" id="${id('cc')}">${i.ccOff('l10-i-cc-off')}${i.ccOn('l10-i-cc-on')}</media-captions-button>
                 ${tip(id('cc'), ['C'], { side: 'left' })}
-                <button type="button" class="l10-btn l10-capset" id="${id('capset')}" commandfor="${id('capset-menu')}" aria-label="Caption style" aria-haspopup="menu">${i.captionStyle()}</button>
-                ${tip(id('capset'), [], { label: 'Caption style', side: 'left' })}
+                <button type="button" class="l10-btn l10-capset" id="${id('capset')}" commandfor="${id('capset-menu')}" aria-label="Caption style" aria-keyshortcuts="Shift+C" aria-haspopup="menu">${i.captionStyle()}</button>
+                ${tip(id('capset'), ['Shift', 'C'], { label: 'Caption style', side: 'left' })}
                 <media-pip-button class="l10-btn l10-pip" id="${id('pip')}">${i.pipIn('l10-i-pip-in')}${i.pipOut('l10-i-pip-out')}</media-pip-button>
                 ${tip(id('pip'), ['I'], { side: 'left' })}
                 ${settingsMenu(id, id('capset-menu'), 'Caption style', CAPTION_ROWS, 'l10-capmenu')}
@@ -418,7 +422,8 @@ function template(o) {
     </div>
 
     <div class="l10-indicators" aria-hidden="true">
-      <media-seek-indicator class="l10-ind"><media-seek-indicator-value class="l10-ind-value"></media-seek-indicator-value></media-seek-indicator>
+      <span class="l10-ind l10-ind-seek l10-ind-click"><span class="l10-skip-arrows" aria-hidden="true"><i></i><i></i><i></i></span><span class="l10-ind-value"></span></span>
+      <media-seek-indicator class="l10-ind l10-ind-seek"><span class="l10-skip-arrows" aria-hidden="true"><i></i><i></i><i></i></span><media-seek-indicator-value class="l10-ind-value"></media-seek-indicator-value></media-seek-indicator>
       <media-volume-indicator class="l10-ind l10-ind-vol">
         <span class="l10-ind-gauge"><media-volume-indicator-fill class="l10-ind-fill"></media-volume-indicator-fill></span>
         <media-volume-indicator-value class="l10-ind-value"></media-volume-indicator-value>
@@ -743,14 +748,11 @@ class Line10Player extends HTMLElement {
     media.addEventListener('loadedmetadata', () => { const v = innerVideo(); if (v && v !== media && !v.dataset.l10Fs) { v.dataset.l10Fs = '1'; v.addEventListener('webkitbeginfullscreen', fsSeen); } });
 
     // ---------- continue the ride: start where a link points, or where this viewer left off ----------
-    const posKey = `line10:pos:${this.getAttribute('playback-id') || this.getAttribute('src') || ''}`;
-    const fromUrl = document.querySelector('line10-player') === this ? parseFloat(new URLSearchParams(location.search).get('t')) : NaN;
+    // like YouTube: a link with ?t=25 (or ?sec=25) starts at 0:25; a plain link starts at the beginning
+    const q = new URLSearchParams(location.search);
+    const fromUrl = document.querySelector('line10-player') === this ? parseFloat(q.get('t') ?? q.get('sec')) : NaN;
     let startAt = parseFloat(this.getAttribute('start'));
-    let resumed = false;
     if (!Number.isFinite(startAt)) startAt = fromUrl;
-    if (!Number.isFinite(startAt) && this.getAttribute('resume') !== 'off' && !this.hasAttribute('autoplay')) {
-      try { const v = parseFloat(localStorage.getItem(posKey)); if (v > 0) { startAt = v; resumed = true; } } catch { /* private mode */ }
-    }
     const goStart = () => {
       if (!Number.isFinite(startAt) || !(media.duration > 0)) return;
       const at = Math.max(0, Math.min(startAt, media.duration - 2));
@@ -760,7 +762,7 @@ class Line10Player extends HTMLElement {
       setTimeout(() => {                      // the station names arrive with the chapters track
         const st = stationAt(at);
         const where = st ? `<b>${esc(st.name)}</b><span class="l10-toast-dot">·</span>${clock(at)}` : `<b>${clock(at)}</b>`;
-        toast(`${resumed ? 'Continued from' : 'Starting at'} ${where}`, { over: true, ms: 0 });
+        toast(`Starting at ${where}`, { over: true, ms: 0 });
       }, 350);
     };
     media.addEventListener('loadedmetadata', goStart);
@@ -768,24 +770,9 @@ class Line10Player extends HTMLElement {
     overBtn.addEventListener('click', () => {
       media.currentTime = 0;
       hideToast();
-      try { localStorage.removeItem(posKey); } catch { /* private mode */ }
       root.focus({ preventScroll: true });
     });
     media.addEventListener('playing', () => { if (!overBtn.hidden) { clearTimeout(toastT); toastT = setTimeout(hideToast, 5000); } });
-    const savePos = () => {
-      if (Number.isFinite(startAt) || this.getAttribute('resume') === 'off') return;   // not before the start point is applied
-      const t = media.currentTime;
-      const d = media.duration;
-      try {
-        if (!(d > 0) || t < 5 || t > d - 8 || media.ended) localStorage.removeItem(posKey);
-        else localStorage.setItem(posKey, t.toFixed(1));
-      } catch { /* private mode */ }
-    };
-    let saved = 0;
-    media.addEventListener('timeupdate', () => { const n = performance.now(); if (n - saved > 2000) { saved = n; savePos(); } });
-    media.addEventListener('pause', savePos);
-    media.addEventListener('ended', savePos);
-    window.addEventListener('pagehide', savePos, whileAlive);
 
     // the centre play/skip buttons repeat the ones in the bar: keep them for the mouse
     // and touch, but out of the tab order and the screen-reader tree
@@ -816,7 +803,7 @@ class Line10Player extends HTMLElement {
     let previewUntil = 0, previewTimer = 0, syncing = false;
     if (prefs.board && !prefs.boardSize) prefs.boardSize = prefs.board;
     if (prefs.boardPos === 'center') prefs.boardPos = 'left';   // older saved setting
-    const LOOK = { boardSize: 'board', boardPos: 'boardPos', boardStyle: 'boardStyle', boardFlip: 'boardFlip', capSize: 'capsize', capColor: 'capcolor', capBg: 'capbg', capEdge: 'capedge', capShadow: 'capshadow' };
+    const LOOK = { timeMode: 'time', boardSize: 'board', boardPos: 'boardPos', boardStyle: 'boardStyle', boardFlip: 'boardFlip', capSize: 'capsize', capColor: 'capcolor', capBg: 'capbg', capEdge: 'capedge', capShadow: 'capshadow' };
     // a short player (a phone, a small window) only has room for the one-line board: there "Full" isn't
     // offered and the menu shows Compact, while the saved choice stays Full for bigger screens
     const shown = (k) => {
@@ -886,13 +873,19 @@ class Line10Player extends HTMLElement {
       else { setPref(t.dataset.k, t.dataset.v); markCs(); }
     });
 
+    // phones and tablets have no hover to open the fader, and their own volume buttons: no volume control there
+    const touchOnly = matchMedia('(hover: none) and (pointer: coarse)').matches;
+    root.toggleAttribute('data-touch', touchOnly);
     // volume, mute, speed and captions carry over to the next video and the next visit
     let restored = false;
     const restore = () => {
       if (restored) return;
       restored = true;
-      if (Number.isFinite(prefs.volume)) media.volume = Math.min(1, Math.max(0, prefs.volume));
-      media.muted = Boolean(prefs.muted);
+      if (touchOnly) { media.volume = 1; media.muted = false; }      // phones: the phone's own volume buttons
+      else {
+        if (Number.isFinite(prefs.volume)) media.volume = Math.min(1, Math.max(0, prefs.volume));
+        media.muted = Boolean(prefs.muted);
+      }
       if (prefs.rate && SERVICES[prefs.rate]) { media.playbackRate = prefs.rate; media.defaultPlaybackRate = prefs.rate; }
       restoreCaptions();
     };
@@ -905,6 +898,7 @@ class Line10Player extends HTMLElement {
     if (media.readyState >= 1) restore();
     media.addEventListener('volumechange', () => {
       if (!restored) return;
+      if (touchOnly) return;
       prefs.volume = media.volume; prefs.muted = media.muted; savePrefs(prefs);
     });
     media.addEventListener('ratechange', () => {
@@ -1247,6 +1241,7 @@ class Line10Player extends HTMLElement {
       const inPip = Boolean(pipWin || media.ownerDocument.pictureInPictureElement);
       $('.l10-m-pip-text').textContent = inPip ? 'Exit picture-in-picture' : 'Picture-in-picture';
       $('.l10-m-pip').toggleAttribute('data-off', !dpip && !document.pictureInPictureEnabled);
+      mVal('l10-m-mute', media.muted || media.volume === 0 ? 'Off' : 'On');
       navSync();
     };
     // "there's more below": a themed cue at the bottom of the menu while a page can scroll further
@@ -1261,6 +1256,56 @@ class Line10Player extends HTMLElement {
     moreMenuEl.addEventListener('click', () => { setTimeout(cue, 60); setTimeout(cue, 360); });
     moreMenuEl.addEventListener('keydown', () => setTimeout(cue, 60));
     new MutationObserver(() => requestAnimationFrame(cue)).observe(moreMenuEl, { attributes: true, subtree: true, attributeFilter: ['data-open', 'hidden', 'data-show'] });
+    // the ±5 s buttons show the same arrows as the keys and double taps; quick repeats add up (10 s, 15 s…)
+    const clickInd = $('.l10-ind-click');
+    let skipSum = 0, skipDir = '', skipT = 0;
+    root.querySelectorAll('media-seek-button').forEach((b) => b.addEventListener('click', () => {
+      const sec = Number(b.getAttribute('seconds')) || 0;
+      const dir = sec < 0 ? 'backward' : 'forward';
+      skipSum = dir === skipDir ? skipSum + Math.abs(sec) : Math.abs(sec);
+      skipDir = dir;
+      clickInd.dataset.direction = dir;
+      clickInd.querySelector('.l10-ind-value').textContent = `${skipSum}s`;
+      clickInd.setAttribute('data-open', '');
+      clearTimeout(skipT);
+      skipT = setTimeout(() => { clickInd.removeAttribute('data-open'); skipSum = 0; skipDir = ''; }, 800);
+    }));
+
+    // the time: click it (or T) to switch between the whole length and the time left
+    const timeBtn = $('.l10-time');
+    const timeTipLabel = root.querySelector(`media-tooltip[trigger="${timeBtn.id}"] media-tooltip-label`);
+    const drawTime = () => {
+      const left = (prefs.timeMode ?? DEFAULTS.timeMode) === 'left';
+      timeBtn.setAttribute('aria-pressed', String(left));
+      timeBtn.setAttribute('aria-label', left ? 'Show total time' : 'Show time left');
+      if (timeTipLabel) timeTipLabel.textContent = left ? 'Show total time' : 'Show time left';
+    };
+    drawTime();
+    timeBtn.addEventListener('click', () => { setPref('timeMode', (prefs.timeMode ?? DEFAULTS.timeMode) === 'left' ? 'total' : 'left'); drawTime(); });
+
+    // menu keys: B board settings, A all stations, Q quality, Shift+C caption style.
+    // When the bar has folded a button into Settings, the key opens Settings at that page instead.
+    const openMenu = (btnSel, rowSel) => {
+      const btn = $(btnSel);
+      if (btn && btn.offsetParent && !btn.hasAttribute('data-off')) { btn.focus(); btn.click(); return true; }
+      const row = rowSel && $(rowSel);
+      if (!row || !moreBtn.offsetParent || row.hasAttribute('data-off') || row.hasAttribute('data-hidden')) return false;
+      syncMore(); showCs('list');
+      moreBtn.focus(); moreBtn.click();
+      setTimeout(() => { row.click(); setTimeout(() => (row.ownerDocument.getElementById(row.getAttribute('commandfor'))?.querySelector('[role^="menuitem"]:not([data-hidden]), media-menu-item:not([data-hidden]), media-menu-radio-item:not([hidden])'))?.focus(), 80); }, 60);
+      return true;
+    };
+    root.addEventListener('keydown', (e) => {
+      if (e.altKey || e.ctrlKey || e.metaKey || e.target.closest('input, textarea, [role="menu"]')) return;
+      let done = false;
+      if (e.key === 't' || e.key === 'T') { timeBtn.click(); done = true; }
+      else if (e.key === 'b' || e.key === 'B') done = openMenu('.l10-board-tools .l10-gear:not(.l10-sharebtn)');
+      else if (e.key === 'a' || e.key === 'A') done = openMenu('.l10-stbtn', '.l10-m-st');
+      else if (e.key === 'q' || e.key === 'Q') done = openMenu('.l10-quality', '.l10-m-q');
+      else if (e.key === 'C' && e.shiftKey) done = openMenu('.l10-capset', '.l10-m-cs');
+      if (done) { e.preventDefault(); e.stopImmediatePropagation(); }
+    }, true);
+
     // S opens Settings (when the player is small enough to have it)
     root.addEventListener('keydown', (e) => {
       if ((e.key !== 's' && e.key !== 'S') || e.altKey || e.ctrlKey || e.metaKey || e.target.closest('input, textarea, [role="menu"]')) return;
@@ -1285,6 +1330,7 @@ class Line10Player extends HTMLElement {
       .forEach((g) => g.addEventListener('value-change', closeMore));
     $('.l10-m-next').addEventListener('select', () => jump(1));
     $('.l10-m-cc').addEventListener('select', () => { ccBtn.click(); setTimeout(syncMore, 50); });
+    $('.l10-m-mute').addEventListener('select', () => { media.muted = !(media.muted || media.volume === 0) ? true : false; if (!media.muted && media.volume === 0) media.volume = 1; setTimeout(syncMore, 50); });
     $('.l10-m-pip').addEventListener('select', () => { if (dpip) togglePip(); else nativePip(); });
 
     off.signal.addEventListener('abort', () => { clearInterval(qTimer); clearInterval(capTimer); clearTimeout(previewTimer); });

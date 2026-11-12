@@ -1226,10 +1226,7 @@ media-error-dialog:not([data-open]) .l10-backdrop { display: none; }
   .l10-nextstop .l10-pill-text { display: none; }
   .l10-nextstop { padding: 0 10px; }
 }
-@container l10 (max-width: 900px) {
-  .l10-pip { display: none; }
-  .l10-time-sep, .l10-time-dur { display: none; }
-}
+
 @container l10 (max-width: 760px) {
   .l10-tile { font-size: 12px; }
   .l10-row-next .l10-tile, .l10-eta .l10-tile { font-size: 10.5px; }
@@ -1359,7 +1356,6 @@ media-error-dialog:not([data-open]) .l10-backdrop { display: none; }
   .l10-rplay { margin-right: 0; }
   .l10-mute { display: inline-grid; }
   .l10-time { display: inline-flex; margin-left: 2px; padding: 1px 9px 0; font-size: 12px; }
-  .l10-time-sep, .l10-time-dur { display: inline; }
   .l10-stbtn, .l10-service, .l10-quality, .l10-capset { display: none !important; }
   .l10 .l10-cc, .l10 .l10-pip, .l10 .l10-more { display: inline-grid; }
   .l10 .l10-nextstop:not([hidden]) { display: inline-grid; place-items: center; width: 44px; height: 44px; min-width: 0; padding: 0; margin: 0; background: none; box-shadow: none; }
@@ -1386,8 +1382,8 @@ media-error-dialog:not([data-open]) .l10-backdrop { display: none; }
 }
 
 /* the smallest players show the time left instead of "now / total" */
-.l10-time-left { display: none; }
-@container l10 (max-width: 370px) { .l10 .l10-time-now, .l10 .l10-time-sep, .l10 .l10-time-dur { display: none; } .l10 .l10-time-left { display: inline; } }
+
+
 @container l10 (max-width: 260px) { .l10-panel { padding-inline: 4px; } .l10-route { margin-inline: 8px; } .l10 .l10-time { padding: 1px 5px 0; } .l10-row > .l10-group { gap: 0; } }
 .l10-nextstop { min-width: 44px; justify-content: center; }
 
@@ -1612,3 +1608,46 @@ media-tooltip.l10-tip:is([trigger$="-gear"], [trigger$="-share"]) { translate: 0
 .l10-toast-link:focus-visible { outline: 2px solid var(--l10-line); outline-offset: 1px; }
 .l10-toast-text:has(.l10-toast-link) { display: flex; align-items: center; gap: 10px; }
 .l10-menu-item[hidden] { display: none; }
+
+/* ---------- the time: one button, "0:22 / 1:33" or "0:22 / -1:11" (click or T) ---------- */
+button.l10-time { color: inherit; cursor: pointer; font-family: var(--l10-mono); font-size: 12.5px; font-weight: 600; }
+.l10-time-in { display: inline-flex; align-items: center; gap: 5px; }
+.l10:not([data-time="left"]) .l10-time-left,
+.l10[data-time="left"] .l10-time-dur { display: none; }
+.l10-time-left { color: var(--l10-dim); }
+@media (hover: hover) and (pointer: fine) { button.l10-time:hover { background: rgb(255 255 255 / 0.14); } }
+button.l10-time:focus-visible { outline: 2px solid var(--l10-line); outline-offset: 2px; }
+@container l10 (max-width: 770px) { button.l10-time { font-size: 12px; } }
+@container l10 (max-width: 300px) { button.l10-time { font-size: 11px; } .l10-time-in { gap: 3px; } }
+
+/* ---------- phones and tablets: the phone's own buttons set the volume ---------- */
+.l10[data-touch] .l10-mute, .l10[data-touch] .l10-volume { display: none !important; }
+
+/* ---------- skipping: arrows on the side you skip to ---------- */
+.l10-indicators { inset: 0; align-items: start; }
+.l10-indicators > :not(.l10-ind-seek) { margin-top: max(12px, 6%); }
+.l10-ind-seek { align-self: center; justify-self: end; margin-inline: 8%; gap: 8px; padding: 9px 16px 8px 12px; }
+.l10-ind-seek[data-direction="backward"] { justify-self: start; flex-direction: row-reverse; padding: 9px 12px 8px 16px; }
+.l10-skip-arrows { display: inline-flex; }
+.l10-skip-arrows i {
+  width: 9px;
+  height: 9px;
+  margin-right: -1px;
+  border: solid var(--l10-line);
+  border-width: 2.5px 2.5px 0 0;
+  rotate: 45deg;
+  opacity: 0.25;
+  animation: l10-skip 0.75s linear infinite;
+}
+.l10-skip-arrows i:nth-child(2) { animation-delay: 0.12s; }
+.l10-skip-arrows i:nth-child(3) { animation-delay: 0.24s; }
+.l10-ind-seek[data-direction="backward"] .l10-skip-arrows { scale: -1 1; }
+@keyframes l10-skip { 0%, 100% { opacity: 0.25; } 35% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .l10-skip-arrows i { animation: none; opacity: 1; } }
+@container l10 (max-width: 560px) { .l10-ind-seek { margin-inline: 5%; } }
+button.l10-time { pointer-events: auto; }
+/* the tiniest players: the time tightens up rather than pushing a button out */
+@container l10 (max-width: 280px) { button.l10-time { padding: 1px 5px 0; margin-left: 0; font-size: 10.5px; letter-spacing: -0.02em; } .l10-time-in { gap: 2px; } }
+.l10-m-mute { display: none; }
+/* a 240px desktop player: Mute steps into Settings (phones have no volume control at all) */
+@container l10 (max-width: 280px) { .l10:not([data-touch]) .l10-mute { display: none; } .l10:not([data-touch]) .l10-moremenu .l10-m-mute { display: grid; } }

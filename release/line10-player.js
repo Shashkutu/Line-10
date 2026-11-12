@@ -1,6 +1,6 @@
-import { A as e, B as t, C as n, D as r, E as i, F as a, H as o, I as s, L as c, N as l, O as u, P as d, R as f, S as p, V as m, _ as h, a as g, c as _, d as v, f as y, h as b, i as x, j as S, k as C, l as w, m as T, n as E, o as D, p as ee, r as te, s as ne, t as re, u as ie, x as ae, y as O, z as k } from "./types-CbTK6jiX.js";
+import { A as e, B as t, C as n, D as r, E as i, F as a, H as o, I as s, L as c, N as l, O as u, P as d, R as f, S as p, V as m, _ as h, a as g, c as _, d as v, f as y, h as b, i as x, j as S, k as C, l as w, m as T, n as E, o as D, p as ee, r as te, s as ne, t as re, u as ie, x as ae, y as oe, z as O } from "./types-CbTK6jiX.js";
 // node_modules/@lit/context/lib/controllers/context-consumer.js
-var oe = class {
+var se = class {
 	constructor(e, t, n, r) {
 		if (this.subscribe = !1, this.provided = !1, this.value = void 0, this.t = (e, t) => {
 			this.unsubscribe && (this.unsubscribe !== t && (this.provided = !1, this.unsubscribe()), this.subscribe || this.unsubscribe()), this.value = e, this.host.requestUpdate(), this.provided && !this.subscribe || (this.provided = !0, this.callback && this.callback(e, t)), this.unsubscribe = t;
@@ -19,7 +19,7 @@ var oe = class {
 	dispatchRequest() {
 		this.host.dispatchEvent(new m(this.context, this.host, this.t, this.subscribe));
 	}
-}, se = class {
+}, ce = class {
 	get value() {
 		return this.o;
 	}
@@ -49,14 +49,14 @@ var oe = class {
 	clearCallbacks() {
 		this.subscriptions.clear();
 	}
-}, ce = class extends Event {
+}, le = class extends Event {
 	constructor(e, t) {
 		super("context-provider", {
 			bubbles: !0,
 			composed: !0
 		}), this.context = e, this.contextTarget = t;
 	}
-}, A = class extends se {
+}, k = class extends ce {
 	constructor(e, t, n) {
 		super(t.context === void 0 ? n : t.initialValue), this.onContextRequest = (e) => {
 			if (e.context !== this.context) return;
@@ -73,16 +73,16 @@ var oe = class {
 		this.host.addEventListener("context-request", this.onContextRequest), this.host.addEventListener("context-provider", this.onProviderRequest);
 	}
 	hostConnected() {
-		this.host.dispatchEvent(new ce(this.context, this.host));
+		this.host.dispatchEvent(new le(this.context, this.host));
 	}
-}, le = /* @__PURE__ */ new WeakSet(), j = class extends oe {
+}, ue = /* @__PURE__ */ new WeakSet(), A = class extends se {
 	hostConnected() {
-		M(this.host.ownerDocument), super.hostConnected();
+		de(this.host.ownerDocument), super.hostConnected();
 	}
 };
-function M(e) {
-	if (le.has(e)) return;
-	le.add(e);
+function de(e) {
+	if (ue.has(e)) return;
+	ue.add(e);
 	let t = /* @__PURE__ */ new Map();
 	e.addEventListener("context-request", (e) => {
 		let n = e;
@@ -104,7 +104,7 @@ function M(e) {
 	});
 }
 // node_modules/@videojs/utils/dist/object/defaults.js
-function N(e, t) {
+function j(e, t) {
 	let n = { ...t };
 	for (let r of Object.keys(t)) {
 		let t = e[r];
@@ -113,9 +113,9 @@ function N(e, t) {
 	return n;
 }
 // node_modules/@videojs/utils/dist/function/noop.js
-function P(...e) {}
+function fe(...e) {}
 // node_modules/@videojs/utils/dist/function/throttle.js
-function ue(e, t, n) {
+function pe(e, t, n) {
 	let r = n?.leading ?? !1, i = null, a, o = !1;
 	function s() {
 		i = setTimeout(() => {
@@ -136,12 +136,12 @@ function ue(e, t, n) {
 	}, c;
 }
 // node_modules/@videojs/store/dist/default/html/controllers/snapshot-controller.js
-var de = class {
+var me = class {
 	#e;
 	#t;
 	#n;
 	#r;
-	#i = P;
+	#i = fe;
 	constructor(e, t, n) {
 		this.#e = e, this.#n = t, this.#t = n, e.addController(this);
 	}
@@ -155,7 +155,7 @@ var de = class {
 		this.#a();
 	}
 	hostDisconnected() {
-		this.#i(), this.#i = P, this.#r = void 0;
+		this.#i(), this.#i = fe, this.#r = void 0;
 	}
 	#a() {
 		if (this.#i(), !this.#t) {
@@ -170,7 +170,7 @@ var de = class {
 	}
 };
 // node_modules/@videojs/utils/dist/events/abort.js
-function fe(e) {
+function he(e) {
 	if ("any" in AbortSignal) return AbortSignal.any(e);
 	let t = new AbortController();
 	for (let n of e) {
@@ -180,7 +180,7 @@ function fe(e) {
 	return t.signal;
 }
 // node_modules/@videojs/store/dist/default/core/abort-controller-registry.js
-var pe = class {
+var ge = class {
 	#e;
 	#t = /* @__PURE__ */ new Map();
 	get base() {
@@ -196,33 +196,33 @@ var pe = class {
 	supersede(e) {
 		this.#t.get(e)?.abort();
 		let t = new AbortController();
-		return this.#t.set(e, t), fe([this.base, t.signal]);
+		return this.#t.set(e, t), he([this.base, t.signal]);
 	}
-}, me = class extends Error {
+}, _e = class extends Error {
 	code;
 	cause;
 	constructor(e, t) {
 		super(t?.message ?? e), this.name = "StoreError", this.code = e, this.cause = t?.cause;
 	}
 };
-function he() {
-	throw new me("NO_TARGET");
+function ve() {
+	throw new _e("NO_TARGET");
 }
-function ge() {
-	throw new me("DESTROYED");
+function ye() {
+	throw new _e("DESTROYED");
 }
 // node_modules/@videojs/store/dist/default/core/state.js
-var _e = !1;
-function ve() {
-	_e || (_e = !0, queueMicrotask(be));
+var be = !1;
+function xe() {
+	be || (be = !0, queueMicrotask(Ce));
 }
-var ye = /* @__PURE__ */ new Set();
-function be() {
-	_e = !1;
-	for (let e of ye) e.flush();
-	ye.clear();
+var Se = /* @__PURE__ */ new Set();
+function Ce() {
+	be = !1;
+	for (let e of Se) e.flush();
+	Se.clear();
 }
-var xe = Object.prototype.hasOwnProperty, Se = class {
+var we = Object.prototype.hasOwnProperty, Te = class {
 	#e;
 	#t = /* @__PURE__ */ new Set();
 	#n = !1;
@@ -235,7 +235,7 @@ var xe = Object.prototype.hasOwnProperty, Se = class {
 	patch(e) {
 		let t = { ...this.#e }, n = !1;
 		for (let r of Reflect.ownKeys(e)) {
-			if (!xe.call(e, r)) continue;
+			if (!we.call(e, r)) continue;
 			let i = e[r];
 			Object.is(this.#e[r], i) || (t[r] = i, n = !0);
 		}
@@ -246,7 +246,7 @@ var xe = Object.prototype.hasOwnProperty, Se = class {
 	}
 	subscribe(e, t) {
 		let n = t?.signal;
-		if (n?.aborted) return P;
+		if (n?.aborted) return fe;
 		if (this.#t.add(e), !n) return () => this.#t.delete(e);
 		let r = () => this.#t.delete(e);
 		return n.addEventListener("abort", r, { once: !0 }), () => {
@@ -260,21 +260,21 @@ var xe = Object.prototype.hasOwnProperty, Se = class {
 		}
 	}
 	#r() {
-		this.#n = !0, ye.add(this), ve();
+		this.#n = !0, Se.add(this), xe();
 	}
 };
-function F(e) {
-	return new Se(e);
+function M(e) {
+	return new Te(e);
 }
 // node_modules/@videojs/store/dist/default/core/store.js
-var Ce = Symbol.for("@videojs/store"), we = Object.prototype.hasOwnProperty;
-function Te() {
+var Ee = Symbol.for("@videojs/store"), De = Object.prototype.hasOwnProperty;
+function Oe() {
 	return ((e, t = {}) => {
-		let n = null, i = !1, a = new AbortController(), o = new pe(), s = /* @__PURE__ */ new WeakMap(), c = /* @__PURE__ */ new WeakSet(), u, d;
+		let n = null, i = !1, a = new AbortController(), o = new ge(), s = /* @__PURE__ */ new WeakMap(), c = /* @__PURE__ */ new WeakSet(), u, d;
 		function f() {
-			i && ge(), n || he();
+			i && ye(), n || ve();
 		}
-		let p = Ee(e.state({
+		let p = ke(e.state({
 			target: () => (f(), n),
 			signals: o,
 			get: () => u,
@@ -282,9 +282,9 @@ function Te() {
 		}));
 		u = p;
 		let m = g(u);
-		d = F(_(u, m));
+		d = M(_(u, m));
 		let h = {
-			[Ce]: !0,
+			[Ee]: !0,
 			get $state() {
 				return d;
 			},
@@ -346,13 +346,13 @@ function Te() {
 			return s.set(e, r), r;
 		}
 		function y(e) {
-			let t = De(u, e);
+			let t = Ae(u, e);
 			if (!t) return;
 			let n = g(t.next);
 			u = t.next, d.replace(_(u, n));
 		}
 		function b(r) {
-			i && ge(), o.reset(), n = r;
+			i && ye(), o.reset(), n = r;
 			let a = {
 				target: r,
 				signal: o.base,
@@ -413,28 +413,28 @@ function Te() {
 		}
 	});
 }
-function Ee(e) {
+function ke(e) {
 	return Object.freeze({ ...e });
 }
-function De(e, t) {
+function Ae(e, t) {
 	let n = { ...e }, r = !1;
 	for (let i of Reflect.ownKeys(t)) {
-		if (!we.call(t, i)) continue;
+		if (!De.call(t, i)) continue;
 		let a = t[i];
 		Object.is(e[i], a) || (n[i] = a, r = !0);
 	}
 	return r ? { next: Object.freeze(n) } : null;
 }
-function Oe(e) {
-	return S(e) && Ce in e;
+function je(e) {
+	return S(e) && Ee in e;
 }
 // node_modules/@videojs/store/dist/default/html/store-accessor.js
-var ke = class {
+var Me = class {
 	#e;
 	#t;
 	#n;
 	constructor(e, t, n) {
-		this.#e = n ?? P, Oe(t) ? (this.#n = t, this.#t = null) : (this.#n = null, this.#t = new j(e, {
+		this.#e = n ?? fe, je(t) ? (this.#n = t, this.#t = null) : (this.#n = null, this.#t = new A(e, {
 			context: t,
 			callback: (e) => this.#e(e),
 			subscribe: !1
@@ -446,13 +446,13 @@ var ke = class {
 	hostConnected() {
 		this.#n && this.#e(this.#n);
 	}
-}, Ae = class {
+}, Ne = class {
 	#e;
 	#t;
 	#n;
 	#r = null;
 	constructor(e, t, n) {
-		this.#e = e, this.#t = n, this.#n = new ke(e, t, (e) => this.#i(e)), e.addController(this);
+		this.#e = e, this.#t = n, this.#n = new Me(e, t, (e) => this.#i(e)), e.addController(this);
 	}
 	get value() {
 		let e = this.#n.value;
@@ -461,15 +461,15 @@ var ke = class {
 	}
 	hostConnected() {}
 	#i(e) {
-		a(this.#t) || (this.#r ? this.#r.track(e.$state) : this.#r = new de(this.#e, e.$state, this.#t));
+		a(this.#t) || (this.#r ? this.#r.track(e.$state) : this.#r = new me(this.#e, e.$state, this.#t));
 	}
-}, I = class {
+}, N = class {
 	#e;
 	#t;
 	#n;
 	#r = null;
 	constructor(e, t, n) {
-		this.#e = e, this.#t = n, this.#n = new j(e, {
+		this.#e = e, this.#t = n, this.#n = new A(e, {
 			context: t,
 			callback: (e) => this.#i(e),
 			subscribe: !0
@@ -490,11 +490,11 @@ var ke = class {
 		this.#r = null;
 	}
 	#i(e) {
-		!this.#r && this.#t && (this.#r = new Ae(this.#e, e, this.#t));
+		!this.#r && this.#t && (this.#r = new Ne(this.#e, e, this.#t));
 	}
 };
-function je(e) {
-	class t extends I {
+function Pe(e) {
+	class t extends N {
 		constructor(t, n) {
 			n ? super(t, e, n) : super(t, e);
 		}
@@ -502,12 +502,12 @@ function je(e) {
 	return t;
 }
 // node_modules/@videojs/utils/dist/dom/animation-frame.js
-function Me(e) {
+function Fe(e) {
 	let t = requestAnimationFrame(e);
 	return () => cancelAnimationFrame(t);
 }
 // node_modules/@videojs/utils/dist/dom/children.js
-function Ne(e, t) {
+function Ie(e, t) {
 	let n = [];
 	for (let r = 0; r < e.children.length; r++) {
 		let i = e.children.item(r);
@@ -515,40 +515,40 @@ function Ne(e, t) {
 	}
 	return n;
 }
-function Pe(e, t) {
+function Le(e, t) {
 	for (let n = 0; n < e.children.length; n++) {
 		let r = e.children.item(n);
 		if (r && t(r, n)) return r;
 	}
 	return null;
 }
-function Fe(e) {
+function Re(e) {
 	if (e instanceof HTMLSlotElement) {
 		let t = e.assignedElements();
 		if (t.length > 0) return t;
 	}
 	return [...e.children];
 }
-function Ie(e, t) {
-	let n = Fe(e);
+function ze(e, t) {
+	let n = Re(e);
 	for (let [e, r] of n.entries()) {
 		if (t(r, e)) return r;
-		let n = Ie(r, t);
+		let n = ze(r, t);
 		if (n) return n;
 	}
 	return null;
 }
 // node_modules/@videojs/utils/dist/dom/direction.js
-function Le(e) {
+function Be(e) {
 	let t = e.closest("[dir]")?.getAttribute("dir")?.toLowerCase();
 	return t === "rtl" || t === "ltr" ? t === "rtl" : getComputedStyle(e).direction === "rtl";
 }
 // node_modules/@videojs/utils/dist/dom/event.js
-function Re(e) {
+function Ve(e) {
 	let t = e.composedPath();
 	return t.length > 0 ? t[0] : e.target;
 }
-function ze(e, t, n) {
+function He(e, t, n) {
 	return new Promise((r, i) => {
 		let a = () => {
 			i(n?.signal?.reason ?? "Aborted");
@@ -562,39 +562,39 @@ function ze(e, t, n) {
 	});
 }
 // node_modules/@videojs/utils/dist/dom/predicates.js
-function Be(e) {
+function Ue(e) {
 	return e instanceof Node && e.nodeType === 9;
 }
-function Ve(e) {
+function We(e) {
 	return e instanceof Node && e.nodeType === 11 && "host" in e;
 }
-function He(e) {
+function Ge(e) {
 	return e instanceof HTMLImageElement;
 }
 // node_modules/@videojs/utils/dist/dom/walk-ancestors.js
-function Ue(e, t, n = {}) {
+function Ke(e, t, n = {}) {
 	if (!e || typeof document > "u") return;
 	let r = e;
 	for (; r;) {
 		let e = t(r);
 		if (!a(e)) return e;
-		r = n.composed ? We(r) : r.parentElement;
+		r = n.composed ? qe(r) : r.parentElement;
 	}
 }
-function We(e) {
+function qe(e) {
 	if (e.assignedSlot) return e.assignedSlot;
 	if (e.parentElement) return e.parentElement;
 	let t = e.getRootNode();
-	return Ve(t) ? t.host : null;
+	return We(t) ? t.host : null;
 }
 // node_modules/@videojs/utils/dist/dom/focus.js
-var Ge = "a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),audio[controls],video[controls],iframe,[contenteditable]:not([contenteditable=\"false\"]),[tabindex]:not([tabindex=\"-1\"])";
-function L(e = document) {
+var Je = "a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),audio[controls],video[controls],iframe,[contenteditable]:not([contenteditable=\"false\"]),[tabindex]:not([tabindex=\"-1\"])";
+function P(e = document) {
 	let t = e.activeElement;
 	for (; t?.shadowRoot?.activeElement;) t = t.shadowRoot.activeElement;
 	return t;
 }
-function Ke(e) {
+function Ye(e) {
 	let t = [], n = /* @__PURE__ */ new Set();
 	return r(e), t;
 	function r(e) {
@@ -602,7 +602,7 @@ function Ke(e) {
 	}
 	function i(e) {
 		if (!n.has(e)) {
-			if (n.add(e), e instanceof HTMLElement && qe(e) && t.push(e), e instanceof HTMLSlotElement) {
+			if (n.add(e), e instanceof HTMLElement && Xe(e) && t.push(e), e instanceof HTMLSlotElement) {
 				let t = e.assignedElements({ flatten: !0 });
 				if (t.length > 0) for (let e of t) i(e);
 				else r(e);
@@ -610,20 +610,20 @@ function Ke(e) {
 		}
 	}
 }
-function qe(e) {
-	return !e.matches(Ge) || e.tabIndex < 0 || e.matches(":disabled") ? !1 : !Ue(e, (e) => {
+function Xe(e) {
+	return !e.matches(Je) || e.tabIndex < 0 || e.matches(":disabled") ? !1 : !Ke(e, (e) => {
 		if (e instanceof HTMLElement && (e.hidden || e.hasAttribute("inert") || e.getAttribute("aria-hidden") === "true")) return !0;
 	}, { composed: !0 });
 }
 // node_modules/@videojs/utils/dist/dom/supports.js
-function Je() {
+function Ze() {
 	return typeof CSS < "u" && CSS.supports("anchor-name: --a");
 }
-function Ye() {
+function Qe() {
 	return typeof HTMLElement < "u" && "popover" in HTMLElement.prototype;
 }
 // node_modules/@videojs/utils/dist/dom/interactive.js
-var Xe = "button,input,select,textarea,a[href],[role=\"button\"],[role=\"menu\"],[role=\"menuitem\"],[role=\"menuitemcheckbox\"],[role=\"menuitemradio\"],[role=\"slider\"],[data-interactive]", Ze = [
+var $e = "button,input,select,textarea,a[href],[role=\"button\"],[role=\"menu\"],[role=\"menuitem\"],[role=\"menuitemcheckbox\"],[role=\"menuitemradio\"],[role=\"slider\"],[data-interactive]", et = [
 	"textarea",
 	"select",
 	"input:not([type])",
@@ -638,41 +638,41 @@ var Xe = "button,input,select,textarea,a[href],[role=\"button\"],[role=\"menu\"]
 	].map((e) => `input[type="${e}"]`),
 	"[contenteditable]:not([contenteditable=\"false\"])"
 ].join(",");
-function Qe(e) {
-	return e.matches(Ze);
+function tt(e) {
+	return e.matches(et);
 }
-function $e(e) {
-	let t = Re(e);
-	return t instanceof Element && Qe(t);
+function nt(e) {
+	let t = Ve(e);
+	return t instanceof Element && tt(t);
 }
-function et(e) {
-	let t = Re(e);
-	return t instanceof Element && t.closest(Xe) !== null;
-}
-var tt = /* @__PURE__ */ new Set([" ", "Enter"]), nt = "button,a[href],[role=\"slider\"],[role=\"button\"]";
 function rt(e) {
-	if (!tt.has(e.key)) return !1;
-	let t = Re(e);
-	return t instanceof Element && t.matches(nt);
+	let t = Ve(e);
+	return t instanceof Element && t.closest($e) !== null;
+}
+var it = /* @__PURE__ */ new Set([" ", "Enter"]), at = "button,a[href],[role=\"slider\"],[role=\"button\"]";
+function ot(e) {
+	if (!it.has(e.key)) return !1;
+	let t = Ve(e);
+	return t instanceof Element && t.matches(at);
 }
 // node_modules/@videojs/utils/dist/dom/keep-alive.js
-function it(e) {
-	return Ue(e, (e) => e.hasAttribute("keep-alive") ? !0 : void 0, { composed: !0 }) ?? !1;
+function st(e) {
+	return Ke(e, (e) => e.hasAttribute("keep-alive") ? !0 : void 0, { composed: !0 }) ?? !1;
 }
 // node_modules/@videojs/utils/dist/dom/style.js
-function at(e) {
+function ct(e) {
 	return e.startsWith("--") ? e : b(e);
 }
-function ot(e) {
+function lt(e) {
 	let t = e.style.getPropertyValue("anchor-name").trim();
 	return !t || t === "none" ? [] : t.split(",").map((e) => e.trim()).filter(Boolean);
 }
-function st(e, t) {
-	for (let [n, r] of Object.entries(t)) typeof r == "string" && e.style.setProperty(at(n), r);
+function ut(e, t) {
+	for (let [n, r] of Object.entries(t)) typeof r == "string" && e.style.setProperty(ct(n), r);
 }
-function ct(e, t) {
+function dt(e, t) {
 	return [...t].map((t) => {
-		let n = at(t);
+		let n = ct(t);
 		return {
 			property: n,
 			value: e.style.getPropertyValue(n),
@@ -680,22 +680,22 @@ function ct(e, t) {
 		};
 	});
 }
-function lt(e, t) {
+function ft(e, t) {
 	for (let { property: n, value: r, priority: i } of t) r ? e.style.setProperty(n, r, i) : e.style.removeProperty(n);
 }
-function ut(e, t, n) {
-	let r = ct(e, Object.keys(t));
+function pt(e, t, n) {
+	let r = dt(e, Object.keys(t));
 	try {
-		return st(e, t), n();
+		return ut(e, t), n();
 	} finally {
-		lt(e, r);
+		ft(e, r);
 	}
 }
-function dt(e, t, { source: n = "inline-or-computed" } = {}) {
-	let r = at(t), i = n !== "computed" && e instanceof HTMLElement ? e.style.getPropertyValue(r) : "";
-	return !i && n !== "inline" && (i = getComputedStyle(e).getPropertyValue(r)), i.trim() ? ft(e, i) : null;
+function mt(e, t, { source: n = "inline-or-computed" } = {}) {
+	let r = ct(t), i = n !== "computed" && e instanceof HTMLElement ? e.style.getPropertyValue(r) : "";
+	return !i && n !== "inline" && (i = getComputedStyle(e).getPropertyValue(r)), i.trim() ? ht(e, i) : null;
 }
-function ft(e, t) {
+function ht(e, t) {
 	let n = t.trim();
 	if (!n) return 0;
 	let r = Number.parseFloat(n);
@@ -720,22 +720,22 @@ function ft(e, t) {
 	return o.remove(), Number.isFinite(l) ? l : Number.isNaN(r) ? 0 : r;
 }
 // node_modules/@videojs/utils/dist/dom/layout.js
-function pt(e, { box: t = "bounding", overflow: n = "none" } = {}) {
+function F(e, { box: t = "bounding", overflow: n = "none" } = {}) {
 	let r = e.getBoundingClientRect(), i = t === "layout" && e.offsetWidth || r.width, a = t === "layout" && e.offsetHeight || r.height;
 	return (n === "width" || n === "both") && (i = Math.max(i, e.scrollWidth)), (n === "height" || n === "both") && (a = Math.max(a, e.scrollHeight)), {
 		width: i,
 		height: a
 	};
 }
-function mt(e, t) {
+function gt(e, t) {
 	let n = e.getBoundingClientRect();
 	return n.width > 0 && n.height > 0 && t.clientX >= n.left && t.clientX < n.right && t.clientY >= n.top && t.clientY < n.bottom;
 }
-function R(e, t = {}) {
-	let { styles: n, ...r } = t, i = () => pt(e, r);
-	return n ? ut(e, n, i) : i();
+function _t(e, t = {}) {
+	let { styles: n, ...r } = t, i = () => F(e, r);
+	return n ? pt(e, n, i) : i();
 }
-function ht(e) {
+function vt(e) {
 	let t = getComputedStyle(e);
 	return {
 		inlineStart: Number.parseFloat(t.paddingInlineStart) || 0,
@@ -744,20 +744,20 @@ function ht(e) {
 		blockEnd: Number.parseFloat(t.paddingBlockEnd) || 0
 	};
 }
-function gt(e) {
+function yt(e) {
 	return e.inlineStart + e.inlineEnd;
 }
-function _t(e) {
+function bt(e) {
 	return e.blockStart + e.blockEnd;
 }
-function vt(e) {
+function xt(e) {
 	let t = getComputedStyle(e);
 	return {
 		x: Number.parseFloat(t.paddingLeft) || 0,
 		y: Number.parseFloat(t.paddingTop) || 0
 	};
 }
-function yt(e) {
+function St(e) {
 	if (e.length === 0) return {
 		width: 0,
 		height: 0
@@ -768,13 +768,13 @@ function yt(e) {
 		height: e.some(({ offsetTop: e }) => e !== n) ? Math.max(...e.map(({ offsetTop: e, size: t }) => e + t.height)) : e.reduce((e, { size: t }) => e + t.height, 0)
 	};
 }
-function bt(e, { children: t, includePadding: n = !1, maxWidth: r = null, measure: i = (e, t) => R(e, t === void 0 ? void 0 : { styles: { width: `${t}px` } }), resolveSize: a = yt } = {}) {
-	let o = [...t ?? Array.from(e.children).filter((e) => e instanceof HTMLElement)].filter((e) => !e.hidden), s = n ? ht(e) : {
+function Ct(e, { children: t, includePadding: n = !1, maxWidth: r = null, measure: i = (e, t) => _t(e, t === void 0 ? void 0 : { styles: { width: `${t}px` } }), resolveSize: a = St } = {}) {
+	let o = [...t ?? Array.from(e.children).filter((e) => e instanceof HTMLElement)].filter((e) => !e.hidden), s = n ? vt(e) : {
 		inlineStart: 0,
 		inlineEnd: 0,
 		blockStart: 0,
 		blockEnd: 0
-	}, c = gt(s), l = _t(s), u = n ? vt(e) : {
+	}, c = yt(s), l = bt(s), u = n ? xt(e) : {
 		x: 0,
 		y: 0
 	};
@@ -794,20 +794,20 @@ function bt(e, { children: t, includePadding: n = !1, maxWidth: r = null, measur
 	};
 }
 // node_modules/@videojs/utils/dist/i18n.js
-function xt(e) {
+function wt(e) {
 	let t = Array.isArray(e) ? e[0] : e;
 	return !t || t === "en" || t.startsWith("en-");
 }
 // node_modules/@videojs/utils/dist/dom/observe-elements.js
-function St(e, t) {
-	if (typeof ResizeObserver > "u") return P;
+function Tt(e, t) {
+	if (typeof ResizeObserver > "u") return fe;
 	let n = new ResizeObserver(t), r = Symbol.iterator in Object(e) ? e : [e];
 	for (let e of r) n.observe(e);
 	return () => n.disconnect();
 }
-function Ct({ getElements: e, onChange: t, root: n, mutations: r }) {
-	let i = P, a = () => {
-		i(), i = St(e(), t);
+function Et({ getElements: e, onChange: t, root: n, mutations: r }) {
+	let i = fe, a = () => {
+		i(), i = Tt(e(), t);
 	};
 	a();
 	let o = null;
@@ -818,20 +818,20 @@ function Ct({ getElements: e, onChange: t, root: n, mutations: r }) {
 	};
 }
 // node_modules/@videojs/utils/dist/dom/platform.js
-function wt() {
+function Dt() {
 	return typeof navigator < "u" && /mac/i.test(navigator.userAgent);
 }
 // node_modules/@videojs/utils/dist/dom/popover.js
-var Tt = {
+var Ot = {
 	sideOffset: 0,
 	boundaryOffset: 0
-}, Et = {
+}, kt = {
 	top: "bottom",
 	bottom: "top",
 	left: "right",
 	right: "left"
 };
-function Dt(e, t, n, r) {
+function At(e, t, n, r) {
 	let i = r.boundaryOffset ?? 0;
 	switch (n) {
 		case "top": return e.top - t.top - i - r.sideOffset;
@@ -840,25 +840,25 @@ function Dt(e, t, n, r) {
 		case "right": return t.right - e.right - i - r.sideOffset;
 	}
 }
-function Ot(e, t, n, r, i = Tt) {
-	let a = r.side, o = Et[a], s = a === "top" || a === "bottom" ? t.height : t.width, c = Dt(e, n, a, i);
-	return c >= s ? a : Dt(e, n, o, i) > c ? o : a;
+function jt(e, t, n, r, i = Ot) {
+	let a = r.side, o = kt[a], s = a === "top" || a === "bottom" ? t.height : t.width, c = At(e, n, a, i);
+	return c >= s ? a : At(e, n, o, i) > c ? o : a;
 }
-function kt(e) {
+function Mt(e) {
 	try {
 		e?.showPopover?.();
 	} catch {}
 }
-function At(e) {
+function Nt(e) {
 	try {
 		e?.hidePopover?.();
 	} catch {}
 }
-function z(e) {
-	e instanceof Element && e.shadowRoot && z(e.shadowRoot);
-	for (let t of e.querySelectorAll("*")) jt(t) && At(t), t.shadowRoot && z(t.shadowRoot);
+function Pt(e) {
+	e instanceof Element && e.shadowRoot && Pt(e.shadowRoot);
+	for (let t of e.querySelectorAll("*")) Ft(t) && Nt(t), t.shadowRoot && Pt(t.shadowRoot);
 }
-function jt(e) {
+function Ft(e) {
 	try {
 		return e.matches(":popover-open");
 	} catch {
@@ -866,7 +866,7 @@ function jt(e) {
 	}
 }
 // node_modules/@videojs/utils/dist/dom/raf-throttle.js
-function Mt(e) {
+function It(e) {
 	let t = null, n, r = (...r) => {
 		n = r, t === null && (t = requestAnimationFrame(() => {
 			t = null, e(...n);
@@ -877,53 +877,53 @@ function Mt(e) {
 	}, r;
 }
 // node_modules/@videojs/utils/dist/dom/template.js
-function Nt(e) {
+function Lt(e) {
 	for (let t of e.children) if (t.localName === "template" && "content" in t) return t;
 	return null;
 }
-function Pt(e) {
+function Rt(e) {
 	let t = e.content.firstElementChild;
 	return t && !t.nextElementSibling ? t : null;
 }
-function Ft(e, t = e.ownerDocument) {
+function zt(e, t = e.ownerDocument) {
 	return t.importNode(e, !0);
 }
 // node_modules/@videojs/utils/dist/dom/time-ranges.js
-function It(e) {
+function I(e) {
 	let t = [];
 	for (let n = 0; n < e.length; n++) t.push([e.start(n), e.end(n)]);
 	return t;
 }
 // node_modules/@videojs/utils/dist/dom/tree.js
-function Lt(e, t) {
+function L(e, t) {
 	let n = t;
 	for (; n;) {
 		if (n === e || e.contains(n)) return !0;
 		let t = n.getRootNode();
-		n = n.assignedSlot ?? n.parentElement ?? (Ve(t) ? t.host : null);
+		n = n.assignedSlot ?? n.parentElement ?? (We(t) ? t.host : null);
 	}
 	return !1;
 }
 // node_modules/@videojs/element/dist/default/destroy-mixin.js
-var Rt = /* @__PURE__ */ new WeakSet();
-function zt(e) {
-	e.shadowRoot && Bt(e.shadowRoot), Bt(e);
-}
-function Bt(e) {
-	for (let t of Array.from(e.children)) Rt.has(t) ? t.destroy() : zt(t);
-}
+var Bt = /* @__PURE__ */ new WeakSet();
 function Vt(e) {
+	e.shadowRoot && Ht(e.shadowRoot), Ht(e);
+}
+function Ht(e) {
+	for (let t of Array.from(e.children)) Bt.has(t) ? t.destroy() : Vt(t);
+}
+function Ut(e) {
 	class t extends e {
 		#e = !1;
 		#t = /* @__PURE__ */ new Set();
 		constructor(...e) {
-			super(...e), Rt.add(this);
+			super(...e), Bt.add(this);
 		}
 		get destroyed() {
 			return this.#e;
 		}
 		destroy() {
-			this.#e || (this.#e = !0, zt(this), this.destroyCallback());
+			this.#e || (this.#e = !0, Vt(this), this.destroyCallback());
 		}
 		destroyCallback() {
 			for (let e of this.#t) e.hostDestroyed?.();
@@ -938,7 +938,7 @@ function Vt(e) {
 			this.#e || super.connectedCallback();
 		}
 		disconnectedCallback() {
-			super.disconnectedCallback(), !this.#e && !it(this) && requestAnimationFrame(() => {
+			super.disconnectedCallback(), !this.#e && !st(this) && requestAnimationFrame(() => {
 				requestAnimationFrame(() => {
 					this.isConnected || this.destroy();
 				});
@@ -951,12 +951,12 @@ function Vt(e) {
 	return t;
 }
 // node_modules/@videojs/element/dist/default/reactive-element.js
-var Ht = /* @__PURE__ */ new WeakMap(), Ut = /* @__PURE__ */ new Map(), Wt = globalThis.HTMLElement ?? class {}, Gt = class extends Wt {
+var Wt = /* @__PURE__ */ new WeakMap(), Gt = /* @__PURE__ */ new Map(), Kt = globalThis.HTMLElement ?? class {}, qt = class extends Kt {
 	static {
 		this.properties = {};
 	}
 	static get observedAttributes() {
-		return [...Kt(this).attrToProp.keys()];
+		return [...Jt(this).attrToProp.keys()];
 	}
 	#e;
 	#t;
@@ -965,7 +965,7 @@ var Ht = /* @__PURE__ */ new WeakMap(), Ut = /* @__PURE__ */ new Map(), Wt = glo
 	#i;
 	constructor() {
 		super(), this.#e = /* @__PURE__ */ new Set(), this.#t = /* @__PURE__ */ new Map(), this.#r = !1, this.isUpdatePending = !1, this.hasUpdated = !1, this.#i = new Promise((e) => this.enableUpdating = e);
-		let { props: e } = Kt(this.constructor);
+		let { props: e } = Jt(this.constructor);
 		for (let t of e.keys()) Object.hasOwn(this, t) && ((this.#n ??= /* @__PURE__ */ new Map()).set(t, this[t]), delete this[t]);
 		this.requestUpdate();
 	}
@@ -985,7 +985,7 @@ var Ht = /* @__PURE__ */ new WeakMap(), Ut = /* @__PURE__ */ new Map(), Wt = glo
 	}
 	attributeChangedCallback(e, t, n) {
 		if (t === n) return;
-		let { props: r, attrToProp: i } = Kt(this.constructor), a = i.get(e);
+		let { props: r, attrToProp: i } = Jt(this.constructor), a = i.get(e);
 		if (!a) return;
 		let o = r.get(a);
 		if (!o) return;
@@ -1027,7 +1027,7 @@ var Ht = /* @__PURE__ */ new WeakMap(), Ut = /* @__PURE__ */ new Map(), Wt = glo
 	#o() {
 		if (this.#r) return;
 		this.#r = !0;
-		let { props: e } = Kt(this.constructor);
+		let { props: e } = Jt(this.constructor);
 		for (let t of e.keys()) {
 			let e = this.#n?.has(t) ?? !1, n = Object.hasOwn(this, t);
 			if (!e && !n) continue;
@@ -1037,13 +1037,13 @@ var Ht = /* @__PURE__ */ new WeakMap(), Ut = /* @__PURE__ */ new Map(), Wt = glo
 		this.#n = void 0;
 	}
 };
-function Kt(e) {
-	let t = Ht.get(e);
+function Jt(e) {
+	let t = Wt.get(e);
 	if (t) return t;
 	let n = /* @__PURE__ */ new Map(), r = /* @__PURE__ */ new Map();
 	for (let [t, i] of Object.entries(e.properties)) if (n.set(t, i), r.set(i.attribute ?? t, t), !Object.getOwnPropertyDescriptor(e.prototype, t)?.get) {
-		let n = Ut.get(t);
-		n || (n = Symbol(t), Ut.set(t, n)), Object.defineProperty(e.prototype, t, {
+		let n = Gt.get(t);
+		n || (n = Symbol(t), Gt.set(t, n)), Object.defineProperty(e.prototype, t, {
 			get() {
 				return this[n];
 			},
@@ -1059,127 +1059,127 @@ function Kt(e) {
 		props: n,
 		attrToProp: r
 	};
-	return Ht.set(e, i), i;
+	return Wt.set(e, i), i;
 }
 // node_modules/@videojs/html/dist/default/ui/ui-element.js
-var B = class extends Vt(Gt) {};
+var R = class extends Ut(qt) {};
 // node_modules/@videojs/media/dist/default/core/predicate.js
-function qt(e) {
+function Yt(e) {
 	return e.readyState >= re.HAVE_METADATA;
 }
-function Jt(e) {
+function Xt(e) {
 	if (Number.isFinite(e.duration) && e.duration > 0) return e.duration;
 	let t = e.seekable.at(-1)?.[1];
 	return t === void 0 || !Number.isFinite(t) || t <= 0 ? 0 : t;
 }
-function Yt(e) {
-	return Jt(e) > 0;
-}
-function Xt(e) {
-	return !!e && !e.paused && !e.ended && !e.waiting;
-}
 function Zt(e) {
-	return S(e) && i(e.autoplay);
+	return Xt(e) > 0;
 }
 function Qt(e) {
-	if (!S(e)) return !1;
-	let t = e;
-	return !a(t.paused) && !a(t.ended) && r(t.pause);
+	return !!e && !e.paused && !e.ended && !e.waiting;
 }
 function $t(e) {
-	if (!S(e)) return !1;
-	let t = e;
-	return !a(t.currentTime) && !a(t.duration) && !a(t.seeking);
+	return S(e) && i(e.autoplay);
 }
 function en(e) {
 	if (!S(e)) return !1;
 	let t = e;
-	return !a(t.src) && !a(t.currentSrc) && !a(t.readyState) && r(t.load);
+	return !a(t.paused) && !a(t.ended) && r(t.pause);
 }
 function tn(e) {
 	if (!S(e)) return !1;
 	let t = e;
-	return !a(t.volume) && !a(t.muted);
+	return !a(t.currentTime) && !a(t.duration) && !a(t.seeking);
 }
 function nn(e) {
-	return S(e) ? !a(e.muted) : !1;
-}
-function rn(e) {
-	return S(e) ? !a(e.playbackRate) : !1;
-}
-function an(e) {
-	return S(e) ? r(e.requestPictureInPicture) : !1;
-}
-function on(e) {
 	if (!S(e)) return !1;
 	let t = e;
-	return !a(t.buffered) && t.buffered !== w && !a(t.seekable) && t.seekable !== w;
+	return !a(t.src) && !a(t.currentSrc) && !a(t.readyState) && r(t.load);
+}
+function rn(e) {
+	if (!S(e)) return !1;
+	let t = e;
+	return !a(t.volume) && !a(t.muted);
+}
+function an(e) {
+	return S(e) ? !a(e.muted) : !1;
+}
+function on(e) {
+	return S(e) ? !a(e.playbackRate) : !1;
 }
 function sn(e) {
-	return S(e) ? !a(e.error) : !1;
+	return S(e) ? r(e.requestPictureInPicture) : !1;
 }
 function cn(e) {
 	if (!S(e)) return !1;
 	let t = e;
-	return !a(t.textTracks) && t.textTracks !== _;
+	return !a(t.buffered) && t.buffered !== w && !a(t.seekable) && t.seekable !== w;
 }
 function ln(e) {
-	return S(e) ? !a(e.videoRenditions) : !1;
+	return S(e) ? !a(e.error) : !1;
 }
 function un(e) {
-	return S(e) ? !a(e.audioTracks) : !1;
+	if (!S(e)) return !1;
+	let t = e;
+	return !a(t.textTracks) && t.textTracks !== _;
 }
 function dn(e) {
+	return S(e) ? !a(e.videoRenditions) : !1;
+}
+function fn(e) {
+	return S(e) ? !a(e.audioTracks) : !1;
+}
+function pn(e) {
 	if (!S(e)) return !1;
 	let t = e;
 	return !a(t.videoWidth) && !a(t.videoHeight);
 }
-function fn(e) {
+function mn(e) {
 	if (!S(e)) return !1;
 	let t = e;
 	return S(t.remote) && t.remote !== ne;
 }
-function pn(e) {
+function hn(e) {
 	return S(e) ? !a(e.streamType) : !1;
 }
-function mn(e) {
+function gn(e) {
 	return S(e) ? !a(e.contentData) : !1;
 }
-function hn(e) {
+function _n(e) {
 	if (!S(e)) return !1;
 	let t = e;
 	return !a(t.liveEdgeStart) && !a(t.targetLiveWindow);
 }
-function gn(e) {
+function vn(e) {
 	return S(e) && "querySelectorAll" in e && r(e.querySelectorAll);
 }
 // node_modules/@videojs/core/dist/default/dom/extensions/media.js
-function _n(e, t) {
+function yn(e, t) {
 	return new Proxy(e, {
 		get(e, n) {
 			if (n === x) return e;
-			let i = vn(t, n) ?? e, a = i[n];
+			let i = bn(t, n) ?? e, a = i[n];
 			return r(a) && n !== "constructor" ? a.bind(i) : a;
 		},
 		set(e, n, r) {
-			let i = vn(t, n) ?? e;
+			let i = bn(t, n) ?? e;
 			return Reflect.set(i, n, r);
 		},
 		has(e, n) {
-			return !u(vn(t, n)) || n in e;
+			return !u(bn(t, n)) || n in e;
 		}
 	});
 }
-function vn(e, t) {
+function bn(e, t) {
 	if (Object.hasOwn(Object.prototype, t)) return null;
 	for (let { mediaOverride: n } of e()) if (!u(n) && !a(n[t])) return n;
 	return null;
 }
 // node_modules/@videojs/core/dist/default/dom/extensions/coordinator.js
-function yn(e) {
+function xn(e) {
 	return !!e && "mediaOverride" in e;
 }
-var bn = class {
+var Sn = class {
 	#e = /* @__PURE__ */ new Map();
 	#t = /* @__PURE__ */ new WeakMap();
 	#n = { initTime: Date.now() };
@@ -1196,7 +1196,7 @@ var bn = class {
 	}
 	register(e) {
 		let t = e.constructor, n = this.#e.get(t);
-		return n !== e && (n && this.#s(n), this.#e.set(t, e), e.connect?.(this.#n), this.#i && e.attach?.(this.#i), (yn(n) || yn(e)) && this.#r()), () => this.#o(e);
+		return n !== e && (n && this.#s(n), this.#e.set(t, e), e.connect?.(this.#n), this.#i && e.attach?.(this.#i), (xn(n) || xn(e)) && this.#r()), () => this.#o(e);
 	}
 	attach(e) {
 		if (this.#i?.media === e.media) this.#i = e;
@@ -1219,82 +1219,82 @@ var bn = class {
 	getStoreMedia(e) {
 		if (!this.#a()) return e;
 		let t = this.#t.get(e);
-		return t || (t = _n(e, () => this.#e.values()), this.#t.set(e, t)), t;
+		return t || (t = yn(e, () => this.#e.values()), this.#t.set(e, t)), t;
 	}
 	#a() {
-		for (let e of this.#e.values()) if (yn(e)) return !0;
+		for (let e of this.#e.values()) if (xn(e)) return !0;
 		return !1;
 	}
 	#o(e) {
 		let t = e.constructor;
-		this.#e.get(t) === e && (this.#e.delete(t), this.#s(e), yn(e) && this.#r());
+		this.#e.get(t) === e && (this.#e.delete(t), this.#s(e), xn(e) && this.#r());
 	}
 	#s(e) {
 		this.#i && e.detach?.(), e.disconnect?.();
 	}
 };
 // node_modules/@videojs/core/dist/default/dom/feature.js
-function V(e) {
+function z(e) {
 	let t = Object.values(e.config ?? {}).map((e) => e.state);
 	return {
 		...e,
 		...t.length > 0 ? { preserve: t } : {}
 	};
 }
-function xn(e) {
+function Cn(e) {
 	let t = e.map((e) => e.config ?? {});
 	return Object.assign({}, ...t);
 }
-function Sn(e, t, n) {
+function wn(e, t, n) {
 	let r = e[t.action];
 	if (typeof r != "function") throw TypeError(`Missing config action "${String(t.action)}"`);
 	r(n);
 }
 // node_modules/@videojs/core/dist/default/dom/media-action-value.js
-function Cn(e, t, n) {
+function Tn(e, t, n) {
 	if (!a(n)) return n;
 	let r = t?.toLowerCase();
 	if (e === "seekStep") return r === "arrowleft" || r === "j" ? -10 : 10;
 	if (e === "volumeStep") return r === "arrowdown" ? -.05 : 5 / 100;
 }
 // node_modules/@videojs/core/dist/default/dom/gesture/action-value.js
-function wn(e, t, n) {
-	return e === "seekStep" && a(n) && t === "left" ? -10 : Cn(e, void 0, n);
+function En(e, t, n) {
+	return e === "seekStep" && a(n) && t === "left" ? -10 : Tn(e, void 0, n);
 }
 // node_modules/@videojs/core/dist/default/dom/store/features/audio-track.js
-function Tn(e, t) {
+function Dn(e, t) {
 	return e.id || String(t);
 }
-function En(e, t) {
+function On(e, t) {
 	return {
-		id: Tn(e, t),
+		id: Dn(e, t),
 		...e.kind !== void 0 && { kind: e.kind },
 		label: e.label,
 		language: e.language,
 		enabled: e.enabled
 	};
 }
-var Dn = V({
+var kn = z({
 	name: "audioTrack",
 	state: ({ target: e }) => ({
 		audioTrackList: [],
 		selectAudioTrack(t) {
 			let { media: n } = e();
-			if (!un(n)) return;
-			let r = [...n.audioTracks], i = r.find((e, n) => Tn(e, n) === t);
+			if (!fn(n)) return;
+			let r = [...n.audioTracks], i = r.find((e, n) => Dn(e, n) === t);
 			if (i) for (let e of r) e.enabled = e === i;
 		}
 	}),
 	attach({ target: e, signal: t, set: n }) {
-		let { media: r } = e, i = null, a = null, o = () => un(r) ? r.audioTracks : null, s = (e = o()) => {
-			n({ audioTrackList: e ? [...e].map(En) : [] });
+		let { media: r } = e, i = null, a = null, o = () => fn(r) ? r.audioTracks : null, s = (e = o()) => {
+			n({ audioTrackList: e ? [...e].map(On) : [] });
 		}, c = () => {
 			let e = o();
 			e === i ? s(e) : (a?.abort(), a = new AbortController(), i = e, i && (h(i, "addtrack", () => s(i), { signal: a.signal }), h(i, "removetrack", () => s(i), { signal: a.signal }), h(i, "change", () => s(i), { signal: a.signal })), s(i));
 		};
 		c(), h(r, "loadstart", c, { signal: t }), t.addEventListener("abort", () => a?.abort(), { once: !0 });
 	}
-}), On = V({
+}), An = z({
 	name: "buffer",
 	state: () => ({
 		buffered: [],
@@ -1302,36 +1302,36 @@ var Dn = V({
 	}),
 	attach({ target: e, signal: t, set: n }) {
 		let { media: r } = e;
-		if (!on(r)) return;
+		if (!cn(r)) return;
 		let i = () => n({
-			buffered: It(r.buffered),
-			seekable: It(r.seekable)
+			buffered: I(r.buffered),
+			seekable: I(r.seekable)
 		});
 		i(), h(r, "loadedmetadata", i, { signal: t }), h(r, "durationchange", i, { signal: t }), h(r, "progress", i, { signal: t }), h(r, "emptied", i, { signal: t });
 	}
-}), kn = /* @__PURE__ */ new WeakMap();
-function An(e) {
-	kn.set(e, (kn.get(e) ?? 0) + 1);
+}), jn = /* @__PURE__ */ new WeakMap();
+function Mn(e) {
+	jn.set(e, (jn.get(e) ?? 0) + 1);
 	let t = !1;
 	return () => {
 		if (t) return;
 		t = !0;
-		let n = kn.get(e) ?? 0;
-		n <= 1 ? kn.delete(e) : kn.set(e, n - 1);
+		let n = jn.get(e) ?? 0;
+		n <= 1 ? jn.delete(e) : jn.set(e, n - 1);
 	};
 }
-function jn(e) {
-	return (kn.get(e) ?? 0) > 0;
+function Nn(e) {
+	return (jn.get(e) ?? 0) > 0;
 }
 // node_modules/@videojs/core/dist/default/dom/gesture/region.js
-function Mn(e, t, n) {
+function Pn(e, t, n) {
 	let r = e - t.left, i = t.width;
 	if (i === 0) return null;
 	let a = r / i;
 	return n.size === 2 && n.has("left") && n.has("right") ? a < .5 ? "left" : "right" : n.size === 3 ? a < 1 / 3 ? "left" : a < 2 / 3 ? "center" : "right" : n.has("left") && a < .5 ? "left" : n.has("right") && a >= .5 ? "right" : n.has("center") && (n.size === 1 || a >= 1 / 3 && a < 2 / 3) ? "center" : null;
 }
 // node_modules/@videojs/core/dist/default/dom/gesture/coordinator.js
-var Nn = 250, Pn = class {
+var Fn = 250, In = class {
 	#e;
 	#t = [];
 	#n = /* @__PURE__ */ new Set();
@@ -1347,10 +1347,10 @@ var Nn = 250, Pn = class {
 		return this.#i.add(e), () => this.#i.delete(e);
 	}
 	claimsTap(e, t) {
-		return jn(this.#e) ? !0 : !et(e) && this.#t.some((n) => n.type === "tap" && n.action === t && (!n.pointer || n.pointer === e.pointerType));
+		return Nn(this.#e) ? !0 : !rt(e) && this.#t.some((n) => n.type === "tap" && n.action === t && (!n.pointer || n.pointer === e.pointerType));
 	}
 	add(e) {
-		let t = wn(e.action ?? "", e.region, e.value), n = {
+		let t = En(e.action ?? "", e.region, e.value), n = {
 			...e,
 			value: t,
 			onActivate: (n) => {
@@ -1385,18 +1385,18 @@ var Nn = 250, Pn = class {
 		this.#r = new AbortController();
 		let { signal: e } = this.#r, t = 0;
 		h(this.#e, "pointerdown", (e) => {
-			if (jn(this.#e)) t = 0;
+			if (Nn(this.#e)) t = 0;
 			else if (e.button === 0) {
 				t = Date.now();
 				for (let e of this.#t) e.onPointerDown?.();
 			}
 		}, { signal: e }), h(this.#e, "pointerup", (e) => {
-			if (jn(this.#e)) {
+			if (Nn(this.#e)) {
 				t = 0;
 				return;
 			}
-			if (e.button !== 0 || Date.now() - t > Nn || et(e)) return;
-			let n = e.pointerType, r = e.clientX, i = this.#e, a = this.#t, o = { resolve: (e) => Rn(a, e, n, r, i) };
+			if (e.button !== 0 || Date.now() - t > Fn || rt(e)) return;
+			let n = e.pointerType, r = e.clientX, i = this.#e, a = this.#t, o = { resolve: (e) => Bn(a, e, n, r, i) };
 			for (let t of this.#n) t.handleUp(o, e);
 		}, { signal: e });
 	}
@@ -1406,16 +1406,16 @@ var Nn = 250, Pn = class {
 			this.#n.clear(), this.#r?.abort(), this.#r = null;
 		}
 	}
-}, Fn = /* @__PURE__ */ new WeakMap();
-function In(e) {
-	return Fn.get(e);
+}, Ln = /* @__PURE__ */ new WeakMap();
+function Rn(e) {
+	return Ln.get(e);
 }
-function Ln(e) {
-	let t = Fn.get(e);
-	return t || (t = new Pn(e), Fn.set(e, t)), t;
+function zn(e) {
+	let t = Ln.get(e);
+	return t || (t = new In(e), Ln.set(e, t)), t;
 }
-function Rn(e, t, n, r, i) {
-	let a = i.getBoundingClientRect(), o = zn(e, t, n), s = o.size > 0 ? Mn(r, a, o) : null, c = [];
+function Bn(e, t, n, r, i) {
+	let a = i.getBoundingClientRect(), o = Vn(e, t, n), s = o.size > 0 ? Pn(r, a, o) : null, c = [];
 	for (let r of e) if (!r.disabled && r.type === t && !(r.pointer && r.pointer !== n)) {
 		if (r.region) {
 			if (r.region !== s) continue;
@@ -1424,39 +1424,39 @@ function Rn(e, t, n, r, i) {
 	}
 	return c;
 }
-function zn(e, t, n) {
+function Vn(e, t, n) {
 	let r = /* @__PURE__ */ new Set();
 	for (let i of e) i.disabled || i.type === t && (i.pointer && i.pointer !== n || i.region && r.add(i.region));
 	return r;
 }
 // node_modules/@videojs/core/dist/default/dom/presentation/remote-playback.js
-function Bn(e) {
+function Hn(e) {
 	let t = e;
 	if (S(t.remote) && "state" in t.remote && "prompt" in t.remote) return t.remote;
 }
-function Vn(e) {
-	return Bn(e)?.state === "connected";
+function Un(e) {
+	return Hn(e)?.state === "connected";
 }
-function Hn(e) {
-	return Bn(e)?.state === "connecting";
+function Wn(e) {
+	return Hn(e)?.state === "connecting";
 }
-async function Un(e) {
-	let t = Bn(e);
+async function Gn(e) {
+	let t = Hn(e);
 	if (!t) throw new DOMException("Remote playback not supported", "NotSupportedError");
 	return t.prompt();
 }
 // node_modules/@videojs/core/dist/default/dom/store/features/controls.js
-var Wn = 2e3, Gn = 250, Kn = 500, qn = 100, Jn = /* @__PURE__ */ new WeakMap(), Yn = V({
+var Kn = 2e3, qn = 250, Jn = 500, Yn = 100, Xn = /* @__PURE__ */ new WeakMap(), Zn = z({
 	name: "controls",
 	state: ({ get: e, set: t }) => {
-		let n = Xn(() => (t({ controlsVisible: !0 }), () => {}), (n) => {
+		let n = Qn(() => (t({ controlsVisible: !0 }), () => {}), (n) => {
 			let r = n ?? !e().userActive;
 			return t({
 				userActive: r,
 				controlsVisible: r
 			}), r;
 		});
-		return Jn.set(n.requestControlsLock, n), {
+		return Xn.set(n.requestControlsLock, n), {
 			userActive: !0,
 			controlsVisible: !0,
 			requestControlsLock: n.requestControlsLock,
@@ -1465,13 +1465,13 @@ var Wn = 2e3, Gn = 250, Kn = 500, qn = 100, Jn = /* @__PURE__ */ new WeakMap(), 
 	},
 	attach({ target: e, signal: t, get: n, set: r }) {
 		let { media: i, container: a } = e;
-		if (!Qt(i) || C(a)) return;
-		let o, s = 0, c = (e) => s > 0 || e || i.paused || Vn(i) || Hn(i);
+		if (!en(i) || C(a)) return;
+		let o, s = 0, c = (e) => s > 0 || e || i.paused || Un(i) || Wn(i);
 		function l() {
 			clearTimeout(o), o = void 0;
 		}
 		function u() {
-			l(), s > 0 || (o = setTimeout(f, Wn));
+			l(), s > 0 || (o = setTimeout(f, Kn));
 		}
 		function d() {
 			n().userActive || r({
@@ -1495,15 +1495,15 @@ var Wn = 2e3, Gn = 250, Kn = 500, qn = 100, Jn = /* @__PURE__ */ new WeakMap(), 
 		function m(e) {
 			return e ?? !n().controlsVisible ? d() : f(), n().controlsVisible;
 		}
-		let _ = Jn.get(n().requestControlsLock);
+		let _ = Xn.get(n().requestControlsLock);
 		_.setDelegates(p, m);
-		let v = 0, y = 0, b = () => y > 0 && Date.now() - y < Kn, x = 0, S = () => x > 0 && Date.now() - x < qn;
+		let v = 0, y = 0, b = () => y > 0 && Date.now() - y < Jn, x = 0, S = () => x > 0 && Date.now() - x < Yn;
 		function w(e) {
 			v = Date.now(), e.pointerType === "touch" && (y = v);
 		}
 		function T(e) {
-			if (e.pointerType === "touch" && (y = Date.now()), e.pointerType === "touch" && Date.now() - v < Gn) {
-				if (In(a)?.claimsTap(e, "toggleControls")) return;
+			if (e.pointerType === "touch" && (y = Date.now()), e.pointerType === "touch" && Date.now() - v < qn) {
+				if (Rn(a)?.claimsTap(e, "toggleControls")) return;
 				let t = [g(i), a].includes(e.target);
 				n().controlsVisible && t ? f() : d();
 			} else d();
@@ -1520,8 +1520,8 @@ var Wn = 2e3, Gn = 250, Kn = 500, qn = 100, Jn = /* @__PURE__ */ new WeakMap(), 
 		}, { signal: t }), h(a, "keydown", d, { signal: t }), h(a, "keyup", d, { signal: t }), h(a, "focusin", () => {
 			b() || d();
 		}, { signal: t }), h(a, "mouseleave", (e) => {
-			b() || S() && e instanceof MouseEvent && mt(a, e) || f();
-		}, { signal: t }), h(i, "play", E, { signal: t }), h(i, "pause", E, { signal: t }), h(i, "ended", E, { signal: t }), fn(i)) {
+			b() || S() && e instanceof MouseEvent && gt(a, e) || f();
+		}, { signal: t }), h(i, "play", E, { signal: t }), h(i, "pause", E, { signal: t }), h(i, "ended", E, { signal: t }), mn(i)) {
 			let e = () => {
 				let { userActive: e } = n();
 				r({ controlsVisible: c(e) });
@@ -1533,7 +1533,7 @@ var Wn = 2e3, Gn = 250, Kn = 500, qn = 100, Jn = /* @__PURE__ */ new WeakMap(), 
 		}, { once: !0 }), u();
 	}
 });
-function Xn(e, t) {
+function Qn(e, t) {
 	let n = e, r = t, i = /* @__PURE__ */ new Set(), a = {
 		requestControlsLock: () => {
 			let e = { release: n() }, t = !1;
@@ -1556,7 +1556,7 @@ function Xn(e, t) {
 	return a;
 }
 // node_modules/@videojs/core/dist/default/dom/store/features/error.js
-var Zn = V({
+var $n = z({
 	name: "error",
 	state: ({ set: e }) => ({
 		error: null,
@@ -1566,21 +1566,21 @@ var Zn = V({
 	}),
 	attach({ target: e, signal: t, set: n }) {
 		let { media: r } = e;
-		sn(r) && (h(r, "error", () => n({ error: r.error }), { signal: t }), h(r, "emptied", () => n({ error: null }), { signal: t }));
+		ln(r) && (h(r, "error", () => n({ error: r.error }), { signal: t }), h(r, "emptied", () => n({ error: null }), { signal: t }));
 	}
 });
 // node_modules/@videojs/core/dist/default/dom/presentation/fullscreen.js
-function Qn() {
+function er() {
 	let e = document;
 	if (e.fullscreenEnabled || e.webkitFullscreenEnabled) return !0;
 	let t = document.createElement("video");
 	return r(t.webkitSetPresentationMode);
 }
-function $n() {
+function tr() {
 	let e = document;
 	return e.fullscreenElement ?? e.webkitFullscreenElement ?? null;
 }
-function er(e) {
+function nr(e) {
 	if (!(e instanceof Element)) return !1;
 	try {
 		return e.matches(":fullscreen");
@@ -1588,16 +1588,16 @@ function er(e) {
 		return !1;
 	}
 }
-function tr(e, t) {
+function rr(e, t) {
 	if (t.webkitPresentationMode === "fullscreen") return !0;
-	let n = $n();
-	return n && (n === e || n === g(t)) || er(e) || er(t) ? !0 : t.isFullscreen ?? !1;
+	let n = tr();
+	return n && (n === e || n === g(t)) || nr(e) || nr(t) ? !0 : t.isFullscreen ?? !1;
 }
-async function nr(e, t) {
+async function ir(e, t) {
 	let n = document;
 	if (e && (n.fullscreenEnabled || n.webkitFullscreenEnabled)) {
 		let t = e;
-		if (z(e), r(t.requestFullscreen)) return t.requestFullscreen();
+		if (Pt(e), r(t.requestFullscreen)) return t.requestFullscreen();
 		if (r(t.webkitRequestFullscreen)) return t.webkitRequestFullscreen();
 	}
 	let i = t;
@@ -1608,7 +1608,7 @@ async function nr(e, t) {
 	let a = t;
 	if (r(a.requestFullscreen)) return a.requestFullscreen();
 }
-async function rr(e) {
+async function ar(e) {
 	let t = document, n = e;
 	if (n.webkitPresentationMode === "fullscreen" && r(n.webkitSetPresentationMode)) {
 		n.webkitSetPresentationMode("inline");
@@ -1620,7 +1620,7 @@ async function rr(e) {
 	if (r(i.exitFullscreen)) return i.exitFullscreen();
 }
 // node_modules/@videojs/core/dist/default/dom/presentation/pip.js
-function ir() {
+function or() {
 	if (document.pictureInPictureEnabled) {
 		let e = /.*Version\/.*Safari\/.*/.test(navigator.userAgent), t = typeof matchMedia == "function" && matchMedia("(display-mode: standalone)").matches;
 		return !e || !t;
@@ -1628,13 +1628,13 @@ function ir() {
 	let e = document.createElement("video");
 	return r(e.webkitSetPresentationMode);
 }
-function ar(e) {
-	return r(e.webkitSetPresentationMode) ? !0 : an(e);
+function sr(e) {
+	return r(e.webkitSetPresentationMode) ? !0 : sn(e);
 }
-function or(e) {
+function cr(e) {
 	return e.webkitPresentationMode === "picture-in-picture" || document.pictureInPictureElement === g(e) ? !0 : e.isPictureInPicture ?? !1;
 }
-async function sr(e) {
+async function lr(e) {
 	let t = e;
 	if (r(t.webkitSetPresentationMode)) {
 		t.webkitSetPresentationMode("picture-in-picture");
@@ -1643,7 +1643,7 @@ async function sr(e) {
 	let n = e;
 	if (r(n.requestPictureInPicture)) return n.requestPictureInPicture();
 }
-async function cr(e) {
+async function ur(e) {
 	let t = e;
 	if (t.webkitPresentationMode === "picture-in-picture" && r(t.webkitSetPresentationMode)) {
 		t.webkitSetPresentationMode("inline");
@@ -1654,27 +1654,27 @@ async function cr(e) {
 	if (r(n.exitPictureInPicture)) return n.exitPictureInPicture();
 }
 // node_modules/@videojs/core/dist/default/dom/store/features/fullscreen.js
-var lr = V({
+var dr = z({
 	name: "fullscreen",
 	state: ({ target: e }) => ({
 		isFullscreen: !1,
 		fullscreenAvailability: "unavailable",
 		async requestFullscreen() {
 			let { media: t, container: n } = e();
-			return or(t) && await cr(t), nr(n, t);
+			return cr(t) && await ur(t), ir(n, t);
 		},
 		async exitFullscreen() {
 			let { media: t } = e();
-			return rr(t);
+			return ar(t);
 		}
 	}),
 	attach({ target: e, signal: t, set: n }) {
 		let { media: r, container: i } = e;
-		n({ fullscreenAvailability: Qn() ? "available" : "unsupported" });
-		let a = () => n({ isFullscreen: tr(i, r) });
+		n({ fullscreenAvailability: er() ? "available" : "unsupported" });
+		let a = () => n({ isFullscreen: rr(i, r) });
 		a(), h(document, "fullscreenchange", a, { signal: t }), h(document, "webkitfullscreenchange", a, { signal: t }), "webkitPresentationMode" in r && h(r, "webkitpresentationmodechanged", a, { signal: t });
 	}
-}), ur = V({
+}), fr = z({
 	name: "live",
 	state: () => ({
 		liveEdgeStart: NaN,
@@ -1682,75 +1682,75 @@ var lr = V({
 	}),
 	attach({ target: e, signal: t, set: n }) {
 		let { media: r } = e;
-		if (!hn(r)) return;
+		if (!_n(r)) return;
 		let i = () => n({
 			liveEdgeStart: r.liveEdgeStart,
 			targetLiveWindow: r.targetLiveWindow
 		});
 		i(), h(r, "targetlivewindowchange", i, { signal: t }), h(r, "streamtypechange", i, { signal: t }), h(r, "loadedmetadata", i, { signal: t }), h(r, "canplay", i, { signal: t }), h(r, "progress", i, { signal: t }), h(r, "durationchange", i, { signal: t }), h(r, "timeupdate", i, { signal: t }), h(r, "emptied", i, { signal: t });
 	}
-}), dr = Symbol("@videojs/media-title"), fr = Symbol("@videojs/user-title"), pr = Symbol("@videojs/set-user-title"), mr = "", hr = Symbol("@videojs/media-poster"), gr = Symbol("@videojs/user-poster"), _r = Symbol("@videojs/set-user-poster"), vr = "", yr = V({
+}), pr = Symbol("@videojs/media-title"), mr = Symbol("@videojs/user-title"), hr = Symbol("@videojs/set-user-title"), gr = "", _r = Symbol("@videojs/media-poster"), vr = Symbol("@videojs/user-poster"), yr = Symbol("@videojs/set-user-poster"), br = "", xr = z({
 	name: "metadata",
 	config: {
 		title: {
-			action: pr,
-			state: fr,
+			action: hr,
+			state: mr,
 			html: { attribute: "content-title" }
 		},
 		poster: {
-			action: _r,
-			state: gr
+			action: yr,
+			state: vr
 		}
 	},
 	state: ({ set: e }) => ({
-		[dr]: void 0,
-		[fr]: void 0,
-		[pr]: (t) => e({ [fr]: t }),
-		[hr]: void 0,
-		[gr]: void 0,
-		[_r]: (t) => e({ [gr]: t })
+		[pr]: void 0,
+		[mr]: void 0,
+		[hr]: (t) => e({ [mr]: t }),
+		[_r]: void 0,
+		[vr]: void 0,
+		[yr]: (t) => e({ [vr]: t })
 	}),
 	derived: {
-		title: ({ get: e }) => e()[fr] ?? e()[dr] ?? mr,
-		poster: ({ get: e }) => e()[gr] ?? e()[hr] ?? vr
+		title: ({ get: e }) => e()[mr] ?? e()[pr] ?? gr,
+		poster: ({ get: e }) => e()[vr] ?? e()[_r] ?? br
 	},
 	attach({ target: e, signal: t, set: n }) {
 		let { media: r } = e, i = () => {
-			let e = mn(r) ? r.contentData : void 0;
+			let e = gn(r) ? r.contentData : void 0;
 			n({
-				[dr]: e?.title,
-				[hr]: e?.poster
+				[pr]: e?.title,
+				[_r]: e?.poster
 			});
 		}, a = () => {
-			i(), mn(r) && h(r, "contentdatachange", i, { signal: t });
+			i(), gn(r) && h(r, "contentdatachange", i, { signal: t });
 		};
 		a(), h(r, "loadstart", a, { signal: t });
 	}
-}), br = V({
+}), Sr = z({
 	name: "pip",
 	state: ({ target: e }) => ({
 		isPictureInPicture: !1,
 		pictureInPictureAvailability: "unavailable",
 		async requestPictureInPicture() {
 			let { media: t, container: n } = e();
-			if (ar(t)) {
-				if (!en(t) || !qt(t)) throw new DOMException("The media has no video data yet.", "InvalidStateError");
-				return tr(n, t) && await rr(t), sr(t);
+			if (sr(t)) {
+				if (!nn(t) || !Yt(t)) throw new DOMException("The media has no video data yet.", "InvalidStateError");
+				return rr(n, t) && await ar(t), lr(t);
 			}
 		},
 		async exitPictureInPicture() {
 			let { media: t } = e();
-			return cr(t);
+			return ur(t);
 		}
 	}),
 	attach({ target: e, signal: t, set: n }) {
-		let { media: r } = e, i = ir() && ar(r), a = () => n({
-			isPictureInPicture: or(r),
-			pictureInPictureAvailability: i ? en(r) && qt(r) ? "available" : "unavailable" : "unsupported"
+		let { media: r } = e, i = or() && sr(r), a = () => n({
+			isPictureInPicture: cr(r),
+			pictureInPictureAvailability: i ? nn(r) && Yt(r) ? "available" : "unavailable" : "unsupported"
 		});
 		a(), h(r, "enterpictureinpicture", a, { signal: t }), h(r, "leavepictureinpicture", a, { signal: t }), h(r, "loadstart", a, { signal: t }), h(r, "loadedmetadata", a, { signal: t }), h(r, "emptied", a, { signal: t }), "webkitPresentationMode" in r && h(r, "webkitpresentationmodechanged", a, { signal: t });
 	}
-}), xr = V({
+}), Cr = z({
 	name: "playback",
 	state: ({ target: e, set: t }) => ({
 		paused: !0,
@@ -1761,7 +1761,7 @@ var lr = V({
 		autoplaying: !1,
 		play() {
 			let { media: n } = e(), r = n.play();
-			return Qt(n) && !n.paused && t({
+			return en(n) && !n.paused && t({
 				paused: !1,
 				ended: !1,
 				started: !0
@@ -1769,7 +1769,7 @@ var lr = V({
 		},
 		pause() {
 			let { media: n } = e();
-			Qt(n) && (n.pause(), t({
+			en(n) && (n.pause(), t({
 				paused: n.paused,
 				autoplaying: !1
 			}));
@@ -1777,8 +1777,8 @@ var lr = V({
 	}),
 	attach({ target: e, signal: t, get: n, set: r }) {
 		let { media: i } = e;
-		if (!Qt(i) || !$t(i) || !en(i)) return;
-		let a = () => Zt(i) && i.autoplay, o, s = () => {
+		if (!en(i) || !tn(i) || !nn(i)) return;
+		let a = () => $t(i) && i.autoplay, o, s = () => {
 			o !== void 0 && cancelAnimationFrame(o), o = void 0;
 		}, c = () => {
 			s();
@@ -1814,18 +1814,18 @@ var lr = V({
 		};
 		c(), f(), h(i, "emptied", c, { signal: t }), h(i, "loadstart", c, { signal: t }), h(i, "canplaythrough", u, { signal: t }), h(i, "pause", l, { signal: t }), h(i, "error", l, { signal: t }), h(i, "emptied", p, { signal: t }), h(i, "play", p, { signal: t }), h(i, "pause", f, { signal: t }), h(i, "ended", f, { signal: t }), h(i, "playing", f, { signal: t }), h(i, "waiting", p, { signal: t }), h(i, "seeking", p, { signal: t }), h(i, "seeked", f, { signal: t }), h(i, "canplay", f, { signal: t }), h(i, "timeupdate", f, { signal: t });
 	}
-}), Sr = {
+}), wr = {
 	min: .0625,
 	max: 16
 };
-function Cr(e) {
-	return e?.playbackRateRange ?? Sr;
+function Tr(e) {
+	return e?.playbackRateRange ?? wr;
 }
-function wr(e) {
+function Er(e) {
 	let t = d(e) ? e.trim().split(/\s+/).map(Number) : e ?? [], n = [...new Set(t.filter((e) => Number.isFinite(e) && e > 0))];
 	return n.length > 0 ? n : void 0;
 }
-function Tr(e, t) {
+function Dr(e, t) {
 	if (e.includes(t)) return e;
 	let n = e.findIndex((e) => e > t);
 	return n === -1 ? [...e, t] : [
@@ -1834,26 +1834,26 @@ function Tr(e, t) {
 		...e.slice(n)
 	];
 }
-function Er(e, { min: t, max: n }) {
+function Or(e, { min: t, max: n }) {
 	return e.filter((e) => e >= t && e <= n);
 }
-function Dr(e) {
+function kr(e) {
 	return Math.round(e * 1e5) / 1e5;
 }
 // node_modules/@videojs/utils/dist/number/number.js
-function H(e, t, n) {
+function Ar(e, t, n) {
 	return Math.max(t, Math.min(n, e));
 }
-function Or(e, t, n) {
+function jr(e, t, n) {
 	let r = n - t;
-	return !Number.isFinite(r) || r <= 0 ? 0 : H((e - t) / r * 100, 0, 100);
+	return !Number.isFinite(r) || r <= 0 ? 0 : Ar((e - t) / r * 100, 0, 100);
 }
-function kr(e, t, n) {
+function Mr(e, t, n) {
 	let r = Math.round((e - n) / t) * t + n, i = `${t}`.indexOf(".");
 	return i === -1 ? r : Number(r.toFixed(`${t}`.length - i - 1));
 }
 // node_modules/@videojs/core/dist/default/dom/store/features/playback-rate.js
-var Ar = [
+var Nr = [
 	.5,
 	.75,
 	1,
@@ -1861,58 +1861,58 @@ var Ar = [
 	1.5,
 	1.75,
 	2
-], jr = Symbol("@videojs/default-playback-rates"), Mr = Symbol("@videojs/set-default-playback-rates"), Nr = Symbol("@videojs/playback-rate-range");
-function Pr(e, t) {
-	let n = Er(e, t);
+], Pr = Symbol("@videojs/default-playback-rates"), Fr = Symbol("@videojs/set-default-playback-rates"), Ir = Symbol("@videojs/playback-rate-range");
+function Lr(e, t) {
+	let n = Or(e, t);
 	if (n.length > 0) return n;
-	let r = Er(Ar, t);
-	return r.length > 0 ? r : [H(1, t.min, t.max)];
+	let r = Or(Nr, t);
+	return r.length > 0 ? r : [Ar(1, t.min, t.max)];
 }
-var Fr = V({
+var Rr = z({
 	name: "playbackRate",
 	config: { defaultPlaybackRates: {
-		action: Mr,
-		state: jr
+		action: Fr,
+		state: Pr
 	} },
 	state: ({ target: e, get: t, set: n }) => ({
-		[jr]: Ar,
-		[Mr]: (e) => {
-			let t = wr(e) ?? Ar;
-			n({ [jr]: t });
+		[Pr]: Nr,
+		[Fr]: (e) => {
+			let t = Er(e) ?? Nr;
+			n({ [Pr]: t });
 		},
-		[Nr]: Sr,
+		[Ir]: wr,
 		playbackRate: 1,
 		playbackRateAvailability: "unavailable",
 		setPlaybackRate(t) {
 			let { media: n } = e();
-			if (!rn(n)) return;
-			let { min: r, max: i } = Cr(n);
-			n.playbackRate = H(t, r, i);
+			if (!on(n)) return;
+			let { min: r, max: i } = Tr(n);
+			n.playbackRate = Ar(t, r, i);
 		}
 	}),
-	derived: { playbackRates: ({ get: e }) => Pr(e()[jr], e()[Nr]) },
+	derived: { playbackRates: ({ get: e }) => Lr(e()[Pr], e()[Ir]) },
 	attach({ target: e, signal: t, get: n, set: r }) {
 		let { media: i } = e, a = () => {
-			let e = Cr(i), t = n()[Nr];
-			(e.min !== t.min || e.max !== t.max) && r({ [Nr]: e });
+			let e = Tr(i), t = n()[Ir];
+			(e.min !== t.min || e.max !== t.max) && r({ [Ir]: e });
 		};
-		if (a(), h(i, "loadstart", a, { signal: t }), !rn(i)) {
+		if (a(), h(i, "loadstart", a, { signal: t }), !on(i)) {
 			r({
 				playbackRate: 1,
 				playbackRateAvailability: "unsupported"
 			});
 			return;
 		}
-		let o = () => r({ playbackRate: Dr(i.playbackRate) });
+		let o = () => r({ playbackRate: kr(i.playbackRate) });
 		r({ playbackRateAvailability: "available" }), o(), h(i, "ratechange", o, { signal: t });
 	}
-}), Ir = "auto";
-function Lr(e, t) {
+}), zr = "auto";
+function Br(e, t) {
 	return e.id || String(t);
 }
-function Rr(e, t) {
+function Vr(e, t) {
 	return {
-		id: Lr(e, t),
+		id: Br(e, t),
 		...e.width !== void 0 && { width: e.width },
 		...e.height !== void 0 && { height: e.height },
 		...e.bitrate !== void 0 && { bitrate: e.bitrate },
@@ -1921,41 +1921,41 @@ function Rr(e, t) {
 		selected: e.selected
 	};
 }
-function zr(e) {
+function Hr(e) {
 	return e.width && e.height ? Math.min(e.width, e.height) : e.height ?? e.width;
 }
-var Br = V({
+var Ur = z({
 	name: "quality",
 	state: ({ target: e }) => ({
 		videoRenditionList: [],
 		activeVideoRendition: null,
 		selectVideoRendition(t) {
 			let { media: n } = e();
-			if (!ln(n)) return;
-			if (t === Ir) {
+			if (!dn(n)) return;
+			if (t === zr) {
 				n.videoRenditions.selectedIndex = -1;
 				return;
 			}
-			let r = [...n.videoRenditions].findIndex((e, n) => Lr(e, n) === t);
+			let r = [...n.videoRenditions].findIndex((e, n) => Br(e, n) === t);
 			r !== -1 && (n.videoRenditions.selectedIndex = r);
 		}
 	}),
 	attach({ target: e, signal: t, set: n }) {
-		let { media: r } = e, i = null, a = null, o = () => ln(r) ? r.videoRenditions : null, s = (e) => {
+		let { media: r } = e, i = null, a = null, o = () => dn(r) ? r.videoRenditions : null, s = (e) => {
 			if (!e) return null;
 			let t = [...e], n = t.find((e) => e.active);
 			if (n) return n;
-			if (!dn(r) || !r.videoWidth && !r.videoHeight) return null;
-			let i = zr({
+			if (!pn(r) || !r.videoWidth && !r.videoHeight) return null;
+			let i = Hr({
 				width: r.videoWidth || void 0,
 				height: r.videoHeight || void 0
-			}), a = t.filter((e) => zr(e) === i);
+			}), a = t.filter((e) => Hr(e) === i);
 			return a.length === 1 ? a[0] : null;
 		}, c = (e = o()) => {
 			let t = e ? [...e] : [], r = s(e);
 			n({
-				videoRenditionList: t.map(Rr),
-				activeVideoRendition: r ? Rr(r, t.indexOf(r)) : null
+				videoRenditionList: t.map(Vr),
+				activeVideoRendition: r ? Vr(r, t.indexOf(r)) : null
 			});
 		}, l = () => {
 			let e = o();
@@ -1963,19 +1963,19 @@ var Br = V({
 		};
 		l(), h(r, "loadstart", l, { signal: t }), h(r, "resize", () => c(i), { signal: t }), t.addEventListener("abort", () => a?.abort(), { once: !0 });
 	}
-}), Vr = V({
+}), Wr = z({
 	name: "remotePlayback",
 	state: ({ target: e }) => ({
 		remotePlaybackState: "disconnected",
 		remotePlaybackAvailability: "unsupported",
 		async promptRemotePlayback() {
 			let { media: t, container: n } = e();
-			return Vn(t) ? Un(t) : (tr(n, t) && await rr(t), await Un(t));
+			return Un(t) ? Gn(t) : (rr(n, t) && await ar(t), await Gn(t));
 		}
 	}),
 	attach({ target: e, signal: t, set: n }) {
 		let { media: r } = e;
-		if (!fn(r)) return;
+		if (!mn(r)) return;
 		if (ie(r)) {
 			let e = () => {
 				n({ remotePlaybackState: r.webkitCurrentPlaybackTargetIsWireless ? "connected" : "disconnected" });
@@ -1992,10 +1992,10 @@ var Br = V({
 		}).catch(() => {
 			n({ remotePlaybackAvailability: "unsupported" });
 		}), t.addEventListener("abort", () => {
-			r.remote?.cancelWatchAvailability?.()?.catch(P);
+			r.remote?.cancelWatchAvailability?.()?.catch(fe);
 		});
 	}
-}), Hr = V({
+}), Gr = z({
 	name: "source",
 	state: () => ({
 		currentSrc: "",
@@ -2003,109 +2003,109 @@ var Br = V({
 	}),
 	attach({ target: e, signal: t, set: n }) {
 		let { media: r } = e;
-		if (!en(r)) return;
+		if (!nn(r)) return;
 		let i = () => n({
 			currentSrc: r.currentSrc,
 			canPlay: r.readyState >= re.HAVE_FUTURE_DATA
 		});
 		i(), h(r, "canplay", i, { signal: t }), h(r, "canplaythrough", i, { signal: t }), h(r, "loadstart", i, { signal: t }), h(r, "emptied", i, { signal: t });
 	}
-}), Ur = V({
+}), Kr = z({
 	name: "streamType",
 	state: () => ({ streamType: E.UNKNOWN }),
 	attach({ target: e, signal: t, set: n }) {
 		let { media: r } = e;
-		if (pn(r)) {
+		if (hn(r)) {
 			let e = () => n({ streamType: r.streamType });
 			e(), h(r, "streamtypechange", e, { signal: t });
 			return;
 		}
-		if (!$t(r)) return;
+		if (!tn(r)) return;
 		let i = () => {
 			let { duration: e } = r;
 			return e === Infinity ? E.LIVE : Number.isFinite(e) && e > 0 ? E.ON_DEMAND : E.UNKNOWN;
 		}, a = () => n({ streamType: i() });
-		a(), h(r, "durationchange", a, { signal: t }), h(r, "loadedmetadata", a, { signal: t }), h(r, "emptied", a, { signal: t }), on(r) && h(r, "progress", a, { signal: t });
+		a(), h(r, "durationchange", a, { signal: t }), h(r, "loadedmetadata", a, { signal: t }), h(r, "emptied", a, { signal: t }), cn(r) && h(r, "progress", a, { signal: t });
 	}
-}), Wr = Symbol.for("@videojs/i18n-registry");
-function Gr() {
-	let e = globalThis, t = e[Wr];
+}), qr = Symbol.for("@videojs/i18n-registry");
+function Jr() {
+	let e = globalThis, t = e[qr];
 	if (t) return t;
 	let n = {
 		layers: /* @__PURE__ */ new Map(),
 		subscribers: /* @__PURE__ */ new Set()
 	};
-	return e[Wr] = n, n;
+	return e[qr] = n, n;
 }
-function Kr(e) {
+function Yr(e) {
 	return e.trim().replaceAll("_", "-").toLowerCase();
 }
-function qr(e) {
+function Xr(e) {
 	let t = e.indexOf("-x-"), n = (t === -1 ? e : e.slice(0, t)).indexOf("-u-");
 	return n === -1 ? e : e.slice(0, n) + (t === -1 ? "" : e.slice(t));
 }
-function Jr(e) {
+function Zr(e) {
 	if (e[0] !== "zh") return;
 	let t = e.find((e) => e === "hant" || e === "hans");
 	return t === "hant" ? "zh-tw" : t === "hans" ? "zh-cn" : void 0;
 }
-function Yr(e) {
-	return qr(Kr(e));
+function Qr(e) {
+	return Xr(Yr(e));
 }
-function Xr(e) {
-	let t = Yr(e);
+function $r(e) {
+	let t = Qr(e);
 	if (!t) return ["en"];
 	let n = t.split("-").filter(Boolean), r = [];
 	for (let e = n.length; e >= 1; e--) r.push(n.slice(0, e).join("-"));
-	let i = Jr(n), a = r.indexOf("zh");
+	let i = Zr(n), a = r.indexOf("zh");
 	i && a !== -1 && r.splice(a, 0, i);
 	let o = [], s = /* @__PURE__ */ new Set();
 	for (let e of r) s.has(e) || (s.add(e), o.push(e));
 	return s.has("en") || o.push("en"), o;
 }
-function Zr(e) {
-	let { layers: t } = Gr(), n = {};
+function ei(e) {
+	let { layers: t } = Jr(), n = {};
 	for (let r = e.length - 1; r >= 0; r--) {
 		let i = e[r], a = t.get(i);
 		a && Object.assign(n, a);
 	}
 	return n;
 }
-function Qr(e) {
-	return Zr(Xr(e));
+function ti(e) {
+	return ei($r(e));
 }
-function $r(e) {
-	let { subscribers: t } = Gr();
+function ni(e) {
+	let { subscribers: t } = Jr();
 	return t.add(e), () => {
 		t.delete(e);
 	};
 }
 // node_modules/@videojs/core/dist/default/core/i18n/resolve-text.js
-function ei(e) {
+function ri(e) {
 	return typeof e == "string" ? e : e.text;
 }
 // node_modules/@videojs/core/dist/default/core/i18n/text.js
-function ti(e) {
+function ii(e) {
 	return S(e) && "key" in e && "text" in e;
 }
 // node_modules/@videojs/core/dist/default/core/i18n/utils/interpolate.js
-var ni = /\{([^{}]+)\}/g;
-function ri(e, t) {
-	return t ? e.replace(ni, (e, n) => Object.hasOwn(t, n) ? String(t[n]) : e) : e;
+var ai = /\{([^{}]+)\}/g;
+function oi(e, t) {
+	return t ? e.replace(ai, (e, n) => Object.hasOwn(t, n) ? String(t[n]) : e) : e;
 }
 // node_modules/@videojs/core/dist/default/core/i18n/translate-text.js
-function U(e, t, n) {
-	return typeof e == "string" ? e : typeof t == "function" ? t(e, n) : ri(ei(e), t ?? n);
+function B(e, t, n) {
+	return typeof e == "string" ? e : typeof t == "function" ? t(e, n) : oi(ri(e), t ?? n);
 }
 // node_modules/@videojs/core/dist/default/core/i18n/translator.js
-function ii(e, t) {
+function si(e, t) {
 	return (t, n) => {
 		let r = n, i = typeof t != "string", a = i ? t.key : t, o = e[a], s = r?.default, c = r ? { ...r } : void 0;
-		return c && delete c.default, ri(o ?? (i ? t.text : s) ?? String(a), c);
+		return c && delete c.default, oi(o ?? (i ? t.text : s) ?? String(a), c);
 	};
 }
 // node_modules/@videojs/core/dist/default/dom/store/text-cues.js
-function ai(e, t) {
+function ci(e, t) {
 	if (!e) return [];
 	let n = Number.isFinite(t) && t > 0 ? t : Infinity;
 	return Array.from(e, (e) => ({
@@ -2115,33 +2115,33 @@ function ai(e, t) {
 	}));
 }
 // node_modules/@videojs/core/dist/default/dom/store/features/text-track.js
-function oi(e, t) {
+function li(e, t) {
 	return e.id || `track:${t}:${e.kind}:${e.language}:${e.label}`;
 }
-function si(e) {
+function ui(e) {
 	return y(Array.from(e.textTracks, (e, t) => ({
-		id: oi(e, t),
+		id: li(e, t),
 		kind: e.kind,
 		track: e
 	})));
 }
-function ci(e, t) {
+function di(e, t) {
 	for (let { track: n } of e) {
 		let e = n === t ? "showing" : "disabled";
 		n.mode !== e && (n.mode = e);
 	}
 }
-function li(e, t) {
-	let n = Yr(t), r = Xr(t);
+function fi(e, t) {
+	let n = Qr(t), r = $r(t);
 	n !== "en" && !n.startsWith("en-") && r.pop();
 	for (let t of r) {
-		let n = e.find(({ track: e }) => Yr(e.language) === t);
+		let n = e.find(({ track: e }) => Qr(e.language) === t);
 		if (n) return n;
-		let r = e.find(({ track: e }) => Yr(e.language).startsWith(`${t}-`));
+		let r = e.find(({ track: e }) => Qr(e.language).startsWith(`${t}-`));
 		if (r) return r;
 	}
 }
-var ui = V({
+var pi = z({
 	name: "textTrack",
 	state: ({ target: e }) => {
 		let t = null;
@@ -2150,26 +2150,26 @@ var ui = V({
 			subtitlesShowing: !1,
 			toggleSubtitles(n) {
 				let { media: r } = e();
-				if (!cn(r)) return !1;
-				let i = si(r);
+				if (!un(r)) return !1;
+				let i = ui(r);
 				if (!i.length) return !1;
 				let a = i.find(({ track: e }) => e.mode === "showing"), o = n ?? !a;
-				if (a && (t = a.id), !o) return ci(i, null), !1;
-				let s = a ?? i.find(({ id: e }) => e === t) ?? li(i, globalThis.navigator?.language ?? "") ?? i[0];
-				return t = s.id, ci(i, s.track), !0;
+				if (a && (t = a.id), !o) return di(i, null), !1;
+				let s = a ?? i.find(({ id: e }) => e === t) ?? fi(i, globalThis.navigator?.language ?? "") ?? i[0];
+				return t = s.id, di(i, s.track), !0;
 			},
 			selectSubtitlesTrack(n) {
 				let { media: r } = e();
-				if (!cn(r)) return;
-				let i = si(r);
+				if (!un(r)) return;
+				let i = ui(r);
 				if (!i.length) return;
 				if (C(n)) {
 					let e = i.find(({ track: e }) => e.mode === "showing");
-					e && (t = e.id), ci(i, null);
+					e && (t = e.id), di(i, null);
 					return;
 				}
 				let a = i.find((e) => e.id === n);
-				a && (t = a.id, ci(i, a.track));
+				a && (t = a.id, di(i, a.track));
 			},
 			chaptersCues: [],
 			thumbnailsTrack: null
@@ -2177,27 +2177,27 @@ var ui = V({
 	},
 	attach({ target: e, signal: t, set: n }) {
 		let { media: r } = e;
-		if (!cn(r)) return;
+		if (!un(r)) return;
 		let i = null, a = () => {
 			i?.abort(), i = new AbortController();
 			let e = null, t = null, o = [], s = !1;
 			for (let n = 0; n < r.textTracks.length; n++) {
 				let i = r.textTracks[n];
 				!e && i.kind === "chapters" && (e = i), !t && i.kind === "metadata" && i.label === "thumbnails" && (t = i), o.push({
-					id: oi(i, n),
+					id: li(i, n),
 					kind: i.kind,
 					label: i.label,
 					language: i.language,
 					mode: i.mode
 				}), ee(i) && i.mode === "showing" && (s = !0);
 			}
-			let c = ai(e?.cues, $t(r) ? r.duration : NaN), l = null;
+			let c = ci(e?.cues, tn(r) ? r.duration : NaN), l = null;
 			t && (l = {
 				cues: t.cues ? Array.from(t.cues) : [],
 				src: v(r, t)?.src ?? null,
-				crossOrigin: en(r) ? te(r.crossOrigin) : null
+				crossOrigin: nn(r) ? te(r.crossOrigin) : null
 			});
-			let u = gn(r) && r.querySelectorAll("track") || [], d = r instanceof HTMLElement && r.shadowRoot?.querySelectorAll("track") || [];
+			let u = vn(r) && r.querySelectorAll("track") || [], d = r instanceof HTMLElement && r.shadowRoot?.querySelectorAll("track") || [];
 			for (let e of [...u, ...d]) e.track?.cues?.length || h(e, "load", a, { signal: i.signal });
 			n({
 				textTrackList: o,
@@ -2210,32 +2210,32 @@ var ui = V({
 		let o = r.textTracks;
 		o instanceof EventTarget && (h(o, "addtrack", a, { signal: t }), h(o, "removetrack", a, { signal: t }), h(o, "change", a, { signal: t })), h(r, "loadstart", a, { signal: t }), h(r, "durationchange", a, { signal: t }), t.addEventListener("abort", () => i?.abort(), { once: !0 });
 	}
-}), di = { seek: Symbol.for("@videojs/seek") }, fi = V({
+}), mi = { seek: Symbol.for("@videojs/seek") }, hi = z({
 	name: "time",
 	state: ({ target: e, signals: t, set: n }) => ({
 		currentTime: 0,
 		duration: 0,
 		seeking: !1,
 		async seek(r) {
-			let { media: i } = e(), a = t.supersede(di.seek);
-			if (!$t(i) || !en(i)) return 0;
-			if (h(i, "emptied", () => t.supersede(di.seek), {
+			let { media: i } = e(), a = t.supersede(mi.seek);
+			if (!tn(i) || !nn(i)) return 0;
+			if (h(i, "emptied", () => t.supersede(mi.seek), {
 				signal: a,
 				once: !0
-			}), !qt(i) && !await ze(i, "loadedmetadata", { signal: a }).catch(() => !1)) return i.currentTime;
+			}), !Yt(i) && !await He(i, "loadedmetadata", { signal: a }).catch(() => !1)) return i.currentTime;
 			let o = Math.max(0, Math.min(r, i.duration || Infinity));
 			return n({
 				currentTime: o,
 				seeking: !0
-			}), i.currentTime = o, await ze(i, "seeked", { signal: a }).catch(P), i.currentTime;
+			}), i.currentTime = o, await He(i, "seeked", { signal: a }).catch(fe), i.currentTime;
 		}
 	}),
 	attach({ target: e, signal: t, set: n, get: r }) {
 		let { media: i } = e;
-		if (!$t(i)) return;
+		if (!tn(i)) return;
 		let a = () => {
 			let { duration: e } = i;
-			if (e === Infinity && on(i)) {
+			if (e === Infinity && cn(i)) {
 				let { seekable: e } = i;
 				return e.length > 0 ? e.end(e.length - 1) : 0;
 			}
@@ -2249,14 +2249,14 @@ var ui = V({
 		}, c, l = () => {
 			c?.(), c = void 0;
 		}, u = () => {
-			if (!Qt(i) || i.paused || i.ended) {
+			if (!en(i) || i.paused || i.ended) {
 				l();
 				return;
 			}
 			let e = r(), t = i.currentTime;
-			!e.seeking && t !== e.currentTime && n({ currentTime: t }), c = Me(u);
+			!e.seeking && t !== e.currentTime && n({ currentTime: t }), c = Fe(u);
 		}, d = () => {
-			!c && Qt(i) && !i.paused && !i.ended && (c = Me(u));
+			!c && en(i) && !i.paused && !i.ended && (c = Fe(u));
 		}, f = () => {
 			l(), s();
 		};
@@ -2266,7 +2266,7 @@ var ui = V({
 			l(), o();
 		}, { signal: t }), h(i, "progress", s, { signal: t });
 	}
-}), pi = .25, mi = V({
+}), gi = .25, _i = z({
 	name: "volume",
 	state: ({ target: e, get: t, set: n }) => {
 		let r = () => t().volumeAvailability === "unsupported";
@@ -2277,7 +2277,7 @@ var ui = V({
 			mutedAvailability: "unavailable",
 			setVolume(t) {
 				let { media: i } = e();
-				if (!tn(i)) return 0;
+				if (!rn(i)) return 0;
 				let a = Math.max(0, Math.min(1, t));
 				return a > 0 && i.muted && (i.muted = !1), r() || (i.volume = a), n({
 					volume: i.volume,
@@ -2286,10 +2286,10 @@ var ui = V({
 			},
 			setMuted(t) {
 				let { media: i } = e();
-				if (!nn(i)) return !1;
+				if (!an(i)) return !1;
 				i.muted = t;
-				let a = tn(i);
-				return !t && a && !r() && i.volume === 0 && (i.volume = pi), n({
+				let a = rn(i);
+				return !t && a && !r() && i.volume === 0 && (i.volume = gi), n({
 					volume: a ? i.volume : 1,
 					muted: i.muted
 				}), i.muted;
@@ -2297,10 +2297,10 @@ var ui = V({
 		};
 	},
 	attach({ target: e, signal: t, set: n }) {
-		let { media: r } = e, i = tn(r), a = nn(r);
+		let { media: r } = e, i = rn(r), a = an(r);
 		if (!i && !a) return;
 		n({
-			volumeAvailability: i ? hi() : "unavailable",
+			volumeAvailability: i ? vi() : "unavailable",
 			mutedAvailability: a ? "available" : "unavailable"
 		});
 		let o = () => n({
@@ -2310,7 +2310,7 @@ var ui = V({
 		o(), h(r, "volumechange", o, { signal: t });
 	}
 });
-function hi() {
+function vi() {
 	let e = document.createElement("video");
 	try {
 		return e.volume = .5, e.volume === .5 ? "available" : "unsupported";
@@ -2319,7 +2319,7 @@ function hi() {
 	}
 }
 // node_modules/@videojs/store/dist/default/core/combine.js
-function gi(...e) {
+function yi(...e) {
 	let t = e.map((e) => e.derived ?? {});
 	return {
 		state: (t) => {
@@ -2338,103 +2338,103 @@ function gi(...e) {
 	};
 }
 // node_modules/@videojs/store/dist/default/core/selector.js
-var _i = {
-	target: he,
-	signals: new pe(),
-	get: he,
-	set: he
+var bi = {
+	target: ve,
+	signals: new ge(),
+	get: ve,
+	set: ve
 };
-function W(e) {
-	let t = e.state(_i), r = [...Object.keys(t), ...Object.keys(e.derived ?? {})], i = r[0];
+function V(e) {
+	let t = e.state(bi), r = [...Object.keys(t), ...Object.keys(e.derived ?? {})], i = r[0];
 	return Object.assign(i ? (e) => {
 		if (i in e) return n(e, r);
 	} : () => void 0, { displayName: e.name });
 }
-W(Dn);
-var vi = W(On), yi = W(Yn), bi = W(Zn), xi = W(lr);
-W(ur);
-var Si = W(yr), Ci = W(br), wi = W(xr), Ti = W(Fr), Ei = W(Br);
-W(Vr), W(Hr), W(Ur);
-var Di = W(ui), Oi = W(fi), ki = W(mi);
+V(kn);
+var xi = V(An), Si = V(Zn), Ci = V($n), wi = V(dr);
+V(fr);
+var Ti = V(xr), Ei = V(Sr), Di = V(Cr), Oi = V(Rr), ki = V(Ur);
+V(Wr), V(Gr), V(Kr);
+var Ai = V(pi), ji = V(hi), Mi = V(_i);
 // node_modules/@videojs/core/dist/default/dom/media-actions.js
-function Ai(e) {
-	l(e) && e.catch(P);
+function Ni(e) {
+	l(e) && e.catch(fe);
 }
-var G = {
+var H = {
 	togglePaused({ store: e, state: t = e.state }) {
-		let n = wi(t);
-		n && Ai(n.paused && !n.autoplaying ? n.play() : n.pause());
+		let n = Di(t);
+		n && Ni(n.paused && !n.autoplaying ? n.play() : n.pause());
 	},
 	toggleMuted({ store: e }) {
-		let t = ki(e.state);
+		let t = Mi(e.state);
 		t && t.setMuted(!(t.muted || t.volume === 0));
 	},
 	toggleFullscreen({ store: e }) {
-		let t = xi(e.state);
-		t && Ai(t.isFullscreen ? t.exitFullscreen() : t.requestFullscreen());
+		let t = wi(e.state);
+		t && Ni(t.isFullscreen ? t.exitFullscreen() : t.requestFullscreen());
 	},
 	togglePictureInPicture({ store: e }) {
-		let t = Ci(e.state);
-		t && Ai(t.isPictureInPicture ? t.exitPictureInPicture() : t.requestPictureInPicture());
+		let t = Ei(e.state);
+		t && Ni(t.isPictureInPicture ? t.exitPictureInPicture() : t.requestPictureInPicture());
 	},
 	seekStep({ store: e, value: t, key: n }) {
-		let r = Cn("seekStep", n, t), i = Oi(e.state);
+		let r = Tn("seekStep", n, t), i = ji(e.state);
 		i && i.seek(i.currentTime + r);
 	},
 	volumeStep({ store: e, value: t, key: n }) {
-		let r = Cn("volumeStep", n, t), i = ki(e.state);
+		let r = Tn("volumeStep", n, t), i = Mi(e.state);
 		i && i.setVolume(i.volume + r);
 	},
 	speedUp({ store: e, value: t }) {
-		let n = Ti(e.state);
+		let n = Oi(e.state);
 		if (!n) return;
 		if (!a(t)) {
-			n.setPlaybackRate(Dr(n.playbackRate + t));
+			n.setPlaybackRate(kr(n.playbackRate + t));
 			return;
 		}
 		let { playbackRates: r, playbackRate: i } = n, o = r.filter((e) => e > i);
 		o.length !== 0 && n.setPlaybackRate(Math.min(...o));
 	},
 	speedDown({ store: e, value: t }) {
-		let n = Ti(e.state);
+		let n = Oi(e.state);
 		if (!n) return;
 		if (!a(t)) {
-			n.setPlaybackRate(Dr(n.playbackRate - t));
+			n.setPlaybackRate(kr(n.playbackRate - t));
 			return;
 		}
 		let { playbackRates: r, playbackRate: i } = n, o = r.filter((e) => e < i);
 		o.length !== 0 && n.setPlaybackRate(Math.max(...o));
 	}
-}, ji = {
-	togglePaused: G.togglePaused,
-	toggleMuted: G.toggleMuted,
-	toggleFullscreen: G.toggleFullscreen,
-	togglePictureInPicture: G.togglePictureInPicture,
-	seekStep: G.seekStep,
-	volumeStep: G.volumeStep,
-	speedUp: G.speedUp,
-	speedDown: G.speedDown
+}, Pi = {
+	togglePaused: H.togglePaused,
+	toggleMuted: H.toggleMuted,
+	toggleFullscreen: H.toggleFullscreen,
+	togglePictureInPicture: H.togglePictureInPicture,
+	seekStep: H.seekStep,
+	volumeStep: H.volumeStep,
+	speedUp: H.speedUp,
+	speedDown: H.speedDown
 };
-function Mi(e) {
-	return ji[e] || (({ store: t }) => {
+function Fi(e) {
+	return Pi[e] || (({ store: t }) => {
 		let n = t.state[e];
-		r(n) && Ai(n());
+		r(n) && Ni(n());
 	});
 }
 // node_modules/@videojs/core/dist/default/dom/gesture/tap.js
-var Ni = 200, Pi = class {
+var Ii = 200, Li = class {
 	#e = 0;
 	#t = null;
 	handleUp(e, t) {
 		if (e.resolve("doubletap").length > 0) {
 			let n = Date.now();
-			if (n - this.#e < Ni) {
+			if (n - this.#e < Ii) {
 				this.#n(), this.#e = 0, e.resolve("doubletap")[0]?.onActivate(t);
 				return;
 			}
 			this.#e = n, this.#n(), this.#t = setTimeout(() => {
 				this.#t = null, this.#e = 0, e.resolve("tap")[0]?.onActivate(t);
-			}, Ni);
+			}, Ii);
 		} else e.resolve("tap")[0]?.onActivate(t);
 	}
 	#n() {
@@ -2443,15 +2443,15 @@ var Ni = 200, Pi = class {
 	reset() {
 		this.#n(), this.#e = 0;
 	}
-}, Fi = /* @__PURE__ */ new WeakMap();
-function Ii(e) {
-	let t = Fi.get(e);
-	return t || (t = new Pi(), Fi.set(e, t), t);
+}, Ri = /* @__PURE__ */ new WeakMap();
+function zi(e) {
+	let t = Ri.get(e);
+	return t || (t = new Li(), Ri.set(e, t), t);
 }
-function Li(e, t, n) {
-	return Ln(e).add({
+function Bi(e, t, n) {
+	return zn(e).add({
 		type: "tap",
-		recognizer: Ii(e),
+		recognizer: zi(e),
 		onActivate: t,
 		onPointerDown: n?.onPointerDown,
 		pointer: n?.pointer,
@@ -2461,10 +2461,10 @@ function Li(e, t, n) {
 		value: n?.value
 	});
 }
-function Ri(e, t, n) {
-	return Ln(e).add({
+function Vi(e, t, n) {
+	return zn(e).add({
 		type: "doubletap",
-		recognizer: Ii(e),
+		recognizer: zi(e),
 		onActivate: t,
 		pointer: n?.pointer,
 		region: n?.region,
@@ -2474,25 +2474,25 @@ function Ri(e, t, n) {
 	});
 }
 // node_modules/@videojs/core/dist/default/dom/hotkey/actions.js
-function zi(e) {
+function Hi(e) {
 	return e.startsWith("toggle");
 }
-var Bi = {
-	togglePaused: G.togglePaused,
-	toggleMuted: G.toggleMuted,
-	toggleFullscreen: G.toggleFullscreen,
+var Ui = {
+	togglePaused: H.togglePaused,
+	toggleMuted: H.toggleMuted,
+	toggleFullscreen: H.toggleFullscreen,
 	toggleSubtitles({ store: e }) {
-		Di(e.state)?.toggleSubtitles();
+		Ai(e.state)?.toggleSubtitles();
 	},
-	togglePictureInPicture: G.togglePictureInPicture,
-	seekStep: G.seekStep,
-	volumeStep: G.volumeStep,
-	speedUp: G.speedUp,
-	speedDown: G.speedDown,
+	togglePictureInPicture: H.togglePictureInPicture,
+	seekStep: H.seekStep,
+	volumeStep: H.volumeStep,
+	speedUp: H.speedUp,
+	speedDown: H.speedDown,
 	seekToPercent({ store: e, value: t, key: n }) {
-		let r = Oi(e.state);
+		let r = ji(e.state);
 		if (!r) return;
-		let i = vi(e.state), o = Jt({
+		let i = xi(e.state), o = Xt({
 			duration: r.duration,
 			seekable: i?.seekable ?? []
 		});
@@ -2504,43 +2504,43 @@ var Bi = {
 		r.seek(s / 100 * o);
 	}
 };
-function Vi(e) {
-	return Bi[e];
+function Wi(e) {
+	return Ui[e];
 }
 // node_modules/@videojs/core/dist/default/dom/hotkey/aria.js
-var Hi = {
+var Gi = {
 	shift: "Shift",
 	ctrl: "Control",
 	alt: "Alt",
 	meta: "Meta"
-}, Ui = {
+}, Ki = {
 	shift: "Shift",
 	ctrl: "Ctrl",
 	alt: "Alt",
 	meta: "Meta"
-}, Wi = [
+}, qi = [
 	"ctrl",
 	"shift",
 	"alt",
 	"meta"
 ];
-function Gi(e) {
+function Ji(e) {
 	return e.map((e) => {
 		let t = [];
-		for (let n of Wi) e.modifiers.has(n) && t.push(Hi[n]);
+		for (let n of qi) e.modifiers.has(n) && t.push(Gi[n]);
 		return t.push(e.originalKey), t.join("+");
 	}).join(" ");
 }
-function Ki(e) {
+function Yi(e) {
 	let t = [];
-	for (let n of Wi) e.modifiers.has(n) && t.push(Ui[n]);
-	return t.push(qi(e.originalKey)), t.join("+");
+	for (let n of qi) e.modifiers.has(n) && t.push(Ki[n]);
+	return t.push(Xi(e.originalKey)), t.join("+");
 }
-function qi(e) {
+function Xi(e) {
 	return e.length === 1 ? e.toUpperCase() : e;
 }
 // node_modules/@videojs/core/dist/default/dom/hotkey/coordinator.js
-var Ji = class {
+var Zi = class {
 	#e;
 	#t = [];
 	#n = 0;
@@ -2560,7 +2560,7 @@ var Ji = class {
 	}
 	add(e) {
 		let t = {
-			parsed: Xi(e.keys),
+			parsed: $i(e.keys),
 			options: e,
 			id: this.#n++
 		};
@@ -2581,7 +2581,7 @@ var Ji = class {
 		if (!n.length) return {};
 		let r = n.flatMap((e) => e.parsed), i = n[n.length - 1];
 		return {
-			aria: Gi(r),
+			aria: Ji(r),
 			shortcut: this.#m(i)
 		};
 	}
@@ -2605,12 +2605,12 @@ var Ji = class {
 		e || (this.#r?.abort(), this.#r = null), t || (this.#i?.abort(), this.#i = null);
 	}
 	#f = (e) => {
-		if (jn(this.#e) || e.key === "Unidentified" || rt(e) || e.defaultPrevented) return;
-		let t = $e(e);
+		if (Nn(this.#e) || e.key === "Unidentified" || ot(e) || e.defaultPrevented) return;
+		let t = nt(e);
 		for (let n of this.#t) {
 			let { options: r, parsed: i } = n;
 			if (!r.disabled && !(e.repeat && r.repeatable === !1) && r.target === "document" == (e.currentTarget === document)) {
-				for (let n of i) if (Qi(n, e) && !(t && n.modifiers.size === 0)) {
+				for (let n of i) if (ta(n, e) && !(t && n.modifiers.size === 0)) {
 					if (this.#a.size > 0) {
 						let t = {
 							source: "hotkey",
@@ -2632,18 +2632,18 @@ var Ji = class {
 		return this.#t.filter((n) => n.options.disabled || n.options.action !== e ? !1 : a(t) ? !0 : n.options.value === t).sort((e, t) => e.id - t.id);
 	}
 	#m(e) {
-		return e.options.keys === "0-9" ? e.options.keys : Ki(e.parsed[0]);
+		return e.options.keys === "0-9" ? e.options.keys : Yi(e.parsed[0]);
 	}
 	#h() {
 		for (let e of this.#o) e();
 	}
-}, Yi = /* @__PURE__ */ new Set([
+}, Qi = /* @__PURE__ */ new Set([
 	"shift",
 	"ctrl",
 	"alt",
 	"meta"
 ]);
-function Xi(e) {
+function $i(e) {
 	if (e === "0-9") return Array.from({ length: 10 }, (e, t) => ({
 		modifiers: /* @__PURE__ */ new Set(),
 		key: String(t),
@@ -2652,7 +2652,7 @@ function Xi(e) {
 	let t = e.split("+"), n = t.pop(), r = /* @__PURE__ */ new Set();
 	for (let e of t) {
 		let t = e.toLowerCase();
-		t === "mod" ? r.add(wt() ? "meta" : "ctrl") : Yi.has(t) && r.add(t);
+		t === "mod" ? r.add(Dt() ? "meta" : "ctrl") : Qi.has(t) && r.add(t);
 	}
 	return [{
 		modifiers: r,
@@ -2660,46 +2660,46 @@ function Xi(e) {
 		originalKey: n
 	}];
 }
-function Zi(e) {
+function ea(e) {
 	return e.length === 1 && !/[a-z]/i.test(e);
 }
-function Qi(e, t) {
+function ta(e, t) {
 	if (t.key === "Unidentified" || t.key.toLowerCase() !== e.key) return !1;
-	let n = Zi(t.key), r = n ? t.shiftKey && e.modifiers.has("shift") : t.shiftKey, i = n ? t.altKey && e.modifiers.has("alt") : t.altKey;
+	let n = ea(t.key), r = n ? t.shiftKey && e.modifiers.has("shift") : t.shiftKey, i = n ? t.altKey && e.modifiers.has("alt") : t.altKey;
 	return r === e.modifiers.has("shift") && t.ctrlKey === e.modifiers.has("ctrl") && i === e.modifiers.has("alt") && t.metaKey === e.modifiers.has("meta");
 }
-var $i = /* @__PURE__ */ new WeakMap();
-function ea(e) {
-	let t = $i.get(e);
-	return t || (t = new Ji(e), $i.set(e, t)), t;
+var na = /* @__PURE__ */ new WeakMap();
+function ra(e) {
+	let t = na.get(e);
+	return t || (t = new Zi(e), na.set(e, t)), t;
 }
-function ta(e, t) {
-	let n = ea(e), r = Xi(t.keys)[0]?.originalKey;
+function ia(e, t) {
+	let n = ra(e), r = $i(t.keys)[0]?.originalKey;
 	return n.add({
 		...t,
-		value: Cn(t.action ?? "", r, t.value)
+		value: Tn(t.action ?? "", r, t.value)
 	});
 }
 // node_modules/@videojs/core/dist/default/dom/hotkey/hotkey-events.js
-var na = "hotkey-shortcut-change", ra = [
-	xr,
-	Fr,
-	Br,
-	Dn,
-	mi,
-	fi,
-	Hr,
-	On,
-	lr,
-	br,
-	Vr,
-	Yn,
-	ui,
+var aa = "hotkey-shortcut-change", oa = [
+	Cr,
+	Rr,
+	Ur,
+	kn,
+	_i,
+	hi,
+	Gr,
+	An,
+	dr,
+	Sr,
+	Wr,
 	Zn,
-	yr
+	pi,
+	$n,
+	xr
 ];
 // node_modules/@videojs/core/dist/default/dom/ui/button.js
-function ia(e) {
+function sa(e) {
 	let { onActivate: t, isDisabled: n } = e;
 	return {
 		role: "button",
@@ -2722,16 +2722,16 @@ function ia(e) {
 	};
 }
 // node_modules/@videojs/core/dist/default/dom/ui/container.js
-var aa = "group";
-function oa(e) {
-	e.hasAttribute("role") || e.setAttribute("role", aa), e.hasAttribute("tabindex") || e.setAttribute("tabindex", "0");
+var ca = "group";
+function la(e) {
+	e.hasAttribute("role") || e.setAttribute("role", ca), e.hasAttribute("tabindex") || e.setAttribute("tabindex", "0");
 }
-function sa(e) {
-	let t = L(e.ownerDocument);
-	t && t !== e.ownerDocument.body && Lt(e, t) || e.focus({ preventScroll: !0 });
+function ua(e) {
+	let t = P(e.ownerDocument);
+	t && t !== e.ownerDocument.body && L(e, t) || e.focus({ preventScroll: !0 });
 }
 // node_modules/@videojs/core/dist/default/dom/ui/dismiss-layer.js
-function ca(e) {
+function da(e) {
 	let { transition: t } = e, n = t.state, r = new AbortController(), i = null;
 	function a(e) {
 		if (r.signal.aborted) return null;
@@ -2772,8 +2772,8 @@ function ca(e) {
 	};
 }
 // node_modules/@videojs/core/dist/default/dom/ui/dialog.js
-function la(e) {
-	let t = null, n = null, r = null, i = null, a = null, o = null, s = 0, c = /* @__PURE__ */ new Map(), l = F({ documentModal: !0 }), u = ca({
+function fa(e) {
+	let t = null, n = null, r = null, i = null, a = null, o = null, s = 0, c = /* @__PURE__ */ new Map(), l = M({ documentModal: !0 }), u = da({
 		transition: e.transition,
 		closeOnEscape: e.closeOnEscape,
 		onEscapeDismiss(e) {
@@ -2787,7 +2787,7 @@ function la(e) {
 		}
 	}), d = u.input;
 	function f() {
-		r = L();
+		r = P();
 		let n = u.open(() => t);
 		n && (w(), x(), e.onOpenChange(!0), m(), n.then(() => {
 			!u.signal.aborted && d.current.active && d.current.status === "idle" && e.onOpenChangeComplete?.(!0);
@@ -2797,7 +2797,7 @@ function la(e) {
 		let i = u.close(t);
 		i && (cancelAnimationFrame(s), s = 0, e.onOpenChange(!1), i.then(() => {
 			if (u.signal.aborted || d.current.active) return;
-			let t = L(), i = a && t instanceof Element && !Lt(a, t);
+			let t = P(), i = a && t instanceof Element && !L(a, t);
 			C();
 			let o = n?.isConnected ? n : r;
 			!i && o?.isConnected && o.focus(), r = null, e.onOpenChangeComplete?.(!1);
@@ -2805,29 +2805,29 @@ function la(e) {
 	}
 	function m() {
 		cancelAnimationFrame(s), s = requestAnimationFrame(() => {
-			s = 0, !u.signal.aborted && d.current.active && t && (t.querySelector("[autofocus]") ?? Ke(t)[0] ?? t).focus();
+			s = 0, !u.signal.aborted && d.current.active && t && (t.querySelector("[autofocus]") ?? Ye(t)[0] ?? t).focus();
 		});
 	}
 	function g(e) {
 		if (e.key !== "Tab" || !d.current.active || !t || !l.current.documentModal) return;
-		let n = Ke(t);
+		let n = Ye(t);
 		if (n.length === 0) {
 			e.preventDefault(), t.focus();
 			return;
 		}
-		let r = L(), i = n[0], a = n[n.length - 1];
-		e.shiftKey && (r === i || !r || !Lt(t, r)) ? (e.preventDefault(), a.focus()) : e.shiftKey || r !== a && r && Lt(t, r) || (e.preventDefault(), i.focus());
+		let r = P(), i = n[0], a = n[n.length - 1];
+		e.shiftKey && (r === i || !r || !L(t, r)) ? (e.preventDefault(), a.focus()) : e.shiftKey || r !== a && r && L(t, r) || (e.preventDefault(), i.focus());
 	}
 	function _(e) {
-		d.current.active && t && (e.target instanceof Element && Lt(t, e.target) || a && e.target instanceof Element && !Lt(a, e.target) || (Ke(t)[0] ?? t).focus());
+		d.current.active && t && (e.target instanceof Element && L(t, e.target) || a && e.target instanceof Element && !L(a, e.target) || (Ye(t)[0] ?? t).focus());
 	}
 	function v(e) {
 		n = e;
 	}
 	function y(e) {
 		t !== e && C(), t = e, w(), e && d.current.active && x();
-		let n = L();
-		e && d.current.active && (!n || !Lt(e, n)) && m();
+		let n = P();
+		e && d.current.active && (!n || !L(e, n)) && m();
 	}
 	function b(e) {
 		i !== e && (C(), i = e, w(), t && d.current.active && x());
@@ -2848,7 +2848,7 @@ function la(e) {
 		destroy: u.destroy
 	};
 	function x() {
-		!t?.isConnected || c.size > 0 || o || (w(), Ue(t, (e) => {
+		!t?.isConnected || c.size > 0 || o || (w(), Ke(t, (e) => {
 			if (e === a || e === t?.ownerDocument.body) return !0;
 			if (e.assignedSlot) {
 				for (let t of e.assignedSlot.assignedElements({ flatten: !0 })) t !== e && t instanceof HTMLElement && S(t);
@@ -2861,7 +2861,7 @@ function la(e) {
 			}
 			let r = e.getRootNode();
 			if (r instanceof ShadowRoot) for (let t of r.children) t !== e && t instanceof HTMLElement && S(t);
-		}, { composed: !0 }), a && (o = An(a)));
+		}, { composed: !0 }), a && (o = Mn(a)));
 	}
 	function S(e) {
 		c.set(e, e.hasAttribute("inert")), e.setAttribute("inert", "");
@@ -2871,27 +2871,27 @@ function la(e) {
 		c.clear(), o?.(), o = null;
 	}
 	function w() {
-		a = i && t && Lt(i, t) ? i : null, l.patch({ documentModal: !a });
+		a = i && t && L(i, t) ? i : null, l.patch({ documentModal: !a });
 	}
 	function T(e) {
 		if (!a) return !0;
-		let t = e.target instanceof Element ? e.target : L();
-		return t instanceof Element && Lt(a, t);
+		let t = e.target instanceof Element ? e.target : P();
+		return t instanceof Element && L(a, t);
 	}
 }
 // node_modules/@videojs/core/dist/default/core/ui/transition.js
-var ua = {
+var pa = {
 	transitionStarting: "data-starting-style",
 	transitionEnding: "data-ending-style"
 };
-function da(e) {
+function ma(e) {
 	return {
 		transitionStarting: e === "starting",
 		transitionEnding: e === "ending"
 	};
 }
 // node_modules/@videojs/core/dist/default/core/ui/indicator/lifecycle.js
-var fa = class {
+var ha = class {
 	#e = null;
 	#t;
 	#n;
@@ -2912,7 +2912,7 @@ var fa = class {
 	destroy() {
 		this.clear();
 	}
-}, pa = class {
+}, ga = class {
 	#e = /* @__PURE__ */ new Set();
 	register(e) {
 		return this.#e.add(e), () => this.#e.delete(e);
@@ -2921,23 +2921,23 @@ var fa = class {
 		for (let t of this.#e) t !== e && t.close();
 	}
 };
-function ma(e) {
+function _a(e) {
 	return e.closeDelay ?? 800;
 }
-function ha(e, t) {
+function va(e, t) {
 	return e.open || t.active;
 }
-function ga(e, t, n) {
+function ya(e, t, n) {
 	let r = e.open ? e : t;
 	return {
 		...r,
 		open: e.open && n.active,
 		generation: e.open ? e.generation : r.generation,
-		...da(n.status)
+		...ma(n.status)
 	};
 }
 // node_modules/@videojs/core/dist/default/dom/ui/input-action.js
-function _a(e) {
+function ba(e) {
 	return {
 		action: e.action,
 		value: e.value,
@@ -2946,39 +2946,39 @@ function _a(e) {
 		repeat: "repeat" in e.event ? e.event.repeat : void 0
 	};
 }
-function va(e) {
+function xa(e) {
 	if (!e) return {};
-	let t = e.state, n = Oi(t), r = wi(t), i = Di(t);
+	let t = e.state, n = ji(t), r = Di(t), i = Ai(t);
 	return {
 		paused: r && r.paused && !r.autoplaying,
-		volume: ki(t)?.volume,
-		muted: ki(t)?.muted,
-		playbackRate: Ti(t)?.playbackRate,
-		isFullscreen: xi(t)?.isFullscreen,
+		volume: Mi(t)?.volume,
+		muted: Mi(t)?.muted,
+		playbackRate: Oi(t)?.playbackRate,
+		isFullscreen: wi(t)?.isFullscreen,
 		subtitlesShowing: i?.subtitlesShowing,
 		subtitlesAvailable: i ? (i.textTrackList ?? []).some(ee) : void 0,
-		isPictureInPicture: Ci(t)?.isPictureInPicture,
+		isPictureInPicture: Ei(t)?.isPictureInPicture,
 		currentTime: n?.currentTime,
 		duration: n?.duration,
 		seeking: n?.seeking
 	};
 }
-function ya(e, t) {
-	let n = (e) => t(_a(e)), r = Ln(e).subscribe(n), i = ea(e).subscribe(n);
+function Sa(e, t) {
+	let n = (e) => t(ba(e)), r = zn(e).subscribe(n), i = ra(e).subscribe(n);
 	return () => {
 		r(), i();
 	};
 }
-var ba = /* @__PURE__ */ new WeakMap();
-function xa(e) {
-	let t = ba.get(e);
-	return t || (t = new pa(), ba.set(e, t)), t;
+var Ca = /* @__PURE__ */ new WeakMap();
+function wa(e) {
+	let t = Ca.get(e);
+	return t || (t = new ga(), Ca.set(e, t)), t;
 }
 // node_modules/@videojs/core/dist/default/dom/utils/layout.js
-function Sa(e) {
+function Ta(e) {
 	e?.getBoundingClientRect();
 }
-function Ca(e, t, n, r) {
+function Ea(e, t, n, r) {
 	let i = e + n, a = t + r;
 	return {
 		x: e,
@@ -3003,15 +3003,15 @@ function Ca(e, t, n, r) {
 		}
 	};
 }
-function wa(e, t) {
+function Da(e, t) {
 	let n = Math.max(e.left, t.left), r = Math.max(e.top, t.top), i = Math.min(e.right, t.right), a = Math.min(e.bottom, t.bottom);
-	return Ca(n, r, Math.max(0, i - n), Math.max(0, a - r));
+	return Ea(n, r, Math.max(0, i - n), Math.max(0, a - r));
 }
-function Ta(e) {
+function Oa(e) {
 	let t = document.documentElement.getBoundingClientRect();
-	return e ? wa(t, e.getBoundingClientRect()) : t;
+	return e ? Da(t, e.getBoundingClientRect()) : t;
 }
-function Ea(e, t = {}) {
+function ka(e, t = {}) {
 	if (!e) return null;
 	if (!d(e)) return e;
 	if (e === "viewport") return null;
@@ -3023,8 +3023,8 @@ function Ea(e, t = {}) {
 	}
 }
 // node_modules/@videojs/core/dist/default/dom/ui/popover/popover.js
-function Da(e) {
-	let { onOpenChange: t, closeOnOutsideClick: n } = e, r = null, i = null, a = null, o = null, s = /* @__PURE__ */ new Set(), c = !1, l = null, u = ca({
+function Aa(e) {
+	let { onOpenChange: t, closeOnOutsideClick: n } = e, r = null, i = null, a = null, o = null, s = /* @__PURE__ */ new Set(), c = !1, l = null, u = da({
 		transition: e.transition,
 		closeOnEscape: e.closeOnEscape,
 		onEscapeDismiss(e) {
@@ -3071,7 +3071,7 @@ function Da(e) {
 	function S() {
 		let t = u.open(() => i);
 		t && (queueMicrotask(() => {
-			!u.signal.aborted && d.current.active && d.current.status !== "ending" && kt(i);
+			!u.signal.aborted && d.current.active && d.current.status !== "ending" && Mt(i);
 		}), e.group?.()?.open(f), t.then(() => {
 			!u.signal.aborted && d.current.active && d.current.status === "idle" && e.onOpenChangeComplete?.(!0);
 		}));
@@ -3079,7 +3079,7 @@ function Da(e) {
 	function C() {
 		let t = u.close(i);
 		t && (e.group?.()?.close(f), t.then(() => {
-			u.signal.aborted || d.current.active || (At(i), e.onOpenChangeComplete?.(!1));
+			u.signal.aborted || d.current.active || (Nt(i), e.onOpenChangeComplete?.(!1));
 		}));
 	}
 	function w(n, r) {
@@ -3162,7 +3162,7 @@ function Da(e) {
 			t && (r?.contains(t) || i?.contains(t)) || b() || (t === null ? requestAnimationFrame(() => {
 				requestAnimationFrame(() => {
 					if (!d.current.active || d.current.status === "ending" || d.current.status === "starting") return;
-					let e = L(i?.ownerDocument);
+					let e = P(i?.ownerDocument);
 					e && (r?.contains(e) || i?.contains(e)) || T("blur");
 				});
 			}) : T("blur"));
@@ -3171,8 +3171,8 @@ function Da(e) {
 	function ae(e) {
 		r = e;
 	}
-	function O(e) {
-		!e && i && d.current.active && At(i), a?.abort(), a = null, i = e, e && (a = new AbortController(), h(e, "toggle", ne, { signal: a.signal }), d.current.active && kt(e));
+	function oe(e) {
+		!e && i && d.current.active && Nt(i), a?.abort(), a = null, i = e, e && (a = new AbortController(), h(e, "toggle", ne, { signal: a.signal }), d.current.active && Mt(e));
 	}
 	return {
 		input: d,
@@ -3182,7 +3182,7 @@ function Da(e) {
 			return r;
 		},
 		setTriggerElement: ae,
-		setPopupElement: O,
+		setPopupElement: oe,
 		open: E,
 		close: D,
 		syncOpen: ee,
@@ -3190,10 +3190,10 @@ function Da(e) {
 	};
 }
 // node_modules/@videojs/core/dist/default/core/ui/menu/item.js
-var Oa = {
+var ja = {
 	item: "data-item",
 	highlighted: "data-highlighted"
-}, ka = {
+}, Ma = {
 	sideOffset: "--media-popover-side-offset",
 	alignOffset: "--media-popover-align-offset",
 	boundaryOffset: "--media-popover-boundary-offset",
@@ -3203,7 +3203,7 @@ var Oa = {
 	height: "--media-menu-height",
 	availableWidth: "--media-menu-available-width",
 	availableHeight: "--media-menu-available-height"
-}, Aa = {
+}, Na = {
 	sideOffset: "--media-popover-side-offset",
 	alignOffset: "--media-popover-align-offset",
 	boundaryOffset: "--media-popover-boundary-offset",
@@ -3213,25 +3213,25 @@ var Oa = {
 	availableHeight: "--media-popover-available-height"
 };
 // node_modules/@videojs/core/dist/default/dom/ui/menu/menu.js
-function ja(e) {
+function Pa(e) {
 	let { key: t } = e;
 	return t === "ArrowDown" || t === "ArrowUp" || t === "ArrowLeft" || t === "ArrowRight" || t === "Home" || t === "End" || t === "Enter" || t === " " || t === "Escape" || t.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey;
 }
-function Ma(e, t) {
+function Fa(e, t) {
 	return !e || !t ? null : {
 		side: e,
 		align: t
 	};
 }
-var Na = {
-	...Aa,
-	availableWidth: ka.availableWidth,
-	availableHeight: ka.availableHeight
-}, Pa = /* @__PURE__ */ new WeakMap();
-function Fa(e) {
+var Ia = {
+	...Na,
+	availableWidth: Ma.availableWidth,
+	availableHeight: Ma.availableHeight
+}, La = /* @__PURE__ */ new WeakMap();
+function Ra(e) {
 	e.close();
 }
-function Ia(e) {
+function za(e) {
 	let t = [], n = null, r = null, i = null, a = null, o = /* @__PURE__ */ new Set(), s = /* @__PURE__ */ new Map(), c = "", l = null, u = null, d = 0, f = null, p;
 	function m(e) {
 		let t = e.getAttribute("data-availability");
@@ -3255,14 +3255,14 @@ function Ia(e) {
 			return;
 		}
 		if (n === t) {
-			t?.setAttribute(Oa.highlighted, r?.pointer === !0 ? "pointer" : "");
+			t?.setAttribute(ja.highlighted, r?.pointer === !0 ? "pointer" : "");
 			return;
 		}
 		let i = n;
-		i && (i.tabIndex = -1), n = t, t ? (t.tabIndex = 0, t.setAttribute(Oa.highlighted, r?.pointer === !0 ? "pointer" : ""), i && ie(t, i) < 0 && r?.pointer && Sa(t.parentElement), i?.removeAttribute(Oa.highlighted), r?.focus !== !1 && (r?.preventScroll ? t.focus({ preventScroll: !0 }) : t.focus())) : i?.removeAttribute(Oa.highlighted), e.onHighlightChange?.(t);
+		i && (i.tabIndex = -1), n = t, t ? (t.tabIndex = 0, t.setAttribute(ja.highlighted, r?.pointer === !0 ? "pointer" : ""), i && ie(t, i) < 0 && r?.pointer && Ta(t.parentElement), i?.removeAttribute(ja.highlighted), r?.focus !== !1 && (r?.preventScroll ? t.focus({ preventScroll: !0 }) : t.focus())) : i?.removeAttribute(ja.highlighted), e.onHighlightChange?.(t);
 	}
 	function v() {
-		n && (n.tabIndex = -1, n.removeAttribute(Oa.highlighted), n = null, e.onHighlightChange?.(null));
+		n && (n.tabIndex = -1, n.removeAttribute(ja.highlighted), n = null, e.onHighlightChange?.(null));
 	}
 	function y(e) {
 		_(h()[0] ?? null, e);
@@ -3290,7 +3290,7 @@ function Ia(e) {
 		let t = h(), r = (n ? t.indexOf(n) : -1) + 1, i = [...t.slice(r), ...t.slice(0, r)], a = c.toLowerCase(), o = i.find((e) => (e.textContent?.trim().toLowerCase() ?? "").startsWith(a));
 		o && _(o);
 	}
-	let E = Da({
+	let E = Aa({
 		transition: e.transition,
 		deferOpenChanges: !0,
 		onOpenChange(t, n) {
@@ -3298,8 +3298,8 @@ function Ia(e) {
 		},
 		onOpenChangeComplete(t) {
 			if (e.onOpenChangeComplete?.(t), !t && i) {
-				let e = L(i.ownerDocument);
-				(!(e instanceof Element) || e === i.ownerDocument.body || Lt(i, e)) && x();
+				let e = P(i.ownerDocument);
+				(!(e instanceof Element) || e === i.ownerDocument.body || L(i, e)) && x();
 			}
 		},
 		closeOnEscape: e.closeOnEscape,
@@ -3307,11 +3307,11 @@ function Ia(e) {
 		...e.group ? { group: e.group } : {}
 	}), D = {
 		onFocusOut(e) {
-			e.relatedTarget === null && k() ? u = e : E.popupProps.onFocusOut(e);
+			e.relatedTarget === null && O() ? u = e : E.popupProps.onFocusOut(e);
 		},
 		onKeyDown(e) {
 			let { key: t } = e, r = h();
-			if (t !== "Escape" && ja(e) && !e.defaultPrevented && e.preventDefault(), r.length !== 0) switch (t) {
+			if (t !== "Escape" && Pa(e) && !e.defaultPrevented && e.preventDefault(), r.length !== 0) switch (t) {
 				case "ArrowDown":
 					e.preventDefault(), _(g(1));
 					break;
@@ -3334,7 +3334,7 @@ function Ia(e) {
 	};
 	function ee(e) {
 		let t = E.input.current;
-		t.active && t.status !== "ending" && e.key !== "Escape" && ja(e) && (D.onKeyDown(e), e.stopPropagation());
+		t.active && t.status !== "ending" && e.key !== "Escape" && Pa(e) && (D.onKeyDown(e), e.stopPropagation());
 	}
 	function te(e) {
 		r = e, E.setTriggerElement(e);
@@ -3352,37 +3352,37 @@ function Ia(e) {
 	}
 	function ae(e) {
 		let r = () => _(e, { focus: !1 });
-		return e.tabIndex = -1, e.setAttribute(Oa.item, ""), e.addEventListener("focus", r), t.push(e), t.sort(ie), E.input.current.active && E.input.current.status !== "ending" && !n && w(), () => {
+		return e.tabIndex = -1, e.setAttribute(ja.item, ""), e.addEventListener("focus", r), t.push(e), t.sort(ie), E.input.current.active && E.input.current.status !== "ending" && !n && w(), () => {
 			e.removeEventListener("focus", r);
 			let i = t.indexOf(e);
 			i !== -1 && t.splice(i, 1), n === e && v();
 		};
 	}
-	function O(e) {
-		o.add(e), Pa.set(e, p);
-		let t = e.input.subscribe(oe);
+	function oe(e) {
+		o.add(e), La.set(e, p);
+		let t = e.input.subscribe(se);
 		return s.set(e, t), () => {
-			o.delete(e), Pa.get(e) === p && Pa.delete(e), s.get(e)?.(), s.delete(e), oe();
+			o.delete(e), La.get(e) === p && La.delete(e), s.get(e)?.(), s.delete(e), se();
 		};
 	}
-	function k() {
+	function O() {
 		return [...o].some(({ input: e }) => e.current.status === "ending");
 	}
-	function oe() {
-		if (!u || k()) return;
+	function se() {
+		if (!u || O()) return;
 		let e = u;
 		u = null, E.popupProps.onFocusOut(e);
 	}
-	function se(e) {
-		if (e) Pa.get(p)?.highlight(null);
+	function ce(e) {
+		if (e) La.get(p)?.highlight(null);
 		else for (let e of o) e.close("imperative-action");
 		E.syncOpen(e);
 	}
-	function ce() {
+	function le() {
 		cancelAnimationFrame(d), d = 0, C();
 		for (let e of s.values()) e();
-		for (let e of o) Pa.get(e) === p && Pa.delete(e);
-		s.clear(), o.clear(), Pa.delete(p), u = null, E.destroy();
+		for (let e of o) La.get(e) === p && La.delete(e);
+		s.clear(), o.clear(), La.delete(p), u = null, E.destroy();
 	}
 	return p = {
 		input: E.input,
@@ -3404,35 +3404,35 @@ function Ia(e) {
 		setContentElement: ne,
 		setPopupElement: re,
 		registerItem: ae,
-		registerSubmenu: O,
+		registerSubmenu: oe,
 		highlight: _,
 		highlightFirstItem: y,
 		highlightInitialItem: b,
 		restoreFocus: x,
 		open: E.open,
 		close: E.close,
-		syncOpen: se,
-		destroy: ce
+		syncOpen: ce,
+		destroy: le
 	}, p;
 }
 // node_modules/@videojs/core/dist/default/core/ui/menu/data.js
-var La = {
+var Ba = {
 	open: "data-open",
 	side: "data-side",
 	align: "data-align",
-	...ua
-}, Ra = {
+	...pa
+}, Va = {
 	open: "data-open",
 	isSubmenu: "data-submenu",
 	childOpen: "data-child-open",
-	...ua
+	...pa
 };
 ({
-	...La,
-	...Ra
+	...Ba,
+	...Va
 });
 // node_modules/@videojs/core/dist/default/dom/ui/menu/popup.js
-function za() {
+function Ha() {
 	let e = /* @__PURE__ */ new Set(), t = /* @__PURE__ */ new Map(), n = null, r = 0;
 	function i() {
 		cancelAnimationFrame(r), g(), r = requestAnimationFrame(g);
@@ -3459,7 +3459,7 @@ function za() {
 		if (t.has(n)) return;
 		let r = requestAnimationFrame(() => {
 			t.set(n, requestAnimationFrame(() => {
-				t.delete(n), e.has(n) && !o(n.menu) && (n.element.removeAttribute(Ra.childOpen), g());
+				t.delete(n), e.has(n) && !o(n.menu) && (n.element.removeAttribute(Va.childOpen), g());
 			}));
 		});
 		t.set(n, r);
@@ -3474,23 +3474,23 @@ function za() {
 		return null;
 	}
 	function d(e, t) {
-		t ? (e.element.setAttribute("aria-hidden", "true"), e.element.setAttribute("inert", "")) : O(e.element, e.accessibility);
+		t ? (e.element.setAttribute("aria-hidden", "true"), e.element.setAttribute("inert", "")) : oe(e.element, e.accessibility);
 	}
 	function f(e) {
 		let t = () => {
-			let t = L(e.element.ownerDocument);
-			return t instanceof Element && Lt(e.element, t);
+			let t = P(e.element.ownerDocument);
+			return t instanceof Element && L(e.element, t);
 		};
 		if (!t()) return;
 		e.menu.restoreFocus();
 		let n = e.parent?.input.current;
 		t() && n?.active && n.status !== "ending" && e.menu.triggerElement?.focus();
-		let r = L(e.element.ownerDocument);
+		let r = P(e.element.ownerDocument);
 		t() && r instanceof HTMLElement && r.blur();
 	}
 	function p(e) {
-		return Ue(e, (e) => {
-			let t = dt(e, ka.availableWidth);
+		return Ke(e, (e) => {
+			let t = mt(e, Ma.availableWidth);
 			return t !== null && t > 0 ? t : void 0;
 		}) ?? null;
 	}
@@ -3500,8 +3500,8 @@ function za() {
 		return Math.max(0, e.offsetWidth - e.clientWidth - n);
 	}
 	function h(e, t) {
-		let n = Ne(e, (e) => e instanceof HTMLElement && !e.hidden);
-		return n.length === 0 ? R(e, {
+		let n = Ie(e, (e) => e instanceof HTMLElement && !e.hidden);
+		return n.length === 0 ? _t(e, {
 			overflow: "both",
 			styles: {
 				width: "max-content",
@@ -3509,11 +3509,11 @@ function za() {
 				minWidth: "0px",
 				maxWidth: "none"
 			}
-		}) : bt(e, {
+		}) : Ct(e, {
 			children: n,
 			includePadding: !0,
 			maxWidth: t,
-			measure: (e, t) => R(e, {
+			measure: (e, t) => _t(e, {
 				overflow: "both",
 				styles: {
 					insetInlineStart: "0px",
@@ -3531,7 +3531,7 @@ function za() {
 		let t = /* @__PURE__ */ new Map();
 		for (let n of e) {
 			let e = o(n.menu);
-			e ? (c(n), n.menu.highlight(null), n.element.setAttribute(Ra.childOpen, "")) : s(n.menu) && n.element.hasAttribute(Ra.childOpen) ? l(n) : (c(n), n.element.removeAttribute(Ra.childOpen));
+			e ? (c(n), n.menu.highlight(null), n.element.setAttribute(Va.childOpen, "")) : s(n.menu) && n.element.hasAttribute(Va.childOpen) ? l(n) : (c(n), n.element.removeAttribute(Va.childOpen));
 			let r = n.menu.input.current, i = n.parent !== null && r.active && r.status === "ending";
 			t.set(n, e !== null || i), d(n, !1);
 		}
@@ -3541,10 +3541,10 @@ function za() {
 		}
 		let r = u();
 		if (!r) return;
-		let i = r.parent === null ? ht(n) : null, a = i ? gt(i) : 0, g = i ? _t(i) : 0, _ = p(n), v = _ === null ? null : Math.max(0, _ - a), y = h(r.element, v), b = Math.ceil(y.width + a), x = Math.ceil(y.height + g);
-		n.style.setProperty(ka.width, `${b}px`), n.style.setProperty(ka.height, `${x}px`);
+		let i = r.parent === null ? vt(n) : null, a = i ? yt(i) : 0, g = i ? bt(i) : 0, _ = p(n), v = _ === null ? null : Math.max(0, _ - a), y = h(r.element, v), b = Math.ceil(y.width + a), x = Math.ceil(y.height + g);
+		n.style.setProperty(Ma.width, `${b}px`), n.style.setProperty(Ma.height, `${x}px`);
 		let S = m(r.element);
-		S > 0 && n.style.setProperty(ka.width, `${b + S}px`);
+		S > 0 && n.style.setProperty(Ma.width, `${b + S}px`);
 	}
 	function _(e) {
 		n = e, i();
@@ -3556,7 +3556,7 @@ function za() {
 			stopObserving: () => {},
 			unsubscribe: () => {}
 		};
-		return n.unsubscribe = t.menu.input.subscribe(i), n.stopObserving = Ct({
+		return n.unsubscribe = t.menu.input.subscribe(i), n.stopObserving = Et({
 			root: t.element,
 			getElements: () => [t.element],
 			mutations: {
@@ -3566,14 +3566,14 @@ function za() {
 			},
 			onChange: i
 		}), e.add(n), t.menu.setContentElement(t.element), i(), () => {
-			c(n), e.delete(n), n.unsubscribe(), n.stopObserving(), O(t.element, n.accessibility), t.element.removeAttribute(Ra.childOpen), t.menu.contentElement === t.element && t.menu.setContentElement(null), i();
+			c(n), e.delete(n), n.unsubscribe(), n.stopObserving(), oe(t.element, n.accessibility), t.element.removeAttribute(Va.childOpen), t.menu.contentElement === t.element && t.menu.setContentElement(null), i();
 		};
 	}
 	function y() {
 		cancelAnimationFrame(r);
 		for (let e of t.values()) cancelAnimationFrame(e);
 		t.clear();
-		for (let t of e) t.unsubscribe(), t.stopObserving(), O(t.element, t.accessibility), t.element.removeAttribute(Ra.childOpen), t.menu.contentElement === t.element && t.menu.setContentElement(null);
+		for (let t of e) t.unsubscribe(), t.stopObserving(), oe(t.element, t.accessibility), t.element.removeAttribute(Va.childOpen), t.menu.contentElement === t.element && t.menu.setContentElement(null);
 		e.clear(), n = null;
 	}
 	return {
@@ -3587,7 +3587,7 @@ function za() {
 	};
 }
 // node_modules/@videojs/core/dist/default/dom/ui/popover/group.js
-function Ba() {
+function Ua() {
 	let e = null, t = /* @__PURE__ */ new Set();
 	function n() {
 		for (let e of t) e();
@@ -3610,57 +3610,57 @@ function Ba() {
 	};
 }
 // node_modules/@videojs/core/dist/default/dom/utils/event.js
-function Va(e, t) {
+function Wa(e, t) {
 	if (!t) return !1;
 	if (r(e.composedPath)) return e.composedPath().includes(t);
 	let n = e.target;
 	return n instanceof Node && t.contains(n);
 }
 // node_modules/@videojs/core/dist/default/dom/ui/popover/positioning.js
-var Ha = {
+var Ga = {
 	sideOffset: 0,
 	alignOffset: 0,
 	boundaryOffset: 0
-}, Ua = {
+}, Ka = {
 	top: "bottom",
 	bottom: "top",
 	left: "right",
 	right: "left"
 };
-function Wa(e) {
-	return `${H(e, 0, Infinity)}px`;
+function qa(e) {
+	return `${Ar(e, 0, Infinity)}px`;
 }
-function Ga(e, t, n, r) {
+function Ja(e, t, n, r) {
 	let i = n - r;
-	return i < t ? t : H(e, t, i);
+	return i < t ? t : Ar(e, t, i);
 }
-function Ka({ align: e, direction: t = "ltr" }) {
+function Ya({ align: e, direction: t = "ltr" }) {
 	return t === "rtl" ? e === "start" ? "end" : e === "end" ? "start" : e : e;
 }
-function qa(e, t, n, r, i, a, o, s, c, l) {
-	let u = a === "start" ? e + o : a === "end" ? t + o : e + n / 2 + o, d = c === "horizontal" ? "left" : "top", f = Ua[d], p = a === "start" ? d : a === "end" ? f : "center", m = a === "start" ? "0px" : a === "end" ? "-100%" : "-50%";
+function Xa(e, t, n, r, i, a, o, s, c, l) {
+	let u = a === "start" ? e + o : a === "end" ? t + o : e + n / 2 + o, d = c === "horizontal" ? "left" : "top", f = Ka[d], p = a === "start" ? d : a === "end" ? f : "center", m = a === "start" ? "0px" : a === "end" ? "-100%" : "-50%";
 	return {
 		base: `calc(anchor(${p}) + ${l})`,
 		translate: `clamp(${r + s - u}px, ${m}, calc(${i - s - u}px - 100%))`
 	};
 }
-function Ja(e, t, n, r, i, a, o = Aa) {
-	if (Je()) return {
-		...Ya(e, t, o, n, i, a),
-		...n && i ? Xa(n, i, t, a, o) : {}
+function Za(e, t, n, r, i, a, o = Na) {
+	if (Ze()) return {
+		...Qa(e, t, o, n, i, a),
+		...n && i ? $a(n, i, t, a, o) : {}
 	};
 	if (n && r) {
-		let e = a ?? Ha;
+		let e = a ?? Ga;
 		return {
 			position: "fixed",
 			margin: "0",
-			...Za(n, r, t, e, i),
-			...i ? Xa(n, i, t, e, o) : {}
+			...eo(n, r, t, e, i),
+			...i ? $a(n, i, t, e, o) : {}
 		};
 	}
 	return {};
 }
-function Ya(e, t, n = Aa, r, i, a = Ha) {
+function Qa(e, t, n = Na, r, i, a = Ga) {
 	let o = `var(${n.sideOffset}, 0px)`, s = `var(${n.alignOffset}, 0px)`, { side: c, align: l } = t, u = a.boundaryOffset ?? 0, d = {
 		positionAnchor: `--${e}`,
 		position: "fixed",
@@ -3671,46 +3671,46 @@ function Ya(e, t, n = Aa, r, i, a = Ha) {
 		marginInlineStart: "0",
 		marginBlockStart: "0",
 		translate: "none"
-	}, f = Ua[c];
+	}, f = Ka[c];
 	if (c === "top" || c === "bottom") {
-		let e = Ka(t);
+		let e = Ya(t);
 		if (d[f] = `calc(anchor(${c}) + ${o})`, r && i) {
-			let { base: t, translate: n } = qa(r.left, r.right, r.width, i.left, i.right, e, a.alignOffset, u, "horizontal", s);
+			let { base: t, translate: n } = Xa(r.left, r.right, r.width, i.left, i.right, e, a.alignOffset, u, "horizontal", s);
 			return d.left = t, d.translate = `${n} 0`, d;
 		}
 		e === "start" ? d.left = `calc(anchor(left) + ${s})` : e === "end" ? d.right = `calc(anchor(right) + ${s})` : (d.justifySelf = "anchor-center", d.marginInlineStart = s);
 	} else {
 		if (d[f] = `calc(anchor(${c}) + ${o})`, r && i) {
-			let { base: e, translate: t } = qa(r.top, r.bottom, r.height, i.top, i.bottom, l, a.alignOffset, u, "vertical", s);
+			let { base: e, translate: t } = Xa(r.top, r.bottom, r.height, i.top, i.bottom, l, a.alignOffset, u, "vertical", s);
 			return d.top = e, d.translate = `0 ${t}`, d;
 		}
 		l === "start" ? d.top = `calc(anchor(top) + ${s})` : l === "end" ? d.bottom = `calc(anchor(bottom) + ${s})` : (d.alignSelf = "anchor-center", d.marginBlockStart = s);
 	}
 	return d;
 }
-function Xa(e, t, n, r = Ha, i = Aa) {
+function $a(e, t, n, r = Ga, i = Na) {
 	let a = {}, { side: o } = n, s = r.boundaryOffset ?? 0, c = t.left + s, l = t.right - s, u = t.top + s, d = t.bottom - s;
 	if (a[i.anchorWidth] = `${e.width}px`, a[i.anchorHeight] = `${e.height}px`, o === "top" || o === "bottom") {
 		let t = o === "top" ? e.top - u : d - e.bottom;
-		a[i.availableHeight] = Wa(t - r.sideOffset), a[i.availableWidth] = Wa(l - c);
+		a[i.availableHeight] = qa(t - r.sideOffset), a[i.availableWidth] = qa(l - c);
 	} else {
 		let t = o === "left" ? e.left - c : l - e.right;
-		a[i.availableWidth] = Wa(t - r.sideOffset), a[i.availableHeight] = Wa(d - u);
+		a[i.availableWidth] = qa(t - r.sideOffset), a[i.availableHeight] = qa(d - u);
 	}
 	return a;
 }
-function Za(e, t, n, r = {
+function eo(e, t, n, r = {
 	sideOffset: 0,
 	alignOffset: 0
 }, i) {
 	let { side: a, align: o } = n, { sideOffset: s, alignOffset: c } = r, l = 0, u, d = 0, f;
 	if (a === "top" ? u = `calc(100% - ${e.top}px + ${s}px)` : a === "bottom" ? l = e.bottom + s : a === "left" ? f = `calc(100% - ${e.left}px + ${s}px)` : d = e.right + s, a === "top" || a === "bottom") {
-		let r = Ka(n);
+		let r = Ya(n);
 		d = r === "start" ? e.left + c : r === "end" ? e.right - t.width + c : e.left + (e.width - t.width) / 2 + c;
 	} else l = o === "start" ? e.top + c : o === "end" ? e.bottom - t.height + c : e.top + (e.height - t.height) / 2 + c;
 	if (i) {
 		let e = r.boundaryOffset ?? 0;
-		a === "top" || a === "bottom" ? d = Ga(d, i.left + e, i.right - e, t.width) : l = Ga(l, i.top + e, i.bottom - e, t.height);
+		a === "top" || a === "bottom" ? d = Ja(d, i.left + e, i.right - e, t.width) : l = Ja(l, i.top + e, i.bottom - e, t.height);
 	}
 	return {
 		top: a === "top" ? "auto" : `${l}px`,
@@ -3719,24 +3719,24 @@ function Za(e, t, n, r = {
 		right: f ?? "auto"
 	};
 }
-function Qa(e, t = Aa) {
+function to(e, t = Na) {
 	let n = getComputedStyle(e);
 	return {
-		sideOffset: ft(e, n.getPropertyValue(t.sideOffset)),
-		alignOffset: ft(e, n.getPropertyValue(t.alignOffset)),
-		boundaryOffset: ft(e, n.getPropertyValue(t.boundaryOffset))
+		sideOffset: ht(e, n.getPropertyValue(t.sideOffset)),
+		alignOffset: ht(e, n.getPropertyValue(t.alignOffset)),
+		boundaryOffset: ht(e, n.getPropertyValue(t.boundaryOffset))
 	};
 }
-function $a(e, t) {
-	let n = e.getBoundingClientRect(), r = pt(e, {
+function no(e, t) {
+	let n = e.getBoundingClientRect(), r = F(e, {
 		box: "layout",
 		overflow: t === "left" || t === "right" ? "width" : "height"
 	});
-	return Ca(n.left, n.top, r.width, r.height);
+	return Ea(n.left, n.top, r.width, r.height);
 }
-function eo(e) {
+function ro(e) {
 	let t = e.parentNode;
-	if (no(e) || !t) return {
+	if (ao(e) || !t) return {
 		x: 0,
 		y: 0
 	};
@@ -3748,14 +3748,14 @@ function eo(e) {
 		y: r.top
 	};
 }
-function to(e, t) {
-	return Ca(e.left - t.x, e.top - t.y, e.width, e.height);
+function io(e, t) {
+	return Ea(e.left - t.x, e.top - t.y, e.width, e.height);
 }
-function no(e) {
-	return e.hasAttribute("popover") && Ye();
+function ao(e) {
+	return e.hasAttribute("popover") && Qe();
 }
 // node_modules/@videojs/core/dist/default/dom/ui/popover/positioner.js
-var ro = [
+var oo = [
 	"position",
 	"inset",
 	"margin",
@@ -3772,7 +3772,7 @@ var ro = [
 	"right",
 	"bottom",
 	"left"
-], io = class {
+], so = class {
 	#e = null;
 	#t = null;
 	#n = null;
@@ -3781,18 +3781,18 @@ var ro = [
 	#a = !1;
 	#o = null;
 	#s = null;
-	#c = Mt(() => this.#f());
+	#c = It(() => this.#f());
 	sync(e) {
-		let { anchorName: t, position: n, trigger: r, popup: i, boundary: a, container: o, cssVars: s = Aa } = e;
+		let { anchorName: t, position: n, trigger: r, popup: i, boundary: a, container: o, cssVars: s = Na } = e;
 		if (!n || !r || !i) {
 			this.cleanup();
 			return;
 		}
-		let c = Ea(a, {
+		let c = ka(a, {
 			container: o ?? null,
 			root: i.getRootNode()
 		}), l = this.#e;
-		!l || l.anchorName !== t || l.trigger !== r || l.popup !== i || (l.cssVars ?? Aa) !== s || l.trackResize !== e.trackResize || this.#t !== c ? (l?.popup && this.#m(l.popup), this.#u(), this.#e = {
+		!l || l.anchorName !== t || l.trigger !== r || l.popup !== i || (l.cssVars ?? Na) !== s || l.trackResize !== e.trackResize || this.#t !== c ? (l?.popup && this.#m(l.popup), this.#u(), this.#e = {
 			...e,
 			cssVars: s
 		}, this.#t = c, this.#l()) : this.#e = {
@@ -3814,26 +3814,26 @@ var ro = [
 			signal: t
 		}), window.addEventListener("resize", this.#d, { signal: t });
 		let n = [e.trigger];
-		e.trackResize !== !1 && n.push(e.popup), this.#t && n.push(this.#t), this.#r = St(n, () => this.#d());
+		e.trackResize !== !1 && n.push(e.popup), this.#t && n.push(this.#t), this.#r = Tt(n, () => this.#d());
 	}
 	#u() {
 		this.#n?.abort(), this.#n = null, this.#r?.(), this.#r = null, this.#c.cancel(), this.#g();
 	}
 	#d = (e) => {
 		let t = this.#e?.popup;
-		!t || e && Va(e, t) || this.#c();
+		!t || e && Wa(e, t) || this.#c();
 	};
 	#f() {
 		let e = this.#e;
 		if (!e?.position || !e.trigger || !e.popup) return;
-		let t = e.trigger, n = Je(), r = n ? {
+		let t = e.trigger, n = Ze(), r = n ? {
 			x: 0,
 			y: 0
-		} : eo(e.popup), i = to(t.getBoundingClientRect(), r), a = to(Ta(this.#t), r), o = Qa(e.popup, e.cssVars), s = e.position, c = () => to($a(e.popup, s.side), r), l = (r) => {
-			let c = Ot(i, r, a, s, o), { positionAnchor: l, ...u } = Ja(e.anchorName, {
+		} : ro(e.popup), i = io(t.getBoundingClientRect(), r), a = io(Oa(this.#t), r), o = to(e.popup, e.cssVars), s = e.position, c = () => io(no(e.popup, s.side), r), l = (r) => {
+			let c = jt(i, r, a, s, o), { positionAnchor: l, ...u } = Za(e.anchorName, {
 				...s,
 				side: c,
-				direction: Le(t) ? "rtl" : "ltr"
+				direction: Be(t) ? "rtl" : "ltr"
 			}, i, n ? void 0 : r, a, o, e.cssVars);
 			return {
 				popupRect: r,
@@ -3841,38 +3841,38 @@ var ro = [
 				style: u
 			};
 		}, u = l(c());
-		if (this.#p(e.popup, e.cssVars ?? Aa), st(e.popup, u.style), e.onSideChange?.(u.side), n || !e.onSideChange) return;
+		if (this.#p(e.popup, e.cssVars ?? Na), ut(e.popup, u.style), e.onSideChange?.(u.side), n || !e.onSideChange) return;
 		let d = c();
 		if (d.width === u.popupRect.width && d.height === u.popupRect.height) return;
 		let f = l(d);
-		st(e.popup, f.style), f.side !== u.side && e.onSideChange(f.side);
+		ut(e.popup, f.style), f.side !== u.side && e.onSideChange(f.side);
 	}
 	#p(e, t) {
 		if (this.#s) return;
 		let n = [
-			...ro,
+			...oo,
 			t.anchorWidth,
 			t.anchorHeight,
 			t.availableWidth,
 			t.availableHeight
 		];
-		this.#s = ct(e, n);
+		this.#s = dt(e, n);
 	}
 	#m(e) {
-		this.#s &&= (lt(e, this.#s), null);
+		this.#s &&= (ft(e, this.#s), null);
 	}
 	#h(e, t, n) {
-		if (!Je()) return;
+		if (!Ze()) return;
 		let r = `--${n}`, i = this.#_(e, "anchor-name");
 		this.#o = this.#_(t, "position-anchor");
-		let a = ot(e);
+		let a = lt(e);
 		this.#i = r, this.#a = !a.includes(r), this.#a && a.push(r), e.style.setProperty("anchor-name", a.join(", "), i.priority), t.style.setProperty("position-anchor", r);
 	}
 	#g() {
 		let e = this.#e;
 		if (e?.trigger && e.popup) {
 			if (this.#i && this.#a) {
-				let t = this.#_(e.trigger, "anchor-name"), n = ot(e.trigger).filter((e) => e !== this.#i);
+				let t = this.#_(e.trigger, "anchor-name"), n = lt(e.trigger).filter((e) => e !== this.#i);
 				this.#v(e.trigger, "anchor-name", {
 					value: n.join(", "),
 					priority: t.priority
@@ -3894,20 +3894,20 @@ var ro = [
 	}
 };
 // node_modules/@videojs/core/dist/default/dom/utils/pointer.js
-function ao(e, t, n) {
+function co(e, t, n) {
 	let r;
-	return r = n === "vertical" ? 1 - (e.clientY - t.top) / t.height : (e.clientX - t.left) / t.width, Number.isFinite(r) ? H(r * 100, 0, 100) : 0;
+	return r = n === "vertical" ? 1 - (e.clientY - t.top) / t.height : (e.clientX - t.left) / t.width, Number.isFinite(r) ? Ar(r * 100, 0, 100) : 0;
 }
 // node_modules/@videojs/core/dist/default/dom/ui/slider/slider.js
-var oo = 3;
-function so(e) {
-	let t = F({
+var lo = 3;
+function uo(e) {
+	let t = M({
 		pointerPercent: 0,
 		dragPercent: 0,
 		dragging: !1,
 		pointing: !1,
 		focused: !1
-	}), n = new AbortController(), r = e.changeThrottle ?? 0, i = !1, a = null, o = null, s = 0, c = 0, l = 0, u = null, d = !1, f = !1, p = r > 0 ? ue((t) => e.onValueChange?.(t), r, { leading: !0 }) : null;
+	}), n = new AbortController(), r = e.changeThrottle ?? 0, i = !1, a = null, o = null, s = 0, c = 0, l = 0, u = null, d = !1, f = !1, p = r > 0 ? pe((t) => e.onValueChange?.(t), r, { leading: !0 }) : null;
 	function m(t, n) {
 		n && p ? p(t) : e.onValueChange?.(t);
 	}
@@ -3936,7 +3936,7 @@ function so(e) {
 			n.stopPropagation(), n.preventDefault();
 			let r = e.getElement();
 			a = r.getBoundingClientRect(), d = !1, f = !1, h(), o = n.pointerId, r.setPointerCapture(n.pointerId);
-			let p = ao(n, a, e.getOrientation());
+			let p = co(n, a, e.getOrientation());
 			i = !0, s = n.clientX, c = n.clientY, l = p, u = p, t.patch({
 				pointing: !0,
 				pointerPercent: p,
@@ -3953,8 +3953,8 @@ function so(e) {
 					g();
 					return;
 				}
-				let r = ao(n, a, e.getOrientation()), i = !t.current.dragging;
-				if (i && Math.hypot(n.clientX - s, n.clientY - c) < oo) return;
+				let r = co(n, a, e.getOrientation()), i = !t.current.dragging;
+				if (i && Math.hypot(n.clientX - s, n.clientY - c) < lo) return;
 				l = r, u = r, t.patch({
 					dragging: !0,
 					dragPercent: r,
@@ -3962,7 +3962,7 @@ function so(e) {
 				}), i && e.onDragStart?.(), m(r, !0);
 				return;
 			}
-			let r = ao(n, e.getElement().getBoundingClientRect(), e.getOrientation());
+			let r = co(n, e.getElement().getBoundingClientRect(), e.getOrientation());
 			t.patch({
 				pointing: !0,
 				pointerPercent: r
@@ -3970,8 +3970,8 @@ function so(e) {
 		},
 		onPointerUp(t) {
 			if (e.isDisabled() || (t.stopPropagation(), C(o))) return;
-			let n = ao(t, a, e.getOrientation());
-			f = t.pointerType !== "touch" && mt(e.getElement(), t), p?.cancel(), e.onValueChange?.(n), e.onValueCommit?.(n), d = !0;
+			let n = co(t, a, e.getOrientation());
+			f = t.pointerType !== "touch" && gt(e.getElement(), t), p?.cancel(), e.onValueChange?.(n), e.onValueCommit?.(n), d = !0;
 		},
 		onPointerLeave() {
 			C(o) && t.patch({ pointing: !1 });
@@ -3985,7 +3985,7 @@ function so(e) {
 				n.key !== "Tab" && n.preventDefault();
 				return;
 			}
-			let r = e.getStepPercent(), i = e.getLargeStepPercent(), a = kr(n.repeat && !C(u) ? u : e.getPercent(), r, 0), o = n.shiftKey ? i : r, s = null;
+			let r = e.getStepPercent(), i = e.getLargeStepPercent(), a = Mr(n.repeat && !C(u) ? u : e.getPercent(), r, 0), o = n.shiftKey ? i : r, s = null;
 			switch (n.key) {
 				case "ArrowRight":
 					s = a + o;
@@ -4010,7 +4010,7 @@ function so(e) {
 					break;
 				case "End": s = 100;
 			}
-			s !== null && (n.preventDefault(), s = H(s, 0, 100), u = s, t.patch({
+			s !== null && (n.preventDefault(), s = Ar(s, 0, 100), u = s, t.patch({
 				pointerPercent: s,
 				dragPercent: s,
 				pointing: !1
@@ -4035,7 +4035,7 @@ function so(e) {
 		};
 	}
 	let x = null;
-	return e.onResize && (x = St(e.getElement(), () => e.onResize())), {
+	return e.onResize && (x = Tt(e.getElement(), () => e.onResize())), {
 		input: t,
 		rootProps: v,
 		rootStyle: {
@@ -4050,47 +4050,47 @@ function so(e) {
 	};
 }
 // node_modules/@videojs/core/dist/default/core/ui/slider/vars.js
-var co = {
+var fo = {
 	fill: "--media-slider-fill",
 	pointer: "--media-slider-pointer",
 	buffer: "--media-slider-buffer"
 };
 // node_modules/@videojs/core/dist/default/dom/ui/slider/css-vars.js
-function lo(e) {
+function po(e) {
 	return {
-		[co.fill]: `${e.fillPercent.toFixed(3)}%`,
-		[co.pointer]: `${e.pointerPercent.toFixed(3)}%`
+		[fo.fill]: `${e.fillPercent.toFixed(3)}%`,
+		[fo.pointer]: `${e.pointerPercent.toFixed(3)}%`
 	};
 }
-function uo(e) {
+function mo(e) {
 	return {
-		...lo(e),
-		[co.buffer]: `${e.bufferPercent.toFixed(3)}%`
+		...po(e),
+		[fo.buffer]: `${e.bufferPercent.toFixed(3)}%`
 	};
 }
-function fo(e, t) {
+function ho(e, t) {
 	let n = e / 2;
 	return {
 		position: "absolute",
-		left: t === "visible" ? `calc(var(${co.pointer}) - ${n}px)` : `min(max(0px, calc(var(${co.pointer}) - ${n}px)), calc(100% - ${e}px))`,
+		left: t === "visible" ? `calc(var(${fo.pointer}) - ${n}px)` : `min(max(0px, calc(var(${fo.pointer}) - ${n}px)), calc(100% - ${e}px))`,
 		width: "max-content",
 		pointerEvents: "none"
 	};
 }
 // node_modules/@videojs/core/dist/default/dom/ui/slider/focus.js
-function po(e = document) {
-	let t = L(Be(e) ? e : e.ownerDocument);
-	return t?.getAttribute("role") === "slider" ? Be(e) || Lt(e, t) : !1;
+function go(e = document) {
+	let t = P(Ue(e) ? e : e.ownerDocument);
+	return t?.getAttribute("role") === "slider" ? Ue(e) || L(e, t) : !1;
 }
 // node_modules/@videojs/core/dist/default/dom/ui/time-slider/seek.js
-function mo(e) {
-	let t = F({ percent: void 0 }), n, r = !1, i = null;
+function _o(e) {
+	let t = M({ percent: void 0 }), n, r = !1, i = null;
 	function a() {
 		let o = i?.getAnimations?.().some((t) => "transitionProperty" in t && t.transitionProperty === e && t.playState !== "finished");
-		r || o ? n = Me(a) : (n = void 0, t.patch({ percent: void 0 }));
+		r || o ? n = Fe(a) : (n = void 0, t.patch({ percent: void 0 }));
 	}
 	function o(e) {
-		n?.(), t.patch({ percent: e }), n = Me(a);
+		n?.(), t.patch({ percent: e }), n = Fe(a);
 	}
 	return {
 		state: t,
@@ -4104,26 +4104,26 @@ function mo(e) {
 	};
 }
 // node_modules/@videojs/core/dist/default/dom/ui/status-announcer.js
-function ho(e, t) {
+function vo(e, t) {
 	let n = !0, r = !1, i = e.target, a = 0, o = () => {
 		i = e.target, r = !0;
 		let o = ++a;
 		t.resetSnapshot(), queueMicrotask(() => {
-			n && o === a && (r = !1, i = e.target, i && t.processSnapshot(va(e)));
+			n && o === a && (r = !1, i = e.target, i && t.processSnapshot(xa(e)));
 		});
 	}, s = e.subscribe(() => {
 		let n = e.target;
-		n === i ? n && !r && t.processSnapshot(va(e)) : o();
+		n === i ? n && !r && t.processSnapshot(xa(e)) : o();
 	});
 	return o(), () => {
 		n = !1, s();
 	};
 }
-function go(e) {
-	return !e || !po(e);
+function yo(e) {
+	return !e || !go(e);
 }
 // node_modules/@videojs/utils/dist/array/find-last-at-or-before.js
-function _o(e, t, n) {
+function bo(e, t, n) {
 	let r = 0, i = e.length - 1, a = -1;
 	for (; r <= i;) {
 		let o = r + i >>> 1;
@@ -4131,21 +4131,21 @@ function _o(e, t, n) {
 	}
 	return a;
 }
-function vo(e, t, n) {
-	let r = _o(e, t, n);
+function xo(e, t, n) {
+	let r = bo(e, t, n);
 	return r < 0 ? void 0 : e[r];
 }
 // node_modules/@videojs/utils/dist/array/find-range-at.js
-function yo(e, t, n, r) {
-	let i = _o(e, t, n);
+function So(e, t, n, r) {
+	let i = bo(e, t, n);
 	if (i < 0) return;
 	let a = e[i], o = r(a), s = i === e.length - 1;
 	return t < o || s && t === o ? a : void 0;
 }
 // node_modules/@videojs/core/dist/default/core/ui/thumbnail/core.js
-var bo = class {
+var Co = class {
 	findActiveThumbnail(e, t) {
-		return vo(e, t, (e) => e.startTime);
+		return xo(e, t, (e) => e.startTime);
 	}
 	parseConstraints(e) {
 		let t = parseFloat(e.minWidth), n = parseFloat(e.maxWidth), r = parseFloat(e.minHeight), i = parseFloat(e.maxHeight);
@@ -4193,8 +4193,8 @@ var bo = class {
 	}
 };
 // node_modules/@videojs/core/dist/default/dom/ui/thumbnail.js
-function xo(e) {
-	let { getContainer: t, getImg: n, onStateChange: r } = e, i = new bo(), a = !1, o = !1, s = 0, c = 0, l = "", u = null, d = null, f = null, p = null, m = /* @__PURE__ */ new Set();
+function wo(e) {
+	let { getContainer: t, getImg: n, onStateChange: r } = e, i = new Co(), a = !1, o = !1, s = 0, c = 0, l = "", u = null, d = null, f = null, p = null, m = /* @__PURE__ */ new Set();
 	function g() {
 		let e = n();
 		e && (s = e.naturalWidth, c = e.naturalHeight), m.delete(l), a = !1, o = !1, r();
@@ -4212,7 +4212,7 @@ function xo(e) {
 		let e = n();
 		if (e !== u && (f?.abort(), f = null, u = e, d = null, e && y(e)), !p) {
 			let e = t();
-			e && (p = St(e, r));
+			e && (p = Tt(e, r));
 		}
 	}
 	function x(e) {
@@ -4272,18 +4272,18 @@ function xo(e) {
 	};
 }
 // node_modules/@videojs/core/dist/default/dom/ui/tooltip/tooltip.js
-var So = {
+var To = {
 	hover: "hover",
 	focus: "focus",
 	escape: "escape",
 	blur: "blur",
 	"imperative-action": "imperative-action"
 };
-function Co(e) {
+function Eo(e) {
 	let t = {
 		transition: e.transition,
 		onOpenChange(t, n) {
-			let r = So[n.reason];
+			let r = To[n.reason];
 			if (!r) return;
 			let i = e.group?.();
 			t ? i?.notifyOpen() : i?.notifyClose();
@@ -4306,7 +4306,7 @@ function Co(e) {
 		}
 	};
 	e.onOpenChangeComplete && (t.onOpenChangeComplete = e.onOpenChangeComplete);
-	let n = Da(t), r = !1, i, a;
+	let n = Aa(t), r = !1, i, a;
 	function o() {
 		return i?.isOpenFor(n.triggerElement) ?? !1;
 	}
@@ -4357,8 +4357,8 @@ function Co(e) {
 	};
 }
 // node_modules/@videojs/core/dist/default/dom/ui/transition.js
-function wo() {
-	let e = F({
+function Do() {
+	let e = M({
 		active: !1,
 		status: "idle"
 	}), t = !1, n = 0, r = 0, i = 0, a = null;
@@ -4382,14 +4382,14 @@ function wo() {
 		}), new Promise((s) => {
 			a = s, n = requestAnimationFrame(() => {
 				if (n = 0, u) {
-					let e = To(o);
-					Do(e), Eo(e);
+					let e = Oo(o);
+					Ao(e), ko(e);
 				}
 				r = requestAnimationFrame(() => {
 					if (r = 0, t || l !== i || !e.current.active) return c(l);
 					e.patch({ status: "idle" }), n = requestAnimationFrame(() => {
 						if (n = 0, t || l !== i || !e.current.active) return c(l);
-						Oo(To(o)).finally(() => c(l));
+						jo(Oo(o)).finally(() => c(l));
 					});
 				});
 			});
@@ -4402,7 +4402,7 @@ function wo() {
 			a = s, n = requestAnimationFrame(() => {
 				n = 0, r = requestAnimationFrame(() => {
 					if (r = 0, t || l !== i) return c(l);
-					Oo(o).finally(() => {
+					jo(o).finally(() => {
 						if (t || l !== i || e.current.status !== "ending") return c(l);
 						e.patch({
 							active: !1,
@@ -4426,34 +4426,34 @@ function wo() {
 		}
 	};
 }
-function To(e) {
+function Oo(e) {
 	return typeof e == "function" ? e() : e;
 }
-function Eo(e) {
+function ko(e) {
 	e && e.offsetHeight;
 }
-function Do(e) {
+function Ao(e) {
 	let t = e?.getAnimations?.({ subtree: !0 }) ?? [];
 	for (let e of t) e.cancel();
 }
-function Oo(e) {
+function jo(e) {
 	if (!e) return Promise.resolve();
 	let t = e.getAnimations?.() ?? [];
-	return t.length === 0 ? Promise.resolve() : Promise.all(t.map((e) => e.finished)).then(P, P);
+	return t.length === 0 ? Promise.resolve() : Promise.all(t.map((e) => e.finished)).then(fe, fe);
 }
 // node_modules/@videojs/core/dist/default/dom/ui/wheel-step.js
-function ko(e) {
+function Mo(e) {
 	return { onWheel(t) {
 		if (e.isDisabled()) return;
 		let n = Math.sign(t.deltaY);
 		if (n === 0) return;
 		t.preventDefault();
-		let r = e.getStepPercent(), i = H(e.getPercent() - n * r, 0, 100);
+		let r = e.getStepPercent(), i = Ar(e.getPercent() - n * r, 0, 100);
 		e.onValueChange?.(i);
 	} };
 }
 // node_modules/@videojs/core/dist/default/dom/utils/element-props.js
-function K(e, t, n) {
+function U(e, t, n) {
 	let i = n?.signal;
 	for (let [n, o] of Object.entries(t)) if (r(o) && n.startsWith("on")) {
 		let t = n.endsWith("Capture") && !n.endsWith("PointerCapture"), r = n.slice(2, t ? -7 : void 0).toLowerCase();
@@ -4464,18 +4464,18 @@ function K(e, t, n) {
 	} else a(o) || o === !1 ? e.removeAttribute(n) : o === !0 ? e.setAttribute(n, "") : e.setAttribute(n, String(o));
 }
 // node_modules/@videojs/core/dist/default/dom/utils/state-data-attrs.js
-function q(e, t, n) {
+function W(e, t, n) {
 	for (let r in t) {
 		if (n && !(r in n)) continue;
-		let i = n?.[r] ?? Ao(r), a = t[r];
+		let i = n?.[r] ?? No(r), a = t[r];
 		a === !0 ? e.setAttribute(i, "") : a ? e.setAttribute(i, String(a)) : e.removeAttribute(i);
 	}
 }
-function Ao(e) {
+function No(e) {
 	return `data-${e.toLowerCase()}`;
 }
 // node_modules/@videojs/html/dist/default/player/element.js
-function jo(e) {
+function Po(e) {
 	return Object.entries(e).map(([e, t]) => {
 		let n = t.html?.attribute ?? b(e);
 		return {
@@ -4485,12 +4485,12 @@ function jo(e) {
 		};
 	});
 }
-function Mo(e) {
-	let t = jo(e.config);
-	class n extends B {
+function Fo(e) {
+	let t = Po(e.config);
+	class n extends R {
 		static {
 			this.properties = {
-				...B.properties,
+				...R.properties,
 				...Object.fromEntries(t.map(({ property: e, attribute: t }) => [e, {
 					type: String,
 					attribute: t
@@ -4508,7 +4508,7 @@ function Mo(e) {
 		#c = [];
 		#l = [];
 		#u = new MutationObserver(() => this.#b());
-		#d = new bn(() => this.#T());
+		#d = new Sn(() => this.#T());
 		#f = (e) => this.#d.register(e);
 		#p = (e) => {
 			let t = { value: e };
@@ -4524,18 +4524,18 @@ function Mo(e) {
 				e < 0 || (this.#l.splice(e, 1), this.#y());
 			};
 		};
-		#h = new A(this, {
+		#h = new k(this, {
 			context: e.playerContext,
 			initialValue: this.store
 		});
-		#g = new A(this, {
+		#g = new k(this, {
 			context: e.mediaContext,
 			initialValue: {
 				media: this.#i,
 				registerMedia: this.#p
 			}
 		});
-		#_ = new A(this, {
+		#_ = new k(this, {
 			context: e.containerContext,
 			initialValue: {
 				container: this.#o,
@@ -4543,7 +4543,7 @@ function Mo(e) {
 			}
 		});
 		constructor() {
-			super(), new A(this, {
+			super(), new k(this, {
 				context: e.extensionContext,
 				initialValue: { registerExtension: this.#f }
 			});
@@ -4570,7 +4570,7 @@ function Mo(e) {
 			for (let { property: n, entry: r } of t) {
 				if (!e.has(n)) continue;
 				let t = n;
-				Sn(this.store, r, this[t]);
+				wn(this.store, r, this[t]);
 			}
 		}
 		#v() {
@@ -4627,7 +4627,7 @@ function Mo(e) {
 			if (this.#t !== e) {
 				for (let { property: n, entry: r } of t) {
 					let t = n;
-					Sn(e, r, this[t]);
+					wn(e, r, this[t]);
 				}
 				this.#t = e;
 			}
@@ -4636,65 +4636,65 @@ function Mo(e) {
 	return n;
 }
 // node_modules/@videojs/html/dist/default/player/create-player.js
-function No(e) {
-	let t = gi(...e.features), n = xn(e.features);
+function Io(e) {
+	let t = yi(...e.features), n = Cn(e.features);
 	return {
-		PlayerElement: Mo({
-			playerContext: k,
+		PlayerElement: Fo({
+			playerContext: O,
 			mediaContext: f,
 			containerContext: s,
 			extensionContext: c,
-			factory: () => Te()(t),
+			factory: () => Oe()(t),
 			config: n
 		}),
-		PlayerController: je(k),
-		playerContext: k
+		PlayerController: Pe(O),
+		playerContext: O
 	};
 }
 // node_modules/@videojs/html/dist/default/presets/video/player.js
-var { PlayerElement: Po, PlayerController: Fo } = No({ features: ra }), Io = class extends Po {
+var { PlayerElement: Lo, PlayerController: Ro } = Io({ features: oa }), zo = class extends Lo {
 	static {
 		this.tagName = "video-player";
 	}
 };
 // node_modules/@videojs/html/dist/default/define/video/player.js
-o(Io);
-var J = t(Symbol.for("@videojs/i18n")), Lo;
-function Ro() {
-	return Lo ??= ii(Qr("en"), "en"), Lo;
+o(zo);
+var G = t(Symbol.for("@videojs/i18n")), Bo;
+function Vo() {
+	return Bo ??= si(ti("en"), "en"), Bo;
 }
-var zo = class {
+var K = class {
 	#e;
 	#t;
 	#n;
 	constructor(e, t) {
-		this.#e = e, this.#t = new j(e, {
+		this.#e = e, this.#t = new A(e, {
 			context: t,
 			callback: () => this.#e.requestUpdate(),
 			subscribe: !0
 		}), e.addController(this);
 	}
 	get value() {
-		return this.#t.value?.translator ?? Ro();
+		return this.#t.value?.translator ?? Vo();
 	}
 	get locale() {
 		return this.#t.value?.locale ?? "en";
 	}
 	hostConnected() {
-		Lo = void 0, this.#n = $r(() => {
-			Lo = void 0, this.#t.value || this.#e.requestUpdate();
+		Bo = void 0, this.#n = ni(() => {
+			Bo = void 0, this.#t.value || this.#e.requestUpdate();
 		});
 	}
 	hostDisconnected() {
 		this.#n?.(), this.#n = void 0;
 	}
-}, Bo = t(Symbol.for("@videojs/popup-group"));
+}, Ho = t(Symbol.for("@videojs/popup-group"));
 // node_modules/@videojs/core/dist/default/core/ui/utils/resolve-label.js
-function Y(e, t) {
+function q(e, t) {
 	return r(e) ? e(t) || void 0 : e || void 0;
 }
 // node_modules/@videojs/core/dist/default/core/ui/dialog/core.js
-var Vo = class {
+var Uo = class {
 	static defaultProps = {
 		open: !1,
 		defaultOpen: !1,
@@ -4729,7 +4729,7 @@ var Vo = class {
 			titleId: this.#n,
 			descriptionId: this.#r,
 			scope: this.#i ? "document" : "player",
-			...da(e.status)
+			...ma(e.status)
 		};
 	}
 	getTriggerAttrs(e, t) {
@@ -4747,37 +4747,37 @@ var Vo = class {
 			"aria-describedby": e.descriptionId
 		};
 	}
-}, Ho = class extends Vo {
+}, Wo = class extends Uo {
 	constructor() {
 		super("alertdialog");
 	}
-}, Uo = {
+}, Go = {
 	open: "data-open",
 	transitionStarting: "data-starting-style",
 	transitionEnding: "data-ending-style",
 	scope: "data-scope"
-}, Wo = "menu.", Go = {
-	key: `${Wo}quality`,
+}, Ko = "menu.", qo = {
+	key: `${Ko}quality`,
 	text: "Quality"
-}, Ko = {
-	key: `${Wo}playbackRate`,
-	text: "Playback rate"
-}, qo = {
-	key: `${Wo}customRate`,
-	text: "Custom, {rate}"
 }, Jo = {
-	key: `${Wo}auto`,
-	text: "Auto"
+	key: `${Ko}playbackRate`,
+	text: "Playback rate"
 }, Yo = {
-	key: `${Wo}autoWithLabel`,
+	key: `${Ko}customRate`,
+	text: "Custom, {rate}"
+}, Xo = {
+	key: `${Ko}auto`,
+	text: "Auto"
+}, Zo = {
+	key: `${Ko}autoWithLabel`,
 	text: "Auto ({label})"
-}, Xo = class e {
+}, Qo = class e {
 	static defaultProps = { delay: 500 };
-	state = F({ visible: !1 });
+	state = M({ visible: !1 });
 	#e = { ...e.defaultProps };
 	#t = null;
 	setProps(t) {
-		this.#e = N(t, e.defaultProps);
+		this.#e = j(t, e.defaultProps);
 	}
 	destroy() {
 		this.#n();
@@ -4791,19 +4791,19 @@ var Vo = class {
 	#n() {
 		this.#t !== null && (clearTimeout(this.#t), this.#t = null);
 	}
-}, Zo = { visible: "data-visible" }, Qo = "captions.", $o = {
-	key: `${Qo}enable`,
+}, $o = { visible: "data-visible" }, es = "captions.", ts = {
+	key: `${es}enable`,
 	text: "Enable captions"
-}, es = {
-	key: `${Qo}disable`,
+}, ns = {
+	key: `${es}disable`,
 	text: "Disable captions"
-}, ts = class e {
+}, rs = class e {
 	static defaultProps = {
 		label: "",
 		disabled: !1,
 		menuTrigger: !1
 	};
-	state = F({
+	state = M({
 		subtitlesShowing: !1,
 		availability: "unavailable",
 		disabled: !0,
@@ -4816,10 +4816,10 @@ var Vo = class {
 		e && this.setProps(e);
 	}
 	setProps(t) {
-		this.#e = N(t, e.defaultProps);
+		this.#e = j(t, e.defaultProps);
 	}
 	getLabel(e) {
-		return Y(this.#e.label, e) || (e.subtitlesShowing ? es : $o);
+		return q(this.#e.label, e) || (e.subtitlesShowing ? ns : ts);
 	}
 	getAttrs(e) {
 		return {
@@ -4838,22 +4838,22 @@ var Vo = class {
 			availability: t,
 			disabled: this.#e.disabled || t !== "available",
 			hidden: t === "unavailable"
-		}), this.state.patch({ label: ei(this.getLabel(this.state.current)) }), this.state.current;
+		}), this.state.patch({ label: ri(this.getLabel(this.state.current)) }), this.state.current;
 	}
 	toggle(e) {
-		this.setMedia(e), this.getState().disabled || this.#e.menuTrigger && ns(e) > 1 || e.toggleSubtitles();
+		this.setMedia(e), this.getState().disabled || this.#e.menuTrigger && is(e) > 1 || e.toggleSubtitles();
 	}
 };
-function ns(e) {
+function is(e) {
 	return e.textTrackList.filter(ee).length;
 }
 // node_modules/@videojs/core/dist/default/core/ui/captions-button/data.js
-var rs = {
+var as = {
 	subtitlesShowing: "data-active",
 	availability: "data-availability",
 	disabled: "data-disabled",
 	hidden: "data-hidden"
-}, is = class {
+}, os = class {
 	#e = null;
 	setMedia(e) {
 		this.#e = e;
@@ -4861,7 +4861,7 @@ var rs = {
 	getState() {
 		return { controlsVisible: this.#e.controlsVisible };
 	}
-}, as = { controlsVisible: "data-controls-visible" }, os = class e {
+}, ss = { controlsVisible: "data-controls-visible" }, cs = class e {
 	static defaultProps = { visibility: "auto" };
 	#e = { ...e.defaultProps };
 	#t = null;
@@ -4869,7 +4869,7 @@ var rs = {
 		e && this.setProps(e);
 	}
 	setProps(t) {
-		this.#e = N(t, e.defaultProps);
+		this.#e = j(t, e.defaultProps);
 	}
 	setMedia(e) {
 		this.#t = e;
@@ -4884,88 +4884,88 @@ var rs = {
 			userActive: !0
 		} : null;
 	}
-}, ss = {
+}, ls = {
 	visible: "data-visible",
 	userActive: "data-user-active"
-}, cs = class extends Ho {
+}, us = class extends Wo {
 	setProps() {}
-}, ls = { ...Uo }, us = "common.", ds = {
-	key: `${us}empty`,
+}, ds = { ...Go }, fs = "common.", ps = {
+	key: `${fs}empty`,
 	text: ""
-}, fs = {
-	key: `${us}ok`,
+}, ms = {
+	key: `${fs}ok`,
 	text: "OK"
-}, ps = "errors.", ms = {
-	key: `${ps}aborted`,
+}, hs = "errors.", gs = {
+	key: `${hs}aborted`,
 	text: "You stopped media playback before it finished."
-}, hs = {
-	key: `${ps}network`,
-	text: "This media could not be loaded due to a network or server issue."
-}, gs = {
-	key: `${ps}decode`,
-	text: "This media could not be played. It may be corrupted, or your browser may not support its format."
 }, _s = {
-	key: `${ps}source`,
-	text: "This media could not be loaded. It may be unavailable, or your browser may not support its format."
+	key: `${hs}network`,
+	text: "This media could not be loaded due to a network or server issue."
 }, vs = {
-	key: `${ps}encrypted`,
-	text: "This media could not be played because it could not be decrypted."
+	key: `${hs}decode`,
+	text: "This media could not be played. It may be corrupted, or your browser may not support its format."
 }, ys = {
-	key: `${ps}unplayable`,
-	text: "This media is unsupported by the player."
+	key: `${hs}source`,
+	text: "This media could not be loaded. It may be unavailable, or your browser may not support its format."
 }, bs = {
-	key: `${ps}title`,
-	text: "Something went wrong."
+	key: `${hs}encrypted`,
+	text: "This media could not be played because it could not be decrypted."
 }, xs = {
-	key: `${ps}unexpected`,
+	key: `${hs}unplayable`,
+	text: "This media is unsupported by the player."
+}, Ss = {
+	key: `${hs}title`,
+	text: "Something went wrong."
+}, Cs = {
+	key: `${hs}unexpected`,
 	text: "An unexpected error occurred."
-}, Ss = 99001, Cs = {
-	[D.MEDIA_ERR_ABORTED]: ms,
-	[D.MEDIA_ERR_NETWORK]: hs,
-	[D.MEDIA_ERR_DECODE]: gs,
-	[D.MEDIA_ERR_SRC_NOT_SUPPORTED]: _s,
-	[D.MEDIA_ERR_ENCRYPTED]: vs,
-	[D.MEDIA_ERR_CUSTOM]: ds,
-	[Ss]: ys
-}, ws = { [D.MEDIA_ERR_SRC_NOT_SUPPORTED]: ["Failed to open media"] };
-function Ts(e) {
+}, ws = 99001, Ts = {
+	[D.MEDIA_ERR_ABORTED]: gs,
+	[D.MEDIA_ERR_NETWORK]: _s,
+	[D.MEDIA_ERR_DECODE]: vs,
+	[D.MEDIA_ERR_SRC_NOT_SUPPORTED]: ys,
+	[D.MEDIA_ERR_ENCRYPTED]: bs,
+	[D.MEDIA_ERR_CUSTOM]: ps,
+	[ws]: xs
+}, Es = { [D.MEDIA_ERR_SRC_NOT_SUPPORTED]: ["Failed to open media"] };
+function Ds(e) {
 	return e >= D.MEDIA_ERR_ABORTED && e <= D.MEDIA_ERR_ENCRYPTED;
 }
-function Es() {
-	return bs;
-}
-function Ds() {
-	return fs;
-}
 function Os() {
-	return xs;
+	return Ss;
 }
-function ks(e, t) {
+function ks() {
+	return ms;
+}
+function As() {
+	return Cs;
+}
+function js(e, t) {
 	if (e) {
-		let t = Cs[e.code], n = e.message?.trim();
+		let t = Ts[e.code], n = e.message?.trim();
 		if (n) {
 			let r = D.defaultMessages[e.code];
 			if (t && r && n === r) return t;
-			let i = ws[e.code];
-			return t && Ts(e.code) && !e.context && i?.includes(n) ? t : n;
+			let i = Es[e.code];
+			return t && Ds(e.code) && !e.context && i?.includes(n) ? t : n;
 		}
 		if (t) return t;
 	}
-	return t?.trim() || xs;
+	return t?.trim() || Cs;
 }
 // node_modules/@videojs/core/dist/default/i18n/text/fullscreen.js
-var As = "fullscreen.", js = {
-	key: `${As}enter`,
+var Ms = "fullscreen.", Ns = {
+	key: `${Ms}enter`,
 	text: "Enter fullscreen"
-}, Ms = {
-	key: `${As}exit`,
+}, Ps = {
+	key: `${Ms}exit`,
 	text: "Exit fullscreen"
-}, Ns = class e {
+}, Fs = class e {
 	static defaultProps = {
 		label: "",
 		disabled: !1
 	};
-	state = F({
+	state = M({
 		fullscreen: !1,
 		availability: "unavailable",
 		disabled: !0,
@@ -4978,10 +4978,10 @@ var As = "fullscreen.", js = {
 		e && this.setProps(e);
 	}
 	setProps(t) {
-		this.#e = N(t, e.defaultProps);
+		this.#e = j(t, e.defaultProps);
 	}
 	getLabel(e) {
-		return Y(this.#e.label, e) || (e.fullscreen ? Ms : js);
+		return q(this.#e.label, e) || (e.fullscreen ? Ps : Ns);
 	}
 	getAttrs(e) {
 		return {
@@ -5000,84 +5000,84 @@ var As = "fullscreen.", js = {
 			availability: t,
 			disabled: this.#e.disabled || t !== "available",
 			hidden: t !== "available"
-		}), this.state.patch({ label: ei(this.getLabel(this.state.current)) }), this.state.current;
+		}), this.state.patch({ label: ri(this.getLabel(this.state.current)) }), this.state.current;
 	}
 	async toggle(e) {
 		if (this.setMedia(e), !this.getState().disabled) return e.isFullscreen ? e.exitFullscreen() : e.requestFullscreen();
 	}
-}, Ps = {
+}, Is = {
 	fullscreen: "data-fullscreen",
 	availability: "data-availability",
 	disabled: "data-disabled",
 	hidden: "data-hidden"
-}, Fs = "status.", Is = {
-	key: `${Fs}captionsOn`,
+}, Ls = "status.", Rs = {
+	key: `${Ls}captionsOn`,
 	text: "Captions on"
-}, Ls = {
-	key: `${Fs}captionsOff`,
-	text: "Captions off"
-}, Rs = {
-	key: `${Fs}paused`,
-	text: "Paused"
 }, zs = {
-	key: `${Fs}playing`,
-	text: "Playing"
+	key: `${Ls}captionsOff`,
+	text: "Captions off"
 }, Bs = {
-	key: `${Fs}fullscreen`,
-	text: "Fullscreen"
+	key: `${Ls}paused`,
+	text: "Paused"
 }, Vs = {
-	key: `${Fs}pip`,
-	text: "Picture in picture"
+	key: `${Ls}playing`,
+	text: "Playing"
 }, Hs = {
-	key: `${Fs}exitPip`,
-	text: "Exit picture in picture"
+	key: `${Ls}fullscreen`,
+	text: "Fullscreen"
 }, Us = {
-	key: `${Fs}seekedTo`,
+	key: `${Ls}pip`,
+	text: "Picture in picture"
+}, Ws = {
+	key: `${Ls}exitPip`,
+	text: "Exit picture in picture"
+}, Gs = {
+	key: `${Ls}seekedTo`,
 	text: "Seeked to {time}"
-}, Ws = "volume.", Gs = {
-	key: `${Ws}mutedValue`,
+}, Ks = "volume.", qs = {
+	key: `${Ks}mutedValue`,
 	text: "{percent}, muted"
-}, Ks = {
-	key: `${Ws}muted`,
-	text: "Muted"
-}, qs = {
-	key: `${Ws}label`,
-	text: "Volume"
 }, Js = {
-	key: `${Ws}value`,
-	text: "Volume {value}"
+	key: `${Ks}muted`,
+	text: "Muted"
 }, Ys = {
-	muted: U(Ks),
-	volume: U(qs),
-	captionsOn: U(Is),
-	captionsOff: U(Ls),
-	paused: U(Rs),
-	playing: U(zs),
-	fullscreen: U(Bs),
-	exitFullscreen: U(Ms),
-	pictureInPicture: U(Vs),
-	exitPictureInPicture: U(Hs)
+	key: `${Ks}label`,
+	text: "Volume"
+}, Xs = {
+	key: `${Ks}value`,
+	text: "Volume {value}"
+}, Zs = {
+	muted: B(Js),
+	volume: B(Ys),
+	captionsOn: B(Rs),
+	captionsOff: B(zs),
+	paused: B(Bs),
+	playing: B(Vs),
+	fullscreen: B(Hs),
+	exitFullscreen: B(Ps),
+	pictureInPicture: B(Us),
+	exitPictureInPicture: B(Ws)
 };
-function Xs(e) {
+function Qs(e) {
 	return {
-		muted: e(Ks),
-		volume: e(qs),
-		captionsOn: e(Is),
-		captionsOff: e(Ls),
-		paused: e(Rs),
-		playing: e(zs),
-		fullscreen: e(Bs),
-		exitFullscreen: e(Ms),
-		pictureInPicture: e(Vs),
-		exitPictureInPicture: e(Hs)
+		muted: e(Js),
+		volume: e(Ys),
+		captionsOn: e(Rs),
+		captionsOff: e(zs),
+		paused: e(Bs),
+		playing: e(Vs),
+		fullscreen: e(Hs),
+		exitFullscreen: e(Ps),
+		pictureInPicture: e(Us),
+		exitPictureInPicture: e(Ws)
 	};
 }
 // node_modules/@videojs/core/dist/default/core/ui/input-action.js
-function Zs(e, t) {
+function $s(e, t) {
 	return e ? !t || t.includes(e) : !1;
 }
 // node_modules/@videojs/core/dist/default/core/ui/menu/core.js
-function Qs(e) {
+function ec(e) {
 	let t = [...e];
 	if (t.length === 0) return null;
 	let n = t.filter((e) => !e.hidden), r = n.filter((e) => e.availability === "available").length > 0 ? "available" : t.every((e) => e.availability === "unsupported") ? "unsupported" : "unavailable";
@@ -5088,7 +5088,7 @@ function Qs(e) {
 		availability: r
 	};
 }
-var $s = class e {
+var tc = class e {
 	static defaultProps = {
 		side: "bottom",
 		align: "start",
@@ -5106,7 +5106,7 @@ var $s = class e {
 		e && this.setProps(e);
 	}
 	setProps(t) {
-		this.#e = N(t, e.defaultProps);
+		this.#e = j(t, e.defaultProps);
 	}
 	setInput(e) {
 		this.#t = e;
@@ -5119,7 +5119,7 @@ var $s = class e {
 			side: t ? void 0 : this.#e.side,
 			align: t ? void 0 : this.#e.align,
 			isSubmenu: t,
-			...da(e.status)
+			...ma(e.status)
 		};
 	}
 	getTriggerAttrs(e, t) {
@@ -5139,27 +5139,27 @@ var $s = class e {
 	getPopupAttrs() {
 		return { popover: "manual" };
 	}
-}, ec = "buttons.", tc = {
-	key: `${ec}play`,
+}, nc = "buttons.", rc = {
+	key: `${nc}play`,
 	text: "Play"
-}, nc = {
-	key: `${ec}pause`,
-	text: "Pause"
-}, rc = {
-	key: `${ec}replay`,
-	text: "Replay"
 }, ic = {
-	key: `${ec}mute`,
-	text: "Mute"
+	key: `${nc}pause`,
+	text: "Pause"
 }, ac = {
-	key: `${ec}unmute`,
+	key: `${nc}replay`,
+	text: "Replay"
+}, oc = {
+	key: `${nc}mute`,
+	text: "Mute"
+}, sc = {
+	key: `${nc}unmute`,
 	text: "Unmute"
-}, oc = class e {
+}, cc = class e {
 	static defaultProps = {
 		label: "",
 		disabled: !1
 	};
-	state = F({
+	state = M({
 		muted: !1,
 		volumeLevel: "off",
 		availability: "unavailable",
@@ -5172,10 +5172,10 @@ var $s = class e {
 		e && this.setProps(e);
 	}
 	setProps(t) {
-		this.#e = N(t, e.defaultProps);
+		this.#e = j(t, e.defaultProps);
 	}
 	getLabel(e) {
-		return Y(this.#e.label, e) || (e.muted ? ac : ic);
+		return q(this.#e.label, e) || (e.muted ? sc : oc);
 	}
 	getAttrs(e) {
 		return {
@@ -5190,36 +5190,36 @@ var $s = class e {
 		let e = this.#t, t = e.mutedAvailability;
 		return this.state.patch({
 			muted: e.muted || e.volume === 0,
-			volumeLevel: sc(e),
+			volumeLevel: lc(e),
 			availability: t,
 			hidden: t !== "available"
-		}), this.state.patch({ label: ei(this.getLabel(this.state.current)) }), this.state.current;
+		}), this.state.patch({ label: ri(this.getLabel(this.state.current)) }), this.state.current;
 	}
 	toggle(e) {
 		this.#e.disabled || e.mutedAvailability !== "available" || e.setMuted(!(e.muted || e.volume === 0));
 	}
 };
-function sc(e) {
+function lc(e) {
 	return e.muted || e.volume === 0 ? "off" : e.volume < .5 ? "low" : e.volume < .75 ? "medium" : "high";
 }
 // node_modules/@videojs/core/dist/default/core/ui/mute-button/data.js
-var cc = {
+var uc = {
 	muted: "data-muted",
 	volumeLevel: "data-volume-level",
 	availability: "data-availability",
 	hidden: "data-hidden"
-}, lc = "pip.", uc = {
-	key: `${lc}enter`,
+}, dc = "pip.", fc = {
+	key: `${dc}enter`,
 	text: "Enter picture-in-picture"
-}, dc = {
-	key: `${lc}exit`,
+}, pc = {
+	key: `${dc}exit`,
 	text: "Exit picture-in-picture"
-}, fc = class e {
+}, mc = class e {
 	static defaultProps = {
 		label: "",
 		disabled: !1
 	};
-	state = F({
+	state = M({
 		pip: !1,
 		availability: "unavailable",
 		disabled: !0,
@@ -5232,10 +5232,10 @@ var cc = {
 		e && this.setProps(e);
 	}
 	setProps(t) {
-		this.#e = N(t, e.defaultProps);
+		this.#e = j(t, e.defaultProps);
 	}
 	getLabel(e) {
-		return Y(this.#e.label, e) || (e.pip ? dc : uc);
+		return q(this.#e.label, e) || (e.pip ? pc : fc);
 	}
 	getAttrs(e) {
 		return {
@@ -5254,22 +5254,22 @@ var cc = {
 			availability: t,
 			disabled: this.#e.disabled || !n,
 			hidden: !n
-		}), this.state.patch({ label: ei(this.getLabel(this.state.current)) }), this.state.current;
+		}), this.state.patch({ label: ri(this.getLabel(this.state.current)) }), this.state.current;
 	}
 	async toggle(e) {
 		if (this.setMedia(e), !this.getState().disabled) return e.isPictureInPicture ? e.exitPictureInPicture() : e.requestPictureInPicture();
 	}
-}, pc = {
+}, hc = {
 	pip: "data-pip",
 	availability: "data-availability",
 	disabled: "data-disabled",
 	hidden: "data-hidden"
-}, mc = class e {
+}, gc = class e {
 	static defaultProps = {
 		label: "",
 		disabled: !1
 	};
-	state = F({
+	state = M({
 		paused: !0,
 		ended: !1,
 		started: !1,
@@ -5281,10 +5281,10 @@ var cc = {
 		e && this.setProps(e);
 	}
 	setProps(t) {
-		this.#e = N(t, e.defaultProps);
+		this.#e = j(t, e.defaultProps);
 	}
 	getLabel(e) {
-		return Y(this.#e.label, e) || (e.ended ? rc : e.paused ? tc : nc);
+		return q(this.#e.label, e) || (e.ended ? ac : e.paused ? rc : ic);
 	}
 	getAttrs(e) {
 		return {
@@ -5301,7 +5301,7 @@ var cc = {
 			paused: e.paused && !e.autoplaying,
 			ended: e.ended,
 			started: e.started || e.autoplaying
-		}), this.state.patch({ label: ei(this.getLabel(this.state.current)) }), this.state.current;
+		}), this.state.patch({ label: ri(this.getLabel(this.state.current)) }), this.state.current;
 	}
 	async toggle(e) {
 		if (!this.#e.disabled) {
@@ -5309,21 +5309,21 @@ var cc = {
 			e.pause();
 		}
 	}
-}, hc = {
+}, _c = {
 	paused: "data-paused",
 	ended: "data-ended",
 	started: "data-started"
-}, gc = { length: "--media-playback-rate-length" }, _c = {
+}, vc = { length: "--media-playback-rate-length" }, yc = {
 	key: "playback.rate",
 	text: "Playback rate, {rate}"
-}, vc = class e {
+}, bc = class e {
 	static defaultProps = {
 		label: "",
 		disabled: !1,
 		menuTrigger: !1,
 		rates: []
 	};
-	state = F({
+	state = M({
 		rate: 1,
 		availability: "unavailable",
 		hidden: !0,
@@ -5335,21 +5335,21 @@ var cc = {
 		e && this.setProps(e);
 	}
 	setProps(t) {
-		this.#e = N(t, e.defaultProps);
+		this.#e = j(t, e.defaultProps);
 	}
 	getLabel(e) {
-		let t = Y(this.#e.label, e);
-		return t === void 0 ? _c : t;
+		let t = q(this.#e.label, e);
+		return t === void 0 ? yc : t;
 	}
 	getTooltipLabel(e) {
-		let t = Y(this.#e.label, e);
-		return t === void 0 ? Ko : t;
+		let t = q(this.#e.label, e);
+		return t === void 0 ? Jo : t;
 	}
 	getLabelParams(e) {
-		if (Y(this.#e.label, e) === void 0) return { rate: e.rate };
+		if (q(this.#e.label, e) === void 0) return { rate: e.rate };
 	}
 	getCSSVars(e) {
-		return { [gc.length]: String(String(e.rate).length) };
+		return { [vc.length]: String(String(e.rate).length) };
 	}
 	getAttrs(e) {
 		return {
@@ -5366,10 +5366,10 @@ var cc = {
 			rate: e.playbackRate,
 			availability: t,
 			hidden: t !== "available"
-		}), this.state.patch({ label: ei(this.getLabel(this.state.current)) }), this.state.current;
+		}), this.state.patch({ label: ri(this.getLabel(this.state.current)) }), this.state.current;
 	}
 	getRates(e) {
-		return wr(this.#e.rates) ?? e.playbackRates;
+		return Er(this.#e.rates) ?? e.playbackRates;
 	}
 	cycle(e) {
 		if (this.#e.disabled || e.playbackRateAvailability !== "available" || this.#e.menuTrigger) return;
@@ -5378,22 +5378,22 @@ var cc = {
 		let { playbackRate: n } = e, r = t.indexOf(n), i = r === -1 ? t.find((e) => e > n) ?? t[0] : t[(r + 1) % t.length];
 		e.setPlaybackRate(i);
 	}
-}, yc = {
+}, xc = {
 	rate: "data-rate",
 	availability: "data-availability",
 	hidden: "data-hidden"
-}, bc = 1;
-function xc(e) {
+}, Sc = 1;
+function Cc(e) {
 	return `${e}×`;
 }
-var Sc = class e {
+var wc = class e {
 	static defaultProps = {
 		label: "",
-		formatRate: xc,
+		formatRate: Cc,
 		disabled: !1,
 		rates: []
 	};
-	state = F({
+	state = M({
 		rate: 1,
 		value: "1",
 		options: [],
@@ -5408,11 +5408,11 @@ var Sc = class e {
 		e && this.setProps(e);
 	}
 	setProps(t) {
-		this.#e = N(t, e.defaultProps);
+		this.#e = j(t, e.defaultProps);
 	}
 	getLabel(e) {
-		let t = Y(this.#e.label, e);
-		return t === void 0 ? Ko : t;
+		let t = q(this.#e.label, e);
+		return t === void 0 ? Jo : t;
 	}
 	getLabelParams(e) {}
 	getRateLabel(e) {
@@ -5429,24 +5429,24 @@ var Sc = class e {
 		};
 	}
 	getRates(e) {
-		return wr(this.#e.rates) ?? e.playbackRates;
+		return Er(this.#e.rates) ?? e.playbackRates;
 	}
 	setMedia(e) {
 		this.#t = e;
 	}
 	getState() {
-		let e = this.#t, t = this.getRates(e), n = e.playbackRateAvailability === "available" ? t.length > 0 ? "available" : "unavailable" : e.playbackRateAvailability, r = n === "available" ? Tr(t, e.playbackRate) : t;
+		let e = this.#t, t = this.getRates(e), n = e.playbackRateAvailability === "available" ? t.length > 0 ? "available" : "unavailable" : e.playbackRateAvailability, r = n === "available" ? Dr(t, e.playbackRate) : t;
 		return this.state.patch({
 			rate: e.playbackRate,
 			value: this.getRateValue(e.playbackRate),
 			options: r.map((e) => {
-				let n = this.getRateLabel(e), r = e !== bc && !t.includes(e);
+				let n = this.getRateLabel(e), r = e !== Sc && !t.includes(e);
 				return {
 					rate: e,
 					value: this.getRateValue(e),
 					label: n,
 					...r && {
-						ariaLabel: qo,
+						ariaLabel: Yo,
 						ariaLabelParams: { rate: n }
 					},
 					disabled: !1,
@@ -5456,21 +5456,21 @@ var Sc = class e {
 			disabled: this.#e.disabled || n !== "available",
 			hidden: n !== "available",
 			availability: n
-		}), this.state.patch({ label: ei(this.getLabel(this.state.current)) }), this.state.current;
+		}), this.state.patch({ label: ri(this.getLabel(this.state.current)) }), this.state.current;
 	}
 	select(e, t) {
 		this.#e.disabled || e.playbackRateAvailability !== "available" || (this.getRates(e).includes(t) || t === e.playbackRate) && e.setPlaybackRate(t);
 	}
 	selectValue(e, t) {
-		let n = Tr(this.getRates(e), e.playbackRate).find((e) => this.getRateValue(e) === t);
+		let n = Dr(this.getRates(e), e.playbackRate).find((e) => this.getRateValue(e) === t);
 		a(n) || this.select(e, n);
 	}
-}, Cc = {
+}, Tc = {
 	rate: "data-rate",
 	disabled: "data-disabled",
 	hidden: "data-hidden",
 	availability: "data-availability"
-}, wc = class e {
+}, J = class e {
 	static defaultProps = {
 		side: "top",
 		align: "center",
@@ -5488,7 +5488,7 @@ var Sc = class e {
 		e && this.setProps(e);
 	}
 	setProps(t) {
-		this.#e = N(t, e.defaultProps);
+		this.#e = j(t, e.defaultProps);
 	}
 	#t = null;
 	setInput(e) {
@@ -5502,7 +5502,7 @@ var Sc = class e {
 			side: this.#e.side,
 			align: this.#e.align,
 			modal: this.#e.modal,
-			...da(e.status)
+			...ma(e.status)
 		};
 	}
 	getTriggerAttrs(e, t) {
@@ -5519,12 +5519,12 @@ var Sc = class e {
 			"aria-modal": e.modal === !0 ? "true" : void 0
 		};
 	}
-}, Tc = {
+}, Ec = {
 	open: "data-open",
 	side: "data-side",
 	align: "data-align",
-	...ua
-}, Ec = "data-popup", Dc = `[${Ec}]`, Oc = class {
+	...pa
+}, Dc = "data-popup", Oc = `[${Dc}]`, kc = class {
 	#e = null;
 	#t = "none";
 	setMedia(e) {
@@ -5543,12 +5543,12 @@ var Sc = class e {
 			error: this.#t === "error"
 		};
 	}
-}, kc = {
+}, Ac = {
 	visible: "data-visible",
 	loading: "data-loading",
 	loaded: "data-loaded",
 	error: "data-error"
-}, Ac = "auto", jc = [
+}, jc = "auto", Mc = [
 	4320,
 	2160,
 	1440,
@@ -5558,51 +5558,51 @@ var Sc = class e {
 	360,
 	240
 ];
-function Mc(e) {
+function Nc(e) {
 	return e >= 1e6 ? `${Math.round(e / 1e5) / 10} Mbps` : `${Math.round(e / 1e3)} kbps`;
 }
-function Nc(e) {
-	let t = Math.round(e * 9 / 16);
-	return jc.includes(t) ? t : void 0;
-}
 function Pc(e) {
+	let t = Math.round(e * 9 / 16);
+	return Mc.includes(t) ? t : void 0;
+}
+function Fc(e) {
 	let { width: t, height: n } = e;
-	if (t && n) return t > n && t * 9 > n * 16 ? Nc(t) ?? n : Math.min(t, n);
+	if (t && n) return t > n && t * 9 > n * 16 ? Pc(t) ?? n : Math.min(t, n);
 	if (n) return n;
-	if (t) return Nc(t) ?? t;
+	if (t) return Pc(t) ?? t;
 }
-function Fc(e, t) {
-	let n = Pc(e);
-	return !!(n && t.some((t) => t !== e && Pc(t) === n));
+function Ic(e, t) {
+	let n = Fc(e);
+	return !!(n && t.some((t) => t !== e && Fc(t) === n));
 }
-function Ic(e) {
-	let t = Pc(e);
-	return t ? `${t}p` : e.bitrate ? Mc(e.bitrate) : Go;
+function Lc(e) {
+	let t = Fc(e);
+	return t ? `${t}p` : e.bitrate ? Nc(e.bitrate) : qo;
 }
-function Lc(e, t = []) {
-	if (Pc(e) && e.bitrate && Fc(e, t)) return Mc(e.bitrate);
+function Rc(e, t = []) {
+	if (Fc(e) && e.bitrate && Ic(e, t)) return Nc(e.bitrate);
 }
-function Rc(e) {
-	let t = Pc(e);
+function zc(e) {
+	let t = Fc(e);
 	if (t) {
 		if (t >= 4320) return "8K";
 		if (t >= 2160) return "4K";
 		if (t >= 1080) return "HD";
 	}
 }
-var zc = class e {
+var Bc = class e {
 	static defaultProps = {
 		label: "",
-		formatRendition: Ic,
+		formatRendition: Lc,
 		disabled: !1
 	};
-	state = F({
+	state = M({
 		options: [{
-			value: Ac,
-			label: Jo,
+			value: jc,
+			label: Xo,
 			disabled: !1
 		}],
-		value: Ac,
+		value: jc,
 		disabled: !0,
 		hidden: !0,
 		availability: "unavailable",
@@ -5614,19 +5614,19 @@ var zc = class e {
 		e && this.setProps(e);
 	}
 	setProps(t) {
-		this.#e = N(t, e.defaultProps);
+		this.#e = j(t, e.defaultProps);
 	}
 	getLabel(e) {
-		return Y(this.#e.label, e) || Go;
+		return q(this.#e.label, e) || qo;
 	}
 	getRenditionLabel(t) {
-		return this.#e.formatRendition === e.defaultProps.formatRendition ? Ic(t) : this.#e.formatRendition(t);
+		return this.#e.formatRendition === e.defaultProps.formatRendition ? Lc(t) : this.#e.formatRendition(t);
 	}
 	getRenditionBadge(t, n = []) {
-		if (this.#e.formatRendition === e.defaultProps.formatRendition) return Lc(t, n);
+		if (this.#e.formatRendition === e.defaultProps.formatRendition) return Rc(t, n);
 	}
 	getRenditionTier(t) {
-		if (this.#e.formatRendition === e.defaultProps.formatRendition) return Rc(t);
+		if (this.#e.formatRendition === e.defaultProps.formatRendition) return zc(t);
 	}
 	getAttrs(e) {
 		return {
@@ -5649,18 +5649,18 @@ var zc = class e {
 				...r && { badge: r }
 			};
 		}, { activeVideoRendition: i } = e, a = i && e.videoRenditionList.some((e) => e.id === i.id) ? r(i) : void 0, o = {
-			value: Ac,
-			label: t === -1 && a ? Yo : Jo,
+			value: jc,
+			label: t === -1 && a ? Zo : Xo,
 			disabled: !1,
-			...t === -1 && a && { labelParams: { label: ei(a.label) } }
+			...t === -1 && a && { labelParams: { label: ri(a.label) } }
 		};
 		return this.state.patch({
 			options: [o, ...e.videoRenditionList.map(r)],
-			value: t === -1 ? Ac : e.videoRenditionList[t].id,
+			value: t === -1 ? jc : e.videoRenditionList[t].id,
 			disabled: this.#e.disabled || n === "unavailable",
 			hidden: n === "unavailable",
 			availability: n
-		}), this.state.patch({ label: ei(this.getLabel(this.state.current)) }), this.state.current;
+		}), this.state.patch({ label: ri(this.getLabel(this.state.current)) }), this.state.current;
 	}
 	select(e, t) {
 		this.#e.disabled || (t === "auto" || e.videoRenditionList.some((e) => e.id === t)) && e.selectVideoRendition(t);
@@ -5668,24 +5668,24 @@ var zc = class e {
 	selectValue(e, t) {
 		this.select(e, t);
 	}
-}, Bc = {
+}, Vc = {
 	value: "data-quality",
 	disabled: "data-disabled",
 	hidden: "data-hidden",
 	availability: "data-availability"
-}, Vc = "seek.", Hc = {
-	key: `${Vc}forward`,
+}, Hc = "seek.", Uc = {
+	key: `${Hc}forward`,
 	text: "Seek forward {seconds} seconds"
-}, Uc = {
-	key: `${Vc}backward`,
+}, Wc = {
+	key: `${Hc}backward`,
 	text: "Seek backward {seconds} seconds"
-}, Wc = class e {
+}, Gc = class e {
 	static defaultProps = {
 		seconds: 30,
 		label: "",
 		disabled: !1
 	};
-	state = F({
+	state = M({
 		seeking: !1,
 		direction: "forward",
 		label: ""
@@ -5696,14 +5696,14 @@ var zc = class e {
 		e && this.setProps(e);
 	}
 	setProps(t) {
-		this.#e = N(t, e.defaultProps);
+		this.#e = j(t, e.defaultProps);
 	}
 	getLabel(e) {
-		let t = Y(this.#e.label, e);
-		return t === void 0 ? e.direction === "backward" ? Uc : Hc : t;
+		let t = q(this.#e.label, e);
+		return t === void 0 ? e.direction === "backward" ? Wc : Uc : t;
 	}
 	getLabelParams(e) {
-		if (Y(this.#e.label, e) === void 0) return { seconds: Math.abs(this.#e.seconds) };
+		if (q(this.#e.label, e) === void 0) return { seconds: Math.abs(this.#e.seconds) };
 	}
 	getAttrs(e) {
 		return {
@@ -5719,16 +5719,16 @@ var zc = class e {
 		return this.state.patch({
 			seeking: e.seeking,
 			direction: t
-		}), this.state.patch({ label: ei(this.getLabel(this.state.current)) }), this.state.current;
+		}), this.state.patch({ label: ri(this.getLabel(this.state.current)) }), this.state.current;
 	}
 	async seek(e) {
 		this.#e.disabled || await e.seek(e.currentTime + this.#e.seconds);
 	}
-}, Gc = {
+}, Kc = {
 	seeking: "data-seeking",
 	direction: "data-direction"
-}, Kc = /* @__PURE__ */ new Map();
-function qc(e, t, n) {
+}, qc = /* @__PURE__ */ new Map();
+function Jc(e, t, n) {
 	if (e === "digital") {
 		let e = new Intl.NumberFormat(n, { useGrouping: !1 }), r = new Intl.NumberFormat(n, {
 			minimumIntegerDigits: 2,
@@ -5761,65 +5761,65 @@ function qc(e, t, n) {
 	}) : { format: (t) => [...t].join(e === "narrow" ? " " : ", ") };
 	return { format: (e) => i.format(r.filter(([t]) => e[t] !== void 0).map(([t, n]) => n.format(e[t] ?? 0))) };
 }
-function Jc(e) {
+function Yc(e) {
 	return e === void 0 ? "" : Array.isArray(e) ? e.join(":") : e;
 }
-function Yc(e, t = "long", n) {
-	let r = `${Jc(e)}:${t}:${n ?? ""}`, i = Kc.get(r);
-	return i || (i = qc(t, n, e), Kc.set(r, i)), i;
+function Xc(e, t = "long", n) {
+	let r = `${Yc(e)}:${t}:${n ?? ""}`, i = qc.get(r);
+	return i || (i = Jc(t, n, e), qc.set(r, i)), i;
 }
-function Xc(t) {
+function Zc(t) {
 	return e(t) && Number.isFinite(t);
 }
-function Zc(e, t, n) {
-	if (!Xc(e)) return "0:00";
-	let r = e < 0, i = Math.floor(Math.abs(e)), a = Math.floor(i / 3600), o = Math.floor(i % 3600 / 60), s = i % 60, c = Xc(t ?? 0) ? Math.abs(t ?? 0) : 0, l = Math.floor(c / 3600), u = Math.floor(c / 60 % 60), d = a > 0 || l > 0, f = d || u >= 10, p = d ? {
+function Qc(e, t, n) {
+	if (!Zc(e)) return "0:00";
+	let r = e < 0, i = Math.floor(Math.abs(e)), a = Math.floor(i / 3600), o = Math.floor(i % 3600 / 60), s = i % 60, c = Zc(t ?? 0) ? Math.abs(t ?? 0) : 0, l = Math.floor(c / 3600), u = Math.floor(c / 60 % 60), d = a > 0 || l > 0, f = d || u >= 10, p = d ? {
 		hours: a,
 		minutes: o,
 		seconds: s
 	} : {
 		minutes: o,
 		seconds: s
-	}, { locale: m = "en" } = n ?? {}, h = Yc(m, "digital", d ? "always" : "auto").format(p);
+	}, { locale: m = "en" } = n ?? {}, h = Xc(m, "digital", d ? "always" : "auto").format(p);
 	if (!f) {
 		let e = new Intl.NumberFormat(m, { useGrouping: !1 }).format(0);
 		h = h.replace(RegExp(`^${e}(?=\\p{Nd}\\D)`, "u"), "");
 	}
 	return `${r ? "-" : ""}${h}`;
 }
-function Qc(e) {
-	if (!Xc(e)) return "PT0S";
+function $c(e) {
+	if (!Zc(e)) return "PT0S";
 	let t = Math.abs(e), n = Math.floor(t / 3600), r = Math.floor(t / 60 % 60), i = Math.floor(t % 60), a = "PT";
 	return n > 0 && (a += `${n}H`), r > 0 && (a += `${r}M`), (i > 0 || a === "PT") && (a += `${i}S`), a;
 }
-function $c(e, t) {
-	if (!Xc(e)) return "";
+function el(e, t) {
+	if (!Zc(e)) return "";
 	let { locale: n = "en", style: r = "long", formatRemaining: i } = t ?? {}, a = e < 0, o = Math.floor(Math.abs(e)), s = Math.floor(o / 3600), c = Math.floor(o % 3600 / 60), l = o % 60, u = {};
 	s > 0 && (u.hours = s), c > 0 && (u.minutes = c), (l > 0 || s === 0 && c === 0) && (u.seconds = l);
-	let d = Yc(n, r).format(u);
-	return a ? i ? i(d) : xt(n) ? `${d} remaining` : d : d;
+	let d = Xc(n, r).format(u);
+	return a ? i ? i(d) : wt(n) ? `${d} remaining` : d : d;
 }
 // node_modules/@videojs/core/dist/default/core/ui/seek-indicator/status.js
-function el(e) {
+function tl(e) {
 	return e === "seekStep" || e === "seekToPercent";
 }
-function tl(e, t) {
+function nl(e, t) {
 	let n = t === void 0 ? void 0 : { locale: t };
-	return Zc(e.currentTime ?? 0, e.duration, n);
-}
-function nl(e) {
-	return e.value ?? e.currentTime;
+	return Qc(e.currentTime ?? 0, e.duration, n);
 }
 function rl(e) {
-	return e.value === void 0 ? !e.key || e.key < "0" || e.key > "9" ? null : Number(e.key) * 10 : H(e.value, 0, 100);
+	return e.value ?? e.currentTime;
 }
-function il(e, t) {
+function il(e) {
+	return e.value === void 0 ? !e.key || e.key < "0" || e.key > "9" ? null : Number(e.key) * 10 : Ar(e.value, 0, 100);
+}
+function al(e, t) {
 	if (e.action === "seekStep" && e.value !== void 0) {
 		if (e.value > 0) return "forward";
 		if (e.value < 0) return "backward";
 	}
 	if (e.action === "seekToPercent") {
-		let n = rl(e);
+		let n = il(e);
 		if (n === null || t.duration === void 0 || t.duration <= 0) return null;
 		let r = n / 100 * t.duration, i = t.currentTime ?? 0;
 		if (r > i) return "forward";
@@ -5828,7 +5828,7 @@ function il(e, t) {
 	return null;
 }
 // node_modules/@videojs/core/dist/default/core/ui/seek-indicator/core.js
-var al = {
+var ol = {
 	open: !1,
 	generation: 0,
 	direction: null,
@@ -5838,11 +5838,11 @@ var al = {
 	currentTime: "0:00",
 	transitionStarting: !1,
 	transitionEnding: !1
-}, ol = class {
-	state = F({ ...al });
+}, sl = class {
+	state = M({ ...ol });
 	#e = {};
 	#t = null;
-	#n = new fa(() => {
+	#n = new ha(() => {
 		this.#t = null, this.state.patch({
 			open: !1,
 			direction: null,
@@ -5850,7 +5850,7 @@ var al = {
 			seekTotal: 0,
 			value: null
 		});
-	}, () => ma(this.#e));
+	}, () => _a(this.#e));
 	setProps(e) {
 		this.#e = e;
 	}
@@ -5861,13 +5861,13 @@ var al = {
 		this.#n.close();
 	}
 	processEvent(e, t) {
-		if (!el(e.action)) return !1;
-		let n = this.state.current, r = il(e, t), i = n.open && e.action === "seekStep" && n.direction === r;
+		if (!tl(e.action)) return !1;
+		let n = this.state.current, r = al(e, t), i = n.open && e.action === "seekStep" && n.direction === r;
 		i || (this.#t = t.currentTime ?? null);
 		let a = this.#r(e, t, i), o = i ? n.seekTotal + Math.abs(a) : Math.abs(a), s = e.action === "seekStep" && o > 0 ? new Intl.NumberFormat(this.#e.locale ?? "en", {
 			style: "unit",
 			unit: "second",
-			unitDisplay: xt(this.#e.locale) ? "narrow" : "short",
+			unitDisplay: wt(this.#e.locale) ? "narrow" : "short",
 			useGrouping: !1
 		}).format(o) : null;
 		return this.state.patch({
@@ -5877,7 +5877,7 @@ var al = {
 			count: i ? n.count + 1 : 1,
 			seekTotal: o,
 			value: s,
-			currentTime: tl(t, this.#e.locale)
+			currentTime: nl(t, this.#e.locale)
 		}), this.#n.arm(), !0;
 	}
 	#r(e, t, n) {
@@ -5886,12 +5886,12 @@ var al = {
 		let r = this.#t, i = t.duration ?? Infinity, a = this.state.current.seekTotal, o = Math.abs(e.value);
 		return (e.value < 0 ? Math.max(0, r - a) : Math.max(0, i - r - a)) >= o ? e.value : 0;
 	}
-}, sl = {
+}, cl = {
 	open: "data-open",
 	direction: "data-direction",
 	transitionStarting: "data-starting-style",
 	transitionEnding: "data-ending-style"
-}, cl = class e {
+}, ll = class e {
 	static defaultProps = {
 		label: "",
 		step: 1,
@@ -5922,7 +5922,7 @@ var al = {
 		e && this.setProps(e);
 	}
 	setProps(t) {
-		this.#e = N(t, e.defaultProps);
+		this.#e = j(t, e.defaultProps);
 	}
 	setInput(e) {
 		this.#t = e;
@@ -5942,7 +5942,7 @@ var al = {
 		};
 	}
 	getLabel(e) {
-		return Y(this.#e.label, e) || "";
+		return q(this.#e.label, e) || "";
 	}
 	getAttrs(e) {
 		return {
@@ -5959,15 +5959,15 @@ var al = {
 	}
 	valueFromPercent(e) {
 		let { min: t, max: n, step: r } = this.#e;
-		return kr(H(t + e / 100 * (n - t), t, n), r, t);
+		return Mr(Ar(t + e / 100 * (n - t), t, n), r, t);
 	}
 	rawValueFromPercent(e) {
 		let { min: t, max: n } = this.#e;
-		return H(t + e / 100 * (n - t), t, n);
+		return Ar(t + e / 100 * (n - t), t, n);
 	}
 	percentFromValue(e) {
 		let { min: t, max: n } = this.#e;
-		return Or(e, t, n);
+		return jr(e, t, n);
 	}
 	getStepPercent() {
 		let { step: e, min: t, max: n } = this.#e, r = n - t;
@@ -5982,13 +5982,13 @@ var al = {
 		let r = t / n * 100 / 2, i = r, a = 100 - r;
 		return i + e / 100 * (a - i);
 	}
-}, ll = {
+}, ul = {
 	dragging: "data-dragging",
 	pointing: "data-pointing",
 	interactive: "data-interactive",
 	orientation: "data-orientation",
 	disabled: "data-disabled"
-}, ul = class {
+}, dl = class {
 	getGeometry(e) {
 		let { ranges: t, min: n, max: r, orientation: i } = e, a = r - n;
 		if (!Number.isFinite(a) || a <= 0) return [];
@@ -6014,7 +6014,7 @@ var al = {
 		let { last: r, ...i } = e, a = (t) => t >= e.start && (t < e.end || r && t === e.end), o = a(t.value), s = t.pointing && a(n), c = t.dragging && a(n), l = t.interactive && !t.pointing && !t.dragging;
 		return {
 			...i,
-			fillPercent: Or(t.value, e.start, e.end),
+			fillPercent: jr(t.value, e.start, e.end),
 			active: o,
 			pointing: s,
 			dragging: c,
@@ -6022,34 +6022,34 @@ var al = {
 			interactive: s || c || l && o
 		};
 	}
-}, dl = {
-	...Ys,
-	volumeWithValue: (e) => U(Js, { value: e }),
-	seekedTo: (e) => U(Us, { time: $c(e) }),
-	playbackRate: (e) => U(_c, { rate: e })
+}, fl = {
+	...Zs,
+	volumeWithValue: (e) => B(Xs, { value: e }),
+	seekedTo: (e) => B(Gs, { time: el(e) }),
+	playbackRate: (e) => B(yc, { rate: e })
 };
-function fl(e, t = "en") {
+function pl(e, t = "en") {
 	return {
-		...Xs(e),
-		volumeWithValue: (t) => e(Js, { value: t }),
-		seekedTo: (n) => e(Us, { time: $c(n, { locale: t }) }),
-		playbackRate: (t) => e(_c, { rate: t })
+		...Qs(e),
+		volumeWithValue: (t) => e(Xs, { value: t }),
+		seekedTo: (n) => e(Gs, { time: el(n, { locale: t }) }),
+		playbackRate: (t) => e(yc, { rate: t })
 	};
 }
 // node_modules/@videojs/core/dist/default/core/ui/volume-indicator/status.js
-function pl(e) {
+function ml(e) {
 	return e === "toggleMuted" || e === "volumeStep";
 }
-function ml(e) {
+function hl(e) {
 	return e <= 0 ? "off" : e <= .5 ? "low" : "high";
 }
-function hl(e) {
-	return `${Math.round(H(e, 0, 1) * 100)}%`;
-}
 function gl(e) {
+	return `${Math.round(Ar(e, 0, 1) * 100)}%`;
+}
+function _l(e) {
 	return e.value ?? "";
 }
-function _l(e, t) {
+function vl(e, t) {
 	let n = t.muted === !0, r = t.volume ?? 0;
 	if (e.action === "toggleMuted") return {
 		snapshotVolume: r,
@@ -6057,7 +6057,7 @@ function _l(e, t) {
 		nextVolume: r
 	};
 	if (e.action === "volumeStep") {
-		let t = H(r + (e.value ?? 0), 0, 1);
+		let t = Ar(r + (e.value ?? 0), 0, 1);
 		return {
 			snapshotVolume: r,
 			nextMuted: n && t <= 0,
@@ -6070,8 +6070,8 @@ function _l(e, t) {
 		nextVolume: r
 	};
 }
-function vl(e, t, n = Ys, r) {
-	let i = r ?? _l(e, t), a = i.nextMuted ? "off" : ml(i.nextVolume), o = i.nextMuted ? "0%" : hl(i.nextVolume);
+function yl(e, t, n = Zs, r) {
+	let i = r ?? vl(e, t), a = i.nextMuted ? "off" : hl(i.nextVolume), o = i.nextMuted ? "0%" : gl(i.nextVolume);
 	return {
 		status: a === "off" ? "volume-off" : a === "low" ? "volume-low" : "volume-high",
 		label: a === "off" ? n.muted : n.volume,
@@ -6080,21 +6080,21 @@ function vl(e, t, n = Ys, r) {
 	};
 }
 // node_modules/@videojs/core/dist/default/core/ui/status-announcer/status.js
-function yl(e, t, n = dl) {
+function bl(e, t, n = fl) {
 	let r = [];
-	return xl(e.paused, t.paused) && r.push(t.paused ? n.paused : n.playing), xl(e.subtitlesShowing, t.subtitlesShowing) && t.subtitlesAvailable !== !1 && r.push(t.subtitlesShowing ? n.captionsOn : n.captionsOff), xl(e.isFullscreen, t.isFullscreen) && r.push(t.isFullscreen ? n.fullscreen : n.exitFullscreen), xl(e.isPictureInPicture, t.isPictureInPicture) && r.push(t.isPictureInPicture ? n.pictureInPicture : n.exitPictureInPicture), xl(e.playbackRate, t.playbackRate) && r.push(n.playbackRate(`${t.playbackRate}×`)), r.length > 0 ? r.join(". ") : null;
+	return Sl(e.paused, t.paused) && r.push(t.paused ? n.paused : n.playing), Sl(e.subtitlesShowing, t.subtitlesShowing) && t.subtitlesAvailable !== !1 && r.push(t.subtitlesShowing ? n.captionsOn : n.captionsOff), Sl(e.isFullscreen, t.isFullscreen) && r.push(t.isFullscreen ? n.fullscreen : n.exitFullscreen), Sl(e.isPictureInPicture, t.isPictureInPicture) && r.push(t.isPictureInPicture ? n.pictureInPicture : n.exitPictureInPicture), Sl(e.playbackRate, t.playbackRate) && r.push(n.playbackRate(`${t.playbackRate}×`)), r.length > 0 ? r.join(". ") : null;
 }
-function bl(e, t, n = dl) {
-	if (!xl(e.volume, t.volume) && !xl(e.muted, t.muted)) return null;
+function xl(e, t, n = fl) {
+	if (!Sl(e.volume, t.volume) && !Sl(e.muted, t.muted)) return null;
 	let r = t.volume ?? e.volume, i = t.muted ?? e.muted;
-	return r === void 0 && i === void 0 ? null : i || (r ?? 0) <= 0 ? n.muted : n.volumeWithValue(hl(r ?? 0));
+	return r === void 0 && i === void 0 ? null : i || (r ?? 0) <= 0 ? n.muted : n.volumeWithValue(gl(r ?? 0));
 }
-function xl(e, t) {
+function Sl(e, t) {
 	return e !== void 0 && t !== void 0 && !Object.is(e, t);
 }
 // node_modules/@videojs/core/dist/default/core/ui/status-announcer/core.js
-var Sl = 200, Cl = class {
-	state = F({
+var Cl = 200, wl = class {
+	state = M({
 		generation: 0,
 		label: null
 	});
@@ -6103,7 +6103,7 @@ var Sl = 200, Cl = class {
 	#n = null;
 	#r = null;
 	#i = null;
-	#a = new fa(() => this.state.patch({ label: null }), () => ma(this.#e));
+	#a = new ha(() => this.state.patch({ label: null }), () => _a(this.#e));
 	setProps(e) {
 		this.#e = e;
 	}
@@ -6116,12 +6116,12 @@ var Sl = 200, Cl = class {
 	processSnapshot(e) {
 		let t = this.#t;
 		if (this.#t = e, !t) return !1;
-		let n = this.#o(), r = yl(t, e, n), i = r !== null && this.#s(r), a = this.#l(t, e, n, i), o = this.#c(t, e, n, i || a);
+		let n = this.#o(), r = bl(t, e, n), i = r !== null && this.#s(r), a = this.#l(t, e, n, i), o = this.#c(t, e, n, i || a);
 		return i || a || o;
 	}
 	#o() {
 		return {
-			...dl,
+			...fl,
 			...this.#e.labels
 		};
 	}
@@ -6132,7 +6132,7 @@ var Sl = 200, Cl = class {
 		}), this.#a.arm(), !0;
 	}
 	#c(e, t, n, r) {
-		let i = bl(e, t, n);
+		let i = xl(e, t, n);
 		return i === null || r || !this.#d() ? !1 : (this.#u(i), !0);
 	}
 	#l(e, t, n, r) {
@@ -6145,7 +6145,7 @@ var Sl = 200, Cl = class {
 	#u(e) {
 		this.#f(), this.#i = setTimeout(() => {
 			this.#i = null, this.#d() && this.#s(e);
-		}, Sl);
+		}, Cl);
 	}
 	#d() {
 		return this.#e.shouldAnnounce?.() !== !1;
@@ -6155,7 +6155,7 @@ var Sl = 200, Cl = class {
 	}
 };
 // node_modules/@videojs/core/dist/default/core/ui/status-indicator/status.js
-function wl(e, t, n = Ys) {
+function Tl(e, t, n = Zs) {
 	switch (e.action) {
 		case "togglePaused": {
 			let e = t.paused === void 0 || !t.paused;
@@ -6166,7 +6166,7 @@ function wl(e, t, n = Ys) {
 			};
 		}
 		case "toggleMuted":
-		case "volumeStep": return vl(e, t, n);
+		case "volumeStep": return yl(e, t, n);
 		case "toggleSubtitles": {
 			if (t.subtitlesAvailable === !1) return null;
 			let e = t.subtitlesShowing === void 0 || !t.subtitlesShowing;
@@ -6195,11 +6195,11 @@ function wl(e, t, n = Ys) {
 		default: return null;
 	}
 }
-function Tl(e) {
+function El(e) {
 	return e.value ?? e.label ?? "";
 }
 // node_modules/@videojs/core/dist/default/core/ui/status-indicator/core.js
-var El = {
+var Dl = {
 	open: !1,
 	generation: 0,
 	status: null,
@@ -6207,15 +6207,15 @@ var El = {
 	value: null,
 	transitionStarting: !1,
 	transitionEnding: !1
-}, Dl = class {
-	state = F({ ...El });
+}, Ol = class {
+	state = M({ ...Dl });
 	#e = {};
-	#t = new fa(() => this.state.patch({
+	#t = new ha(() => this.state.patch({
 		open: !1,
 		status: null,
 		label: null,
 		value: null
-	}), () => ma(this.#e));
+	}), () => _a(this.#e));
 	setProps(e) {
 		this.#e = e;
 	}
@@ -6226,9 +6226,9 @@ var El = {
 		this.#t.close();
 	}
 	processEvent(e, t) {
-		if (!Zs(e.action, this.#e.actions)) return !1;
-		let n = wl(e, t, {
-			...Ys,
+		if (!$s(e.action, this.#e.actions)) return !1;
+		let n = Tl(e, t, {
+			...Zs,
 			...this.#e.labels
 		}) ?? this.#e.deriveCustomStatus?.(e, t);
 		return n ? (this.state.patch({
@@ -6239,18 +6239,18 @@ var El = {
 			value: n.value
 		}), this.#t.arm(), !0) : !1;
 	}
-}, Ol = {
+}, kl = {
 	open: "data-open",
 	status: "data-status",
 	transitionStarting: "data-starting-style",
 	transitionEnding: "data-ending-style"
-}, kl = {
+}, Al = {
 	loading: "data-loading",
 	error: "data-error",
 	hidden: "data-hidden"
 };
 // node_modules/@videojs/core/dist/default/core/ui/thumbnail/media-fragment.js
-function Al(t, n) {
+function jl(t, n) {
 	let r = t.trim().split("#"), i = r[0] ?? "", a = r[1], o = n ? new URL(i, n).href : i;
 	if (!a) return { url: o };
 	let s = a.indexOf("=");
@@ -6266,10 +6266,10 @@ function Al(t, n) {
 		y: u.y
 	}), d;
 }
-function jl(e, t) {
+function Ml(e, t) {
 	let n = [];
 	for (let r of e) {
-		let e = Al(r.text, t), i = {
+		let e = jl(r.text, t), i = {
 			url: e.url,
 			startTime: r.startTime,
 			endTime: r.endTime
@@ -6279,44 +6279,44 @@ function jl(e, t) {
 	return n;
 }
 // node_modules/@videojs/core/dist/default/i18n/text/time.js
-var Ml = "time.", Nl = {
-	key: `${Ml}current`,
+var Y = "time.", Nl = {
+	key: `${Y}current`,
 	text: "Current time"
 }, Pl = {
-	key: `${Ml}duration`,
+	key: `${Y}duration`,
 	text: "Duration"
 }, Fl = {
-	key: `${Ml}remaining`,
+	key: `${Y}remaining`,
 	text: "Remaining"
 }, Il = {
-	key: `${Ml}elapsedSuffix`,
+	key: `${Y}elapsedSuffix`,
 	text: "{duration} elapsed"
 }, Ll = {
-	key: `${Ml}durationSuffix`,
+	key: `${Y}durationSuffix`,
 	text: "{duration} duration"
 }, Rl = {
-	key: `${Ml}remainingSuffix`,
+	key: `${Y}remainingSuffix`,
 	text: "{duration} remaining"
 }, zl = {
-	key: `${Ml}showElapsed`,
+	key: `${Y}showElapsed`,
 	text: "Show elapsed time, {duration}."
 }, Bl = {
-	key: `${Ml}showDuration`,
+	key: `${Y}showDuration`,
 	text: "Show duration, {duration}."
 }, Vl = {
-	key: `${Ml}showRemaining`,
+	key: `${Y}showRemaining`,
 	text: "Show remaining time, {duration}."
 }, Hl = {
-	key: `${Ml}toggleElapsed`,
+	key: `${Y}toggleElapsed`,
 	text: "Toggle between elapsed and remaining time."
 }, Ul = {
-	key: `${Ml}toggleDuration`,
+	key: `${Y}toggleDuration`,
 	text: "Toggle between duration and remaining time."
 }, Wl = {
-	key: `${Ml}position`,
+	key: `${Y}position`,
 	text: "{current} of {duration}"
 }, Gl = {
-	key: `${Ml}unknown`,
+	key: `${Y}unknown`,
 	text: "Media not loaded, unknown time."
 }, Kl = {
 	current: zl,
@@ -6344,7 +6344,7 @@ var Ml = "time.", Nl = {
 		e && this.setProps(e);
 	}
 	setProps(t) {
-		this.#e = N(t, e.defaultProps);
+		this.#e = j(t, e.defaultProps);
 	}
 	setMedia(e) {
 		this.#t = e;
@@ -6353,7 +6353,7 @@ var Ml = "time.", Nl = {
 		this.#n = e;
 	}
 	#r() {
-		let e = this.#t, t = Jt(e), { type: n } = this.#e;
+		let e = this.#t, t = Xt(e), { type: n } = this.#e;
 		switch (n) {
 			case "current": return e.currentTime;
 			case "duration": return t;
@@ -6362,27 +6362,27 @@ var Ml = "time.", Nl = {
 		}
 	}
 	#i() {
-		let e = this.#t, t = this.#r(), n = Jt(e), r = this.#n === void 0 ? void 0 : { locale: this.#n };
-		return Zc(Math.abs(t), n, r);
+		let e = this.#t, t = this.#r(), n = Xt(e), r = this.#n === void 0 ? void 0 : { locale: this.#n };
+		return Qc(Math.abs(t), n, r);
 	}
 	#a() {
 		let { type: e } = this.#e, t = this.#r();
-		return $c(e === "remaining" ? t < 0 ? t : -Math.abs(t) : t);
+		return el(e === "remaining" ? t < 0 ? t : -Math.abs(t) : t);
 	}
 	#o() {
 		let e = this.#r();
-		return Qc(Math.abs(e));
+		return $c(Math.abs(e));
 	}
 	#s(e, t) {
 		return e === "current" ? t === "remaining" ? "current" : "remaining" : t === "duration" ? "remaining" : "duration";
 	}
 	getLabel(e, t = this.#e.type) {
-		let n = Y(this.#e.label, e);
+		let n = q(this.#e.label, e);
 		return n === void 0 ? e.disabled || e.unavailable ? Gl : this.#e.toggle ? Kl[this.#s(t, e.type)] : ql[this.#e.type] : n;
 	}
 	getLabelParams(e) {
-		if (Y(this.#e.label, e) !== void 0 || e.disabled || !this.#e.toggle) return;
-		let t = this.#n === void 0 ? void 0 : { locale: this.#n }, n = $c(Math.abs(e.seconds), t);
+		if (q(this.#e.label, e) !== void 0 || e.disabled || !this.#e.toggle) return;
+		let t = this.#n === void 0 ? void 0 : { locale: this.#n }, n = el(Math.abs(e.seconds), t);
 		switch (e.type) {
 			case "current": return { duration: `${n} elapsed` };
 			case "duration": return { duration: `${n} duration` };
@@ -6402,7 +6402,7 @@ var Ml = "time.", Nl = {
 		};
 	}
 	getState() {
-		let e = this.#r(), t = !Yt(this.#t);
+		let e = this.#r(), t = !Zt(this.#t);
 		return {
 			type: this.#e.type,
 			disabled: this.#e.toggle && t,
@@ -6421,9 +6421,9 @@ var Ml = "time.", Nl = {
 }, Zl = {
 	key: "slider.seek",
 	text: "Seek"
-}, Ql = class e extends cl {
+}, Ql = class e extends ll {
 	static defaultProps = {
-		...cl.defaultProps,
+		...ll.defaultProps,
 		label: "",
 		changeThrottle: 100,
 		pauseOnDrag: !1
@@ -6437,7 +6437,7 @@ var Ml = "time.", Nl = {
 		super(), e && this.setProps(e);
 	}
 	setProps(t) {
-		this.#e = N(t, e.defaultProps), super.setProps({
+		this.#e = j(t, e.defaultProps), super.setProps({
 			...t,
 			min: 0
 		});
@@ -6449,14 +6449,14 @@ var Ml = "time.", Nl = {
 		this.#n !== e && (this.#i = void 0), this.#n = e;
 	}
 	getState() {
-		let e = this.#t, { currentTime: t, seeking: n, buffered: r } = e, i = Jt(e);
+		let e = this.#t, { currentTime: t, seeking: n, buffered: r } = e, i = Xt(e);
 		super.setProps({
 			...this.#e,
-			disabled: this.#e.disabled || !Yt(e),
+			disabled: this.#e.disabled || !Zt(e),
 			min: 0,
 			max: i
 		});
-		let a = super.getSliderState(t), o = Or(r.length > 0 ? r[r.length - 1][1] : 0, 0, i);
+		let a = super.getSliderState(t), o = jr(r.length > 0 ? r[r.length - 1][1] : 0, 0, i);
 		return {
 			...a,
 			currentTime: t,
@@ -6472,7 +6472,7 @@ var Ml = "time.", Nl = {
 		return e.dragging ? this.rawValueFromPercent(e.pointerPercent) : e.value;
 	}
 	#o(e) {
-		return this.#n === void 0 ? $c(e) : $c(e, { locale: this.#n });
+		return this.#n === void 0 ? el(e) : el(e, { locale: this.#n });
 	}
 	getValueText(e) {
 		return e.duration <= 0 ? Gl : Number.isFinite(e.duration) ? Wl : this.getValueTextParams(e).current;
@@ -6505,7 +6505,7 @@ var Ml = "time.", Nl = {
 		};
 	}
 }, $l = {
-	...ll,
+	...ul,
 	seeking: "data-seeking"
 };
 // node_modules/@videojs/core/dist/default/core/ui/time-slider/chapters/core.js
@@ -6569,13 +6569,13 @@ var nu = class {
 		}, this.#r;
 	}
 	findChapter(e, t) {
-		return yo(e, t, (e) => e.start, (e) => e.end);
+		return So(e, t, (e) => e.start, (e) => e.end);
 	}
 	getState(e, t, n) {
 		return {
 			...e,
 			cue: t[e.index]?.cue ?? null,
-			bufferPercent: Or(n, e.start, e.end)
+			bufferPercent: jr(n, e.start, e.end)
 		};
 	}
 }, ru = {
@@ -6616,7 +6616,7 @@ var nu = class {
 		e && this.setProps(e);
 	}
 	setProps(t) {
-		this.#e = N(t, e.defaultProps);
+		this.#e = j(t, e.defaultProps);
 	}
 	#t = null;
 	setInput(e) {
@@ -6629,7 +6629,7 @@ var nu = class {
 			status: e.status,
 			side: this.#e.side,
 			align: this.#e.align,
-			...da(e.status)
+			...ma(e.status)
 		};
 	}
 	getPopupAttrs(e) {
@@ -6642,7 +6642,7 @@ var nu = class {
 	open: "data-open",
 	side: "data-side",
 	align: "data-align",
-	...ua
+	...pa
 }, lu = class e {
 	static defaultProps = {
 		delay: 600,
@@ -6656,7 +6656,7 @@ var nu = class {
 		e && this.setProps(e);
 	}
 	setProps(t) {
-		this.#e = N(t, e.defaultProps);
+		this.#e = j(t, e.defaultProps);
 	}
 	get delay() {
 		return this.#e.delay;
@@ -6692,17 +6692,17 @@ var nu = class {
 	transitionStarting: !1,
 	transitionEnding: !1
 }, pu = class {
-	state = F({ ...fu });
+	state = M({ ...fu });
 	#e = {};
 	#t = null;
-	#n = new fa(() => this.state.patch({
+	#n = new ha(() => this.state.patch({
 		open: !1,
 		level: null,
 		value: null,
 		fill: null,
 		min: !1,
 		max: !1
-	}), () => ma(this.#e));
+	}), () => _a(this.#e));
 	setProps(e) {
 		this.#e = e;
 	}
@@ -6713,9 +6713,9 @@ var nu = class {
 		this.#a(), this.#n.close();
 	}
 	processEvent(e, t) {
-		if (!pl(e.action)) return !1;
-		let n = this.state.current, r = _l(e, t), i = vl(e, t, {
-			...Ys,
+		if (!ml(e.action)) return !1;
+		let n = this.state.current, r = vl(e, t), i = yl(e, t, {
+			...Zs,
 			...this.#e.labels
 		}, r), a = mu(e, r.snapshotVolume, r.nextVolume), o = a !== null && !e.repeat;
 		return a || this.#a(), this.state.patch({
@@ -6754,8 +6754,8 @@ var hu = {
 	max: "data-max",
 	transitionStarting: "data-starting-style",
 	transitionEnding: "data-ending-style"
-}, gu = { fill: "--media-volume-fill" }, _u = class extends wc {
-	static defaultProps = wc.defaultProps;
+}, gu = { fill: "--media-volume-fill" }, _u = class extends J {
+	static defaultProps = J.defaultProps;
 	#e = null;
 	setMedia(e) {
 		this.#e = e;
@@ -6804,9 +6804,9 @@ function Cu(t, n) {
 	return Su(r);
 }
 // node_modules/@videojs/core/dist/default/core/ui/volume-slider/core.js
-var wu = class e extends cl {
+var wu = class e extends ll {
 	static defaultProps = {
-		...cl.defaultProps,
+		...ll.defaultProps,
 		label: "",
 		step: 5,
 		wheelStep: 5
@@ -6818,7 +6818,7 @@ var wu = class e extends cl {
 		super(), e && this.setProps(e);
 	}
 	setProps(t) {
-		let n = N(t, e.defaultProps);
+		let n = j(t, e.defaultProps);
 		this.#e = n.wheelStep, super.setProps(n);
 	}
 	setMedia(e) {
@@ -6844,10 +6844,10 @@ var wu = class e extends cl {
 		return n > 0 ? this.#e / n * 100 : 0;
 	}
 	getLabel(e) {
-		return super.getLabel(e) || qs;
+		return super.getLabel(e) || Ys;
 	}
 	getValueText(e) {
-		return e.muted ? Gs : this.getValueTextParams(e).percent;
+		return e.muted ? qs : this.getValueTextParams(e).percent;
 	}
 	getValueTextParams(e) {
 		return { percent: Cu(e.value / 100, this.#n) };
@@ -6859,33 +6859,33 @@ var wu = class e extends cl {
 		};
 	}
 }, Tu = {
-	...ll,
+	...ul,
 	availability: "data-availability",
 	hidden: "data-hidden"
 }, Eu = {
 	key: "container.label",
 	text: "Media player"
-}, Du = class extends B {
+}, Du = class extends R {
 	static {
 		this.tagName = "media-container";
 	}
 	#e = null;
 	#t = null;
 	#n = null;
-	#r = new is();
-	#i = new I(this, k, yi);
-	#a = new zo(this, J);
-	#o = Ba();
-	#s = new A(this, {
-		context: Bo,
+	#r = new os();
+	#i = new N(this, O, Si);
+	#a = new K(this, G);
+	#o = Ua();
+	#s = new k(this, {
+		context: Ho,
 		initialValue: this.#o
 	});
-	#c = new j(this, {
+	#c = new A(this, {
 		context: s,
 		callback: (e) => this.#l(e)
 	});
 	connectedCallback() {
-		super.connectedCallback(), this.#s.setValue(this.#o), this.#l(this.#c.value), oa(this), this.#u(), this.#t = new AbortController(), h(this, "pointerup", this.#d, { signal: this.#t.signal });
+		super.connectedCallback(), this.#s.setValue(this.#o), this.#l(this.#c.value), la(this), this.#u(), this.#t = new AbortController(), h(this, "pointerup", this.#d, { signal: this.#t.signal });
 	}
 	disconnectedCallback() {
 		this.#e?.(), this.#e = null, this.#t?.abort(), this.#t = null, super.disconnectedCallback();
@@ -6893,7 +6893,7 @@ var wu = class e extends cl {
 	update(e) {
 		super.update(e), this.#u();
 		let t = this.#i.value;
-		t ? (this.#r.setMedia(t), q(this, this.#r.getState(), as)) : this.removeAttribute(as.controlsVisible);
+		t ? (this.#r.setMedia(t), W(this, this.#r.getState(), ss)) : this.removeAttribute(ss.controlsVisible);
 	}
 	#l(e) {
 		this.#e?.(), this.#e = null, this.isConnected && e && (this.#e = e.registerContainer(this));
@@ -6909,7 +6909,7 @@ var wu = class e extends cl {
 		this.setAttribute("aria-label", t), this.#n = t;
 	}
 	#d = () => {
-		sa(this);
+		ua(this);
 	};
 };
 // node_modules/@videojs/html/dist/default/define/ui/container.js
@@ -6928,16 +6928,16 @@ function ju() {
 	let e = document.createElement("img");
 	return e.alt = "", e.setAttribute("part", "image"), e.setAttribute("decoding", "async"), e;
 }
-var Mu = class extends B {
+var Mu = class extends R {
 	static {
 		this.tagName = "media-poster";
 	}
-	#e = new Oc();
+	#e = new kc();
 	#t = this.attachShadow({ mode: "open" });
 	#n = ju();
 	#r = new MutationObserver(() => this.requestUpdate());
-	#i = new I(this, k, wi);
-	#a = new I(this, k, Si);
+	#i = new N(this, O, Di);
+	#a = new N(this, O, Ti);
 	#o = null;
 	#s = !1;
 	#c = "pending";
@@ -6972,7 +6972,7 @@ var Mu = class extends B {
 			poster: this.#a.value?.poster ?? ""
 		});
 		let { src: n } = this.#e.getState();
-		this.#f(Ie(this, He) ?? this.#n), this.#p(n), this.#e.setImageLoadState(this.#d), q(this, this.#e.getState(), kc);
+		this.#f(ze(this, Ge) ?? this.#n), this.#p(n), this.#e.setImageLoadState(this.#d), W(this, this.#e.getState(), Ac);
 	}
 	#f(e) {
 		if (e === this.#o || (this.#s && this.#o?.removeAttribute("src"), this.#l?.abort(), this.#l = null, this.#o = e, this.#s = e !== null && !ku(e), this.#c = "pending", e === this.#n ? this.#t.append(this.#n) : e && this.#n.remove(), !e)) return;
@@ -6990,13 +6990,13 @@ var Mu = class extends B {
 // node_modules/@videojs/html/dist/default/define/ui/poster.js
 o(Mu);
 // node_modules/@videojs/html/dist/default/ui/title/element.js
-var Nu = class extends B {
+var Nu = class extends R {
 	static {
 		this.tagName = "media-title";
 	}
 	#e = new au();
-	#t = new I(this, k, Si);
-	#n = new I(this, k, yi);
+	#t = new N(this, O, Ti);
+	#n = new N(this, O, Si);
 	connectedCallback() {
 		super.connectedCallback();
 	}
@@ -7005,15 +7005,15 @@ var Nu = class extends B {
 		let t = this.#t.value;
 		if (!t) return;
 		let n = this.#e.getState(t, this.#n.value);
-		this.textContent !== n.title && (this.textContent = n.title), this.hidden = n.hidden, q(this, n, ou);
+		this.textContent !== n.title && (this.textContent = n.title), this.hidden = n.hidden, W(this, n, ou);
 	}
 };
 // node_modules/@videojs/html/dist/default/define/ui/title.js
 o(Nu);
 // node_modules/@videojs/html/dist/default/ui/controls/context.js
-var Pu = t(Symbol("@videojs/controls")), Fu = class extends B {
+var Pu = t(Symbol("@videojs/controls")), Fu = class extends R {
 	constructor(...e) {
-		super(...e), this.visibility = os.defaultProps.visibility, this.#e = new os(), this.#t = new I(this, k, yi), this.#n = new A(this, { context: Pu }), this.#r = !0;
+		super(...e), this.visibility = cs.defaultProps.visibility, this.#e = new cs(), this.#t = new N(this, O, Si), this.#n = new k(this, { context: Pu }), this.#r = !0;
 	}
 	static {
 		this.tagName = "media-controls";
@@ -7032,15 +7032,15 @@ var Pu = t(Symbol("@videojs/controls")), Fu = class extends B {
 		super.update(e), this.#e.setProps({ visibility: this.visibility }), this.#e.setMedia(this.#t.value ?? null);
 		let t = this.#e.getState();
 		if (!t) return;
-		q(this, t, ss), this.#n.setValue({
+		W(this, t, ls), this.#n.setValue({
 			state: t,
-			stateAttrMap: ss
+			stateAttrMap: ls
 		});
 		let n = this.#r;
 		this.#r = t.visible, n && !t.visible && this.#i();
 	}
 	#i() {
-		for (let e of this.querySelectorAll(Dc)) {
+		for (let e of this.querySelectorAll(Oc)) {
 			let t = e;
 			r(t.close) && t.close("imperative-action");
 		}
@@ -7049,7 +7049,7 @@ var Pu = t(Symbol("@videojs/controls")), Fu = class extends B {
 // node_modules/@videojs/html/dist/default/define/ui/controls.js
 o(Fu);
 // node_modules/@videojs/html/dist/default/ui/context-part-element.js
-var Iu = class extends B {
+var Iu = class extends R {
 	connectedCallback() {
 		super.connectedCallback(), this.#e();
 	}
@@ -7058,11 +7058,11 @@ var Iu = class extends B {
 	}
 	#e() {
 		let e = this.consumer.value;
-		e && q(this, e.state, e.stateAttrMap);
+		e && W(this, e.state, e.stateAttrMap);
 	}
 }, Lu = class extends Iu {
 	constructor(...e) {
-		super(...e), this.consumer = new j(this, {
+		super(...e), this.consumer = new A(this, {
 			context: Pu,
 			subscribe: !0
 		});
@@ -7079,7 +7079,7 @@ o(Lu);
 // node_modules/@videojs/html/dist/default/ui/controls/group.js
 var Ru = class extends Iu {
 	constructor(...e) {
-		super(...e), this.consumer = new j(this, {
+		super(...e), this.consumer = new A(this, {
 			context: Pu,
 			subscribe: !0
 		});
@@ -7101,7 +7101,7 @@ var zu = class {
 	#r;
 	#i = null;
 	constructor(e, t, n = {}) {
-		this.#e = e, this.#t = t, this.#n = n.value, this.#r = new j(e, {
+		this.#e = e, this.#t = t, this.#n = n.value, this.#r = new A(e, {
 			context: s,
 			callback: (e) => this.#a(e?.container),
 			subscribe: !0
@@ -7118,7 +7118,7 @@ var zu = class {
 	}
 	get details() {
 		let e = this.#r.value?.container;
-		return e ? ea(e).getShortcut(this.#t, this.#n?.()) : {};
+		return e ? ra(e).getShortcut(this.#t, this.#n?.()) : {};
 	}
 	hostConnected() {
 		this.#a(this.#r.value?.container);
@@ -7128,7 +7128,7 @@ var zu = class {
 	}
 	#a(e) {
 		if (this.#o(), !e) return;
-		let t = ea(e), n = () => {
+		let t = ra(e), n = () => {
 			this.#e.requestUpdate();
 		};
 		this.#i = t.subscribeShortcutChanges(n), n();
@@ -7136,9 +7136,9 @@ var zu = class {
 	#o() {
 		this.#i?.(), this.#i = null;
 	}
-}, Bu = class extends B {
+}, Bu = class extends R {
 	constructor(...e) {
-		super(...e), this.disabled = !1, this.label = "", this.hotkeyAction = void 0, this.#e = null, this.#t = null, this.#r = new zo(this, J);
+		super(...e), this.disabled = !1, this.label = "", this.hotkeyAction = void 0, this.#e = null, this.#t = null, this.#r = new K(this, G);
 	}
 	static {
 		this.properties = {
@@ -7163,17 +7163,17 @@ var zu = class {
 	connectedCallback() {
 		if (super.connectedCallback(), this.destroyed) return;
 		this.hotkeyAction && !this.#t && (this.#t = new zu(this, this.hotkeyAction, { value: () => this.hotkeyValue })), this.#e = new AbortController();
-		let e = ia({
+		let e = sa({
 			onActivate: (e, t) => this.handleActivate(e, t),
 			isDisabled: () => this.getIsButtonDisabled()
 		});
-		K(this, e, { signal: this.#e.signal });
+		U(this, e, { signal: this.#e.signal });
 	}
 	disconnectedCallback() {
 		super.disconnectedCallback(), this.#e?.abort(), this.#e = null;
 	}
 	getLabel() {
-		return this.core.state.current.label ? ei(this.core.state.current.label) : void 0;
+		return this.core.state.current.label ? ri(this.core.state.current.label) : void 0;
 	}
 	getShortcut() {
 		return this.#t?.shortcut;
@@ -7183,7 +7183,7 @@ var zu = class {
 		if (!e) return;
 		this.core.setMedia(e);
 		let t = this.core.getState();
-		return this.core.getTooltipLabel ? U(this.core.getTooltipLabel(t), this.#r.value) : U(this.core.getLabel(t), this.#r.value, this.core.getLabelParams?.(t));
+		return this.core.getTooltipLabel ? B(this.core.getTooltipLabel(t), this.#r.value) : B(this.core.getLabel(t), this.#r.value, this.core.getLabelParams?.(t));
 	}
 	willUpdate(e) {
 		super.willUpdate(e), this.core.setProps?.(this);
@@ -7194,11 +7194,11 @@ var zu = class {
 		if (this.#i(), !t) return;
 		this.core.setMedia(t);
 		let n = this.core.getState(), r = this.core.getAttrs?.(n) ?? {};
-		ti(r["aria-label"]) && (r["aria-label"] = U(r["aria-label"], this.#r.value, this.core.getLabelParams?.(n))), K(this, {
+		ii(r["aria-label"]) && (r["aria-label"] = B(r["aria-label"], this.#r.value, this.core.getLabelParams?.(n))), U(this, {
 			...r,
 			"aria-keyshortcuts": this.#t?.aria,
 			...Vu(n) && this.reflectsHidden() && { hidden: n.hidden ? "" : void 0 }
-		}), q(this, n, this.stateAttrMap);
+		}), W(this, n, this.stateAttrMap);
 		for (let [e, t] of Object.entries(this.core.getCSSVars?.(n) ?? {})) this.style.setProperty(e, t);
 	}
 	reflectsHidden() {
@@ -7206,7 +7206,7 @@ var zu = class {
 	}
 	#i() {
 		let e = this.getShortcut();
-		e !== this.#n && (this.#n = e, this.dispatchEvent(new CustomEvent(na)));
+		e !== this.#n && (this.#n = e, this.dispatchEvent(new CustomEvent(aa)));
 	}
 };
 function Vu(e) {
@@ -7215,7 +7215,7 @@ function Vu(e) {
 // node_modules/@videojs/html/dist/default/ui/play-button/element.js
 var Hu = class extends Bu {
 	constructor(...e) {
-		super(...e), this.core = new mc(), this.stateAttrMap = hc, this.mediaState = new I(this, k, wi), this.hotkeyAction = "togglePaused";
+		super(...e), this.core = new gc(), this.stateAttrMap = _c, this.mediaState = new N(this, O, Di), this.hotkeyAction = "togglePaused";
 	}
 	static {
 		this.tagName = "media-play-button";
@@ -7229,7 +7229,7 @@ o(Hu);
 // node_modules/@videojs/html/dist/default/ui/seek-button/element.js
 var Uu = class extends Bu {
 	constructor(...e) {
-		super(...e), this.seconds = Wc.defaultProps.seconds, this.core = new Wc(), this.stateAttrMap = Gc, this.mediaState = new I(this, k, Oi), this.hotkeyAction = "seekStep";
+		super(...e), this.seconds = Gc.defaultProps.seconds, this.core = new Gc(), this.stateAttrMap = Kc, this.mediaState = new N(this, O, ji), this.hotkeyAction = "seekStep";
 	}
 	static {
 		this.tagName = "media-seek-button";
@@ -7252,7 +7252,7 @@ o(Uu);
 // node_modules/@videojs/html/dist/default/ui/mute-button/element.js
 var Wu = class extends Bu {
 	constructor(...e) {
-		super(...e), this.core = new oc(), this.stateAttrMap = cc, this.mediaState = new I(this, k, ki), this.hotkeyAction = "toggleMuted";
+		super(...e), this.core = new cc(), this.stateAttrMap = uc, this.mediaState = new N(this, O, Mi), this.hotkeyAction = "toggleMuted";
 	}
 	static {
 		this.tagName = "media-mute-button";
@@ -7266,7 +7266,7 @@ o(Wu);
 // node_modules/@videojs/html/dist/default/ui/position-controller.js
 var Gu = 0, Ku = class {
 	#e;
-	#t = new io();
+	#t = new so();
 	#n = null;
 	constructor(e) {
 		this.#e = e, e.addController(this);
@@ -7318,12 +7318,12 @@ function qu(e) {
 	return t;
 }
 // node_modules/@videojs/html/dist/default/ui/popover/element.js
-var Ju = class extends B {
+var Ju = class extends R {
 	constructor(...e) {
-		super(...e), this.open = wc.defaultProps.open, this.defaultOpen = wc.defaultProps.defaultOpen, this.side = wc.defaultProps.side, this.align = wc.defaultProps.align, this.modal = wc.defaultProps.modal, this.closeOnEscape = wc.defaultProps.closeOnEscape, this.closeOnOutsideClick = wc.defaultProps.closeOnOutsideClick, this.openOnHover = wc.defaultProps.openOnHover, this.delay = wc.defaultProps.delay, this.closeDelay = wc.defaultProps.closeDelay, this.boundary = "container", this.#e = new wc(), this.#t = new j(this, {
+		super(...e), this.open = J.defaultProps.open, this.defaultOpen = J.defaultProps.defaultOpen, this.side = J.defaultProps.side, this.align = J.defaultProps.align, this.modal = J.defaultProps.modal, this.closeOnEscape = J.defaultProps.closeOnEscape, this.closeOnOutsideClick = J.defaultProps.closeOnOutsideClick, this.openOnHover = J.defaultProps.openOnHover, this.delay = J.defaultProps.delay, this.closeDelay = J.defaultProps.closeDelay, this.boundary = "container", this.#e = new J(), this.#t = new A(this, {
 			context: s,
 			subscribe: !0
-		}), this.#n = new j(this, { context: Bo }), this.#r = new Ku(this), this.#i = null, this.#a = null, this.#o = null, this.#s = null, this.#c = null;
+		}), this.#n = new A(this, { context: Ho }), this.#r = new Ku(this), this.#i = null, this.#a = null, this.#o = null, this.#s = null, this.#c = null;
 	}
 	static {
 		this.tagName = "media-popover";
@@ -7368,8 +7368,8 @@ var Ju = class extends B {
 	#s;
 	#c;
 	connectedCallback() {
-		super.connectedCallback(), this.destroyed || (this.setAttribute(Ec, ""), this.#o = new AbortController(), this.#i = Da({
-			transition: wo(),
+		super.connectedCallback(), this.destroyed || (this.setAttribute(Dc, ""), this.#o = new AbortController(), this.#i = Aa({
+			transition: Do(),
 			onOpenChange: (e, t) => {
 				this.open = e, this.dispatchEvent(new CustomEvent("open-change", { detail: {
 					open: e,
@@ -7382,7 +7382,7 @@ var Ju = class extends B {
 			delay: () => this.delay,
 			closeDelay: () => this.closeDelay,
 			group: () => this.#n.value
-		}), this.#i.setPopupElement(this), K(this, this.#i.popupProps, { signal: this.#o.signal }), this.#a ? this.#a.track(this.#i.input) : this.#a = new de(this, this.#i.input));
+		}), this.#i.setPopupElement(this), U(this, this.#i.popupProps, { signal: this.#o.signal }), this.#a ? this.#a.track(this.#i.input) : this.#a = new me(this, this.#i.input));
 	}
 	firstUpdated(e) {
 		super.firstUpdated(e), this.defaultOpen && !this.open && this.#i?.open();
@@ -7412,7 +7412,7 @@ var Ju = class extends B {
 		let n = this.#i.input.current;
 		this.#e.setInput(n);
 		let r = this.#e.getState();
-		K(this, this.#e.getPopupAttrs(r)), q(this, r, Tc), r.open ? kt(this) : At(this), this.#c && K(this.#c, this.#e.getTriggerAttrs(r, this.id)), r.open ? this.#r.sync({
+		U(this, this.#e.getPopupAttrs(r)), W(this, r, Ec), r.open ? Mt(this) : Nt(this), this.#c && U(this.#c, this.#e.getTriggerAttrs(r, this.id)), r.open ? this.#r.sync({
 			anchorName: this.id,
 			position: {
 				side: r.side,
@@ -7421,14 +7421,14 @@ var Ju = class extends B {
 			trigger: this.#c,
 			boundary: this.boundary,
 			container: this.#t.value?.container ?? null,
-			onSideChange: (e) => this.setAttribute(Tc.side, e)
+			onSideChange: (e) => this.setAttribute(Ec.side, e)
 		}) : this.#r.cleanup();
 	}
 	#l(e) {
-		e !== this.#c && (this.#r.cleanup(), this.#u(), this.#c = e, this.#i?.setTriggerElement(e), e && this.#i && (this.#s = new AbortController(), K(e, this.#i.triggerProps, { signal: this.#s.signal })));
+		e !== this.#c && (this.#r.cleanup(), this.#u(), this.#c = e, this.#i?.setTriggerElement(e), e && this.#i && (this.#s = new AbortController(), U(e, this.#i.triggerProps, { signal: this.#s.signal })));
 	}
 	#u() {
-		this.#c && K(this.#c, {
+		this.#c && U(this.#c, {
 			"aria-expanded": void 0,
 			"aria-haspopup": void 0,
 			"aria-controls": void 0
@@ -7446,14 +7446,14 @@ var Ju = class extends B {
 		this.tagName = "media-volume-popover";
 	}
 	#e = new _u();
-	#t = new I(this, k, ki);
+	#t = new N(this, O, Mi);
 	update(e) {
 		super.update(e), this.#e.setProps(this), this.#e.setInput({
 			active: this.hasAttribute("data-open"),
 			status: this.hasAttribute("data-starting-style") ? "starting" : this.hasAttribute("data-ending-style") ? "ending" : "idle"
 		}), this.#e.setMedia(this.#t.value ?? Yu);
 		let t = this.#e.getState();
-		q(this, t, vu), this.hidden = t.hidden, t.hidden && (this.close(), this.triggerElement && K(this.triggerElement, {
+		W(this, t, vu), this.hidden = t.hidden, t.hidden && (this.close(), this.triggerElement && U(this.triggerElement, {
 			"aria-expanded": void 0,
 			"aria-haspopup": void 0,
 			"aria-controls": void 0
@@ -7463,9 +7463,9 @@ var Ju = class extends B {
 // node_modules/@videojs/html/dist/default/define/ui/volume-popover.js
 o(Xu);
 // node_modules/@videojs/html/dist/default/ui/slider/context.js
-var Zu = t(Symbol("@videojs/slider")), Qu = class extends B {
+var Zu = t(Symbol("@videojs/slider")), Qu = class extends R {
 	constructor(...e) {
-		super(...e), this.label = "", this.step = wu.defaultProps.step, this.largeStep = wu.defaultProps.largeStep, this.wheelStep = wu.defaultProps.wheelStep, this.orientation = wu.defaultProps.orientation, this.disabled = wu.defaultProps.disabled, this.thumbAlignment = wu.defaultProps.thumbAlignment, this.#e = new wu(), this.#t = new I(this, k, yi), this.#n = new A(this, { context: Zu }), this.#r = new I(this, k, ki), this.#i = new zo(this, J), this.#a = null, this.#o = null, this.#s = null;
+		super(...e), this.label = "", this.step = wu.defaultProps.step, this.largeStep = wu.defaultProps.largeStep, this.wheelStep = wu.defaultProps.wheelStep, this.orientation = wu.defaultProps.orientation, this.disabled = wu.defaultProps.disabled, this.thumbAlignment = wu.defaultProps.thumbAlignment, this.#e = new wu(), this.#t = new N(this, O, Si), this.#n = new k(this, { context: Zu }), this.#r = new N(this, O, Mi), this.#i = new K(this, G), this.#a = null, this.#o = null, this.#s = null;
 	}
 	static {
 		this.tagName = "media-volume-slider";
@@ -7505,7 +7505,7 @@ var Zu = t(Symbol("@videojs/slider")), Qu = class extends B {
 			let e = this.#r.value;
 			return this.disabled || !e || e.volumeAvailability !== "available";
 		}, n = () => (this.#r.value?.volume ?? 0) * 100, r = () => this.#e.getStepPercent(), i = (e) => this.#l(e);
-		this.#a = so({
+		this.#a = uo({
 			getElement: () => this,
 			getThumbElement: () => this.querySelector("media-slider-thumb"),
 			getOrientation: () => this.orientation,
@@ -7530,13 +7530,13 @@ var Zu = t(Symbol("@videojs/slider")), Qu = class extends B {
 				this.thumbAlignment === "edge" && this.requestUpdate();
 			}
 		});
-		let a = ko({
+		let a = Mo({
 			isDisabled: t,
 			getPercent: n,
 			getStepPercent: () => this.#e.getWheelStepPercent(),
 			onValueChange: (e) => this.#r.value?.setVolume(this.#e.rawValueFromPercent(e) / 100)
 		});
-		K(this, this.#a.rootProps, { signal: e }), K(this, a, { signal: e }), st(this, this.#a.rootStyle), this.#a.input.subscribe(() => this.requestUpdate(), { signal: e });
+		U(this, this.#a.rootProps, { signal: e }), U(this, a, { signal: e }), ut(this, this.#a.rootStyle), this.#a.input.subscribe(() => this.requestUpdate(), { signal: e });
 	}
 	disconnectedCallback() {
 		this.#c(), super.disconnectedCallback(), this.#o?.abort(), this.#o = null;
@@ -7555,15 +7555,15 @@ var Zu = t(Symbol("@videojs/slider")), Qu = class extends B {
 		let t = this.#r.value;
 		if (!t) return;
 		this.#e.setInput(this.#a.input.current), this.#e.setMedia(t);
-		let n = this.#e.getState(), r = lo(this.#a.adjustForAlignment(n)), i = this.#e.getAttrs(n);
-		st(this, r), q(this, n, Tu), K(this, { hidden: n.hidden ? "" : void 0 }), this.#n.setValue({
+		let n = this.#e.getState(), r = po(this.#a.adjustForAlignment(n)), i = this.#e.getAttrs(n);
+		ut(this, r), W(this, n, Tu), U(this, { hidden: n.hidden ? "" : void 0 }), this.#n.setValue({
 			state: n,
 			stateAttrMap: Tu,
 			pointerValue: this.#e.valueFromPercent(n.pointerPercent),
 			thumbAttrs: {
 				...i,
-				"aria-label": U(i["aria-label"], this.#i.value),
-				"aria-valuetext": U(i["aria-valuetext"], this.#i.value, this.#e.getValueTextParams(n))
+				"aria-label": B(i["aria-label"], this.#i.value),
+				"aria-valuetext": B(i["aria-valuetext"], this.#i.value, this.#e.getValueTextParams(n))
 			},
 			thumbProps: this.#a.thumbProps,
 			formatValue: (e) => `${Math.round(e)}%`
@@ -7576,9 +7576,9 @@ var Zu = t(Symbol("@videojs/slider")), Qu = class extends B {
 // node_modules/@videojs/html/dist/default/define/ui/volume-slider.js
 o(Qu);
 // node_modules/@videojs/html/dist/default/ui/time-slider/element.js
-var $u = class extends B {
+var $u = class extends R {
 	constructor(...e) {
-		super(...e), this.label = "", this.changeThrottle = Ql.defaultProps.changeThrottle, this.step = Ql.defaultProps.step, this.largeStep = Ql.defaultProps.largeStep, this.orientation = Ql.defaultProps.orientation, this.disabled = Ql.defaultProps.disabled, this.thumbAlignment = Ql.defaultProps.thumbAlignment, this.pauseOnDrag = Ql.defaultProps.pauseOnDrag, this.#e = new Ql(), this.#t = new I(this, k, yi), this.#n = new A(this, { context: Zu }), this.#r = new I(this, k, Oi), this.#i = new I(this, k, vi), this.#a = new I(this, k, wi), this.#o = mo(co.fill), this.#s = new zo(this, J), this.#c = {}, this.#l = null, this.#u = null, this.#d = null;
+		super(...e), this.label = "", this.changeThrottle = Ql.defaultProps.changeThrottle, this.step = Ql.defaultProps.step, this.largeStep = Ql.defaultProps.largeStep, this.orientation = Ql.defaultProps.orientation, this.disabled = Ql.defaultProps.disabled, this.thumbAlignment = Ql.defaultProps.thumbAlignment, this.pauseOnDrag = Ql.defaultProps.pauseOnDrag, this.#e = new Ql(), this.#t = new N(this, O, Si), this.#n = new k(this, { context: Zu }), this.#r = new N(this, O, ji), this.#i = new N(this, O, xi), this.#a = new N(this, O, Di), this.#o = _o(fo.fill), this.#s = new K(this, G), this.#c = {}, this.#l = null, this.#u = null, this.#d = null;
 	}
 	static {
 		this.tagName = "media-time-slider";
@@ -7629,13 +7629,13 @@ var $u = class extends B {
 				this.#o.seek(e), t.seek(n);
 			}
 		};
-		this.#l = so({
+		this.#l = uo({
 			getElement: () => this,
 			getThumbElement: () => this.querySelector("media-slider-thumb"),
 			getOrientation: () => this.orientation,
 			isDisabled: () => {
 				let e = this.#r.value, t = this.#i.value;
-				return this.disabled || !e || !Yt({
+				return this.disabled || !e || !Zt({
 					...e,
 					...t ?? {
 						buffered: [],
@@ -7670,7 +7670,7 @@ var $u = class extends B {
 			onResize: () => {
 				this.thumbAlignment === "edge" && this.requestUpdate();
 			}
-		}), K(this, this.#l.rootProps, { signal: e }), st(this, this.#l.rootStyle), this.#l.input.subscribe(() => this.requestUpdate(), { signal: e }), this.#o.state.subscribe(() => this.requestUpdate(), { signal: e });
+		}), U(this, this.#l.rootProps, { signal: e }), ut(this, this.#l.rootStyle), this.#l.input.subscribe(() => this.requestUpdate(), { signal: e }), this.#o.state.subscribe(() => this.requestUpdate(), { signal: e });
 	}
 	disconnectedCallback() {
 		this.#p(), this.#f(), this.#o.destroy(), super.disconnectedCallback(), this.#u?.abort(), this.#u = null;
@@ -7715,43 +7715,43 @@ var $u = class extends B {
 		let i = this.#e.getState();
 		this.#o.update(i.seeking, i.fillPercent, this);
 		let a = this.#o.state.current.percent;
-		this.toggleAttribute("data-playing", Xt(this.#a.value) && !i.disabled && !i.dragging && !i.seeking && a === void 0);
+		this.toggleAttribute("data-playing", Qt(this.#a.value) && !i.disabled && !i.dragging && !i.seeking && a === void 0);
 		let o = a === void 0 || i.dragging || i.disabled ? i : {
 			...i,
 			fillPercent: a
-		}, s = uo(this.#l.adjustForAlignment(o)), c = Object.fromEntries(Object.entries(s).filter(([e, t]) => this.#c[e] !== t));
-		st(this, c), this.#c = s;
+		}, s = mo(this.#l.adjustForAlignment(o)), c = Object.fromEntries(Object.entries(s).filter(([e, t]) => this.#c[e] !== t));
+		ut(this, c), this.#c = s;
 		let l = this.#e.getAttrs(i);
-		q(this, i, $l), this.#n.setValue({
+		W(this, i, $l), this.#n.setValue({
 			state: i,
 			stateAttrMap: $l,
 			pointerValue: this.#e.rawValueFromPercent(i.pointerPercent),
 			thumbAttrs: {
 				...l,
-				"aria-label": U(l["aria-label"], this.#s.value),
-				"aria-valuetext": U(l["aria-valuetext"], this.#s.value, this.#e.getValueTextParams(i))
+				"aria-label": B(l["aria-label"], this.#s.value),
+				"aria-valuetext": B(l["aria-valuetext"], this.#s.value, this.#e.getValueTextParams(i))
 			},
 			thumbProps: this.#l.thumbProps,
-			formatValue: (e) => Zc(e, i.duration, { locale: this.#s.locale })
+			formatValue: (e) => Qc(e, i.duration, { locale: this.#s.locale })
 		});
 	}
 };
 // node_modules/@videojs/html/dist/default/define/ui/time-slider.js
 o($u);
 // node_modules/@videojs/html/dist/default/ui/time-slider/chapters.js
-var ed = class extends B {
+var ed = class extends R {
 	static {
 		this.tagName = "media-time-slider-chapters";
 	}
-	#e = new ul();
+	#e = new dl();
 	#t = new nu();
-	#n = new j(this, {
+	#n = new A(this, {
 		context: Zu,
 		subscribe: !0
 	});
-	#r = new I(this, k, Di);
-	#i = new I(this, k, vi);
-	#a = new I(this, k, Oi);
+	#r = new N(this, O, Ai);
+	#i = new N(this, O, xi);
+	#a = new N(this, O, ji);
 	#o = /* @__PURE__ */ new Map();
 	#s = null;
 	#c = !1;
@@ -7761,7 +7761,7 @@ var ed = class extends B {
 	update(e) {
 		super.update(e);
 		let t = this.#n.value, n = this.#a.value?.duration ?? 0, r = this.#l();
-		if (!t || (q(this, t.state, t.stateAttrMap), !r)) return;
+		if (!t || (W(this, t.state, t.stateAttrMap), !r)) return;
 		let { chapters: i, ranges: a, max: o } = this.#t.getRanges(this.#r.value?.chaptersCues ?? [], 0, n), s = this.#e.getGeometry({
 			ranges: a,
 			min: 0,
@@ -7770,7 +7770,7 @@ var ed = class extends B {
 		}), c = this.#i.value?.buffered ?? [], l = c.length ? c[c.length - 1][1] : 0, u = /* @__PURE__ */ new Map();
 		for (let e of s) {
 			let n = this.#t.getState(this.#e.getState(e, t.state, t.pointerValue), i, l), a = this.#o.get(n.key);
-			a ||= Ft(r, this.ownerDocument), this.#u(a, "pointer-events", n.cue ? void 0 : "none"), this.#u(a, iu.start, n.startPercent), this.#u(a, iu.end, n.endPercent), this.#u(a, iu.width, n.width ?? n.height), this.#u(a, iu.fill, `${n.fillPercent}%`), this.#u(a, iu.buffer, `${n.bufferPercent}%`), q(a, t.state, t.stateAttrMap), q(a, n, ru), u.set(n.key, a);
+			a ||= zt(r, this.ownerDocument), this.#u(a, "pointer-events", n.cue ? void 0 : "none"), this.#u(a, iu.start, n.startPercent), this.#u(a, iu.end, n.endPercent), this.#u(a, iu.width, n.width ?? n.height), this.#u(a, iu.fill, `${n.fillPercent}%`), this.#u(a, iu.buffer, `${n.bufferPercent}%`), W(a, t.state, t.stateAttrMap), W(a, n, ru), u.set(n.key, a);
 		}
 		for (let [e, t] of this.#o) u.has(e) || t.remove();
 		let d = null;
@@ -7780,13 +7780,13 @@ var ed = class extends B {
 	}
 	#l() {
 		if (this.#c) return this.#s;
-		let e = Nt(this);
+		let e = Lt(this);
 		if (!e) {
 			for (let e of [...this.childNodes]) e.remove();
 			return null;
 		}
 		this.#c = !0;
-		let t = Pt(e);
+		let t = Rt(e);
 		for (let t of [...this.childNodes]) t !== e && t.remove();
 		return t?.namespaceURI === "http://www.w3.org/1999/xhtml" ? (this.#s = t, this.#s) : null;
 	}
@@ -7797,17 +7797,17 @@ var ed = class extends B {
 // node_modules/@videojs/html/dist/default/define/ui/time-slider-chapters.js
 o(ed);
 // node_modules/@videojs/html/dist/default/ui/time-slider/chapter-title.js
-var td = class extends B {
+var td = class extends R {
 	static {
 		this.tagName = "media-time-slider-chapter-title";
 	}
 	#e = new nu();
-	#t = new j(this, {
+	#t = new A(this, {
 		context: Zu,
 		subscribe: !0
 	});
-	#n = new I(this, k, Di);
-	#r = new I(this, k, Oi);
+	#n = new N(this, O, Ai);
+	#r = new N(this, O, ji);
 	update(e) {
 		super.update(e);
 		let t = this.#t.value;
@@ -7821,7 +7821,7 @@ o(td);
 // node_modules/@videojs/html/dist/default/ui/slider/track.js
 var nd = class extends Iu {
 	constructor(...e) {
-		super(...e), this.consumer = new j(this, {
+		super(...e), this.consumer = new A(this, {
 			context: Zu,
 			subscribe: !0
 		});
@@ -7835,7 +7835,7 @@ o(nd);
 // node_modules/@videojs/html/dist/default/ui/slider/buffer.js
 var rd = class extends Iu {
 	constructor(...e) {
-		super(...e), this.consumer = new j(this, {
+		super(...e), this.consumer = new A(this, {
 			context: Zu,
 			subscribe: !0
 		});
@@ -7849,7 +7849,7 @@ o(rd);
 // node_modules/@videojs/html/dist/default/ui/slider/fill.js
 var id = class extends Iu {
 	constructor(...e) {
-		super(...e), this.consumer = new j(this, {
+		super(...e), this.consumer = new A(this, {
 			context: Zu,
 			subscribe: !0
 		});
@@ -7861,11 +7861,11 @@ var id = class extends Iu {
 // node_modules/@videojs/html/dist/default/define/ui/slider-fill.js
 o(id);
 // node_modules/@videojs/html/dist/default/ui/slider/thumb.js
-var ad = class extends B {
+var ad = class extends R {
 	static {
 		this.tagName = "media-slider-thumb";
 	}
-	#e = new j(this, {
+	#e = new A(this, {
 		context: Zu,
 		subscribe: !0
 	});
@@ -7880,15 +7880,15 @@ var ad = class extends B {
 	update(e) {
 		super.update(e);
 		let t = this.#e.value;
-		t && (!this.#n && this.#t && (K(this, t.thumbProps, { signal: this.#t.signal }), this.#n = !0), K(this, t.thumbAttrs), q(this, t.state, t.stateAttrMap));
+		t && (!this.#n && this.#t && (U(this, t.thumbProps, { signal: this.#t.signal }), this.#n = !0), U(this, t.thumbAttrs), W(this, t.state, t.stateAttrMap));
 	}
 };
 // node_modules/@videojs/html/dist/default/define/ui/slider-thumb.js
 o(ad);
 // node_modules/@videojs/html/dist/default/ui/slider/preview.js
-var od = class extends B {
+var od = class extends R {
 	constructor(...e) {
-		super(...e), this.overflow = "clamp", this.#e = new j(this, {
+		super(...e), this.overflow = "clamp", this.#e = new A(this, {
 			context: Zu,
 			subscribe: !0
 		}), this.#t = null, this.#n = 0;
@@ -7903,7 +7903,7 @@ var od = class extends B {
 	#t;
 	#n;
 	connectedCallback() {
-		super.connectedCallback(), this.#t = St(this, ([e]) => {
+		super.connectedCallback(), this.#t = Tt(this, ([e]) => {
 			this.#n = e.contentRect.width, this.#r();
 		});
 	}
@@ -7911,12 +7911,12 @@ var od = class extends B {
 		super.disconnectedCallback(), this.#t?.(), this.#t = null;
 	}
 	#r() {
-		st(this, fo(this.#n, this.overflow));
+		ut(this, ho(this.#n, this.overflow));
 	}
 	update(e) {
 		super.update(e);
 		let t = this.#e.value;
-		t && q(this, t.state, t.stateAttrMap), this.#r();
+		t && W(this, t.state, t.stateAttrMap), this.#r();
 	}
 };
 // node_modules/@videojs/html/dist/default/define/ui/slider-preview.js
@@ -7931,7 +7931,7 @@ function ld() {
 	let e = document.createElement("img");
 	return e.alt = "", e.setAttribute("part", "image"), e.setAttribute("aria-hidden", "true"), e.setAttribute("decoding", "async"), e;
 }
-var ud = class extends B {
+var ud = class extends R {
 	static {
 		this.tagName = "media-thumbnail";
 	}
@@ -7963,7 +7963,7 @@ var ud = class extends B {
 	#d;
 	#f;
 	constructor() {
-		super(), this.time = 0, this.#e = new bo(), this.#t = this.attachShadow({ mode: "open" }), this.#n = ld(), this.#r = new MutationObserver(() => this.requestUpdate()), this.#i = new MutationObserver(() => this.requestUpdate()), this.#a = new I(this, k, Di), this.#o = null, this.#s = null, this.#c = /* @__PURE__ */ new Set(), this.#l = [], this.#f = null;
+		super(), this.time = 0, this.#e = new Co(), this.#t = this.attachShadow({ mode: "open" }), this.#n = ld(), this.#r = new MutationObserver(() => this.requestUpdate()), this.#i = new MutationObserver(() => this.requestUpdate()), this.#a = new N(this, O, Ai), this.#o = null, this.#s = null, this.#c = /* @__PURE__ */ new Set(), this.#l = [], this.#f = null;
 		let e = document.createElement("style");
 		e.textContent = sd, this.#t.append(e, document.createElement("slot"), this.#n);
 	}
@@ -7974,7 +7974,7 @@ var ud = class extends B {
 		this.#u = e, this.requestUpdate();
 	}
 	connectedCallback() {
-		super.connectedCallback(), this.destroyed || (this.#f = xo({
+		super.connectedCallback(), this.destroyed || (this.#f = wo({
 			getContainer: () => this,
 			getImg: () => this.#s,
 			onStateChange: () => this.requestUpdate()
@@ -7998,17 +7998,17 @@ var ud = class extends B {
 		else if (t !== this.#d) {
 			this.#d = t;
 			let e = t?.thumbnailsTrack;
-			this.#l = e && e.cues.length > 0 ? jl(e.cues, e.src ?? void 0) : [];
+			this.#l = e && e.cues.length > 0 ? Ml(e.cues, e.src ?? void 0) : [];
 		}
-		let n = this.#e.findActiveThumbnail(this.#l, this.time), r = Ie(this, He) ?? this.#n;
+		let n = this.#e.findActiveThumbnail(this.#l, this.time), r = ze(this, Ge) ?? this.#n;
 		if (this.#_(r), this.#m(r, t), this.#f?.updateSrc(n?.url), this.#v(n?.url), this.#f?.connect(), !n) {
 			this.#g();
 			let e = this.#e.getState(!1, !1, void 0);
-			K(this, this.#e.getAttrs(e)), q(this, e, kl);
+			U(this, this.#e.getAttrs(e)), W(this, e, Al);
 			return;
 		}
 		let i = this.#f, a = this.#e.getState(i?.loading ?? !1, i?.error ?? !1, n);
-		if (K(this, this.#e.getAttrs(a)), q(this, a, kl), i?.naturalWidth && i.naturalHeight) {
+		if (U(this, this.#e.getAttrs(a)), W(this, a, Al), i?.naturalWidth && i.naturalHeight) {
 			let e = i.readConstraints(), t = this.#e.resize(n, i.naturalWidth, i.naturalHeight, e);
 			t && this.#h(t);
 		}
@@ -8023,7 +8023,7 @@ var ud = class extends B {
 			fetchpriority: this.fetchPriority
 		};
 		for (let e of this.#c) delete n[e];
-		K(e, n);
+		U(e, n);
 	}
 	#h(e) {
 		this.style.width = `${e.containerWidth}px`, this.style.height = `${e.containerHeight}px`;
@@ -8055,7 +8055,7 @@ var ud = class extends B {
 	static {
 		this.tagName = "media-slider-thumbnail";
 	}
-	#e = new j(this, {
+	#e = new A(this, {
 		context: Zu,
 		subscribe: !0
 	});
@@ -8067,9 +8067,9 @@ var ud = class extends B {
 // node_modules/@videojs/html/dist/default/define/ui/slider-thumbnail.js
 o(dd);
 // node_modules/@videojs/html/dist/default/ui/slider/value.js
-var fd = class extends B {
+var fd = class extends R {
 	constructor(...e) {
-		super(...e), this.type = "current", this.#e = new j(this, {
+		super(...e), this.type = "current", this.#e = new A(this, {
 			context: Zu,
 			subscribe: !0
 		});
@@ -8089,18 +8089,18 @@ var fd = class extends B {
 		let t = this.#e.value;
 		if (!t) return;
 		let n = this.type === "pointer" ? t.pointerValue : t.state.value;
-		this.textContent = t.formatValue ? t.formatValue(n, this.type) : String(Math.round(n)), q(this, t.state, t.stateAttrMap);
+		this.textContent = t.formatValue ? t.formatValue(n, this.type) : String(Math.round(n)), W(this, t.state, t.stateAttrMap);
 	}
 };
 // node_modules/@videojs/html/dist/default/define/ui/slider-value.js
 o(fd);
 // node_modules/@videojs/html/dist/default/ui/time/element.js
-var pd = class extends B {
+var pd = class extends R {
 	constructor(...e) {
-		super(...e), this.type = Yl.defaultProps.type, this.negativeSign = Yl.defaultProps.negativeSign, this.label = "", this.toggle = Yl.defaultProps.toggle, this.#e = new Yl(), this.#t = new I(this, k, Oi), this.#n = new I(this, k, vi), this.#r = new zo(this, J), this.#i = document.createElement("span"), this.#a = new Text(), this.#o = null, this.#s = !1, this.#c = Yl.defaultProps.type, this.#u = (e) => {
+		super(...e), this.type = Yl.defaultProps.type, this.negativeSign = Yl.defaultProps.negativeSign, this.label = "", this.toggle = Yl.defaultProps.toggle, this.#e = new Yl(), this.#t = new N(this, O, ji), this.#n = new N(this, O, xi), this.#r = new K(this, G), this.#i = document.createElement("span"), this.#a = new Text(), this.#o = null, this.#s = !1, this.#c = Yl.defaultProps.type, this.#u = (e) => {
 			!e.defaultPrevented && this.toggle && this.#t.value && this.#p() && this.#f();
 		}, this.#d = (e) => {
-			!e.defaultPrevented && rt(e) && this.toggle && this.#t.value && this.#p() && (e.preventDefault(), e.repeat || this.#f());
+			!e.defaultPrevented && ot(e) && this.toggle && this.#t.value && this.#p() && (e.preventDefault(), e.repeat || this.#f());
 		};
 	}
 	static {
@@ -8153,24 +8153,24 @@ var pd = class extends B {
 		}), this.#e.setFormatLocale(this.#r.locale);
 		let n = this.#e.getState();
 		this.#i.hidden = !n.negative, this.#i.textContent = n.negative ? this.negativeSign : "", this.#a.textContent = n.text;
-		let r = this.#e.getAttrs(n, this.type), i = U(r["aria-label"], this.#r.value, this.#l(n)), a = r["aria-description"] ? U(r["aria-description"], this.#r.value) : void 0;
-		K(this, {
+		let r = this.#e.getAttrs(n, this.type), i = B(r["aria-label"], this.#r.value, this.#l(n)), a = r["aria-description"] ? B(r["aria-description"], this.#r.value) : void 0;
+		U(this, {
 			"aria-label": i,
 			"aria-description": a,
 			"aria-disabled": r["aria-disabled"],
 			role: this.toggle ? r.role : "time",
 			tabIndex: r.tabIndex,
 			datetime: this.toggle || n.unavailable ? void 0 : n.datetime
-		}), q(this, n, Xl);
+		}), W(this, n, Xl);
 	}
 	#l(e) {
 		if (!this.#e.getLabelParams(e)) return;
-		let t = $c(Math.abs(e.seconds), { locale: this.#r.locale }), n = {
+		let t = el(Math.abs(e.seconds), { locale: this.#r.locale }), n = {
 			current: Il,
 			duration: Ll,
 			remaining: Rl
 		}[e.type];
-		return { duration: U(n, this.#r.value, { duration: t }) };
+		return { duration: B(n, this.#r.value, { duration: t }) };
 	}
 	#u;
 	#d;
@@ -8179,19 +8179,19 @@ var pd = class extends B {
 	}
 	#p() {
 		let e = this.#t.value;
-		return e ? Yt({
+		return e ? Zt({
 			...e,
 			seekable: this.#n.value?.seekable ?? []
 		}) : !1;
 	}
 	#m() {
-		!this.toggle || !this.#o || this.#s || (this.#s = !0, K(this, {
+		!this.toggle || !this.#o || this.#s || (this.#s = !0, U(this, {
 			onClick: this.#u,
 			onKeyDown: this.#d
 		}, { signal: this.#o.signal }));
 	}
 	#h() {
-		K(this, {
+		U(this, {
 			"aria-label": void 0,
 			"aria-description": void 0,
 			"aria-disabled": void 0,
@@ -8207,7 +8207,7 @@ var pd = class extends B {
 // node_modules/@videojs/html/dist/default/define/ui/time.js
 o(pd);
 // node_modules/@videojs/html/dist/default/ui/time/group.js
-var md = class extends B {
+var md = class extends R {
 	static {
 		this.tagName = "media-time-group";
 	}
@@ -8215,7 +8215,7 @@ var md = class extends B {
 // node_modules/@videojs/html/dist/default/define/ui/time-group.js
 o(md);
 // node_modules/@videojs/html/dist/default/ui/time/separator.js
-var hd = class extends B {
+var hd = class extends R {
 	static {
 		this.tagName = "media-time-separator";
 	}
@@ -8226,16 +8226,16 @@ var hd = class extends B {
 // node_modules/@videojs/html/dist/default/define/ui/time-separator.js
 o(hd);
 // node_modules/@videojs/html/dist/default/ui/radio-group/context.js
-var gd = t(Symbol("@videojs/radio-group")), _d = Symbol("@videojs/menu"), vd = Symbol("@videojs/menu-group"), yd = t(_d), bd = t(vd), xd = class extends B {
+var gd = t(Symbol("@videojs/radio-group")), _d = Symbol("@videojs/menu"), vd = Symbol("@videojs/menu-group"), yd = t(_d), bd = t(vd), xd = class extends R {
 	constructor(...e) {
-		super(...e), this.open = $s.defaultProps.open, this.defaultOpen = $s.defaultProps.defaultOpen, this.side = $s.defaultProps.side, this.align = $s.defaultProps.align, this.closeOnEscape = $s.defaultProps.closeOnEscape, this.closeOnOutsideClick = $s.defaultProps.closeOnOutsideClick, this.boundary = "container", this.#e = new $s(), this.#t = new A(this, { context: yd }), this.#n = new Ku(this), this.#r = new I(this, k, yi), this.#i = new j(this, {
+		super(...e), this.open = tc.defaultProps.open, this.defaultOpen = tc.defaultProps.defaultOpen, this.side = tc.defaultProps.side, this.align = tc.defaultProps.align, this.closeOnEscape = tc.defaultProps.closeOnEscape, this.closeOnOutsideClick = tc.defaultProps.closeOnOutsideClick, this.boundary = "container", this.#e = new tc(), this.#t = new k(this, { context: yd }), this.#n = new Ku(this), this.#r = new N(this, O, Si), this.#i = new A(this, {
 			context: s,
 			subscribe: !0
-		}), this.#a = new j(this, { context: Bo }), this.#o = null, this.#s = null, this.#c = null, this.#l = null, this.#u = null, this.#d = null, this.#f = !1, this.#p = !1, this.#m = null, this.#h = /* @__PURE__ */ new Map(), this.#g = null, this.#v = (e) => {
+		}), this.#a = new A(this, { context: Ho }), this.#o = null, this.#s = null, this.#c = null, this.#l = null, this.#u = null, this.#d = null, this.#f = !1, this.#p = !1, this.#m = null, this.#h = /* @__PURE__ */ new Map(), this.#g = null, this.#v = (e) => {
 			this.#o?.contentProps.onFocusOut(e);
 		}, this.#b = (e, t) => {
 			let n = this.#h.get(e);
-			t && Sd(n, t) || (t || n) && (t ? this.#h.set(e, t) : this.#h.delete(e), this.#g = Qs(this.#h.values()), (this.#g?.disabled || this.#g?.hidden) && this.open && this.close("imperative-action"), this.#x(this.#d));
+			t && Sd(n, t) || (t || n) && (t ? this.#h.set(e, t) : this.#h.delete(e), this.#g = ec(this.#h.values()), (this.#g?.disabled || this.#g?.hidden) && this.open && this.close("imperative-action"), this.#x(this.#d));
 		};
 	}
 	static {
@@ -8285,8 +8285,8 @@ var gd = t(Symbol("@videojs/radio-group")), _d = Symbol("@videojs/menu"), vd = S
 		return this.#s;
 	}
 	connectedCallback() {
-		super.connectedCallback(), this.destroyed || (this.setAttribute(Ec, ""), this.#l = new AbortController(), this.#s = za(), this.#s.setElement(this), this.#o = Ia({
-			transition: wo(),
+		super.connectedCallback(), this.destroyed || (this.setAttribute(Dc, ""), this.#l = new AbortController(), this.#s = Ha(), this.#s.setElement(this), this.#o = za({
+			transition: Do(),
 			onOpenChange: (e, t) => {
 				this.dispatchEvent(new CustomEvent("open-change", {
 					bubbles: !0,
@@ -8301,7 +8301,7 @@ var gd = t(Symbol("@videojs/radio-group")), _d = Symbol("@videojs/menu"), vd = S
 			closeOnEscape: () => this.closeOnEscape,
 			closeOnOutsideClick: () => this.closeOnOutsideClick,
 			group: () => this.#a.value
-		}), this.#o.setPopupElement(this), K(this, { onFocusOut: this.#v }, { signal: this.#l.signal }), this.#c ? this.#c.track(this.#o.input) : this.#c = new de(this, this.#o.input));
+		}), this.#o.setPopupElement(this), U(this, { onFocusOut: this.#v }, { signal: this.#l.signal }), this.#c ? this.#c.track(this.#o.input) : this.#c = new me(this, this.#o.input));
 	}
 	disconnectedCallback() {
 		this.#_(), super.disconnectedCallback(), this.#n.cleanup(), this.#S(), this.#s?.destroy(), this.#s = null, this.#o?.destroy(), this.#o = null, this.#l?.abort(), this.#l = null;
@@ -8332,19 +8332,19 @@ var gd = t(Symbol("@videojs/radio-group")), _d = Symbol("@videojs/menu"), vd = S
 		let n = this.#e.getState();
 		n.open ? this.#m ??= this.#r.value?.requestControlsLock() ?? null : this.#_();
 		let r = this.#n.findTrigger();
-		if (this.#y(r), K(this, this.#e.getPopupAttrs()), q(this, n, La), n.open ? kt(this) : At(this), this.#d && (K(this.#d, this.#e.getTriggerAttrs(n, this.#o.contentElement?.id)), this.#x(this.#d)), !n.open) this.#n.cleanup();
+		if (this.#y(r), U(this, this.#e.getPopupAttrs()), W(this, n, Ba), n.open ? Mt(this) : Nt(this), this.#d && (U(this.#d, this.#e.getTriggerAttrs(n, this.#o.contentElement?.id)), this.#x(this.#d)), !n.open) this.#n.cleanup();
 		else {
 			this.#s.sync();
-			let e = Ma(n.side, n.align);
+			let e = Fa(n.side, n.align);
 			e && this.#d && this.#n.sync({
 				anchorName: this.id,
 				position: e,
 				trigger: this.#d,
 				boundary: this.boundary,
 				container: this.#i.value?.container ?? null,
-				cssVars: Na,
+				cssVars: Ia,
 				trackResize: !1,
-				onSideChange: (e) => this.setAttribute(La.side, e)
+				onSideChange: (e) => this.setAttribute(Ba.side, e)
 			});
 		}
 		this.#t.setValue({
@@ -8360,12 +8360,12 @@ var gd = t(Symbol("@videojs/radio-group")), _d = Symbol("@videojs/menu"), vd = S
 	}
 	#v;
 	#y(e) {
-		e !== this.#d && (this.#n.cleanup(), this.#S(), this.#d = e, this.#f = e ? Cd(e) : !1, this.#p = e?.hidden === !0, this.#o?.setTriggerElement(e), e && this.#o && (this.#u = new AbortController(), K(e, this.#o.triggerProps, { signal: this.#u.signal }), this.#x(e)));
+		e !== this.#d && (this.#n.cleanup(), this.#S(), this.#d = e, this.#f = e ? Cd(e) : !1, this.#p = e?.hidden === !0, this.#o?.setTriggerElement(e), e && this.#o && (this.#u = new AbortController(), U(e, this.#o.triggerProps, { signal: this.#u.signal }), this.#x(e)));
 	}
 	#b;
 	#x(e) {
 		if (!e) return;
-		K(e, {
+		U(e, {
 			disabled: this.#f || this.#g?.disabled || void 0,
 			"aria-disabled": this.#f || this.#g?.disabled ? "true" : void 0,
 			"data-availability": this.#g?.availability,
@@ -8376,7 +8376,7 @@ var gd = t(Symbol("@videojs/radio-group")), _d = Symbol("@videojs/menu"), vd = S
 	}
 	#S() {
 		if (this.#d) {
-			K(this.#d, {
+			U(this.#d, {
 				"aria-expanded": void 0,
 				"aria-haspopup": void 0,
 				"aria-controls": void 0,
@@ -8400,19 +8400,19 @@ function Cd(e) {
 // node_modules/@videojs/html/dist/default/define/ui/menu.js
 o(xd);
 // node_modules/@videojs/html/dist/default/ui/menu/content.js
-var wd = 0, Td = class e extends B {
+var wd = 0, Td = class e extends R {
 	constructor(...e) {
-		super(...e), this.open = !1, this.defaultOpen = !1, this.#e = new j(this, {
+		super(...e), this.open = !1, this.defaultOpen = !1, this.#e = new A(this, {
 			context: yd,
 			subscribe: !0
-		}), this.#t = new A(this, { context: yd }), this.#n = new $s(), this.#r = `vjs-menu-content-${wd++}`, this.#i = null, this.#a = null, this.#o = null, this.#s = null, this.#c = !1, this.#l = null, this.#u = null, this.#d = null, this.#f = /* @__PURE__ */ new Map(), this.#p = Symbol("menu"), this.#m = null, this.#h = null, this.#g = null, this.#_ = !1, this.#v = !1, this.#y = !1, this.#b = !1, this.#T = (e) => {
-			let t = ja(e), n = e.defaultPrevented;
+		}), this.#t = new k(this, { context: yd }), this.#n = new tc(), this.#r = `vjs-menu-content-${wd++}`, this.#i = null, this.#a = null, this.#o = null, this.#s = null, this.#c = !1, this.#l = null, this.#u = null, this.#d = null, this.#f = /* @__PURE__ */ new Map(), this.#p = Symbol("menu"), this.#m = null, this.#h = null, this.#g = null, this.#_ = !1, this.#v = !1, this.#y = !1, this.#b = !1, this.#T = (e) => {
+			let t = Pa(e), n = e.defaultPrevented;
 			this.#a?.contentProps.onKeyDown(e), this.#o && (e.key === "ArrowLeft" || e.key === "Escape") && !n && (e.preventDefault(), this.#a?.close("escape")), e.key !== "Escape" && t && e.stopPropagation();
 		}, this.#E = (e) => {
 			this.#a?.contentProps.onFocusOut(e);
 		}, this.#D = (e, t) => {
 			let n = this.#f.get(e);
-			t && Ed(n, t) || (t || n) && (t ? this.#f.set(e, t) : this.#f.delete(e), this.#m = Qs(this.#f.values()), (this.#m?.disabled || this.#m?.hidden) && this.open && this.#o && this.close("imperative-action"), this.#k(this.#C()), this.#h?.setOptionState(this.#p, this.#m));
+			t && Ed(n, t) || (t || n) && (t ? this.#f.set(e, t) : this.#f.delete(e), this.#m = ec(this.#f.values()), (this.#m?.disabled || this.#m?.hidden) && this.open && this.#o && this.close("imperative-action"), this.#k(this.#C()), this.#h?.setOptionState(this.#p, this.#m));
 		};
 	}
 	static {
@@ -8452,7 +8452,7 @@ var wd = 0, Td = class e extends B {
 		return this.#i;
 	}
 	connectedCallback() {
-		super.connectedCallback(), this.#b || (this.#l = new AbortController(), K(this, {
+		super.connectedCallback(), this.#b || (this.#l = new AbortController(), U(this, {
 			onKeyDown: this.#T,
 			onFocusOut: this.#E
 		}, { signal: this.#l.signal }));
@@ -8489,10 +8489,10 @@ var wd = 0, Td = class e extends B {
 			isSubmenu: o
 		});
 		let l = this.#n.getState(), u = !o || l.open || l.status === "ending";
-		K(this, {
+		U(this, {
 			...this.#n.getContentAttrs(),
 			hidden: !u
-		}), q(this, l, Ra), r && (s.setTriggerElement(r), K(r, this.#n.getTriggerAttrs(l, u ? this.id : void 0)), this.#k(r)), o && u && !this.#y && s.highlightInitialItem({ preventScroll: !0 }), this.#y = u, this.#i = {
+		}), W(this, l, Va), r && (s.setTriggerElement(r), U(r, this.#n.getTriggerAttrs(l, u ? this.id : void 0)), this.#k(r)), o && u && !this.#y && s.highlightInitialItem({ preventScroll: !0 }), this.#y = u, this.#i = {
 			core: this.#n,
 			menu: s,
 			popup: n.popup,
@@ -8502,8 +8502,8 @@ var wd = 0, Td = class e extends B {
 	}
 	#x(e, t) {
 		if (t !== null) {
-			this.#c = !0, this.#a = Ia({
-				transition: wo(),
+			this.#c = !0, this.#a = za({
+				transition: Do(),
 				onOpenChange: (e, t) => {
 					this.dispatchEvent(new CustomEvent("open-change", {
 						bubbles: !0,
@@ -8546,7 +8546,7 @@ var wd = 0, Td = class e extends B {
 	#k(e) {
 		if (e !== this.#g && (this.#A(), this.#g = e, this.#_ = e ? Dd(e) : !1, this.#v = e?.hidden === !0), !e) return;
 		let t = this.#m?.disabled || this.#_;
-		K(e, {
+		U(e, {
 			disabled: t || void 0,
 			"aria-disabled": t ? "true" : void 0,
 			"data-availability": this.#m?.availability,
@@ -8558,7 +8558,7 @@ var wd = 0, Td = class e extends B {
 	#A() {
 		let e = this.#g;
 		if (!e) return;
-		K(e, {
+		U(e, {
 			disabled: this.#_ || void 0,
 			"aria-disabled": this.#_ ? "true" : void 0,
 			"data-availability": void 0,
@@ -8577,12 +8577,12 @@ function Dd(e) {
 // node_modules/@videojs/html/dist/default/define/ui/menu-content.js
 o(Td);
 // node_modules/@videojs/html/dist/default/ui/menu/radio-item.js
-var Od = class extends B {
+var Od = class extends R {
 	constructor(...e) {
-		super(...e), this.value = "", this.disabled = !1, this.#e = new j(this, {
+		super(...e), this.value = "", this.disabled = !1, this.#e = new A(this, {
 			context: yd,
 			subscribe: !0
-		}), this.#t = new j(this, {
+		}), this.#t = new A(this, {
 			context: gd,
 			subscribe: !0
 		}), this.#n = null, this.#r = !1, this.#i = null;
@@ -8611,10 +8611,10 @@ var Od = class extends B {
 		super.update(e);
 		let t = this.#e.value, n = this.#t.value;
 		if (!t || !n || !this.#n) return;
-		this.#r || (this.#r = !0, this.#i = t.menu.registerItem(this), K(this, {
+		this.#r || (this.#r = !0, this.#i = t.menu.registerItem(this), U(this, {
 			onClick: () => {
 				let e = this.#e.value, t = this.#t.value;
-				e && t && !this.disabled && (t.onValueChange(this.value), Fa(e.menu));
+				e && t && !this.disabled && (t.onValueChange(this.value), Ra(e.menu));
 			},
 			onPointerenter: () => {
 				let e = this.#e.value;
@@ -8625,7 +8625,7 @@ var Od = class extends B {
 			}
 		}, { signal: this.#n.signal }));
 		let r = n.value === this.value;
-		K(this, {
+		U(this, {
 			role: "menuitemradio",
 			"aria-checked": String(r),
 			"aria-disabled": this.disabled ? "true" : void 0
@@ -8635,9 +8635,9 @@ var Od = class extends B {
 // node_modules/@videojs/html/dist/default/define/ui/menu-radio-item.js
 o(Od);
 // node_modules/@videojs/html/dist/default/ui/radio-group/element.js
-var kd = class extends B {
+var kd = class extends R {
 	constructor(...e) {
-		super(...e), this.value = "", this.#e = new A(this, { context: gd });
+		super(...e), this.value = "", this.#e = new k(this, { context: gd });
 	}
 	static {
 		this.properties = { value: { type: String } };
@@ -8661,14 +8661,14 @@ var kd = class extends B {
 	#r;
 	#i;
 	constructor(e) {
-		this.#e = e, this.#t = new A(e, {
+		this.#e = e, this.#t = new k(e, {
 			context: bd,
 			initialValue: this.#n
 		});
 	}
 	applyProps() {
 		let e = this.#e.getAttribute("aria-labelledby") ?? void 0, t = e !== void 0 && e !== this.#i;
-		this.#e.hasAttribute("aria-label") || t ? (this.#i && e === this.#i && this.#e.removeAttribute("aria-labelledby"), this.#i = void 0, K(this.#e, { role: "group" })) : (this.#i = this.#r, K(this.#e, {
+		this.#e.hasAttribute("aria-label") || t ? (this.#i && e === this.#i && this.#e.removeAttribute("aria-labelledby"), this.#i = void 0, U(this.#e, { role: "group" })) : (this.#i = this.#r, U(this.#e, {
 			role: "group",
 			"aria-labelledby": this.#r
 		}));
@@ -8683,7 +8683,7 @@ var kd = class extends B {
 		this.tagName = "media-menu-radio-group";
 	}
 	#e = new Ad(this);
-	#t = new j(this, {
+	#t = new A(this, {
 		context: yd,
 		subscribe: !0
 	});
@@ -8709,7 +8709,7 @@ var kd = class extends B {
 	publishMenuOptionState(e, t, n) {
 		let r = this.#t.value ?? null;
 		if (r?.menu !== this.#i && (this.#o(), this.#i = r?.menu ?? null, this.#a = r?.setOptionState ?? null), !this.#a) return;
-		let i = Pe(this, (e) => e instanceof Od && e.value === this.value), a = i?.querySelector("[data-part~=\"label\"]")?.textContent ?? i?.textContent?.trim() ?? "";
+		let i = Le(this, (e) => e instanceof Od && e.value === this.value), a = i?.querySelector("[data-part~=\"label\"]")?.textContent ?? i?.textContent?.trim() ?? "";
 		this.#a(this.#n, {
 			value: a,
 			disabled: e,
@@ -8724,9 +8724,9 @@ var kd = class extends B {
 // node_modules/@videojs/html/dist/default/define/ui/menu-radio-group.js
 o(jd);
 // node_modules/@videojs/html/dist/default/ui/menu/item.js
-var Md = class extends B {
+var Md = class extends R {
 	constructor(...e) {
-		super(...e), this.disabled = !1, this.commandfor = void 0, this.#e = new j(this, {
+		super(...e), this.disabled = !1, this.commandfor = void 0, this.#e = new A(this, {
 			context: yd,
 			subscribe: !0
 		}), this.#t = null, this.#n = null, this.#r = null;
@@ -8754,7 +8754,7 @@ var Md = class extends B {
 		super.update(e);
 		let t = this.#e.value;
 		if (!t || !this.#t) return;
-		this.#n !== t.menu && (this.#r?.(), this.#n = t.menu, this.#r = t.menu.registerItem(this), K(this, {
+		this.#n !== t.menu && (this.#r?.(), this.#n = t.menu, this.#r = t.menu.registerItem(this), U(this, {
 			onClick: (e) => {
 				let t = this.#e.value;
 				if (!t || this.#a()) return;
@@ -8769,7 +8769,7 @@ var Md = class extends B {
 						e.preventDefault();
 						return;
 					}
-					Fa(t.menu);
+					Ra(t.menu);
 				}
 				e.preventDefault();
 			},
@@ -8787,7 +8787,7 @@ var Md = class extends B {
 			}
 		}, { signal: this.#t.signal }));
 		let n = !!this.commandfor;
-		K(this, {
+		U(this, {
 			role: "menuitem",
 			"aria-disabled": this.#a() ? "true" : void 0,
 			...n && {
@@ -8807,7 +8807,7 @@ var Md = class extends B {
 // node_modules/@videojs/html/dist/default/define/ui/menu-item.js
 o(Md);
 // node_modules/@videojs/html/dist/default/ui/menu/item-indicator.js
-var Nd = class extends B {
+var Nd = class extends R {
 	constructor(...e) {
 		super(...e), this.checked = !1, this.forceMount = !1;
 	}
@@ -8826,7 +8826,7 @@ var Nd = class extends B {
 	update(e) {
 		super.update(e);
 		let t = !this.checked && !this.forceMount;
-		K(this, {
+		U(this, {
 			"aria-hidden": "true",
 			hidden: t
 		});
@@ -8835,11 +8835,11 @@ var Nd = class extends B {
 // node_modules/@videojs/html/dist/default/define/ui/menu-item-indicator.js
 o(Nd);
 // node_modules/@videojs/html/dist/default/ui/menu/group-label.js
-var Pd = 0, Fd = class extends B {
+var Pd = 0, Fd = class extends R {
 	static {
 		this.tagName = "media-menu-group-label";
 	}
-	#e = new j(this, {
+	#e = new A(this, {
 		context: bd,
 		subscribe: !0
 	});
@@ -8883,18 +8883,18 @@ var Ld = class {
 		this.hostDisconnected();
 	}
 	sync(e, t, n) {
-		this.#e.value = e.value, K(this.#e, {
+		this.#e.value = e.value, U(this.#e, {
 			"aria-disabled": e.disabled ? "true" : void 0,
 			hidden: e.hidden ? "" : void 0
 		});
-		let r = Nt(this.#e), i = r ? Pt(r) : null, o = i?.localName === Od.tagName ? i : null, s = `${e.options.map((e) => `${e.value}:${Id(e.label, e.labelParams)}:${Id(e.ariaLabel ?? "", e.ariaLabelParams)}:${this.#t.getOptionCacheKey?.(e) ?? ""}`).join("|")}::${n}::${r?.innerHTML ?? ""}`;
+		let r = Lt(this.#e), i = r ? Rt(r) : null, o = i?.localName === Od.tagName ? i : null, s = `${e.options.map((e) => `${e.value}:${Id(e.label, e.labelParams)}:${Id(e.ariaLabel ?? "", e.ariaLabelParams)}:${this.#t.getOptionCacheKey?.(e) ?? ""}`).join("|")}::${n}::${r?.innerHTML ?? ""}`;
 		if (s !== this.#n || t !== this.#r) {
 			this.#n = s, this.#r = t;
 			let n = [...this.#e.children].filter((e) => e !== r), i = this.#o()?.value, c = e.options.map((e) => {
-				let n = o ? Ft(o, this.#e.ownerDocument) : this.#e.ownerDocument.createElement(Od.tagName);
+				let n = o ? zt(o, this.#e.ownerDocument) : this.#e.ownerDocument.createElement(Od.tagName);
 				n.value = e.value, this.#t.setItemAttributes?.(n, e);
-				let r = U(e.label, t, e.labelParams);
-				return this.#t.renderItem ? this.#t.renderItem(n, r, e) : this.#s(n, r), a(e.ariaLabel) || n.setAttribute("aria-label", U(e.ariaLabel, t, e.ariaLabelParams)), n;
+				let r = B(e.label, t, e.labelParams);
+				return this.#t.renderItem ? this.#t.renderItem(n, r, e) : this.#s(n, r), a(e.ariaLabel) || n.setAttribute("aria-label", B(e.ariaLabel, t, e.ariaLabelParams)), n;
 			});
 			this.#e.append(...c);
 			let l = () => {
@@ -8926,7 +8926,7 @@ var Ld = class {
 	}
 }, Rd = class extends jd {
 	constructor(...e) {
-		super(...e), this.disabled = !1, this.rates = void 0, this.formatRate = Sc.defaultProps.formatRate, this.#e = new Sc(), this.#t = new zo(this, J), this.#n = new I(this, k, Ti), this.#r = new Ld(this, {
+		super(...e), this.disabled = !1, this.rates = void 0, this.formatRate = wc.defaultProps.formatRate, this.#e = new wc(), this.#t = new K(this, G), this.#n = new N(this, O, Oi), this.#r = new Ld(this, {
 			setItemAttributes: (e, t) => {
 				e.setAttribute("data-rate", t.value), e.toggleAttribute("data-custom", t.custom);
 			},
@@ -8960,7 +8960,7 @@ var Ld = class {
 			formatRate: this.formatRate,
 			disabled: this.disabled,
 			rates: this.rates
-		}), this.#e.setMedia(t), n = this.#e.getState(), this.applyDefaultAriaLabel(U(this.#e.getLabel(n), this.#t.value, this.#e.getLabelParams(n))), this.#r.sync(n, this.#t.value, this.#t.locale), this.publishMenuOptionState(n.disabled, n.hidden, n.availability)) : this.publishMenuOptionState(!0, !0, "unsupported"), super.update(e), n && q(this, n, Cc);
+		}), this.#e.setMedia(t), n = this.#e.getState(), this.applyDefaultAriaLabel(B(this.#e.getLabel(n), this.#t.value, this.#e.getLabelParams(n))), this.#r.sync(n, this.#t.value, this.#t.locale), this.publishMenuOptionState(n.disabled, n.hidden, n.availability)) : this.publishMenuOptionState(!0, !0, "unsupported"), super.update(e), n && W(this, n, Tc);
 	}
 };
 // node_modules/@videojs/html/dist/default/define/ui/playback-rate-radio-group.js
@@ -8968,7 +8968,7 @@ o(Rd);
 // node_modules/@videojs/html/dist/default/ui/quality-radio-group/element.js
 var zd = class extends jd {
 	constructor(...e) {
-		super(...e), this.disabled = !1, this.label = "", this.formatRendition = zc.defaultProps.formatRendition, this.#e = new zc(), this.#t = new zo(this, J), this.#n = new I(this, k, Ei), this.#r = new Ld(this, {
+		super(...e), this.disabled = !1, this.label = "", this.formatRendition = Bc.defaultProps.formatRendition, this.#e = new Bc(), this.#t = new K(this, G), this.#n = new N(this, O, ki), this.#r = new Ld(this, {
 			renderItem: (e, t, n) => this.#i(e, t, n.tier, n.badge),
 			setItemAttributes: (e, t) => e.setAttribute("data-rendition", t.value),
 			getOptionCacheKey: (e) => `${e.tier ?? ""}:${e.badge ?? ""}`,
@@ -9001,7 +9001,7 @@ var zd = class extends jd {
 			formatRendition: this.formatRendition,
 			disabled: this.disabled,
 			label: this.label
-		}), this.#e.setMedia(t), n = this.#e.getState(), this.applyDefaultAriaLabel(U(this.#e.getLabel(n), this.#t.value)), this.#r.sync(n, this.#t.value, this.#t.locale), this.publishMenuOptionState(n.disabled, n.hidden, n.availability)) : this.publishMenuOptionState(!0, !0, "unsupported"), super.update(e), n && q(this, n, Bc);
+		}), this.#e.setMedia(t), n = this.#e.getState(), this.applyDefaultAriaLabel(B(this.#e.getLabel(n), this.#t.value)), this.#r.sync(n, this.#t.value, this.#t.locale), this.publishMenuOptionState(n.disabled, n.hidden, n.availability)) : this.publishMenuOptionState(!0, !0, "unsupported"), super.update(e), n && W(this, n, Vc);
 	}
 	#i(e, t, n, r) {
 		let i = e.querySelector("[data-part~=\"label\"]"), a = e.querySelector("[data-part~=\"tier\"]"), o = e.querySelector("[data-part~=\"badge\"]");
@@ -9017,7 +9017,7 @@ o(zd);
 // node_modules/@videojs/html/dist/default/ui/playback-rate-button/element.js
 var Bd = class extends Bu {
 	constructor(...e) {
-		super(...e), this.commandfor = void 0, this.rates = void 0, this.core = new vc(), this.stateAttrMap = yc, this.mediaState = new I(this, k, Ti), this.hotkeyAction = "speedUp";
+		super(...e), this.commandfor = void 0, this.rates = void 0, this.core = new bc(), this.stateAttrMap = xc, this.mediaState = new N(this, O, Oi), this.hotkeyAction = "speedUp";
 	}
 	static {
 		this.tagName = "media-playback-rate-button";
@@ -9044,7 +9044,7 @@ var Bd = class extends Bu {
 		super.willUpdate(e), e.has("commandfor") && (this.commandfor ? this.setAttribute("commandfor", this.commandfor) : this.removeAttribute("commandfor"));
 	}
 	update(e) {
-		super.update(e), this.mediaState.value && this.commandfor && K(this, { "aria-disabled": this.getIsButtonDisabled() ? "true" : void 0 });
+		super.update(e), this.mediaState.value && this.commandfor && U(this, { "aria-disabled": this.getIsButtonDisabled() ? "true" : void 0 });
 	}
 };
 // node_modules/@videojs/html/dist/default/define/ui/playback-rate-button.js
@@ -9062,7 +9062,7 @@ function Hd(e) {
 }
 var Ud = class extends Bu {
 	constructor(...e) {
-		super(...e), this.commandfor = void 0, this.menuFor = void 0, this.#e = void 0, this.core = new ts(), this.stateAttrMap = rs, this.mediaState = new I(this, k, Di), this.hotkeyAction = "toggleSubtitles";
+		super(...e), this.commandfor = void 0, this.menuFor = void 0, this.#e = void 0, this.core = new rs(), this.stateAttrMap = as, this.mediaState = new N(this, O, Ai), this.hotkeyAction = "toggleSubtitles";
 	}
 	static {
 		this.tagName = "media-captions-button";
@@ -9095,7 +9095,7 @@ var Ud = class extends Bu {
 	update(e) {
 		super.update(e);
 		let t = this.mediaState.value;
-		t && (this.#t(t), this.menuFor && Hd(t) > 1 && K(this, { "aria-disabled": this.getIsButtonDisabled() ? "true" : void 0 }));
+		t && (this.#t(t), this.menuFor && Hd(t) > 1 && U(this, { "aria-disabled": this.getIsButtonDisabled() ? "true" : void 0 }));
 	}
 	#t(e) {
 		let t = e ?? this.mediaState.value, n = t && this.menuFor && Hd(t) > 1 ? this.menuFor : this.#e;
@@ -9107,7 +9107,7 @@ o(Ud);
 // node_modules/@videojs/html/dist/default/ui/pip-button/element.js
 var Wd = class extends Bu {
 	constructor(...e) {
-		super(...e), this.core = new fc(), this.stateAttrMap = pc, this.mediaState = new I(this, k, Ci), this.hotkeyAction = "togglePictureInPicture";
+		super(...e), this.core = new mc(), this.stateAttrMap = hc, this.mediaState = new N(this, O, Ei), this.hotkeyAction = "togglePictureInPicture";
 	}
 	static {
 		this.tagName = "media-pip-button";
@@ -9121,7 +9121,7 @@ o(Wd);
 // node_modules/@videojs/html/dist/default/ui/fullscreen-button/element.js
 var Gd = class extends Bu {
 	constructor(...e) {
-		super(...e), this.core = new Ns(), this.stateAttrMap = Ps, this.mediaState = new I(this, k, xi), this.hotkeyAction = "toggleFullscreen", this.#e = new j(this, {
+		super(...e), this.core = new Fs(), this.stateAttrMap = Is, this.mediaState = new N(this, O, wi), this.hotkeyAction = "toggleFullscreen", this.#e = new A(this, {
 			context: s,
 			subscribe: !0
 		});
@@ -9142,7 +9142,7 @@ var Kd = t(Symbol("@videojs/tooltip-group"));
 function qd(e) {
 	return Array.from(e.childNodes).some((e) => !!e.textContent?.trim());
 }
-var Jd = class e extends B {
+var Jd = class e extends R {
 	static {
 		this.tagName = "media-tooltip-label";
 	}
@@ -9159,7 +9159,7 @@ var Jd = class e extends B {
 	setSyncedText(e) {
 		this.#e || (this.textContent = e);
 	}
-}, Yd = class e extends B {
+}, Yd = class e extends R {
 	static {
 		this.tagName = "media-tooltip-shortcut";
 	}
@@ -9177,12 +9177,12 @@ var Jd = class e extends B {
 function Xd(e) {
 	return "$state" in e;
 }
-var Zd = class extends B {
+var Zd = class extends R {
 	constructor(...e) {
-		super(...e), this.open = su.defaultProps.open, this.defaultOpen = su.defaultProps.defaultOpen, this.side = su.defaultProps.side, this.align = su.defaultProps.align, this.delay = su.defaultProps.delay, this.closeDelay = su.defaultProps.closeDelay, this.disableHoverablePopup = su.defaultProps.disableHoverablePopup, this.disabled = su.defaultProps.disabled, this.sticky = su.defaultProps.sticky, this.boundary = "container", this.trigger = "", this.#e = new su(), this.#t = new zo(this, J), this.#n = new j(this, { context: Kd }), this.#r = new j(this, {
+		super(...e), this.open = su.defaultProps.open, this.defaultOpen = su.defaultProps.defaultOpen, this.side = su.defaultProps.side, this.align = su.defaultProps.align, this.delay = su.defaultProps.delay, this.closeDelay = su.defaultProps.closeDelay, this.disableHoverablePopup = su.defaultProps.disableHoverablePopup, this.disabled = su.defaultProps.disabled, this.sticky = su.defaultProps.sticky, this.boundary = "container", this.trigger = "", this.#e = new su(), this.#t = new K(this, G), this.#n = new A(this, { context: Kd }), this.#r = new A(this, {
 			context: s,
 			subscribe: !0
-		}), this.#i = new j(this, { context: Bo }), this.#a = new Ku(this), this.#o = null, this.#s = null, this.#c = null, this.#l = null, this.#u = null;
+		}), this.#i = new A(this, { context: Ho }), this.#a = new Ku(this), this.#o = null, this.#s = null, this.#c = null, this.#l = null, this.#u = null;
 	}
 	static {
 		this.tagName = "media-tooltip";
@@ -9223,8 +9223,8 @@ var Zd = class extends B {
 	#l;
 	#u;
 	connectedCallback() {
-		super.connectedCallback(), this.destroyed || (this.setAttribute(Ec, ""), this.#c = new AbortController(), this.#o = Co({
-			transition: wo(),
+		super.connectedCallback(), this.destroyed || (this.setAttribute(Dc, ""), this.#c = new AbortController(), this.#o = Eo({
+			transition: Do(),
 			onOpenChange: (e, t) => {
 				this.open = e, this.dispatchEvent(new CustomEvent("open-change", { detail: {
 					open: e,
@@ -9238,7 +9238,7 @@ var Zd = class extends B {
 			sticky: () => this.sticky,
 			group: () => this.#n.value,
 			popupGroup: () => this.#i.value
-		}), this.#o.setPopupElement(this), K(this, this.#o.popupProps, { signal: this.#c.signal }), this.#s ? this.#s.track(this.#o.input) : this.#s = new de(this, this.#o.input));
+		}), this.#o.setPopupElement(this), U(this, this.#o.popupProps, { signal: this.#c.signal }), this.#s ? this.#s.track(this.#o.input) : this.#s = new me(this, this.#o.input));
 	}
 	firstUpdated(e) {
 		super.firstUpdated(e), this.defaultOpen && !this.open && this.#o?.open();
@@ -9262,7 +9262,7 @@ var Zd = class extends B {
 		let n = this.#o.input.current;
 		this.#e.setInput(n);
 		let r = this.#e.getState();
-		K(this, this.#e.getPopupAttrs(r)), q(this, r, cu), r.open ? kt(this) : At(this), r.open ? this.#a.sync({
+		U(this, this.#e.getPopupAttrs(r)), W(this, r, cu), r.open ? Mt(this) : Nt(this), r.open ? this.#a.sync({
 			anchorName: this.id,
 			position: {
 				side: r.side,
@@ -9276,11 +9276,11 @@ var Zd = class extends B {
 		}) : this.#a.cleanup();
 	}
 	#d(e) {
-		e !== this.#u && (this.#a.cleanup(), this.#m(), this.#u = e, this.#o?.setTriggerElement(e), e && this.#o && (this.#l = new AbortController(), K(e, this.#o.triggerProps, { signal: this.#l.signal }), Xd(e) && (this.#f(e), e.$state.subscribe(() => this.#f(e), { signal: this.#l.signal }), h(e, na, () => this.#f(e), { signal: this.#l.signal }))));
+		e !== this.#u && (this.#a.cleanup(), this.#m(), this.#u = e, this.#o?.setTriggerElement(e), e && this.#o && (this.#l = new AbortController(), U(e, this.#o.triggerProps, { signal: this.#l.signal }), Xd(e) && (this.#f(e), e.$state.subscribe(() => this.#f(e), { signal: this.#l.signal }), h(e, aa, () => this.#f(e), { signal: this.#l.signal }))));
 	}
 	#f(e) {
 		let t = e.getLabel(), n = r(e.getResolvedLabel) ? e.getResolvedLabel() : void 0;
-		n === void 0 && t && (n = U(t, this.#t.value));
+		n === void 0 && t && (n = B(t, this.#t.value));
 		let i = e.getShortcut?.(), a = Jd.findIn(this), o = Yd.findIn(this);
 		if (!a && !o) {
 			if (this.#p()) return;
@@ -9298,9 +9298,9 @@ var Zd = class extends B {
 // node_modules/@videojs/html/dist/default/define/ui/tooltip.js
 o(Zd);
 // node_modules/@videojs/html/dist/default/ui/tooltip/group.js
-var Qd = class extends B {
+var Qd = class extends R {
 	constructor(...e) {
-		super(...e), this.delay = lu.defaultProps.delay, this.closeDelay = lu.defaultProps.closeDelay, this.timeout = lu.defaultProps.timeout, this.#e = new lu(), this.#t = new A(this, {
+		super(...e), this.delay = lu.defaultProps.delay, this.closeDelay = lu.defaultProps.closeDelay, this.timeout = lu.defaultProps.timeout, this.#e = new lu(), this.#t = new k(this, {
 			context: Kd,
 			initialValue: this.#e
 		});
@@ -9327,9 +9327,9 @@ var Qd = class extends B {
 // node_modules/@videojs/html/dist/default/define/ui/tooltip-shortcut.js
 o(Qd), o(Jd), o(Yd);
 // node_modules/@videojs/html/dist/default/ui/buffering-indicator/element.js
-var $d = class extends B {
+var $d = class extends R {
 	constructor(...e) {
-		super(...e), this.delay = Xo.defaultProps.delay, this.#e = new Xo(), this.#t = new I(this, k, wi), this.#n = null;
+		super(...e), this.delay = Qo.defaultProps.delay, this.#e = new Qo(), this.#t = new N(this, O, Di), this.#n = null;
 	}
 	static {
 		this.tagName = "media-buffering-indicator";
@@ -9355,15 +9355,15 @@ var $d = class extends B {
 	update(e) {
 		super.update(e);
 		let t = this.#t.value;
-		t && (this.#e.update(t), q(this, this.#e.state.current, Zo));
+		t && (this.#e.update(t), W(this, this.#e.state.current, $o));
 	}
 };
 // node_modules/@videojs/html/dist/default/define/ui/buffering-indicator.js
 o($d);
 // node_modules/@videojs/html/dist/default/ui/input-indicator/element.js
-var ef = class extends B {
+var ef = class extends R {
 	constructor(...e) {
-		super(...e), this.player = new I(this, k), this.container = new j(this, {
+		super(...e), this.player = new N(this, O), this.container = new A(this, {
 			context: s,
 			callback: () => this.#l(),
 			subscribe: !0
@@ -9399,11 +9399,11 @@ var ef = class extends B {
 	update(e) {
 		super.update(e), this.#c();
 		let t = this.core.state.current, n = this.transition.state.current;
-		if (!ha(t, n)) {
+		if (!va(t, n)) {
 			this.liveIndicator.remove();
 			return;
 		}
-		let r = ga(t, this.#s(), n);
+		let r = ya(t, this.#s(), n);
 		this.liveIndicator.render(r);
 	}
 	#c() {
@@ -9424,9 +9424,9 @@ var ef = class extends B {
 		this.#t?.(), this.#n?.(), this.#t = null, this.#n = null;
 		let e = this.container.value?.container;
 		if (!e) return;
-		let t = xa(e), n = this.#o();
-		this.#n = t.register(n), this.#t = ya(e, (e) => {
-			this.core.processEvent(e, va(this.player.value)) && t.show(n);
+		let t = wa(e), n = this.#o();
+		this.#n = t.register(n), this.#t = Sa(e, (e) => {
+			this.core.processEvent(e, xa(this.player.value)) && t.show(n);
 		});
 	}
 }, tf = class {
@@ -9440,7 +9440,7 @@ var ef = class extends B {
 		return this.#e;
 	}
 	render(e) {
-		return this.#e.hidden = !1, q(this.#e, e, this.#t), this.#n(this.#e, e), this.#e;
+		return this.#e.hidden = !1, W(this.#e, e, this.#t), this.#n(this.#e, e), this.#e;
 	}
 	remove() {
 		this.#e.hidden = !0;
@@ -9459,12 +9459,12 @@ var ef = class extends B {
 			attribute: "close-delay"
 		} };
 	}
-	#e = new zo(this, J);
-	#t = new ol();
-	#n = wo();
+	#e = new K(this, G);
+	#t = new sl();
+	#n = Do();
 	#r = new tf({
 		host: this,
-		dataAttrs: sl,
+		dataAttrs: cl,
 		render: rf
 	});
 	get core() {
@@ -9485,12 +9485,12 @@ var ef = class extends B {
 };
 function rf(e, t) {
 	let n = e.querySelector("media-seek-indicator-value");
-	n && (n.textContent = nl(t));
+	n && (n.textContent = rl(t));
 }
 // node_modules/@videojs/html/dist/default/define/ui/seek-indicator.js
 o(nf);
 // node_modules/@videojs/html/dist/default/ui/seek-indicator/value.js
-var af = class extends B {
+var af = class extends R {
 	static {
 		this.tagName = "media-seek-indicator-value";
 	}
@@ -9511,12 +9511,12 @@ var of = class extends ef {
 			}
 		};
 	}
-	#e = new zo(this, J);
-	#t = new Dl();
-	#n = wo();
+	#e = new K(this, G);
+	#t = new Ol();
+	#n = Do();
 	#r = new tf({
 		host: this,
-		dataAttrs: Ol,
+		dataAttrs: kl,
 		render: cf
 	});
 	#i = { replayOnUpdate: !1 };
@@ -9543,7 +9543,7 @@ var of = class extends ef {
 		this.#t.setProps({
 			actions: sf(this.actions),
 			closeDelay: this.closeDelay,
-			labels: Xs(this.#e.value),
+			labels: Qs(this.#e.value),
 			deriveCustomStatus: this.#a
 		});
 	}
@@ -9553,12 +9553,12 @@ function sf(e) {
 }
 function cf(e, t) {
 	let n = e.querySelector("media-status-indicator-value");
-	n && (n.textContent = Tl(t));
+	n && (n.textContent = El(t));
 }
 // node_modules/@videojs/html/dist/default/define/ui/status-indicator.js
 o(of);
 // node_modules/@videojs/html/dist/default/ui/status-indicator/value.js
-var lf = class extends B {
+var lf = class extends R {
 	static {
 		this.tagName = "media-status-indicator-value";
 	}
@@ -9576,9 +9576,9 @@ var uf = class extends ef {
 			attribute: "close-delay"
 		} };
 	}
-	#e = new zo(this, J);
+	#e = new K(this, G);
 	#t = new pu();
-	#n = wo();
+	#n = Do();
 	#r = new tf({
 		host: this,
 		dataAttrs: hu,
@@ -9600,18 +9600,18 @@ var uf = class extends ef {
 	syncCoreProps() {
 		this.#t.setProps({
 			closeDelay: this.closeDelay,
-			labels: Xs(this.#e.value)
+			labels: Qs(this.#e.value)
 		});
 	}
 };
 function df(e, t) {
 	let n = e.querySelector("media-volume-indicator-fill"), r = e.querySelector("media-volume-indicator-value");
-	t.fill ? n?.style.setProperty(gu.fill, t.fill) : n?.style.removeProperty(gu.fill), r && (r.textContent = gl(t));
+	t.fill ? n?.style.setProperty(gu.fill, t.fill) : n?.style.removeProperty(gu.fill), r && (r.textContent = _l(t));
 }
 // node_modules/@videojs/html/dist/default/define/ui/volume-indicator.js
 o(uf);
 // node_modules/@videojs/html/dist/default/ui/volume-indicator/fill.js
-var ff = class extends B {
+var ff = class extends R {
 	static {
 		this.tagName = "media-volume-indicator-fill";
 	}
@@ -9619,7 +9619,7 @@ var ff = class extends B {
 // node_modules/@videojs/html/dist/default/define/ui/volume-indicator-fill.js
 o(ff);
 // node_modules/@videojs/html/dist/default/ui/volume-indicator/value.js
-var pf = class extends B {
+var pf = class extends R {
 	static {
 		this.tagName = "media-volume-indicator-value";
 	}
@@ -9627,9 +9627,9 @@ var pf = class extends B {
 // node_modules/@videojs/html/dist/default/define/ui/volume-indicator-value.js
 o(pf);
 // node_modules/@videojs/html/dist/default/ui/hotkey/element.js
-var mf = class extends B {
+var mf = class extends R {
 	constructor(...e) {
-		super(...e), this.keys = "", this.action = "", this.value = void 0, this.disabled = !1, this.target = "player", this.#e = new I(this, k), this.#t = new j(this, {
+		super(...e), this.keys = "", this.action = "", this.value = void 0, this.disabled = !1, this.target = "player", this.#e = new N(this, O), this.#t = new A(this, {
 			context: s,
 			callback: () => this.requestUpdate(),
 			subscribe: !0
@@ -9662,16 +9662,16 @@ var mf = class extends B {
 	#r() {
 		let e = this.#e.value, t = this.#t.value?.container;
 		if (!this.keys || !this.action || !e || !t) return;
-		let n = Vi(this.action);
+		let n = Wi(this.action);
 		if (!n) return;
 		let { value: r, action: i } = this;
-		this.#n = ta(t, {
+		this.#n = ia(t, {
 			keys: this.keys,
 			action: i,
 			value: r,
 			target: this.target,
 			disabled: this.disabled,
-			repeatable: !zi(i),
+			repeatable: !Hi(i),
 			onActivate: (t, i) => {
 				n({
 					store: e,
@@ -9688,9 +9688,9 @@ var mf = class extends B {
 // node_modules/@videojs/html/dist/default/define/ui/hotkey.js
 o(mf);
 // node_modules/@videojs/html/dist/default/ui/gesture/element.js
-var hf = class extends B {
+var hf = class extends R {
 	constructor(...e) {
-		super(...e), this.type = "", this.action = "", this.value = void 0, this.pointer = void 0, this.region = void 0, this.disabled = !1, this.#e = new I(this, k), this.#t = new j(this, {
+		super(...e), this.type = "", this.action = "", this.value = void 0, this.pointer = void 0, this.region = void 0, this.disabled = !1, this.#e = new N(this, O), this.#t = new A(this, {
 			context: s,
 			callback: () => this.requestUpdate(),
 			subscribe: !0
@@ -9724,9 +9724,9 @@ var hf = class extends B {
 	#r() {
 		let e = this.#e.value, t = this.#t.value?.container;
 		if (!this.type || !this.action || !e || !t) return;
-		let n = Mi(this.action);
+		let n = Fi(this.action);
 		if (!n) return;
-		let { value: r, region: i } = this, a = wn(this.action, i, r), o, s = (t) => {
+		let { value: r, region: i } = this, a = En(this.action, i, r), o, s = (t) => {
 			n({
 				store: e,
 				state: o,
@@ -9741,7 +9741,7 @@ var hf = class extends B {
 			action: this.action,
 			value: a
 		};
-		this.type === "doubletap" ? this.#n = Ri(t, s, c) : this.type === "tap" && (this.#n = Li(t, s, c));
+		this.type === "doubletap" ? this.#n = Vi(t, s, c) : this.type === "tap" && (this.#n = Bi(t, s, c));
 	}
 	#i() {
 		this.#n?.(), this.#n = null;
@@ -9750,7 +9750,7 @@ var hf = class extends B {
 // node_modules/@videojs/html/dist/default/define/ui/gesture.js
 o(hf);
 // node_modules/@videojs/html/dist/default/ui/status-announcer/element.js
-var gf = class extends B {
+var gf = class extends R {
 	static {
 		this.tagName = "media-status-announcer";
 	}
@@ -9760,15 +9760,15 @@ var gf = class extends B {
 			attribute: "close-delay"
 		} };
 	}
-	#e = new zo(this, J);
-	#t = new Cl();
+	#e = new K(this, G);
+	#t = new wl();
 	#n = null;
-	#r = new j(this, {
-		context: k,
+	#r = new A(this, {
+		context: O,
 		callback: (e) => this.#s(e),
 		subscribe: !0
 	});
-	#i = new j(this, {
+	#i = new A(this, {
 		context: s,
 		subscribe: !0
 	});
@@ -9786,8 +9786,8 @@ var gf = class extends B {
 	willUpdate(e) {
 		super.willUpdate(e), this.#t.setProps({
 			closeDelay: this.closeDelay,
-			labels: fl(this.#e.value, this.#e.locale),
-			shouldAnnounce: () => go(this.#i.value?.container)
+			labels: pl(this.#e.value, this.#e.locale),
+			shouldAnnounce: () => yo(this.#i.value?.container)
 		});
 	}
 	update(e) {
@@ -9796,7 +9796,7 @@ var gf = class extends B {
 		t === null ? n.replaceChildren() : n.replaceChildren(document.createTextNode(t));
 	}
 	#s(e = this.#r.value) {
-		this.#n?.(), this.#n = null, e ? this.#n = ho(e, this.#t) : this.#t.resetSnapshot();
+		this.#n?.(), this.#n = null, e ? this.#n = vo(e, this.#t) : this.#t.resetSnapshot();
 	}
 	#c() {
 		if (this.#o?.isConnected) return this.#o;
@@ -9811,18 +9811,18 @@ var _f = t(Symbol("@videojs/dialog")), vf = 0;
 function yf(e) {
 	return Array.from(e.childNodes).some((e) => !!e.textContent?.trim());
 }
-var bf = class extends B {
+var bf = class extends R {
 	static {
 		this.tagName = "media-error-dialog";
 	}
-	#e = new cs();
-	#t = new A(this, { context: _f });
+	#e = new us();
+	#t = new k(this, { context: _f });
 	#n = `vjs-error-dialog-popup-${vf++}`;
 	#r = `vjs-error-dialog-title-${vf++}`;
 	#i = `vjs-error-dialog-desc-${vf++}`;
-	#a = new I(this, k, bi);
-	#o = new zo(this, J);
-	#s = new j(this, {
+	#a = new N(this, O, Ci);
+	#o = new K(this, G);
+	#s = new A(this, {
 		context: s,
 		subscribe: !0
 	});
@@ -9837,12 +9837,12 @@ var bf = class extends B {
 		super(), this.#e.setTitleId(this.#r), this.#e.setDescriptionId(this.#i);
 	}
 	connectedCallback() {
-		super.connectedCallback(), this.destroyed || (this.#c = la({
-			transition: wo(),
+		super.connectedCallback(), this.destroyed || (this.#c = fa({
+			transition: Do(),
 			onOpenChange: (e) => {
 				e || this.#a.value?.dismissError();
 			}
-		}), this.#l ? this.#l.track(this.#c.input) : this.#l = new de(this, this.#c.input), this.#u ? this.#u.track(this.#c.modality) : this.#u = new de(this, this.#c.modality));
+		}), this.#l ? this.#l.track(this.#c.input) : this.#l = new me(this, this.#c.input), this.#u ? this.#u.track(this.#c.modality) : this.#u = new me(this, this.#c.modality));
 	}
 	disconnectedCallback() {
 		super.disconnectedCallback(), this.#c?.destroy(), this.#c = null;
@@ -9860,9 +9860,9 @@ var bf = class extends B {
 		let t = this.#c.input.current;
 		this.#e.setInput(t), this.#e.setDocumentModal(this.#c.modality.current.documentModal);
 		let n = this.#e.getState();
-		q(this, n, ls), this.#t.setValue({
+		W(this, n, ds), this.#t.setValue({
 			state: n,
-			stateAttrMap: ls,
+			stateAttrMap: ds,
 			dialog: this.#c,
 			popupId: this.#n,
 			popupAttrs: this.#e.getPopupAttrs(n),
@@ -9871,14 +9871,14 @@ var bf = class extends B {
 	}
 	#h(e) {
 		let t = this.#o.value, n = this.querySelector("media-dialog-title");
-		n && !this.#g(n) && (n.textContent = U(Es(), t));
+		n && !this.#g(n) && (n.textContent = B(Os(), t));
 		let r = this.querySelector("media-dialog-description");
 		if (r && !this.#g(r)) {
-			let n = e ? ks(e) : null;
-			n && (this.#f = n), r.textContent = U((n ?? this.#f) || Os(), t);
+			let n = e ? js(e) : null;
+			n && (this.#f = n), r.textContent = B((n ?? this.#f) || As(), t);
 		}
 		let i = this.querySelector("media-dialog-close");
-		i && !this.#g(i) && (i.textContent = U(Ds(), t));
+		i && !this.#g(i) && (i.textContent = B(ks(), t));
 	}
 	#g(e) {
 		return this.#p.has(e) || (this.#p.add(e), yf(e) && this.#m.add(e)), this.#m.has(e);
@@ -9889,7 +9889,7 @@ o(bf);
 // node_modules/@videojs/html/dist/default/ui/dialog/backdrop.js
 var xf = class extends Iu {
 	constructor(...e) {
-		super(...e), this.consumer = new j(this, {
+		super(...e), this.consumer = new A(this, {
 			context: _f,
 			subscribe: !0
 		});
@@ -9906,7 +9906,7 @@ o(xf);
 // node_modules/@videojs/html/dist/default/ui/dialog/popup.js
 var Sf = class extends Iu {
 	constructor(...e) {
-		super(...e), this.consumer = new j(this, {
+		super(...e), this.consumer = new A(this, {
 			context: _f,
 			subscribe: !0
 		}), this.#e = null;
@@ -9921,7 +9921,7 @@ var Sf = class extends Iu {
 	update(e) {
 		super.update(e);
 		let t = this.consumer.value;
-		t && (this.#e !== t.dialog && (this.#e?.setPopupElement(null), this.#e = t.dialog, this.#e.setPopupElement(this)), K(this, {
+		t && (this.#e !== t.dialog && (this.#e?.setPopupElement(null), this.#e = t.dialog, this.#e.setPopupElement(this)), U(this, {
 			id: t.popupId,
 			tabIndex: -1,
 			...t.popupAttrs
@@ -9933,7 +9933,7 @@ o(Sf);
 // node_modules/@videojs/html/dist/default/ui/dialog/title.js
 var Cf = class extends Iu {
 	constructor(...e) {
-		super(...e), this.consumer = new j(this, {
+		super(...e), this.consumer = new A(this, {
 			context: _f,
 			subscribe: !0
 		});
@@ -9952,7 +9952,7 @@ o(Cf);
 // node_modules/@videojs/html/dist/default/ui/dialog/description.js
 var wf = class extends Iu {
 	constructor(...e) {
-		super(...e), this.consumer = new j(this, {
+		super(...e), this.consumer = new A(this, {
 			context: _f,
 			subscribe: !0
 		});
@@ -9969,9 +9969,9 @@ var wf = class extends Iu {
 // node_modules/@videojs/html/dist/default/define/ui/dialog-description.js
 o(wf);
 // node_modules/@videojs/html/dist/default/ui/dialog/close.js
-var Tf = class extends B {
+var Tf = class extends R {
 	constructor(...e) {
-		super(...e), this.disabled = !1, this.#e = new j(this, {
+		super(...e), this.disabled = !1, this.#e = new A(this, {
 			context: _f,
 			subscribe: !0
 		}), this.#t = null;
@@ -9986,11 +9986,11 @@ var Tf = class extends B {
 	#t;
 	connectedCallback() {
 		super.connectedCallback(), this.#t = new AbortController();
-		let e = ia({
+		let e = sa({
 			onActivate: () => this.#e.value?.close(),
 			isDisabled: () => this.disabled
 		});
-		K(this, e, { signal: this.#t.signal });
+		U(this, e, { signal: this.#t.signal });
 	}
 	disconnectedCallback() {
 		super.disconnectedCallback(), this.#t?.abort(), this.#t = null;
@@ -9998,7 +9998,7 @@ var Tf = class extends B {
 	update(e) {
 		super.update(e);
 		let t = this.#e.value;
-		t && q(this, t.state, t.stateAttrMap);
+		t && W(this, t.state, t.stateAttrMap);
 	}
 };
 // node_modules/@videojs/html/dist/default/define/ui/dialog-close.js
@@ -10116,7 +10116,8 @@ var X = (e, t = "") => `<svg class="l10-icon ${t}" viewBox="0 0 24 24" aria-hidd
 	volume: 1,
 	muted: !1,
 	rate: 1,
-	captions: !1
+	captions: !1,
+	timeMode: "total"
 }, Mf = {
 	square: ["[", "]"],
 	round: ["(", ")"],
@@ -10221,6 +10222,7 @@ var X = (e, t = "") => `<svg class="l10-icon ${t}" viewBox="0 0 24 24" aria-hidd
         </div>`).join("")}
       </media-menu-content>
       <media-menu-item class="l10-menu-item l10-m-pip">${Z.pipIn("l10-menu-ico")}<span class="l10-menu-text l10-m-pip-text">Picture-in-picture</span></media-menu-item>
+      <media-menu-item class="l10-menu-item l10-m-mute">${Z.vol3("l10-menu-ico")}<span class="l10-menu-text">Sound</span><span class="l10-menu-value" data-m="l10-m-mute"></span></media-menu-item>
     </media-menu-content>
   </media-menu>`, Jf = "(max-width: 1180px) 100vw, 1140px", Yf = (e) => /image\.mux\.com\/.+[?&]width=\d+/.test(e) ? [
 	640,
@@ -10258,11 +10260,11 @@ function Zf(e) {
               </div>
             </div>
             <div class="l10-board-tools">
-              <button type="button" class="l10-gear" id="${n("gear")}" commandfor="${n("board-menu")}" aria-label="Departure board settings" aria-haspopup="menu">${Z.gear()}</button>
+              <button type="button" class="l10-gear" id="${n("gear")}" commandfor="${n("board-menu")}" aria-label="Departure board settings" aria-keyshortcuts="B" aria-haspopup="menu">${Z.gear()}</button>
               <button type="button" class="l10-gear l10-sharebtn" id="${n("share")}" aria-label="Share this stop" aria-keyshortcuts="U">${Z.link()}</button>
             </div>
           </div>
-          ${$(n("gear"), [], {
+          ${$(n("gear"), ["B"], {
 		label: "Departure board settings",
 		side: "bottom"
 	})}
@@ -10333,17 +10335,23 @@ function Zf(e) {
                   <!-- after 2 s of hovering, a hint explains the control and its keys -->
                   <span class="l10-vol-hint" aria-hidden="true"><b>Volume</b><span>${Bf(["M"])} mute</span><span>${Bf(["↑", "↓"])} louder / quieter</span><span>Drag or click the fader</span></span>
                 </media-volume-popover>
-                <media-time-group class="l10-time">
-                  <media-time type="current" class="l10-time-now"></media-time>
-                  <media-time-separator class="l10-time-sep"></media-time-separator>
-                  <media-time type="duration" class="l10-time-dur"></media-time>
-                  <media-time type="remaining" class="l10-time-left"></media-time>
-                </media-time-group>
+                <button type="button" class="l10-time" id="${n("time")}" aria-keyshortcuts="T" aria-label="Show time left" aria-pressed="false">
+                  <media-time-group class="l10-time-in">
+                    <media-time type="current" class="l10-time-now"></media-time>
+                    <media-time-separator class="l10-time-sep"></media-time-separator>
+                    <media-time type="duration" class="l10-time-dur"></media-time>
+                    <media-time type="remaining" class="l10-time-left"></media-time>
+                  </media-time-group>
+                </button>
+                ${$(n("time"), ["T"], {
+		label: "Show time left",
+		side: "right"
+	})}
               </media-controls-group>
 
               <media-controls-group class="l10-group l10-group-end">
-                <button type="button" class="l10-btn l10-stbtn" id="${n("st")}" commandfor="${n("st-menu")}" aria-label="All stations" aria-haspopup="menu" data-off>${Z.stations()}</button>
-                ${$(n("st"), [], {
+                <button type="button" class="l10-btn l10-stbtn" id="${n("st")}" commandfor="${n("st-menu")}" aria-label="All stations" aria-keyshortcuts="A" aria-haspopup="menu" data-off>${Z.stations()}</button>
+                ${$(n("st"), ["A"], {
 		label: "All stations",
 		side: "left"
 	})}
@@ -10372,8 +10380,8 @@ function Zf(e) {
                     ${Uf()}
                   </media-menu-content>
                 </media-menu>
-                <button type="button" class="l10-btn l10-pill l10-quality" id="${n("q")}" commandfor="${n("q-menu")}" aria-label="Quality" aria-haspopup="menu" data-off><span class="l10-pill-text l10-quality-name">Auto</span></button>
-                ${$(n("q"), [], {
+                <button type="button" class="l10-btn l10-pill l10-quality" id="${n("q")}" commandfor="${n("q-menu")}" aria-label="Quality" aria-keyshortcuts="Q" aria-haspopup="menu" data-off><span class="l10-pill-text l10-quality-name">Auto</span></button>
+                ${$(n("q"), ["Q"], {
 		label: "Quality",
 		side: "left"
 	})}
@@ -10385,8 +10393,8 @@ function Zf(e) {
                 </media-menu>
                 <media-captions-button class="l10-btn l10-cc" id="${n("cc")}">${Z.ccOff("l10-i-cc-off")}${Z.ccOn("l10-i-cc-on")}</media-captions-button>
                 ${$(n("cc"), ["C"], { side: "left" })}
-                <button type="button" class="l10-btn l10-capset" id="${n("capset")}" commandfor="${n("capset-menu")}" aria-label="Caption style" aria-haspopup="menu">${Z.captionStyle()}</button>
-                ${$(n("capset"), [], {
+                <button type="button" class="l10-btn l10-capset" id="${n("capset")}" commandfor="${n("capset-menu")}" aria-label="Caption style" aria-keyshortcuts="Shift+C" aria-haspopup="menu">${Z.captionStyle()}</button>
+                ${$(n("capset"), ["Shift", "C"], {
 		label: "Caption style",
 		side: "left"
 	})}
@@ -10446,7 +10454,8 @@ function Zf(e) {
     </div>
 
     <div class="l10-indicators" aria-hidden="true">
-      <media-seek-indicator class="l10-ind"><media-seek-indicator-value class="l10-ind-value"></media-seek-indicator-value></media-seek-indicator>
+      <span class="l10-ind l10-ind-seek l10-ind-click"><span class="l10-skip-arrows" aria-hidden="true"><i></i><i></i><i></i></span><span class="l10-ind-value"></span></span>
+      <media-seek-indicator class="l10-ind l10-ind-seek"><span class="l10-skip-arrows" aria-hidden="true"><i></i><i></i><i></i></span><media-seek-indicator-value class="l10-ind-value"></media-seek-indicator-value></media-seek-indicator>
       <media-volume-indicator class="l10-ind l10-ind-vol">
         <span class="l10-ind-gauge"><media-volume-indicator-fill class="l10-ind-fill"></media-volume-indicator-fill></span>
         <media-volume-indicator-value class="l10-ind-value"></media-volume-indicator-value>
@@ -10696,48 +10705,30 @@ var ep = class extends HTMLElement {
 			let e = ne();
 			e && e !== a && !e.dataset.l10Fs && (e.dataset.l10Fs = "1", e.addEventListener("webkitbeginfullscreen", re));
 		});
-		let ie = `line10:pos:${this.getAttribute("playback-id") || this.getAttribute("src") || ""}`, ae = document.querySelector("line10-player") === this ? parseFloat(new URLSearchParams(location.search).get("t")) : NaN, O = parseFloat(this.getAttribute("start")), k = !1;
-		if (Number.isFinite(O) || (O = ae), !Number.isFinite(O) && this.getAttribute("resume") !== "off" && !this.hasAttribute("autoplay")) try {
-			let e = parseFloat(localStorage.getItem(ie));
-			e > 0 && (O = e, k = !0);
-		} catch {}
-		let oe = () => {
-			if (!Number.isFinite(O) || !(a.duration > 0)) return;
-			let e = Math.max(0, Math.min(O, a.duration - 2));
-			O = NaN, e < 1 || (a.currentTime = e, setTimeout(() => {
+		let ie = new URLSearchParams(location.search), ae = document.querySelector("line10-player") === this ? parseFloat(ie.get("t") ?? ie.get("sec")) : NaN, oe = parseFloat(this.getAttribute("start"));
+		Number.isFinite(oe) || (oe = ae);
+		let O = () => {
+			if (!Number.isFinite(oe) || !(a.duration > 0)) return;
+			let e = Math.max(0, Math.min(oe, a.duration - 2));
+			oe = NaN, e < 1 || (a.currentTime = e, setTimeout(() => {
 				let t = D(e), n = t ? `<b>${Q(t.name)}</b><span class="l10-toast-dot">·</span>${Lf(e)}` : `<b>${Lf(e)}</b>`;
-				E(`${k ? "Continued from" : "Starting at"} ${n}`, {
+				E(`Starting at ${n}`, {
 					over: !0,
 					ms: 0
 				});
 			}, 350));
 		};
-		a.addEventListener("loadedmetadata", oe), a.readyState >= 1 && oe(), C.addEventListener("click", () => {
-			a.currentTime = 0, T();
-			try {
-				localStorage.removeItem(ie);
-			} catch {}
-			i.focus({ preventScroll: !0 });
+		a.addEventListener("loadedmetadata", O), a.readyState >= 1 && O(), C.addEventListener("click", () => {
+			a.currentTime = 0, T(), i.focus({ preventScroll: !0 });
 		}), a.addEventListener("playing", () => {
 			C.hidden || (clearTimeout(w), w = setTimeout(T, 5e3));
 		});
-		let se = () => {
-			if (Number.isFinite(O) || this.getAttribute("resume") === "off") return;
-			let e = a.currentTime, t = a.duration;
-			try {
-				!(t > 0) || e < 5 || e > t - 8 || a.ended ? localStorage.removeItem(ie) : localStorage.setItem(ie, e.toFixed(1));
-			} catch {}
-		}, ce = 0;
-		a.addEventListener("timeupdate", () => {
-			let e = performance.now();
-			e - ce > 2e3 && (ce = e, se());
-		}), a.addEventListener("pause", se), a.addEventListener("ended", se), window.addEventListener("pagehide", se, n);
-		let A = r(".l10-center");
-		A.setAttribute("aria-hidden", "true");
-		let le = () => A.querySelectorAll(".l10-btn").forEach((e) => {
+		let se = r(".l10-center");
+		se.setAttribute("aria-hidden", "true");
+		let ce = () => se.querySelectorAll(".l10-btn").forEach((e) => {
 			e.getAttribute("tabindex") !== "-1" && e.setAttribute("tabindex", "-1");
 		});
-		le(), new MutationObserver(le).observe(A, {
+		ce(), new MutationObserver(ce).observe(se, {
 			subtree: !0,
 			attributes: !0,
 			attributeFilter: ["tabindex"]
@@ -10753,11 +10744,12 @@ var ep = class extends HTMLElement {
 				/^r$/i.test(e.key) && !C.hidden ? (C.click(), e.preventDefault()) : /^u$/i.test(e.key) ? (ee.click(), e.preventDefault()) : ((e.key === "]" || e.key === "n") && (b(1), e.preventDefault()), (e.key === "[" || e.key === "p") && (b(-1), e.preventDefault()));
 			}
 		});
-		let j = () => {
+		let le = () => {
 			d.textContent = Ef[a.playbackRate] || "Custom", r(".l10-service-rate").textContent = `${a.playbackRate}×`;
-		}, M = Pf(), N = () => {}, P = 0, ue = 0, de = !1;
-		M.board && !M.boardSize && (M.boardSize = M.board), M.boardPos === "center" && (M.boardPos = "left");
+		}, k = Pf(), ue = () => {}, A = 0, de = 0, j = !1;
+		k.board && !k.boardSize && (k.boardSize = k.board), k.boardPos === "center" && (k.boardPos = "left");
 		let fe = {
+			timeMode: "time",
 			boardSize: "board",
 			boardPos: "boardPos",
 			boardStyle: "boardStyle",
@@ -10768,10 +10760,10 @@ var ep = class extends HTMLElement {
 			capEdge: "capedge",
 			capShadow: "capshadow"
 		}, pe = (e) => {
-			let t = M[e] ?? jf[e];
+			let t = k[e] ?? jf[e];
 			return e === "boardSize" && t === "full" && i.hasAttribute("data-board-tight") ? "compact" : t;
 		}, me = () => {
-			for (let [e, t] of Object.entries(fe)) i.dataset[t] = M[e] ?? jf[e];
+			for (let [e, t] of Object.entries(fe)) i.dataset[t] = k[e] ?? jf[e];
 			i.querySelectorAll(".l10-menu-value[data-for]").forEach((e) => {
 				let t = e.dataset.for;
 				e.textContent = (Of[t].find(([e]) => e === pe(t)) || [])[1] || "";
@@ -10779,16 +10771,16 @@ var ep = class extends HTMLElement {
 			let e = i.hasAttribute("data-board-tight");
 			i.querySelectorAll("media-menu-radio-group[data-pref=\"boardSize\"] media-menu-radio-item[value=\"full\"]").forEach((t) => {
 				t.hidden = e, t.toggleAttribute("data-hidden", e);
-			}), de = !0, i.querySelectorAll("media-menu-radio-group[data-pref]").forEach((e) => {
+			}), j = !0, i.querySelectorAll("media-menu-radio-group[data-pref]").forEach((e) => {
 				let t = pe(e.dataset.pref);
 				e.value !== t && (e.value = t);
-			}), de = !1, he.setAttribute("align", M.boardPos === "right" ? "end" : M.boardPos === "center" ? "center" : "start"), N();
+			}), j = !1, he.setAttribute("align", k.boardPos === "right" ? "end" : k.boardPos === "center" ? "center" : "start"), ue();
 		}, he = r(".l10-boardmenu"), ge = (e, t) => {
-			M[e] = t, Ff(M), e.startsWith("cap") && (P = Date.now() + 2600), me(), e.startsWith("cap") && (clearTimeout(ue), ue = setTimeout(() => N(), 2700));
+			k[e] = t, Ff(k), e.startsWith("cap") && (A = Date.now() + 2600), me(), e.startsWith("cap") && (clearTimeout(de), de = setTimeout(() => ue(), 2700));
 		};
 		i.querySelectorAll("media-menu-radio-group[data-pref]").forEach((e) => {
-			e.value = M[e.dataset.pref] ?? jf[e.dataset.pref], e.addEventListener("value-change", (t) => {
-				de || M[e.dataset.pref] === t.detail.value || ge(e.dataset.pref, t.detail.value);
+			e.value = k[e.dataset.pref] ?? jf[e.dataset.pref], e.addEventListener("value-change", (t) => {
+				j || k[e.dataset.pref] === t.detail.value || ge(e.dataset.pref, t.detail.value);
 			});
 		});
 		let _e = () => {
@@ -10797,54 +10789,56 @@ var ep = class extends HTMLElement {
 		};
 		_e(), new ResizeObserver(_e).observe(i);
 		let ve = r(".l10-cspage"), ye = () => ve.querySelectorAll(".l10-csopt").forEach((e) => {
-			let t = (M[e.dataset.k] ?? jf[e.dataset.k]) === e.dataset.v;
+			let t = (k[e.dataset.k] ?? jf[e.dataset.k]) === e.dataset.v;
 			e.toggleAttribute("data-checked", t), e.setAttribute("aria-label", `${e.querySelector(".l10-menu-text").textContent}${t ? ", selected" : ""}`);
 		}), be = (e) => {
 			ve.dataset.show = e, ve.querySelectorAll(".l10-csview").forEach((t) => {
 				t.hidden = t.dataset.view !== e;
 			}), ye();
 			let t = ve.querySelector(`.l10-csview[data-view="${e}"] ${e === "list" ? ".l10-csrow" : ".l10-csopt[data-checked]"}`);
-			requestAnimationFrame(() => t?.focus({ preventScroll: !0 })), ve.scrollTop = 0, vt();
+			requestAnimationFrame(() => t?.focus({ preventScroll: !0 })), ve.scrollTop = 0, yt();
 		};
 		ve.addEventListener("select", (e) => {
 			let t = e.target.closest(".l10-csrow, .l10-csback, .l10-csopt");
 			t && (e.preventDefault(), t.classList.contains("l10-csrow") ? be(t.dataset.k) : t.classList.contains("l10-csback") ? be("list") : (ge(t.dataset.k, t.dataset.v), ye()));
 		});
-		let xe = !1, Se = () => {
-			xe || (xe = !0, Number.isFinite(M.volume) && (a.volume = Math.min(1, Math.max(0, M.volume))), a.muted = !!M.muted, M.rate && Ef[M.rate] && (a.playbackRate = M.rate, a.defaultPlaybackRate = M.rate), F());
-		}, F = () => {
+		let xe = matchMedia("(hover: none) and (pointer: coarse)").matches;
+		i.toggleAttribute("data-touch", xe);
+		let Se = !1, Ce = () => {
+			Se || (Se = !0, xe ? (a.volume = 1, a.muted = !1) : (Number.isFinite(k.volume) && (a.volume = Math.min(1, Math.max(0, k.volume))), a.muted = !!k.muted), k.rate && Ef[k.rate] && (a.playbackRate = k.rate, a.defaultPlaybackRate = k.rate), we());
+		}, we = () => {
 			let e = [...a.textTracks || []].filter((e) => e.kind === "captions" || e.kind === "subtitles"), t = e.find((e) => e.label === "English") || e[0];
-			t && M.captions && t.mode !== "showing" && (t.mode = "showing");
+			t && k.captions && t.mode !== "showing" && (t.mode = "showing");
 		};
-		a.addEventListener("loadedmetadata", Se), a.readyState >= 1 && Se(), a.addEventListener("volumechange", () => {
-			xe && (M.volume = a.volume, M.muted = a.muted, Ff(M));
+		a.addEventListener("loadedmetadata", Ce), a.readyState >= 1 && Ce(), a.addEventListener("volumechange", () => {
+			Se && (xe || (k.volume = a.volume, k.muted = a.muted, Ff(k)));
 		}), a.addEventListener("ratechange", () => {
-			xe && (M.rate = a.playbackRate, Ff(M));
+			Se && (k.rate = a.playbackRate, Ff(k));
 		});
-		let Ce = 0, we = () => {
-			Ce = Date.now();
+		let Te = 0, M = () => {
+			Te = Date.now();
 		};
-		r(".l10-cc").addEventListener("click", we), i.addEventListener("keydown", (e) => {
-			(e.key === "c" || e.key === "C") && we();
+		r(".l10-cc").addEventListener("click", M), i.addEventListener("keydown", (e) => {
+			(e.key === "c" || e.key === "C") && M();
 		}), a.textTracks?.addEventListener?.("change", () => {
-			!xe || Date.now() - Ce > 1500 || (M.captions = [...a.textTracks].some((e) => (e.kind === "captions" || e.kind === "subtitles") && e.mode === "showing"), Ff(M), this.dispatchEvent(new CustomEvent("line10:captions", {
+			!Se || Date.now() - Te > 1500 || (k.captions = [...a.textTracks].some((e) => (e.kind === "captions" || e.kind === "subtitles") && e.mode === "showing"), Ff(k), this.dispatchEvent(new CustomEvent("line10:captions", {
 				bubbles: !0,
-				detail: { on: M.captions }
+				detail: { on: k.captions }
 			})));
 		});
-		let Te = r(".l10-mute"), Ee = () => {
+		let Ee = r(".l10-mute"), De = () => {
 			let e = Math.round(a.volume * 100);
-			Te.dataset.level = a.muted || e === 0 ? "0" : e <= 33 ? "1" : e <= 65 ? "2" : "3";
+			Ee.dataset.level = a.muted || e === 0 ? "0" : e <= 33 ? "1" : e <= 65 ? "2" : "3";
 		};
-		a.addEventListener("volumechange", Ee), Ee();
-		let De = r(".l10-slider"), Oe = !1;
-		De.addEventListener("pointerdown", (e) => {
+		a.addEventListener("volumechange", De), De();
+		let Oe = r(".l10-slider"), ke = !1;
+		Oe.addEventListener("pointerdown", (e) => {
 			if (e.button !== 0) return;
-			Oe = !a.paused, Oe && a.pause();
+			ke = !a.paused, ke && a.pause();
 			let t = () => {
-				n.removeEventListener("pointerup", t, !0), n.removeEventListener("pointercancel", t, !0), Oe && (Oe = !1, setTimeout(() => a.play().catch(() => {}), 0));
-			}, n = De.ownerDocument.defaultView || window, r = -2, i = (e) => {
-				let t = De.getBoundingClientRect(), n = a.duration;
+				n.removeEventListener("pointerup", t, !0), n.removeEventListener("pointercancel", t, !0), ke && (ke = !1, setTimeout(() => a.play().catch(() => {}), 0));
+			}, n = Oe.ownerDocument.defaultView || window, r = -2, i = (e) => {
+				let t = Oe.getBoundingClientRect(), n = a.duration;
 				if (!m.length || !t.width || !Number.isFinite(n)) return;
 				let i = Math.min(Math.max((e.clientX - t.left) / t.width, 0), 1) * n, o = m.findIndex((e) => i >= e.start && i < e.end);
 				if (o < 0 && (o = m.length - 1), r !== -2 && o !== r) try {
@@ -10861,77 +10855,77 @@ var ep = class extends HTMLElement {
 			}
 			n.addEventListener("pointerup", t, !0), n.addEventListener("pointercancel", t, !0);
 		});
-		let ke = () => {
+		let Ae = () => {
 			let e = a.shadowRoot;
 			if (!e || e.querySelector("style[data-l10]")) return;
 			let t = document.createElement("style");
 			t.dataset.l10 = "", t.textContent = "video::cue{color:transparent!important;background:transparent!important;text-shadow:none!important}", e.appendChild(t);
 		};
-		ke(), a.localName.includes("-") && customElements.whenDefined(a.localName).then(ke), a.addEventListener("loadedmetadata", ke);
-		let Ae = r(".l10-captions"), I = r(".l10-cap-text"), je = (e) => e.kind === "captions" || e.kind === "subtitles";
-		N = () => {
-			let e = [...a.textTracks || []].find((e) => je(e) && e.mode === "showing"), [t, n] = Mf[M.capBrackets] || Mf.square, r = e ? [...e.activeCues || []].map((e) => (e.text || "").replace(/<[^>]+>/g, "").replace(/\[([^\]]*)\]/g, (e, r) => `${t}${r.trim()}${n}`)).join("\n") : "", i = Date.now() < P ? `${t ? `${t}music${n} ` : ""}Captions will look like this` : r;
-			I.textContent = i, Ae.toggleAttribute("data-empty", !i);
+		Ae(), a.localName.includes("-") && customElements.whenDefined(a.localName).then(Ae), a.addEventListener("loadedmetadata", Ae);
+		let je = r(".l10-captions"), Me = r(".l10-cap-text"), Ne = (e) => e.kind === "captions" || e.kind === "subtitles";
+		ue = () => {
+			let e = [...a.textTracks || []].find((e) => Ne(e) && e.mode === "showing"), [t, n] = Mf[k.capBrackets] || Mf.square, r = e ? [...e.activeCues || []].map((e) => (e.text || "").replace(/<[^>]+>/g, "").replace(/\[([^\]]*)\]/g, (e, r) => `${t}${r.trim()}${n}`)).join("\n") : "", i = Date.now() < A ? `${t ? `${t}music${n} ` : ""}Captions will look like this` : r;
+			Me.textContent = i, je.toggleAttribute("data-empty", !i);
 		};
-		let Me = (e) => {
-			je(e) && !e._l10 && (e._l10 = !0, e.addEventListener("cuechange", N));
+		let N = (e) => {
+			Ne(e) && !e._l10 && (e._l10 = !0, e.addEventListener("cuechange", ue));
 		};
-		[...a.textTracks || []].forEach(Me), a.textTracks?.addEventListener?.("addtrack", (e) => {
-			Me(e.track), xe && F();
+		[...a.textTracks || []].forEach(N), a.textTracks?.addEventListener?.("addtrack", (e) => {
+			N(e.track), Se && we();
 		});
-		let Ne = () => {
-			let e = [...a.textTracks || []].filter(je), t = e.find((e) => e.label === "English");
+		let Pe = () => {
+			let e = [...a.textTracks || []].filter(Ne), t = e.find((e) => e.label === "English");
 			if (!(!t || e.length < 2)) for (let n of e) n !== t && n.mode === "showing" && (n.mode = "disabled", t.mode = "showing");
 		};
 		a.textTracks?.addEventListener?.("change", () => {
-			Ne(), N();
+			Pe(), ue();
 		});
-		let Pe = r(".l10-quality"), Fe = r(".l10-quality-name"), Ie = [...i.querySelectorAll(".l10-qgroup")], Le = Ie[0], Re = (e) => parseInt(e.querySelector("[data-part~=\"label\"]")?.textContent, 10) || 0, ze = (e) => /auto/i.test(e.querySelector("[data-part~=\"label\"]")?.textContent || e.textContent), Be = () => [...Le.querySelectorAll("media-menu-radio-item")], Ve = () => Be().filter((e) => !ze(e)), He = () => Be().find(ze), Ue = () => setTimeout(() => {
+		let Fe = r(".l10-quality"), Ie = r(".l10-quality-name"), Le = [...i.querySelectorAll(".l10-qgroup")], Re = Le[0], ze = (e) => parseInt(e.querySelector("[data-part~=\"label\"]")?.textContent, 10) || 0, Be = (e) => /auto/i.test(e.querySelector("[data-part~=\"label\"]")?.textContent || e.textContent), Ve = () => [...Re.querySelectorAll("media-menu-radio-item")], He = () => Ve().filter((e) => !Be(e)), Ue = () => Ve().find(Be), We = () => setTimeout(() => {
 			let e = a.engine;
 			e && e.manualLevel >= 0 && e.currentLevel !== e.manualLevel && (e.currentLevel = e.manualLevel);
-		}, 30), We = () => {
+		}, 30), Ge = () => {
 			let e = a.engine;
 			return e?.levels?.[e.currentLevel]?.height || a.videoHeight || 0;
-		}, Ge = !1, L = !1, Ke = "", qe = () => {
-			let e = Ve();
-			Pe.toggleAttribute("data-off", e.length < 2);
-			let t = Be().find((e) => e.getAttribute("aria-checked") === "true"), n = t && ze(t), r = n ? We() : t ? Re(t) : 0;
-			Ke = n ? r ? `Auto · ${r}p` : "Auto" : r ? `${r}p` : "…", Fe.textContent = n ? "Auto" : Ke, Pe.dataset.top = r >= 2160 ? "4K" : r >= 1440 ? "2K" : r >= 720 ? "HD" : r ? "SD" : "";
+		}, Ke = !1, qe = !1, Je = "", P = () => {
+			let e = He();
+			Fe.toggleAttribute("data-off", e.length < 2);
+			let t = Ve().find((e) => e.getAttribute("aria-checked") === "true"), n = t && Be(t), r = n ? Ge() : t ? ze(t) : 0;
+			Je = n ? r ? `Auto · ${r}p` : "Auto" : r ? `${r}p` : "…", Ie.textContent = n ? "Auto" : Je, Fe.dataset.top = r >= 2160 ? "4K" : r >= 1440 ? "2K" : r >= 720 ? "HD" : r ? "SD" : "";
 		};
-		a.addEventListener("resize", qe), a.addEventListener("timeupdate", () => {
-			Fe.textContent === "Auto" && qe();
+		a.addEventListener("resize", P), a.addEventListener("timeupdate", () => {
+			Ie.textContent === "Auto" && P();
 		});
-		let Je = 0, Ye = setInterval(() => {
-			if (Ge || ++Je > 40) {
-				clearInterval(Ye);
+		let Ye = 0, Xe = setInterval(() => {
+			if (Ke || ++Ye > 40) {
+				clearInterval(Xe);
 				return;
 			}
-			let e = Ve();
+			let e = He();
 			if (e.length < 2 || a.readyState < 1) return;
-			let t = He();
-			if (typeof M.quality == "number") {
-				let n = e.filter((e) => Re(e) <= M.quality);
-				t = n.length ? n.reduce((e, t) => Re(t) > Re(e) ? t : e) : e[0];
+			let t = Ue();
+			if (typeof k.quality == "number") {
+				let n = e.filter((e) => ze(e) <= k.quality);
+				t = n.length ? n.reduce((e, t) => ze(t) > ze(e) ? t : e) : e[0];
 			}
-			Ge = !0, t && t.getAttribute("aria-checked") !== "true" && (L = !0, t.click(), L = !1, Ue());
+			Ke = !0, t && t.getAttribute("aria-checked") !== "true" && (qe = !0, t.click(), qe = !1, We());
 		}, 400);
-		for (let e of Ie) new MutationObserver(qe).observe(e, {
+		for (let e of Le) new MutationObserver(P).observe(e, {
 			childList: !0,
 			subtree: !0,
 			attributes: !0,
 			attributeFilter: ["aria-checked"]
 		}), e.addEventListener("value-change", (e) => {
-			if (Ue(), L) return;
-			Ge = !0;
-			let t = String(e.detail?.value), n = Ve().find((e) => e.getAttribute("data-rendition") === t);
+			if (We(), qe) return;
+			Ke = !0;
+			let t = String(e.detail?.value), n = He().find((e) => e.getAttribute("data-rendition") === t);
 			if (!n && /auto|^-1$/i.test(t)) {
-				M.quality = "auto", Ff(M);
+				k.quality = "auto", Ff(k);
 				return;
 			}
-			let r = n ? Re(n) : parseInt(t, 10);
-			r && (M.quality = r, Ff(M));
+			let r = n ? ze(n) : parseInt(t, 10);
+			r && (k.quality = r, Ff(k));
 		});
-		qe(), i.querySelectorAll(".l10-flip-list").forEach((e) => e.addEventListener("keydown", (e) => {
+		P(), i.querySelectorAll(".l10-flip-list").forEach((e) => e.addEventListener("keydown", (e) => {
 			if (e._l10 || e.key !== "ArrowUp" && e.key !== "ArrowDown") return;
 			e.stopImmediatePropagation(), e.preventDefault();
 			let t = new KeyboardEvent("keydown", {
@@ -10942,36 +10936,36 @@ var ep = class extends HTMLElement {
 			});
 			t._l10 = !0, e.target.dispatchEvent(t);
 		}, !0));
-		let Xe = r(".l10-controls"), Ze = (e) => i.toggleAttribute("data-quiet", e), Qe = (e) => {
+		let Ze = r(".l10-controls"), Qe = (e) => i.toggleAttribute("data-quiet", e), $e = (e) => {
 			if (!i.isConnected) return;
 			let t = i.ownerDocument;
 			if (e.currentTarget !== t) return;
 			let n = t.activeElement;
 			if (n && n !== t.body && !i.contains(n)) return;
 			let r = e.key === "ArrowUp" || e.key === "ArrowDown" || e.key === "m" || e.key === "M";
-			r && e.target.closest?.("media-time-slider, media-volume-slider, [role=\"menu\"]") || (r && (!Xe.hasAttribute("data-visible") || i.hasAttribute("data-quiet")) ? Ze(!0) : r || Ze(!1));
+			r && e.target.closest?.("media-time-slider, media-volume-slider, [role=\"menu\"]") || (r && (!Ze.hasAttribute("data-visible") || i.hasAttribute("data-quiet")) ? Qe(!0) : r || Qe(!1));
 		};
-		document.addEventListener("keydown", Qe, {
+		document.addEventListener("keydown", $e, {
 			capture: !0,
 			signal: t.signal
-		}), i.addEventListener("pointermove", () => Ze(!1)), i.addEventListener("pointerdown", () => Ze(!1)), new MutationObserver(() => {
-			Xe.hasAttribute("data-visible") || Ze(!1);
-		}).observe(Xe, {
+		}), i.addEventListener("pointermove", () => Qe(!1)), i.addEventListener("pointerdown", () => Qe(!1)), new MutationObserver(() => {
+			Ze.hasAttribute("data-visible") || Qe(!1);
+		}).observe(Ze, {
 			attributes: !0,
 			attributeFilter: ["data-visible"]
 		});
-		let $e = r(".l10-capset"), et = () => {
-			$e.toggleAttribute("data-off", ![...a.textTracks || []].some(je));
+		let et = r(".l10-capset"), tt = () => {
+			et.toggleAttribute("data-off", ![...a.textTracks || []].some(Ne));
 		};
-		a.textTracks?.addEventListener?.("addtrack", et), a.textTracks?.addEventListener?.("removetrack", et), et(), a.addEventListener("loadedmetadata", et), a.addEventListener("loadeddata", et), a.textTracks?.addEventListener?.("change", et);
-		let tt = 0, nt = setInterval(() => {
-			et(), (++tt > 20 || !$e.hasAttribute("data-off")) && clearInterval(nt);
-		}, 750), rt = window.documentPictureInPicture, it = r(".l10-pip"), at = this, ot = null, st = async () => {
-			let e = i.getBoundingClientRect(), t = await rt.requestWindow({
+		a.textTracks?.addEventListener?.("addtrack", tt), a.textTracks?.addEventListener?.("removetrack", tt), tt(), a.addEventListener("loadedmetadata", tt), a.addEventListener("loadeddata", tt), a.textTracks?.addEventListener?.("change", tt);
+		let nt = 0, rt = setInterval(() => {
+			tt(), (++nt > 20 || !et.hasAttribute("data-off")) && clearInterval(rt);
+		}, 750), it = window.documentPictureInPicture, at = r(".l10-pip"), ot = this, st = null, ct = async () => {
+			let e = i.getBoundingClientRect(), t = await it.requestWindow({
 				width: Math.max(400, Math.round(e.width * .55)),
 				height: Math.max(225, Math.round(e.width * .55 * e.height / e.width))
 			});
-			ot = t;
+			st = t;
 			let n = t.document, r = n.createElement("base");
 			r.href = document.baseURI, n.head.append(r);
 			for (let e of document.querySelectorAll("link[rel=\"stylesheet\"], style")) if (e.localName === "link") {
@@ -10982,70 +10976,70 @@ var ep = class extends HTMLElement {
 			let o = document.createElement("div");
 			o.className = "l10-pip-placeholder", o.style.aspectRatio = `${e.width} / ${e.height}`, o.innerHTML = "<span>Riding in picture-in-picture</span><button type=\"button\">Bring it back</button>", o.querySelector("button").addEventListener("click", () => t.close());
 			let s = !a.paused;
-			at.before(o), n.body.append(at), i.toggleAttribute("data-docpip", !0), s && a.paused && a.play().catch(() => {}), i.focus({ preventScroll: !0 }), n.addEventListener("keydown", Qe, !0), t.addEventListener("pagehide", () => {
+			ot.before(o), n.body.append(ot), i.toggleAttribute("data-docpip", !0), s && a.paused && a.play().catch(() => {}), i.focus({ preventScroll: !0 }), n.addEventListener("keydown", $e, !0), t.addEventListener("pagehide", () => {
 				let e = !a.paused;
-				i.toggleAttribute("data-docpip", !1), ot = null, o.isConnected ? (o.replaceWith(at), e && a.paused && a.play().catch(() => {})) : (a.pause(), at.remove());
+				i.toggleAttribute("data-docpip", !1), st = null, o.isConnected ? (o.replaceWith(ot), e && a.paused && a.play().catch(() => {})) : (a.pause(), ot.remove());
 			}, { once: !0 });
-		}, ct = !1, lt = () => {
+		}, lt = !1, ut = () => {
 			let e = a.ownerDocument;
 			return e.pictureInPictureElement ? e.exitPictureInPicture().catch(() => {}) : (a.requestPictureInPicture || a.nativeEl?.requestPictureInPicture?.bind(a.nativeEl))?.call(a).catch(() => {});
-		}, ut = () => {
-			ot ? ot.close() : ct || a.ownerDocument.pictureInPictureElement ? lt() : st().catch(() => {
-				ct = !0, lt();
+		}, dt = () => {
+			st ? st.close() : lt || a.ownerDocument.pictureInPictureElement ? ut() : ct().catch(() => {
+				lt = !0, ut();
 			});
 		};
-		rt && (it.addEventListener("click", (e) => {
-			e.stopImmediatePropagation(), e.preventDefault(), ut();
+		it && (at.addEventListener("click", (e) => {
+			e.stopImmediatePropagation(), e.preventDefault(), dt();
 		}, !0), i.addEventListener("keydown", (e) => {
-			e.key !== "i" && e.key !== "I" || e.altKey || e.ctrlKey || e.metaKey || e.target.closest("input, textarea") || (e.preventDefault(), ut());
+			e.key !== "i" && e.key !== "I" || e.altKey || e.ctrlKey || e.metaKey || e.target.closest("input, textarea") || (e.preventDefault(), dt());
 		}));
-		let dt = (e) => {
+		let ft = (e) => {
 			let t = a.shadowRoot?.querySelector("style[data-l10]");
 			t?.sheet && (t.sheet.disabled = e), i.toggleAttribute("data-native-cues", e);
 		};
-		a.addEventListener("enterpictureinpicture", () => dt(!0)), a.addEventListener("leavepictureinpicture", () => dt(!1)), a.addEventListener("webkitpresentationmodechanged", () => dt(a.webkitPresentationMode === "picture-in-picture"));
-		let ft = () => matchMedia("(pointer: coarse)").matches && Math.min(screen.width, screen.height) < 600, pt = !1, mt = () => {
+		a.addEventListener("enterpictureinpicture", () => ft(!0)), a.addEventListener("leavepictureinpicture", () => ft(!1)), a.addEventListener("webkitpresentationmodechanged", () => ft(a.webkitPresentationMode === "picture-in-picture"));
+		let pt = () => matchMedia("(pointer: coarse)").matches && Math.min(screen.width, screen.height) < 600, mt = !1, ht = () => {
 			let e = i.ownerDocument, t = e.fullscreenElement || e.webkitFullscreenElement, n = !!(t && (t === i || t.contains(i) || i.contains(t)));
 			n && this.dispatchEvent(new CustomEvent("line10:fullscreen", { bubbles: !0 }));
 			let r = screen.orientation;
-			if (n && ft() && r?.lock) {
+			if (n && pt() && r?.lock) {
 				let e = a.videoWidth || 16, t = a.videoHeight || 9;
 				r.lock(e >= t ? "landscape" : "portrait").then(() => {
-					pt = !0;
+					mt = !0;
 				}).catch(() => {});
-			} else if (!n && pt) {
-				pt = !1;
+			} else if (!n && mt) {
+				mt = !1;
 				try {
 					r?.unlock?.();
 				} catch {}
 			}
 		};
-		document.addEventListener("fullscreenchange", mt, n), document.addEventListener("webkitfullscreenchange", mt, n), i.querySelectorAll("media-tooltip.l10-tip-end").forEach((e) => {
+		document.addEventListener("fullscreenchange", ht, n), document.addEventListener("webkitfullscreenchange", ht, n), i.querySelectorAll("media-tooltip.l10-tip-end").forEach((e) => {
 			let t = i.querySelector(`#${CSS.escape(e.getAttribute("trigger"))}`);
 			if (!t) return;
 			let n = () => e.style.setProperty("--l10-anchor-w", `${t.offsetWidth}px`);
 			t.addEventListener("pointerenter", n), t.addEventListener("focus", n);
 		});
-		let R = r(".l10-more"), ht = (e, t) => {
+		let F = r(".l10-more"), gt = (e, t) => {
 			let n = i.querySelector(`[data-m="${e}"]`);
 			n && (n.textContent = t);
-		}, gt = r(".l10-cc"), _t = () => [...a.textTracks || []].some((e) => je(e) && e.mode === "showing"), vt = () => i.querySelectorAll(".l10-moremenu media-menu-item").forEach((e) => {
+		}, _t = r(".l10-cc"), vt = () => [...a.textTracks || []].some((e) => Ne(e) && e.mode === "showing"), yt = () => i.querySelectorAll(".l10-moremenu media-menu-item").forEach((e) => {
 			let t = e.hasAttribute("data-off") || !!e.closest(".l10-csview[hidden]") || getComputedStyle(e).display === "none" && !e.closest("media-menu-content[hidden]");
 			e.toggleAttribute("data-hidden", t);
-		}), yt = () => {
-			let e = Math.floor(R.getBoundingClientRect().top - 12);
+		}), bt = () => {
+			let e = Math.floor(F.getBoundingClientRect().top - 12);
 			r(".l10-moremenu").style.setProperty("--l10-more-room", `${Math.max(160, e)}px`);
 			let t = i.querySelector(".l10-nextstop");
-			ht("l10-m-st", m[h]?.name || ""), ht("l10-m-next", (t.getAttribute("aria-label") || "").replace(/^Next stop: /, "")), r(".l10-m-next").toggleAttribute("data-disabled", t.hasAttribute("data-last")), ht("l10-m-svc", `${Ef[a.playbackRate] || "Custom"} · ${a.playbackRate}×`), ht("l10-m-q", Ke), r(".l10-m-q").toggleAttribute("data-off", Pe.hasAttribute("data-off")), ht("l10-m-cc", _t() ? "On" : "Off"), r(".l10-m-cc").toggleAttribute("data-off", $e.hasAttribute("data-off")), r(".l10-m-cs").toggleAttribute("data-off", $e.hasAttribute("data-off"));
-			let n = !!(ot || a.ownerDocument.pictureInPictureElement);
-			r(".l10-m-pip-text").textContent = n ? "Exit picture-in-picture" : "Picture-in-picture", r(".l10-m-pip").toggleAttribute("data-off", !rt && !document.pictureInPictureEnabled), vt();
-		}, bt = r(".l10-moremenu"), xt = () => {
-			let e = [...bt.children].find((e) => e.localName === "media-menu-content" && !e.hidden && !e.hasAttribute("data-child-open")), t = e ? e.scrollTop + e.clientHeight < e.scrollHeight - 2 : !1;
-			bt.toggleAttribute("data-more-below", t);
+			gt("l10-m-st", m[h]?.name || ""), gt("l10-m-next", (t.getAttribute("aria-label") || "").replace(/^Next stop: /, "")), r(".l10-m-next").toggleAttribute("data-disabled", t.hasAttribute("data-last")), gt("l10-m-svc", `${Ef[a.playbackRate] || "Custom"} · ${a.playbackRate}×`), gt("l10-m-q", Je), r(".l10-m-q").toggleAttribute("data-off", Fe.hasAttribute("data-off")), gt("l10-m-cc", vt() ? "On" : "Off"), r(".l10-m-cc").toggleAttribute("data-off", et.hasAttribute("data-off")), r(".l10-m-cs").toggleAttribute("data-off", et.hasAttribute("data-off"));
+			let n = !!(st || a.ownerDocument.pictureInPictureElement);
+			r(".l10-m-pip-text").textContent = n ? "Exit picture-in-picture" : "Picture-in-picture", r(".l10-m-pip").toggleAttribute("data-off", !it && !document.pictureInPictureEnabled), gt("l10-m-mute", a.muted || a.volume === 0 ? "Off" : "On"), yt();
+		}, xt = r(".l10-moremenu"), St = () => {
+			let e = [...xt.children].find((e) => e.localName === "media-menu-content" && !e.hidden && !e.hasAttribute("data-child-open")), t = e ? e.scrollTop + e.clientHeight < e.scrollHeight - 2 : !1;
+			xt.toggleAttribute("data-more-below", t);
 		};
-		bt.addEventListener("scroll", xt, !0), bt.addEventListener("click", () => {
-			setTimeout(xt, 60), setTimeout(xt, 360);
-		}), bt.addEventListener("keydown", () => setTimeout(xt, 60)), new MutationObserver(() => requestAnimationFrame(xt)).observe(bt, {
+		xt.addEventListener("scroll", St, !0), xt.addEventListener("click", () => {
+			setTimeout(St, 60), setTimeout(St, 360);
+		}), xt.addEventListener("keydown", () => setTimeout(St, 60)), new MutationObserver(() => requestAnimationFrame(St)).observe(xt, {
 			attributes: !0,
 			subtree: !0,
 			attributeFilter: [
@@ -11053,49 +11047,78 @@ var ep = class extends HTMLElement {
 				"hidden",
 				"data-show"
 			]
-		}), i.addEventListener("keydown", (e) => {
-			e.key !== "s" && e.key !== "S" || e.altKey || e.ctrlKey || e.metaKey || e.target.closest("input, textarea, [role=\"menu\"]") || R.offsetParent && (e.preventDefault(), yt(), be("list"), R.focus(), R.click());
-		}), R.addEventListener("pointerdown", yt), R.addEventListener("keydown", yt), R.addEventListener("click", yt), R.addEventListener("click", () => be("list")), r(".l10-m-cs").addEventListener("click", () => be("list"), !0), a.addEventListener("ratechange", yt), a.textTracks?.addEventListener?.("change", yt), a.addEventListener("timeupdate", () => {
-			R.getAttribute("aria-expanded") === "true" && yt();
 		});
-		let St = () => setTimeout(() => {
-			R.getAttribute("aria-expanded") === "true" && R.click();
+		let Ct = r(".l10-ind-click"), wt = 0, Tt = "", Et = 0;
+		i.querySelectorAll("media-seek-button").forEach((e) => e.addEventListener("click", () => {
+			let t = Number(e.getAttribute("seconds")) || 0, n = t < 0 ? "backward" : "forward";
+			wt = n === Tt ? wt + Math.abs(t) : Math.abs(t), Tt = n, Ct.dataset.direction = n, Ct.querySelector(".l10-ind-value").textContent = `${wt}s`, Ct.setAttribute("data-open", ""), clearTimeout(Et), Et = setTimeout(() => {
+				Ct.removeAttribute("data-open"), wt = 0, Tt = "";
+			}, 800);
+		}));
+		let Dt = r(".l10-time"), Ot = i.querySelector(`media-tooltip[trigger="${Dt.id}"] media-tooltip-label`), kt = () => {
+			let e = (k.timeMode ?? jf.timeMode) === "left";
+			Dt.setAttribute("aria-pressed", String(e)), Dt.setAttribute("aria-label", e ? "Show total time" : "Show time left"), Ot && (Ot.textContent = e ? "Show total time" : "Show time left");
+		};
+		kt(), Dt.addEventListener("click", () => {
+			ge("timeMode", (k.timeMode ?? jf.timeMode) === "left" ? "total" : "left"), kt();
+		});
+		let At = (e, t) => {
+			let n = r(e);
+			if (n && n.offsetParent && !n.hasAttribute("data-off")) return n.focus(), n.click(), !0;
+			let i = t && r(t);
+			return !i || !F.offsetParent || i.hasAttribute("data-off") || i.hasAttribute("data-hidden") ? !1 : (bt(), be("list"), F.focus(), F.click(), setTimeout(() => {
+				i.click(), setTimeout(() => (i.ownerDocument.getElementById(i.getAttribute("commandfor"))?.querySelector("[role^=\"menuitem\"]:not([data-hidden]), media-menu-item:not([data-hidden]), media-menu-radio-item:not([hidden])"))?.focus(), 80);
+			}, 60), !0);
+		};
+		i.addEventListener("keydown", (e) => {
+			if (e.altKey || e.ctrlKey || e.metaKey || e.target.closest("input, textarea, [role=\"menu\"]")) return;
+			let t = !1;
+			e.key === "t" || e.key === "T" ? (Dt.click(), t = !0) : e.key === "b" || e.key === "B" ? t = At(".l10-board-tools .l10-gear:not(.l10-sharebtn)") : e.key === "a" || e.key === "A" ? t = At(".l10-stbtn", ".l10-m-st") : e.key === "q" || e.key === "Q" ? t = At(".l10-quality", ".l10-m-q") : e.key === "C" && e.shiftKey && (t = At(".l10-capset", ".l10-m-cs")), t && (e.preventDefault(), e.stopImmediatePropagation());
+		}, !0), i.addEventListener("keydown", (e) => {
+			e.key !== "s" && e.key !== "S" || e.altKey || e.ctrlKey || e.metaKey || e.target.closest("input, textarea, [role=\"menu\"]") || F.offsetParent && (e.preventDefault(), bt(), be("list"), F.focus(), F.click());
+		}), F.addEventListener("pointerdown", bt), F.addEventListener("keydown", bt), F.addEventListener("click", bt), F.addEventListener("click", () => be("list")), r(".l10-m-cs").addEventListener("click", () => be("list"), !0), a.addEventListener("ratechange", bt), a.textTracks?.addEventListener?.("change", bt), a.addEventListener("timeupdate", () => {
+			F.getAttribute("aria-expanded") === "true" && bt();
+		});
+		let jt = () => setTimeout(() => {
+			F.getAttribute("aria-expanded") === "true" && F.click();
 		}, 120);
 		r(".l10-moremenu").addEventListener("select", (e) => {
-			e.target.closest(".l10-st-item") && St();
-		}), r(".l10-moremenu").querySelectorAll("media-playback-rate-radio-group, media-quality-radio-group").forEach((e) => e.addEventListener("value-change", St)), r(".l10-m-next").addEventListener("select", () => b(1)), r(".l10-m-cc").addEventListener("select", () => {
-			gt.click(), setTimeout(yt, 50);
+			e.target.closest(".l10-st-item") && jt();
+		}), r(".l10-moremenu").querySelectorAll("media-playback-rate-radio-group, media-quality-radio-group").forEach((e) => e.addEventListener("value-change", jt)), r(".l10-m-next").addEventListener("select", () => b(1)), r(".l10-m-cc").addEventListener("select", () => {
+			_t.click(), setTimeout(bt, 50);
+		}), r(".l10-m-mute").addEventListener("select", () => {
+			a.muted = !(a.muted || a.volume === 0), !a.muted && a.volume === 0 && (a.volume = 1), setTimeout(bt, 50);
 		}), r(".l10-m-pip").addEventListener("select", () => {
-			rt ? ut() : lt();
+			it ? dt() : ut();
 		}), t.signal.addEventListener("abort", () => {
-			clearInterval(Ye), clearInterval(nt), clearTimeout(ue);
+			clearInterval(Xe), clearInterval(rt), clearTimeout(de);
 		}), me();
-		let Ct = r(".l10-panel"), wt = i.parentElement, Tt = r(".l10-g-play"), Et = r(".l10-g-controls"), Dt = (e) => {
+		let Mt = r(".l10-panel"), Nt = i.parentElement, Pt = r(".l10-g-play"), Ft = r(".l10-g-controls"), It = (e) => {
 			e.target.closest?.("button, a, input, select, textarea, [role=\"slider\"], [role=\"button\"], [role^=\"menuitem\"], [tabindex]") || e.stopPropagation();
 		};
 		[
-			Ct,
+			Mt,
 			r(".l10-board"),
 			r(".l10-endcard"),
 			...i.querySelectorAll("media-menu, media-popover")
-		].forEach((e) => e?.addEventListener("pointerup", Dt));
-		let Ot = r("media-gesture[action=\"togglePaused\"][pointer=\"mouse\"]"), kt = () => [...i.querySelectorAll("media-menu, media-popover")].some((e) => e.hasAttribute("data-open")), At = 0;
-		wt.addEventListener("pointerdown", (e) => {
-			kt() && !e.target.closest("media-menu, media-popover") && (Ot.setAttribute("disabled", ""), Tt.setAttribute("disabled", ""), clearTimeout(At), At = setTimeout(() => {
-				Ot.removeAttribute("disabled"), Tt.toggleAttribute("disabled", !i.hasAttribute("data-dock"));
+		].forEach((e) => e?.addEventListener("pointerup", It));
+		let Lt = r("media-gesture[action=\"togglePaused\"][pointer=\"mouse\"]"), Rt = () => [...i.querySelectorAll("media-menu, media-popover")].some((e) => e.hasAttribute("data-open")), zt = 0;
+		Nt.addEventListener("pointerdown", (e) => {
+			Rt() && !e.target.closest("media-menu, media-popover") && (Lt.setAttribute("disabled", ""), Pt.setAttribute("disabled", ""), clearTimeout(zt), zt = setTimeout(() => {
+				Lt.removeAttribute("disabled"), Pt.toggleAttribute("disabled", !i.hasAttribute("data-dock"));
 			}, 450));
 		}, !0);
-		let z = this.getAttribute("ambient") === "off" ? null : document.createElement("canvas");
-		if (z) {
-			z.className = "l10-glow", z.width = 32, z.height = 18, z.setAttribute("aria-hidden", "true"), wt.prepend(z);
-			let e = z.getContext("2d"), t = () => a instanceof HTMLVideoElement ? a : a.nativeEl || a.shadowRoot?.querySelector("video"), n = !0, r = 0, o = (n) => {
+		let I = this.getAttribute("ambient") === "off" ? null : document.createElement("canvas");
+		if (I) {
+			I.className = "l10-glow", I.width = 32, I.height = 18, I.setAttribute("aria-hidden", "true"), Nt.prepend(I);
+			let e = I.getContext("2d"), t = () => a instanceof HTMLVideoElement ? a : a.nativeEl || a.shadowRoot?.querySelector("video"), n = !0, r = 0, o = (n) => {
 				let r = t(), a = r && r.readyState >= 2 && !i.querySelector(".l10-poster[data-visible]") ? r : null;
 				if (!a) {
 					let e = i.querySelector(".l10-poster img");
 					e?.complete && e.naturalWidth && (a = e);
 				}
 				if (a) try {
-					e.globalAlpha = n, e.drawImage(a, 0, 0, z.width, z.height), z.toggleAttribute("data-on", !0);
+					e.globalAlpha = n, e.drawImage(a, 0, 0, I.width, I.height), I.toggleAttribute("data-on", !0);
 				} catch {}
 			}, s = () => {
 				clearTimeout(r), !a.paused && i.isConnected && (n && o(.18), r = setTimeout(s, 120));
@@ -11108,7 +11131,7 @@ var ep = class extends HTMLElement {
 				"emptied"
 			].forEach((e) => a.addEventListener(e, () => o(1))), i.querySelector(".l10-poster img")?.addEventListener("load", () => o(1)), o(1);
 		}
-		let jt = () => {
+		let L = () => {
 			let e = !1;
 			try {
 				e = i.matches(":fullscreen");
@@ -11118,15 +11141,15 @@ var ep = class extends HTMLElement {
 				} catch {}
 			}
 			let t = i.clientWidth, n = !this.getAttribute("ratio") && !e && !i.hasAttribute("data-docpip") && t > 0 && t <= Rf;
-			n !== i.hasAttribute("data-dock") && i.toggleAttribute("data-dock", n), wt.style.paddingBottom = n ? `${Ct.offsetHeight}px` : "", Tt.toggleAttribute("disabled", !n), Et.toggleAttribute("disabled", n), z && (z.style.height = `${i.offsetHeight}px`), wt.style.setProperty("--l10-dock-h", n ? `${Ct.offsetHeight}px` : "0px");
+			n !== i.hasAttribute("data-dock") && i.toggleAttribute("data-dock", n), Nt.style.paddingBottom = n ? `${Mt.offsetHeight}px` : "", Pt.toggleAttribute("disabled", !n), Ft.toggleAttribute("disabled", n), I && (I.style.height = `${i.offsetHeight}px`), Nt.style.setProperty("--l10-dock-h", n ? `${Mt.offsetHeight}px` : "0px");
 		};
 		new ResizeObserver(() => {
-			i.style.setProperty("--l10-panel-h", `${Ct.offsetHeight}px`), jt();
-		}).observe(Ct), new ResizeObserver(jt).observe(i), new MutationObserver(jt).observe(i, {
+			i.style.setProperty("--l10-panel-h", `${Mt.offsetHeight}px`), L();
+		}).observe(Mt), new ResizeObserver(L).observe(i), new MutationObserver(L).observe(i, {
 			attributes: !0,
 			attributeFilter: ["data-docpip"]
-		}), document.addEventListener("fullscreenchange", jt, n), document.addEventListener("webkitfullscreenchange", jt, n), a.addEventListener("timeupdate", v), a.addEventListener("seeked", v), a.addEventListener("ended", v), r(".l10-endcard");
-		let Mt = r(".l10-term-next"), Nt = (e) => {
+		}), document.addEventListener("fullscreenchange", L, n), document.addEventListener("webkitfullscreenchange", L, n), a.addEventListener("timeupdate", v), a.addEventListener("seeked", v), a.addEventListener("ended", v), r(".l10-endcard");
+		let Bt = r(".l10-term-next"), Vt = (e) => {
 			let t = /^#?([0-9a-f]{6})$/i.exec((e || "").trim());
 			if (!t) return "#14110a";
 			let [n, r, i] = [
@@ -11138,34 +11161,34 @@ var ep = class extends HTMLElement {
 		};
 		this.#t = () => {
 			let e = this.getAttribute("next-title");
-			if (Mt.hidden = !e, !e) return;
+			if (Bt.hidden = !e, !e) return;
 			let t = this.getAttribute("next-line") || "";
-			r(".l10-term-next-name").textContent = e, r(".l10-term-badge").textContent = this.getAttribute("next-number") || "", Mt.style.setProperty("--l10-next", t || "var(--l10-line)"), Mt.style.setProperty("--l10-next-ink", t ? Nt(t) : "var(--l10-line-ink)"), Mt.setAttribute("aria-label", `Change here for ${e}`);
-		}, this.#t(), Mt.addEventListener("click", () => this.dispatchEvent(new CustomEvent("line10:next", { bubbles: !0 }))), r(".l10-term-again").addEventListener("click", () => {
+			r(".l10-term-next-name").textContent = e, r(".l10-term-badge").textContent = this.getAttribute("next-number") || "", Bt.style.setProperty("--l10-next", t || "var(--l10-line)"), Bt.style.setProperty("--l10-next-ink", t ? Vt(t) : "var(--l10-line-ink)"), Bt.setAttribute("aria-label", `Change here for ${e}`);
+		}, this.#t(), Bt.addEventListener("click", () => this.dispatchEvent(new CustomEvent("line10:next", { bubbles: !0 }))), r(".l10-term-again").addEventListener("click", () => {
 			a.ended || (a.currentTime = 0), a.play().catch(() => {}), i.focus({ preventScroll: !0 });
 		});
-		let Pt = !1, Ft = 0;
+		let Ht = !1, Ut = 0;
 		if (a.addEventListener("ended", () => {
-			Pt = !0;
+			Ht = !0;
 		}), a.addEventListener("play", () => {
-			Pt && (Ft = performance.now());
+			Ht && (Ut = performance.now());
 		}), a.addEventListener("playing", () => {
-			Pt = !1, Ft = 0;
+			Ht = !1, Ut = 0;
 		}), a.addEventListener("pause", () => {
-			if (!Ft || performance.now() - Ft > 4e3) return;
-			Ft = 0;
+			if (!Ut || performance.now() - Ut > 4e3) return;
+			Ut = 0;
 			let e = () => a.play().catch(() => {});
 			a.seeking ? a.addEventListener("seeked", e, { once: !0 }) : e();
 		}), this.hasAttribute("autoplay")) {
 			let e = () => a.play().catch(() => {});
 			a.readyState >= 2 ? e() : a.addEventListener("canplay", e, { once: !0 });
 		}
-		a.addEventListener("ratechange", j), a.addEventListener("loadedmetadata", _), a.addEventListener("durationchange", _);
-		let It = (e) => {
+		a.addEventListener("ratechange", le), a.addEventListener("loadedmetadata", _), a.addEventListener("durationchange", _);
+		let Wt = (e) => {
 			e.kind === "chapters" && (e.mode === "disabled" && (e.mode = "hidden"), e.addEventListener("cuechange", _));
 		};
-		[...a.textTracks || []].forEach(It), a.textTracks?.addEventListener?.("addtrack", (e) => {
-			It(e.track), setTimeout(_, 200);
+		[...a.textTracks || []].forEach(Wt), a.textTracks?.addEventListener?.("addtrack", (e) => {
+			Wt(e.track), setTimeout(_, 200);
 		}), i.querySelectorAll("track[kind=\"chapters\"]").forEach((e) => e.addEventListener("load", _)), setTimeout(_, 400), v();
 	}
 };

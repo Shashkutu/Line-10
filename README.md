@@ -21,7 +21,9 @@
 - **Phones.** Below 540px the line and the buttons move into a strip under the picture, so nothing covers the video and every button stays 44px. Fullscreen goes back to the overlay.
 - **Taps.** Click the picture to play or pause and double-click for fullscreen. On touch, double-tap the left or right third to skip 5 seconds. On phones a tap plays or pauses, and dragging the train gives a small buzz at each station where the phone supports it.
 - **Share a stop.** The link button on the departure board (or U) shares the station you're at: phones open their share sheet, desktops copy the link, and if a browser blocks copying the link is shown ready to copy.
-- **Continue your ride.** Leave mid-video and come back: the player picks up where you were and offers Start over (R).
+- **Time links.** A link ending in `?t=25` opens the player at 0:25 with a Start over (R) note; a plain link starts at the beginning.
+- **Time display.** Click the time (or T) to switch between the total length and the time left. Remembered with the other viewer settings.
+- **Phones.** No volume control on phones and tablets: the phone's own buttons set the volume. Skips show arrows on the side you skip to.
 - **Ambient light.** A soft glow taken from the picture itself lights the page around the player, and the poster fades into the first frame.
 - **Any line colour** with one attribute.
 
@@ -60,8 +62,7 @@ The `release/` folder holds the built files. Keep the files in it together, beca
 | `next-title`, `next-number`, `next-line` | Offer a "Change here for…" button at the end. |
 | `autoplay` | Start playing as soon as the video is ready. |
 | `ambient` | Set to `off` to turn off the soft glow of the picture around the player. |
-| `start` | Start at this many seconds (a `?t=` in the page address does the same for the first player). |
-| `resume` | Set to `off` to stop the player picking up where each viewer left off. |
+| `start` | Start at this many seconds. A `?t=25` (or `?sec=25`) in the page address does the same for the first player, like a YouTube link. |
 
 When the viewer picks "Change here", the player fires a `line10:next` event. What happens next is up to the page:
 
@@ -92,7 +93,12 @@ player.addEventListener('line10:next', () => { /* load the next video */ });
 | 0–9, Home, End | Jump through the video |
 | S | Settings (small players) |
 | N, R | At the end of the line: change to the next line, or ride again |
-| R | After continuing a ride: start over |
+| R | After opening a time link: start over |
+| T | Switch the time between total and time left |
+| B | Departure board settings |
+| A | All stations |
+| Q | Quality |
+| Shift + C | Caption style |
 | U | Share this stop |
 
 Every control has a label and a tooltip with its keys, menus work with the arrow keys and close with Esc, and the current station is announced to screen readers. Reduced motion turns off the flips and pulses, and forced-colours mode gets solid system surfaces.

@@ -51,10 +51,7 @@ function setLineInUrl(k) {
   } catch { /* file:// or sandboxed */ }
 }
 
-const board = (b, opts) => {
-  ride(b, opts);
-  try { localStorage.setItem('line10:line', String(picks.indexOf(b))); } catch { /* private mode */ }
-};
+const board = (b, opts) => ride(b, opts);
 picks.forEach((b) => b.addEventListener('click', () => board(b)));
 // "Change here for…" on the terminus card (heard on the player itself, so it also works from a PiP window)
 function changeHere() {
@@ -65,18 +62,16 @@ function changeHere() {
 }
 frame.querySelector('line10-player')?.addEventListener('line10:next', changeHere);
 
-// open the line a link points to, or come back to the line you were on
+// open the line a link points to (?line=2); a plain link opens the first line
 const params = new URLSearchParams(location.search);
-let saved = 0;
-try { saved = Number(localStorage.getItem('line10:line')) || 0; } catch { /* private mode */ }
-const linked = params.has('line') ? Number(params.get('line')) : NaN;
-const first = Number.isInteger(linked) && picks[linked] ? linked : saved;
-if (first > 0 && picks[first]) ride(picks[first]);
+const linked = params.has('line') ? Number(params.get('line')) : 0;
+if (Number.isInteger(linked) && linked > 0 && picks[linked]) ride(picks[linked]);
 else if (params.has('line')) setLineInUrl(0);
-// a stop link's time is used once, by the first player; later line changes start from the top
-if (params.has('t')) {
-  try { const u = new URL(location.href); u.searchParams.delete('t'); history.replaceState(history.state, '', u); } catch { /* sandboxed */ }
+// a link's time (?t=25, or ?sec=25) is used once, by the first player; later line changes start from the top
+if (params.has('t') || params.has('sec')) {
+  try { const u = new URL(location.href); u.searchParams.delete('t'); u.searchParams.delete('sec'); history.replaceState(history.state, '', u); } catch { /* sandboxed */ }
 }
+try { Object.keys(localStorage).filter((k) => k === 'line10:line' || k === 'line10:tries' || k.startsWith('line10:pos:')).forEach((k) => localStorage.removeItem(k)); } catch { /* private mode */ }
 
 // ---------- "Put it on your site": paint the line, copy the code ----------
 const swatches = [...document.querySelectorAll('.swatch[data-c]')];
@@ -143,9 +138,7 @@ paint(colour, { fromPick: true });
 // ---------- "Try this": tick off the clever parts as visitors find them ----------
 const tries = document.querySelector('.tries');
 const triesCount = document.getElementById('tries-count');
-const TRIES_KEY = 'line10:tries';
-let found = new Set();
-try { found = new Set(JSON.parse(localStorage.getItem(TRIES_KEY) || '[]')); } catch { /* private mode */ }
+const found = new Set();                              // fresh on every visit: nothing is saved
 const drawTries = () => {
   const items = [...tries.querySelectorAll('[data-try]')];
   items.forEach((li) => {
@@ -160,7 +153,6 @@ const drawTries = () => {
 const tick = (k) => {
   if (found.has(k)) return;
   found.add(k);
-  try { localStorage.setItem(TRIES_KEY, JSON.stringify([...found])); } catch { /* private mode */ }
   drawTries();
 };
 // phones have no N key: there the hint points at the Next stop button in Settings
