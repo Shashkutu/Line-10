@@ -831,6 +831,8 @@
 .l10-volume[data-open]:not([data-ending-style]) .l10-vol-hint { animation: l10-hint 140ms linear 0.75s forwards; }
 @keyframes l10-hint { to { opacity: 1; visibility: visible; } }
 .l10-setmenu .l10-menu-group::before { top: 18px; bottom: 18px; }
+/* a list with no heading: the line starts at the first stop's dot */
+.l10-menu-group:not(:has(> .l10-menu-label))::before { top: 18px; }
 .l10-menu-check { display: grid; place-items: center; color: var(--l10-line); }
 .l10-menu-check .l10-icon { width: 18px; height: 18px; stroke-width: 2.5; }
 .l10-menu-check:not([data-checked]):not([data-open]) { visibility: hidden; }
@@ -1683,3 +1685,6 @@ button.l10-time { pointer-events: auto; }
 /* board="off" / share="off" on the player: those parts are left out */
 .l10[data-no-board] .l10-board { display: none !important; }
 .l10[data-no-share] .l10-sharebtn { display: none !important; }
+
+/* phone (portrait): no preview card while dragging the train; it was almost as big as the video */
+.l10[data-dock] .l10-sign { display: none; }
