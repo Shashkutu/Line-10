@@ -84,9 +84,9 @@ const esc = (s) => String(s).replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt
 // dark or light lettering on the line colour
 const inkFor = (hex) => {
   const [r, g, b] = [1, 3, 5].map((k) => parseInt(hex.slice(k, k + 2), 16) / 255).map((c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
-  // pick whichever text colour reads better on it: dark (#14110a, luminance ~0.0057) or white (1)
+  // pick whichever reads better on it, black or white (one of them always reaches 4.5:1)
   const L = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-  return (L + 0.05) / (0.0057 + 0.05) >= 1.05 / (L + 0.05) ? '#14110a' : '#ffffff';
+  return (L + 0.05) / 0.05 >= 1.05 / (L + 0.05) ? '#000000' : '#ffffff';
 };
 const current = () => picks.find((b) => b.getAttribute('aria-pressed') === 'true') || picks[0];
 let stationsAttr = '';                                 // set by the stations editor below

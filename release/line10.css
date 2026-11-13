@@ -10,6 +10,7 @@
 
 .l10 {
   --l10-line: var(--media-accent-color, #ffb000);
+  --l10-focus: var(--l10-line);              /* focus ring: set to white by the player when the line is too dark */
   --l10-line-ink: var(--media-accent-text-color, #14110a);
   --l10-sign: #f4f1ea;                    /* signage white */
   --l10-dim: #a7adb6;
@@ -164,7 +165,7 @@
   .l10-btn:hover { background: rgb(255 255 255 / 0.12); }
 }
 .l10-btn:active { scale: 0.92; }
-.l10 :focus-visible { outline: 2px solid var(--l10-line); outline-offset: 2px; }
+.l10 :focus-visible { outline: 2px solid var(--l10-focus); outline-offset: 2px; }
 .l10-btn[data-off],
 .l10-btn[data-hidden],
 .l10-btn[hidden],
@@ -508,7 +509,7 @@
 }
 .l10-train-car i:last-child { width: 7px; border-radius: 1.5px 4px 1.5px 1.5px; }
 .l10-slider[data-interactive] .l10-train { scale: 1.12; }
-.l10-slider:focus-visible { outline: 2px solid var(--l10-line); }
+.l10-slider:focus-visible { outline: 2px solid var(--l10-focus); }
 
 /* station sign on hover: frame, line badge, time, station name */
 .l10-sign {
@@ -768,7 +769,7 @@
   outline: none;
 }
 .l10-menu-item:is([data-highlighted], :hover, :focus-visible) { background: rgb(255 255 255 / 0.09); }
-.l10-menu-item:focus-visible { outline: 2px solid var(--l10-line); outline-offset: -2px; }
+.l10-menu-item:focus-visible { outline: 2px solid var(--l10-focus); outline-offset: -2px; }
 .l10-menu-dot {
   justify-self: center;
   width: 11px;
@@ -977,7 +978,7 @@
 .l10-term-btn[hidden] { display: none; }
 .l10-term-btn:hover { background: rgb(255 255 255 / 0.14); }
 .l10-term-btn:active { scale: 0.97; }
-.l10-term-btn:focus-visible { outline: 2px solid var(--l10-line); outline-offset: 3px; }
+.l10-term-btn:focus-visible { outline: 2px solid var(--l10-focus); outline-offset: 3px; }
 .l10-term-btn svg { width: 18px; height: 18px; }
 .l10-term-next { padding-left: 8px; text-align: left; border-color: color-mix(in srgb, var(--l10-next) 55%, transparent); background: color-mix(in srgb, var(--l10-next) 14%, transparent); }
 .l10-term-next:hover { background: color-mix(in srgb, var(--l10-next) 24%, transparent); }
@@ -1376,7 +1377,7 @@ media-error-dialog:not([data-open]) .l10-backdrop { display: none; }
 /* phones: next stop, then picture-in-picture, step into Settings when the bar runs out of room */
 @container l10 (max-width: 480px) { .l10 .l10-nextstop:not([hidden]) { display: none; } }
 @container l10 (max-width: 400px) { .l10 .l10-pip { display: none; } }
-@container l10 (max-width: 300px) { .l10-time { padding: 1px 6px 0; font-size: 11px; } }
+@container l10 (max-width: 340px) { .l10-time { padding: 1px 6px 0; font-size: 11px; } }
 /* very short players (a 16:9 player on a small phone): the board steps aside so the controls fit */
 @container l10 (max-height: 215px) {
   .l10:not([data-dock]) .l10-board { display: none; }
@@ -1464,7 +1465,7 @@ media-error-dialog:not([data-open]) .l10-backdrop { display: none; }
 .l10-csopt .l10-menu-check { display: grid; color: var(--l10-line); }
 .l10-csopt .l10-menu-check svg { width: 16px; height: 16px; }
 .l10-m-cc { display: none; }            /* captions stay on the bar… */
-@container l10 (max-width: 315px) { .l10 .l10-cc { display: none; } .l10-moremenu .l10-m-cc { display: grid; } }   /* …except on the tiniest phones */
+@container l10 (max-width: 345px) { .l10 .l10-cc { display: none; } .l10-moremenu .l10-m-cc { display: grid; } }   /* …except on small phones (Captions moves into Settings) */
 .l10-m-next, .l10-m-pip { display: none; }          /* only when the bar has no room for them */
 @container l10 (max-width: 480px) { .l10-moremenu .l10-m-next { display: grid; } }
 @container l10 (max-width: 400px) { .l10-moremenu .l10-m-pip { display: grid; } }
@@ -1624,10 +1625,10 @@ button.l10-time { color: inherit; cursor: pointer; font-family: var(--l10-mono);
 @media (hover: hover) and (pointer: fine) { button.l10-time:hover { background: rgb(255 255 255 / 0.14); } }
 button.l10-time:focus-visible { outline: 2px solid var(--l10-line); outline-offset: 2px; }
 @container l10 (max-width: 770px) { button.l10-time { font-size: 12px; } }
-@container l10 (max-width: 300px) { button.l10-time { font-size: 11px; } .l10-time-in { gap: 3px; } }
+@container l10 (max-width: 340px) { button.l10-time { font-size: 11px; } .l10-time-in { gap: 3px; } }   /* room for the phone's mute button */
 
-/* ---------- phones and tablets: the phone's own buttons set the volume ---------- */
-.l10[data-touch] .l10-mute, .l10[data-touch] .l10-volume { display: none !important; }
+/* ---------- phones and tablets: a mute button, the phone's own buttons set the level ---------- */
+.l10[data-touch] .l10-volume { display: none !important; }
 
 /* ---------- skipping: arrows on the side you skip to ---------- */
 .l10-indicators { inset: 0; align-items: start; }
@@ -1655,8 +1656,8 @@ button.l10-time { pointer-events: auto; }
 /* the tiniest players: the time tightens up rather than pushing a button out */
 @container l10 (max-width: 280px) { button.l10-time { padding: 1px 5px 0; margin-left: 0; font-size: 10.5px; letter-spacing: -0.02em; } .l10-time-in { gap: 2px; } }
 .l10-m-mute { display: none; }
-/* a 240px desktop player: Mute steps into Settings (phones have no volume control at all) */
-@container l10 (max-width: 280px) { .l10:not([data-touch]) .l10-mute { display: none; } .l10:not([data-touch]) .l10-moremenu .l10-m-mute { display: grid; } }
+/* a 240px player: Mute steps into Settings */
+@container l10 (max-width: 280px) { .l10 .l10-mute { display: none; } .l10 .l10-moremenu .l10-m-mute { display: grid; } }
 
 /* ---------- phones: the departure board is a strip above the picture ----------
    Together with the strip of controls below, the picture stays completely clear. Full or one-line. */

@@ -9929,14 +9929,23 @@ var X = (e, t = "") => `<svg class="l10-icon ${t}" viewBox="0 0 24 24" aria-hidd
 		["single", "‘ ’"],
 		["none", "No brackets"]
 	]
-}, yf = [["boardSize", "Size"], ["boardStyle", "Background"]], bf = [["boardPos", "Position"], ["boardFlip", "Flip letters"]], xf = [
+}, yf = (e) => {
+	let t = /^#?([0-9a-f]{6})$/i.exec((e || "").trim());
+	if (!t) return "";
+	let [n, r, i] = [
+		0,
+		2,
+		4
+	].map((e) => parseInt(t[1].slice(e, e + 2), 16) / 255).map((e) => e <= .04045 ? e / 12.92 : ((e + .055) / 1.055) ** 2.4);
+	return (.2126 * n + .7152 * r + .0722 * i + .05) / (.0074 + .05) >= 3 ? `#${t[1]}` : "#ffffff";
+}, bf = [["boardSize", "Size"], ["boardStyle", "Background"]], xf = [["boardPos", "Position"], ["boardFlip", "Flip letters"]], Sf = [
 	["capSize", "Text size"],
 	["capColor", "Text colour"],
 	["capBg", "Background"],
 	["capEdge", "Outline"],
 	["capShadow", "Shadow"],
 	["capBrackets", "Brackets"]
-], Sf = {
+], Cf = {
 	boardSize: "full",
 	boardPos: "left",
 	boardStyle: "75",
@@ -9953,49 +9962,49 @@ var X = (e, t = "") => `<svg class="l10-icon ${t}" viewBox="0 0 24 24" aria-hidd
 	captions: !1,
 	timeMode: "total",
 	quality: "auto"
-}, Cf = {
+}, wf = {
 	square: ["[", "]"],
 	round: ["(", ")"],
 	double: ["“", "”"],
 	single: ["‘", "’"],
 	none: ["", ""]
-}, wf = { ...Sf }, Tf = () => ({ ...wf }), Ef = (e) => {
-	Object.assign(wf, e);
+}, Tf = { ...Cf }, Ef = () => ({ ...Tf }), Df = (e) => {
+	Object.assign(Tf, e);
 };
 try {
 	localStorage.removeItem("line10:prefs");
 } catch {}
-var Df = (() => {
+var Of = (() => {
 	try {
 		let e = new URLSearchParams(location.search), t = parseFloat(e.get("t") ?? e.get("sec"));
 		return t >= 0 ? t : NaN;
 	} catch {
 		return NaN;
 	}
-})(), Of = !1, kf = () => {
+})(), kf = !1, Af = () => {
 	let e = navigator.userAgent || "";
 	return /Android|iPhone|iPad|iPod|Mobile|Silk|Kindle|Opera Mini|IEMobile|SamsungBrowser/i.test(e) || /Macintosh/.test(e) && navigator.maxTouchPoints > 1 ? !0 : matchMedia("(hover: none) and (pointer: coarse)").matches;
-}, Af = 0, Q = (e) => String(e ?? "").replace(/[&<>"]/g, (e) => ({
+}, jf = 0, Q = (e) => String(e ?? "").replace(/[&<>"]/g, (e) => ({
 	"&": "&amp;",
 	"<": "&lt;",
 	">": "&gt;",
 	"\"": "&quot;"
-})[e]), jf = (e) => (e = Math.max(0, Math.floor(e || 0)), `${Math.floor(e / 60)}:${String(e % 60).padStart(2, "0")}`), Mf = 540, Nf = () => matchMedia("(prefers-reduced-motion: reduce)").matches, Pf = (e) => e.map((e) => `<kbd class="l10-key">${e}</kbd>`).join(""), $ = (e, t = [], { label: n = "", delay: r = "", side: i = "top" } = {}) => `
+})[e]), Mf = (e) => (e = Math.max(0, Math.floor(e || 0)), `${Math.floor(e / 60)}:${String(e % 60).padStart(2, "0")}`), Nf = 540, Pf = () => matchMedia("(prefers-reduced-motion: reduce)").matches, Ff = (e) => e.map((e) => `<kbd class="l10-key">${e}</kbd>`).join(""), $ = (e, t = [], { label: n = "", delay: r = "", side: i = "top" } = {}) => `
   <media-tooltip id="${e}-tip" trigger="${e}" side="${i === "left" || i === "right" ? "top" : i}" align="${i === "top" ? "center" : "start"}" class="l10-pop l10-tip${i === "left" ? " l10-tip-end" : i === "top" ? " l10-tip-mid" : ""}"${r ? ` delay="${r}"` : ""}>
     <media-tooltip-label>${n}</media-tooltip-label>
-    ${t.length ? `<span class="l10-keys">${Pf(t)}</span>` : ""}
-  </media-tooltip>`, Ff = (e, t, n, r, i, a = "top", o = "end", s = []) => `
+    ${t.length ? `<span class="l10-keys">${Ff(t)}</span>` : ""}
+  </media-tooltip>`, If = (e, t, n, r, i, a = "top", o = "end", s = []) => `
   <media-menu id="${t}" side="${a}" align="${o}" class="l10-pop l10-menu l10-setmenu ${i}">
     <media-menu-content class="l10-menu-content">
       <span class="l10-menu-label" aria-hidden="true">${n}</span>
-      ${If(e, "pg-", r)}
+      ${Lf(e, "pg-", r)}
       ${s.length ? `<div class="l10-menu-rule l10-switch-rule" aria-hidden="true"></div>${s.map(([e, t]) => `
       <media-menu-item class="l10-menu-item l10-menu-switch" data-switch="${e}">
         <span class="l10-menu-text">${t}</span>
         <span class="l10-menu-value" data-for="${e}"></span>
       </media-menu-item>`).join("")}` : ""}
     </media-menu-content>
-  </media-menu>`, If = (e, t, n) => `
+  </media-menu>`, Lf = (e, t, n) => `
       ${n.map(([n, r]) => `
       <media-menu-item commandfor="${e(t + n)}" class="l10-menu-item l10-menu-nav">
         <span class="l10-menu-text">${r}</span>
@@ -10012,7 +10021,7 @@ var Df = (() => {
             <media-menu-item-indicator force-mount class="l10-menu-check">${Z.check()}</media-menu-item-indicator>
           </media-menu-radio-item>`).join("")}
         </media-menu-radio-group>
-      </media-menu-content>`).join("")}`, Lf = (e = "") => `
+      </media-menu-content>`).join("")}`, Rf = (e = "") => `
                     <media-playback-rate-radio-group class="l10-menu-group ${e}" rates="${_f}" aria-label="Service">
                       <media-menu-group-label class="l10-menu-label">Service</media-menu-group-label>
                       <template>
@@ -10022,7 +10031,7 @@ var Df = (() => {
                           <media-menu-item-indicator force-mount class="l10-menu-check">${Z.check()}</media-menu-item-indicator>
                         </media-menu-radio-item>
                       </template>
-                    </media-playback-rate-radio-group>`, Rf = () => `
+                    </media-playback-rate-radio-group>`, zf = () => `
                     <media-quality-radio-group class="l10-menu-group l10-qgroup">
                       <template>
                         <media-menu-radio-item class="l10-menu-item">
@@ -10032,27 +10041,27 @@ var Df = (() => {
                           <media-menu-item-indicator force-mount class="l10-menu-check">${Z.check()}</media-menu-item-indicator>
                         </media-menu-radio-item>
                       </template>
-                    </media-quality-radio-group>`, zf = (e, t, n, r, i) => `
+                    </media-quality-radio-group>`, Bf = (e, t, n, r, i) => `
       <media-menu-item commandfor="${e(t)}" class="l10-menu-item l10-menu-nav ${n}">
         ${r}<span class="l10-menu-text">${i}</span><span class="l10-menu-value" data-m="${n}"></span>${Z.chevron("l10-menu-chev")}
-      </media-menu-item>`, Bf = (e) => `<media-menu-item class="l10-menu-item l10-menu-back">${Z.back2("l10-menu-chev")}<span class="l10-menu-text">${e}</span></media-menu-item>`, Vf = (e) => `
+      </media-menu-item>`, Vf = (e) => `<media-menu-item class="l10-menu-item l10-menu-back">${Z.back2("l10-menu-chev")}<span class="l10-menu-text">${e}</span></media-menu-item>`, Hf = (e) => `
   <media-menu id="${e("more-menu")}" side="top" align="end" class="l10-pop l10-menu l10-setmenu l10-moremenu">
     <span class="l10-more-cue" aria-hidden="true">${Z.chevron()}</span>
     <media-menu-content class="l10-menu-content">
       <span class="l10-menu-label" aria-hidden="true">Settings</span>
-      ${zf(e, "m-st", "l10-m-st", Z.stations("l10-menu-ico"), "Stations")}
-      <media-menu-content class="l10-menu-content" id="${e("m-st")}">${Bf("Stations")}<div class="l10-menu-group l10-stlist"></div></media-menu-content>
-      ${zf(e, "m-svc", "l10-m-svc", Z.service("l10-menu-ico"), "Speed")}
-      <media-menu-content class="l10-menu-content l10-flip-list" id="${e("m-svc")}">${Bf("Speed")}${Lf()}</media-menu-content>
-      ${zf(e, "m-q", "l10-m-q", Z.quality("l10-menu-ico"), "Quality")}
-      <media-menu-content class="l10-menu-content l10-flip-list" id="${e("m-q")}">${Bf("Quality")}${Rf()}</media-menu-content>
-      ${zf(e, "m-cs", "l10-m-cs", Z.captionStyle("l10-menu-ico"), "Caption style")}
-      <media-menu-content class="l10-menu-content l10-cspage" id="${e("m-cs")}" data-show="list">${Bf("Caption style")}
-        <div class="l10-csview" data-view="list">${xf.map(([e, t]) => `
+      ${Bf(e, "m-st", "l10-m-st", Z.stations("l10-menu-ico"), "Stations")}
+      <media-menu-content class="l10-menu-content" id="${e("m-st")}">${Vf("Stations")}<div class="l10-menu-group l10-stlist"></div></media-menu-content>
+      ${Bf(e, "m-svc", "l10-m-svc", Z.service("l10-menu-ico"), "Speed")}
+      <media-menu-content class="l10-menu-content l10-flip-list" id="${e("m-svc")}">${Vf("Speed")}${Rf()}</media-menu-content>
+      ${Bf(e, "m-q", "l10-m-q", Z.quality("l10-menu-ico"), "Quality")}
+      <media-menu-content class="l10-menu-content l10-flip-list" id="${e("m-q")}">${Vf("Quality")}${zf()}</media-menu-content>
+      ${Bf(e, "m-cs", "l10-m-cs", Z.captionStyle("l10-menu-ico"), "Caption style")}
+      <media-menu-content class="l10-menu-content l10-cspage" id="${e("m-cs")}" data-show="list">${Vf("Caption style")}
+        <div class="l10-csview" data-view="list">${Sf.map(([e, t]) => `
           <media-menu-item class="l10-menu-item l10-menu-nav l10-csrow" data-k="${e}">
             <span class="l10-menu-text">${t}</span><span class="l10-menu-value" data-for="${e}"></span>${Z.chevron("l10-menu-chev")}
           </media-menu-item>`).join("")}
-        </div>${xf.map(([e, t]) => `
+        </div>${Sf.map(([e, t]) => `
         <div class="l10-csview" data-view="${e}" hidden>
           <media-menu-item class="l10-menu-item l10-menu-back l10-csback">${Z.back2("l10-menu-chev")}<span class="l10-menu-text">${t}</span></media-menu-item>
           <div class="l10-menu-group" role="group" aria-label="${t}">${vf[e].map(([t, n]) => `
@@ -10069,24 +10078,28 @@ var Df = (() => {
       <media-menu-item class="l10-menu-item l10-m-pip">${Z.pipIn("l10-menu-ico")}<span class="l10-menu-text l10-m-pip-text">Picture-in-picture</span></media-menu-item>
       <media-menu-item class="l10-menu-item l10-m-mute">${Z.vol3("l10-menu-ico")}<span class="l10-menu-text">Sound</span><span class="l10-menu-value" data-m="l10-m-mute"></span></media-menu-item>
     </media-menu-content>
-  </media-menu>`, Hf = "(max-width: 1180px) 100vw, 1140px", Uf = (e) => /image\.mux\.com\/.+[?&]width=\d+/.test(e) ? [
+  </media-menu>`, Uf = "(max-width: 1180px) 100vw, 1140px", Wf = (e) => /image\.mux\.com\/.+[?&]width=\d+/.test(e) ? [
 	640,
 	960,
 	1280
-].map((t) => `${e.replace(/([?&]width=)\d+/, `$1${t}`)} ${t}w`).join(", ") : "", Wf = (e, t) => {
-	let n = Uf(e);
-	return `<img src="${Q(e)}"${n ? ` srcset="${Q(n)}" sizes="${Hf}"` : ""}${t ? " fetchpriority=\"high\"" : ""} alt="">`;
+].map((t) => `${e.replace(/([?&]width=)\d+/, `$1${t}`)} ${t}w`).join(", ") : "", Gf = (e, t) => {
+	let n = Wf(e);
+	return `<img src="${Q(e)}"${n ? ` srcset="${Q(n)}" sizes="${Uf}"` : ""}${t ? " fetchpriority=\"high\"" : ""} alt="">`;
 };
-function Gf(e) {
-	let t = ++Af, n = (e) => `l10-${t}-${e}`, r = `
+function Kf(e) {
+	let t = ++jf, n = (e) => `l10-${t}-${e}`, r = `
       ${e.captions ? `<track kind="captions" srclang="en" label="English" src="${Q(e.captions)}">` : ""}
       ${e.chapters ? `<track kind="chapters" srclang="en" label="Stations" src="${Q(e.chapters)}" default>` : ""}`, i = e.playbackId ? `<mux-video src="https://stream.mux.com/${Q(e.playbackId)}.m3u8" playsinline preload="metadata" crossorigin="anonymous">${r}</mux-video>` : `<video src="${Q(e.src)}" playsinline preload="metadata" crossorigin="anonymous">${r}
-      ${e.storyboard ? `<track kind="metadata" label="thumbnails" src="${Q(e.storyboard)}" default>` : ""}</video>`, a = [e.line ? `--l10-line:${Q(e.line)}` : "", e.ratio ? `aspect-ratio:${Q(e.ratio)}` : ""].filter(Boolean).join(";"), o = Q(e.number || "10");
+      ${e.storyboard ? `<track kind="metadata" label="thumbnails" src="${Q(e.storyboard)}" default>` : ""}</video>`, a = [
+		e.line ? `--l10-line:${Q(e.line)}` : "",
+		yf(e.line) ? `--l10-focus:${yf(e.line)}` : "",
+		e.ratio ? `aspect-ratio:${Q(e.ratio)}` : ""
+	].filter(Boolean).join(";"), o = Q(e.number || "10");
 	return `
 <video-player class="l10-player" ${e.title ? `content-title="${Q(e.title)}"` : ""}>
   <media-container class="l10" data-preset="video"${a ? ` style="${a}"` : ""}>
     ${i}
-    <media-poster class="l10-poster">${e.poster ? Wf(e.poster, t === 1) : ""}</media-poster>
+    <media-poster class="l10-poster">${e.poster ? Gf(e.poster, t === 1) : ""}</media-poster>
 
     <media-controls class="l10-controls">
       <media-controls-content class="l10-content">
@@ -10117,7 +10130,7 @@ function Gf(e) {
 		label: "Share this stop",
 		side: "bottom"
 	})}
-          ${Ff(n, n("board-menu"), "Departure board", yf, "l10-boardmenu", "bottom", "start", bf)}
+          ${If(n, n("board-menu"), "Departure board", bf, "l10-boardmenu", "bottom", "start", xf)}
           <media-title class="l10-sr"></media-title>
 
           <media-controls-group class="l10-center">
@@ -10178,7 +10191,7 @@ function Gf(e) {
                     <media-slider-thumb class="l10-vthumb"></media-slider-thumb>
                   </media-volume-slider>
                   <!-- after 2 s of hovering, a hint explains the control and its keys -->
-                  <span class="l10-vol-hint" aria-hidden="true"><b>Volume</b><span>${Pf(["M"])} mute</span><span>${Pf(["↑", "↓"])} louder / quieter</span><span>Drag or click the fader</span></span>
+                  <span class="l10-vol-hint" aria-hidden="true"><b>Volume</b><span>${Ff(["M"])} mute</span><span>${Ff(["↑", "↓"])} louder / quieter</span><span>Drag or click the fader</span></span>
                 </media-volume-popover>
                 <button type="button" class="l10-time" id="${n("time")}" aria-keyshortcuts="T" aria-label="Show time left" aria-pressed="false">
                   <media-time-group class="l10-time-in">
@@ -10222,7 +10235,7 @@ function Gf(e) {
 	})}
                 <media-menu id="${n("svc-menu")}" side="top" align="end" class="l10-pop l10-menu l10-flip-list">
                   <media-menu-content class="l10-menu-content">
-                    ${Lf()}
+                    ${Rf()}
                   </media-menu-content>
                 </media-menu>
                 <button type="button" class="l10-btn l10-pill l10-quality" id="${n("q")}" commandfor="${n("q-menu")}" aria-label="Quality" aria-keyshortcuts="Q" aria-haspopup="menu" data-off><span class="l10-pill-text l10-quality-name">Auto</span></button>
@@ -10233,7 +10246,7 @@ function Gf(e) {
                 <media-menu id="${n("q-menu")}" side="top" align="end" class="l10-pop l10-menu l10-qmenu l10-flip-list">
                   <media-menu-content class="l10-menu-content">
                     <span class="l10-menu-label" aria-hidden="true">Quality</span>
-                    ${Rf()}
+                    ${zf()}
                   </media-menu-content>
                 </media-menu>
                 <media-captions-button class="l10-btn l10-cc" id="${n("cc")}">${Z.ccOff("l10-i-cc-off")}${Z.ccOn("l10-i-cc-on")}</media-captions-button>
@@ -10245,13 +10258,13 @@ function Gf(e) {
 	})}
                 <media-pip-button class="l10-btn l10-pip" id="${n("pip")}">${Z.pipIn("l10-i-pip-in")}${Z.pipOut("l10-i-pip-out")}</media-pip-button>
                 ${$(n("pip"), ["I"], { side: "left" })}
-                ${Ff(n, n("capset-menu"), "Caption style", xf, "l10-capmenu")}
+                ${If(n, n("capset-menu"), "Caption style", Sf, "l10-capmenu")}
                 <button type="button" class="l10-btn l10-more" id="${n("more")}" aria-keyshortcuts="S" commandfor="${n("more-menu")}" aria-label="Settings" aria-haspopup="menu">${Z.settings()}</button>
                 ${$(n("more"), ["S"], {
 		label: "Settings",
 		side: "left"
 	})}
-                ${Vf(n)}
+                ${Hf(n)}
                 <media-fullscreen-button class="l10-btn l10-fs" id="${n("fs")}">${Z.fsIn("l10-i-fs-in")}${Z.fsOut("l10-i-fs-out")}</media-fullscreen-button>
                 ${$(n("fs"), ["F"], { side: "left" })}
               </media-controls-group>
@@ -10352,14 +10365,14 @@ function Gf(e) {
   </media-container>
 </video-player>`;
 }
-var Kf = 13, qf = (e) => e.length > Kf ? `${e.slice(0, 12).trimEnd()}…` : e, Jf = (e) => e.split(":").reduce((e, t) => e * 60 + Number(t), 0);
-function Yf(e) {
+var qf = 13, Jf = (e) => e.length > qf ? `${e.slice(0, 12).trimEnd()}…` : e, Yf = (e) => e.split(":").reduce((e, t) => e * 60 + Number(t), 0);
+function Xf(e) {
 	if (e == null || !String(e).trim()) return null;
 	let t = [];
 	for (let n of String(e).split(/[;\n]+/)) {
 		let e = n.trim().match(/^(\d+(?::\d{1,2}){0,2}(?:\.\d+)?)\s+(.+)$/);
 		if (!e) continue;
-		let r = Jf(e[1]), i = e[2].replace(/\s+/g, " ").trim().slice(0, 40);
+		let r = Yf(e[1]), i = e[2].replace(/\s+/g, " ").trim().slice(0, 40);
 		Number.isFinite(r) && i && t.push({
 			start: r,
 			name: i
@@ -10367,13 +10380,13 @@ function Yf(e) {
 	}
 	return t.sort((e, t) => e.start - t.start), t.filter((e, n) => n === 0 || e.start !== t[n - 1].start);
 }
-var Xf = "ABCDEFGHIJKLMNOPRSTUVWXYZ0123456789";
-function Zf(e, t, n = !1) {
+var Zf = "ABCDEFGHIJKLMNOPRSTUVWXYZ0123456789";
+function Qf(e, t, n = !1) {
 	let r = Number(e.dataset.len) || t.length, i = String(t).toUpperCase().slice(0, r).padEnd(r, " ");
 	if (e.dataset.text === i) return;
 	let a = !e.children.length;
 	a && (e.innerHTML = Array.from({ length: r }, () => "<span class=\"l10-tile\"><span> </span></span>").join("")), e.dataset.text = i;
-	let o = n || a || Nf() || e.closest(".l10")?.dataset.boardFlip === "off";
+	let o = n || a || Pf() || e.closest(".l10")?.dataset.boardFlip === "off";
 	[...e.children].forEach((e, t) => {
 		let n = e.firstElementChild, r = i[t];
 		if (clearTimeout(e._t), n.textContent === r) return;
@@ -10382,12 +10395,12 @@ function Zf(e, t, n = !1) {
 			return;
 		}
 		let a = r === " " ? 1 : 1 + t % 2, s = () => {
-			e.classList.remove("l10-flip"), e.offsetWidth, e.classList.add("l10-flip"), n.textContent = a > 1 ? Xf[Math.random() * 35 | 0] : r, --a > 0 && (e._t = setTimeout(s, 60));
+			e.classList.remove("l10-flip"), e.offsetWidth, e.classList.add("l10-flip"), n.textContent = a > 1 ? Zf[Math.random() * 35 | 0] : r, --a > 0 && (e._t = setTimeout(s, 60));
 		};
 		e._t = setTimeout(s, t * 20);
 	});
 }
-var Qf = class extends HTMLElement {
+var $f = class extends HTMLElement {
 	static observedAttributes = [
 		"line",
 		"next-title",
@@ -10399,7 +10412,14 @@ var Qf = class extends HTMLElement {
 		"stops"
 	];
 	attributeChangedCallback(e, t, n) {
-		this.dataset.ready != null && (e === "line" ? this.querySelector(".l10")?.style.setProperty("--l10-line", n || "") : e === "stations" || e === "stops" ? this.#n?.() : e === "board" || e === "share" ? this.#r?.() : this.#t?.());
+		if (this.dataset.ready != null) {
+			if (e === "line") {
+				let e = this.querySelector(".l10");
+				e?.style.setProperty("--l10-line", n || "");
+				let t = yf(n);
+				t ? e?.style.setProperty("--l10-focus", t) : e?.style.removeProperty("--l10-focus");
+			} else e === "stations" || e === "stops" ? this.#n?.() : e === "board" || e === "share" ? this.#r?.() : this.#t?.();
+		}
 	}
 	connectedCallback() {
 		if (this.dataset.ready != null) return;
@@ -10407,7 +10427,7 @@ var Qf = class extends HTMLElement {
 		let e = (e) => this.getAttribute(e), t = e("title") || "";
 		e("playback-id") && import("./mux-video-BHPpuX82.js");
 		let n = this.querySelector("img.l10-preposter");
-		this.innerHTML = Gf({
+		this.innerHTML = Kf({
 			src: e("src"),
 			poster: e("poster"),
 			title: e("title"),
@@ -10458,7 +10478,7 @@ var Qf = class extends HTMLElement {
 		let _ = () => {
 			let e = a.duration;
 			if (!Number.isFinite(e) || e <= 0) return;
-			let t = [], n = this.getAttribute("stops") === "off" ? null : Yf(this.getAttribute("stations"));
+			let t = [], n = this.getAttribute("stops") === "off" ? null : Xf(this.getAttribute("stations"));
 			if (this.getAttribute("stops") !== "off") {
 				if (n) {
 					let r = n.filter((t) => t.start < e);
@@ -10481,13 +10501,13 @@ var Qf = class extends HTMLElement {
 			if (u === g) return;
 			g = u, m = t, o.innerHTML = m.length ? m.map((t, n) => `
         <span class="l10-stop${n === m.length - 1 ? " l10-terminus" : ""}${n === 0 ? " l10-origin" : ""}" style="--at:${t.start / e * 100}%">
-          <span class="l10-dot"></span><span class="l10-name" title="${Q(t.name)}">${Q(qf(t.name))}</span>
+          <span class="l10-dot"></span><span class="l10-name" title="${Q(t.name)}">${Q(Jf(t.name))}</span>
         </span>`).join("") + "<span class=\"l10-endcap\"></span>" : "<span class=\"l10-stop l10-origin\" data-state=\"passed\" style=\"--at:0%\"><span class=\"l10-dot\"></span></span><span class=\"l10-endcap\"></span>", i.style.setProperty("--l10-stops", m.length);
 			let d = m.map((e, t) => `
         <media-menu-item class="l10-menu-item l10-st-item" data-k="${t}">
           <span class="l10-menu-dot" aria-hidden="true"></span>
           <span class="l10-menu-text">${Q(e.name)}</span>
-          <span class="l10-st-time">${jf(e.start)}</span>
+          <span class="l10-st-time">${Mf(e.start)}</span>
         </media-menu-item>`).join("");
 			l.forEach((e) => {
 				e.innerHTML = d;
@@ -10502,7 +10522,7 @@ var Qf = class extends HTMLElement {
 		}, v = () => {
 			let t = a.currentTime || 0, n = a.duration || 0, c = a.ended || !!(n && t >= n - .05);
 			if (i.hasAttribute("data-terminus") !== c && (i.toggleAttribute("data-terminus", c), r(".l10-term-name").textContent = m[m.length - 1]?.name || e.split(/[—–-]/)[0].trim() || ""), !m.length) {
-				Zf(p.now, c ? "Terminus" : t < .5 ? "Departing" : "En route"), Zf(p.next, c ? "Change here" : n ? "Terminus" : ""), Zf(p.eta, c || !n ? "" : jf(n - t), !0);
+				Qf(p.now, c ? "Terminus" : t < .5 ? "Departing" : "En route"), Qf(p.next, c ? "Change here" : n ? "Terminus" : ""), Qf(p.eta, c || !n ? "" : Mf(n - t), !0);
 				return;
 			}
 			let d = m.findIndex((e) => t >= e.start && t < e.end);
@@ -10510,7 +10530,7 @@ var Qf = class extends HTMLElement {
 				e.dataset.state = t < d ? "passed" : t === d ? "current" : "ahead";
 			});
 			let g = m[d + 1];
-			Zf(p.now, c ? "Terminus" : qf(m[d].name)), Zf(p.next, c ? "Change here" : g ? qf(g.name) : "Terminus"), Zf(p.eta, c ? "" : jf((g ? g.start : n) - t), !0), s.setAttribute("aria-label", g ? `Next stop: ${g.name}` : "Last stop reached"), s.toggleAttribute("data-last", !g), d !== h && (h !== -1 && !a.paused && !c && (r(".l10-arrival-name").textContent = m[d].name, f.classList.remove("l10-show"), f.offsetWidth, f.classList.add("l10-show")), h = d, y(), l.forEach((e) => e.querySelectorAll(".l10-st-item").forEach((e, t) => e.toggleAttribute("data-current", t === d))), u.textContent = c ? "Terminus." : `Now at ${m[d].name}.${g ? ` Next: ${g.name}.` : " Last stop."}`);
+			Qf(p.now, c ? "Terminus" : Jf(m[d].name)), Qf(p.next, c ? "Change here" : g ? Jf(g.name) : "Terminus"), Qf(p.eta, c ? "" : Mf((g ? g.start : n) - t), !0), s.setAttribute("aria-label", g ? `Next stop: ${g.name}` : "Last stop reached"), s.toggleAttribute("data-last", !g), d !== h && (h !== -1 && !a.paused && !c && (r(".l10-arrival-name").textContent = m[d].name, f.classList.remove("l10-show"), f.offsetWidth, f.classList.add("l10-show")), h = d, y(), l.forEach((e) => e.querySelectorAll(".l10-st-item").forEach((e, t) => e.toggleAttribute("data-current", t === d))), u.textContent = c ? "Terminus." : `Now at ${m[d].name}.${g ? ` Next: ${g.name}.` : " Last stop."}`);
 		}, y = () => {
 			let e = [...o.querySelectorAll(".l10-stop")];
 			if (!e.length || !m.length) {
@@ -10564,7 +10584,7 @@ var Qf = class extends HTMLElement {
 			let t = i.ownerDocument, n = t.defaultView || window, r = D(a.currentTime || 0), o = new URL(location.href);
 			o.hash = "", o.searchParams.set("t", String(Math.floor(a.currentTime || 0)));
 			let s = o.toString(), c = r ? `<span class="l10-toast-dot">·</span><b>${Q(r.name)}</b>` : "";
-			if (kf() && n.navigator.share) try {
+			if (Af() && n.navigator.share) try {
 				await n.navigator.share({
 					title: `${e}${r ? ` — ${r.name}` : ""}`,
 					url: s
@@ -10597,12 +10617,12 @@ var Qf = class extends HTMLElement {
 			e && e !== a && !e.dataset.l10Fs && (e.dataset.l10Fs = "1", e.addEventListener("webkitbeginfullscreen", re));
 		});
 		let ie = parseFloat(this.getAttribute("start"));
-		!Number.isFinite(ie) && !Of && Number.isFinite(Df) && this.isConnected && document.querySelector("line10-player") === this && (ie = Df, Of = !0);
+		!Number.isFinite(ie) && !kf && Number.isFinite(Of) && this.isConnected && document.querySelector("line10-player") === this && (ie = Of, kf = !0);
 		let ae = () => {
 			if (!Number.isFinite(ie) || !(a.duration > 0)) return;
 			let e = Math.max(0, Math.min(ie, a.duration - 2));
 			ie = NaN, e < 1 || (a.currentTime = e, setTimeout(() => {
-				let t = D(e), n = t ? `<b>${Q(t.name)}</b><span class="l10-toast-dot">·</span>${jf(e)}` : `<b>${jf(e)}</b>`;
+				let t = D(e), n = t ? `<b>${Q(t.name)}</b><span class="l10-toast-dot">·</span>${Mf(e)}` : `<b>${Mf(e)}</b>`;
 				E(`Starting at ${n}`, {
 					over: !0,
 					ms: 0
@@ -10637,7 +10657,7 @@ var Qf = class extends HTMLElement {
 		});
 		let se = () => {
 			d.textContent = gf[a.playbackRate] || "Custom", r(".l10-service-rate").textContent = `${a.playbackRate}×`;
-		}, k = Tf(), ce = () => {}, A = 0, le = 0, j = !1;
+		}, k = Ef(), ce = () => {}, A = 0, le = 0, j = !1;
 		k.board && !k.boardSize && (k.boardSize = k.board), k.boardPos === "center" && (k.boardPos = "left");
 		let ue = {
 			timeMode: "time",
@@ -10651,12 +10671,12 @@ var Qf = class extends HTMLElement {
 			capEdge: "capedge",
 			capShadow: "capshadow"
 		}, M = (e) => {
-			let t = k[e] ?? Sf[e], n = i.hasAttribute("data-dock");
+			let t = k[e] ?? Cf[e], n = i.hasAttribute("data-dock");
 			return e === "boardSize" && n && t === "off" ? "compact" : e === "boardPos" && n ? "left" : e === "boardSize" && t === "full" && !n && i.hasAttribute("data-board-tight") ? "compact" : t;
 		}, N = () => {
 			let e = i.hasAttribute("data-dock");
 			for (let [t, n] of Object.entries(ue)) {
-				let r = (t === "boardSize" || t === "boardPos") && e ? M(t) : k[t] ?? Sf[t];
+				let r = (t === "boardSize" || t === "boardPos") && e ? M(t) : k[t] ?? Cf[t];
 				i.dataset[n] !== r && (i.dataset[n] = r);
 			}
 			i.querySelectorAll("media-menu-radio-group[data-pref=\"boardSize\"] media-menu-radio-item[value=\"off\"]").forEach((t) => {
@@ -10673,14 +10693,14 @@ var Qf = class extends HTMLElement {
 				e.value !== t && (e.value = t);
 			}), j = !1, de.setAttribute("align", e || k.boardPos === "right" ? "end" : k.boardPos === "center" ? "center" : "start"), ce();
 		}, de = r(".l10-boardmenu"), fe = (e, t) => {
-			k[e] = t, Ef(k), e.startsWith("board") && requestAnimationFrame(() => requestAnimationFrame(() => de.requestUpdate?.())), e.startsWith("cap") && (A = Date.now() + 2600), N(), e.startsWith("cap") && (clearTimeout(le), le = setTimeout(() => ce(), 2700));
+			k[e] = t, Df(k), e.startsWith("board") && requestAnimationFrame(() => requestAnimationFrame(() => de.requestUpdate?.())), e.startsWith("cap") && (A = Date.now() + 2600), N(), e.startsWith("cap") && (clearTimeout(le), le = setTimeout(() => ce(), 2700));
 		};
 		i.querySelectorAll(".l10-menu-switch").forEach((e) => e.addEventListener("select", (t) => {
 			t.preventDefault();
-			let n = e.dataset.switch, r = k[n] ?? Sf[n];
+			let n = e.dataset.switch, r = k[n] ?? Cf[n];
 			fe(n, (vf[n].find(([e]) => e !== r) || vf[n][0])[0]);
 		})), i.querySelectorAll("media-menu-radio-group[data-pref]").forEach((e) => {
-			e.value = k[e.dataset.pref] ?? Sf[e.dataset.pref], e.addEventListener("value-change", (t) => {
+			e.value = k[e.dataset.pref] ?? Cf[e.dataset.pref], e.addEventListener("value-change", (t) => {
 				j || k[e.dataset.pref] === t.detail.value || fe(e.dataset.pref, t.detail.value);
 			});
 		});
@@ -10690,7 +10710,7 @@ var Qf = class extends HTMLElement {
 		};
 		pe(), new ResizeObserver(pe).observe(i);
 		let me = r(".l10-cspage"), he = () => me.querySelectorAll(".l10-csopt").forEach((e) => {
-			let t = (k[e.dataset.k] ?? Sf[e.dataset.k]) === e.dataset.v;
+			let t = (k[e.dataset.k] ?? Cf[e.dataset.k]) === e.dataset.v;
 			e.toggleAttribute("data-checked", t), e.setAttribute("aria-label", `${e.querySelector(".l10-menu-text").textContent}${t ? ", selected" : ""}`);
 		}), ge = (e) => {
 			me.dataset.show = e, me.querySelectorAll(".l10-csview").forEach((t) => {
@@ -10703,7 +10723,7 @@ var Qf = class extends HTMLElement {
 			let t = e.target.closest(".l10-csrow, .l10-csback, .l10-csopt");
 			t && (e.preventDefault(), t.classList.contains("l10-csrow") ? ge(t.dataset.k) : t.classList.contains("l10-csback") ? ge("list") : (fe(t.dataset.k, t.dataset.v), he()));
 		});
-		let _e = kf();
+		let _e = Af();
 		i.toggleAttribute("data-touch", _e);
 		let ve = !1, ye = () => {
 			ve || (ve = !0, _e ? (a.volume = 1, a.muted = !1) : (Number.isFinite(k.volume) && (a.volume = Math.min(1, Math.max(0, k.volume))), a.muted = !!k.muted), k.rate && gf[k.rate] && (a.playbackRate = k.rate, a.defaultPlaybackRate = k.rate), be());
@@ -10712,9 +10732,9 @@ var Qf = class extends HTMLElement {
 			t && k.captions && t.mode !== "showing" && (t.mode = "showing");
 		};
 		a.addEventListener("loadedmetadata", ye), a.readyState >= 1 && ye(), a.addEventListener("volumechange", () => {
-			ve && (_e || (k.volume = a.volume, k.muted = a.muted, Ef(k)));
+			ve && (_e || (k.volume = a.volume, k.muted = a.muted, Df(k)));
 		}), a.addEventListener("ratechange", () => {
-			ve && (k.rate = a.playbackRate, Ef(k));
+			ve && (k.rate = a.playbackRate, Df(k));
 		});
 		let xe = 0, Se = () => {
 			xe = Date.now();
@@ -10722,7 +10742,7 @@ var Qf = class extends HTMLElement {
 		r(".l10-cc").addEventListener("click", Se), i.addEventListener("keydown", (e) => {
 			(e.key === "c" || e.key === "C") && Se();
 		}), a.textTracks?.addEventListener?.("change", () => {
-			!ve || Date.now() - xe > 1500 || (k.captions = [...a.textTracks].some((e) => (e.kind === "captions" || e.kind === "subtitles") && e.mode === "showing"), Ef(k), this.dispatchEvent(new CustomEvent("line10:captions", {
+			!ve || Date.now() - xe > 1500 || (k.captions = [...a.textTracks].some((e) => (e.kind === "captions" || e.kind === "subtitles") && e.mode === "showing"), Df(k), this.dispatchEvent(new CustomEvent("line10:captions", {
 				bubbles: !0,
 				detail: { on: k.captions }
 			})));
@@ -10765,7 +10785,7 @@ var Qf = class extends HTMLElement {
 		Ee(), a.localName.includes("-") && customElements.whenDefined(a.localName).then(Ee), a.addEventListener("loadedmetadata", Ee);
 		let De = r(".l10-captions"), Oe = r(".l10-cap-text"), ke = (e) => e.kind === "captions" || e.kind === "subtitles";
 		ce = () => {
-			let e = [...a.textTracks || []].find((e) => ke(e) && e.mode === "showing"), [t, n] = Cf[k.capBrackets] || Cf.square, r = e ? [...e.activeCues || []].map((e) => (e.text || "").replace(/<[^>]+>/g, "").replace(/\[([^\]]*)\]/g, (e, r) => `${t}${r.trim()}${n}`)).join("\n") : "", i = Date.now() < A ? `${t ? `${t}music${n} ` : ""}Captions will look like this` : r;
+			let e = [...a.textTracks || []].find((e) => ke(e) && e.mode === "showing"), [t, n] = wf[k.capBrackets] || wf.square, r = e ? [...e.activeCues || []].map((e) => (e.text || "").replace(/<[^>]+>/g, "").replace(/\[([^\]]*)\]/g, (e, r) => `${t}${r.trim()}${n}`)).join("\n") : "", i = Date.now() < A ? `${t ? `${t}music${n} ` : ""}Captions will look like this` : r;
 			Oe.textContent = i, De.toggleAttribute("data-empty", !i);
 		};
 		let Ae = (e) => {
@@ -10820,11 +10840,11 @@ var Qf = class extends HTMLElement {
 			He = !0;
 			let t = String(e.detail?.value), n = Re().find((e) => e.getAttribute("data-rendition") === t);
 			if (!n && /auto|^-1$/i.test(t)) {
-				k.quality = "auto", Ef(k);
+				k.quality = "auto", Df(k);
 				return;
 			}
 			let r = n ? Fe(n) : parseInt(t, 10);
-			r && (k.quality = r, Ef(k));
+			r && (k.quality = r, Df(k));
 		});
 		Ge(), i.querySelectorAll(".l10-flip-list").forEach((e) => e.addEventListener("keydown", (e) => {
 			if (e._l10 || e.key !== "ArrowUp" && e.key !== "ArrowDown") return;
@@ -10957,11 +10977,11 @@ var Qf = class extends HTMLElement {
 			}, 800);
 		}));
 		let Ct = r(".l10-time"), wt = i.querySelector(`media-tooltip[trigger="${Ct.id}"] media-tooltip-label`), Tt = () => {
-			let e = (k.timeMode ?? Sf.timeMode) === "left";
+			let e = (k.timeMode ?? Cf.timeMode) === "left";
 			Ct.setAttribute("aria-pressed", String(e)), Ct.setAttribute("aria-label", e ? "Show total time" : "Show time left"), wt && (wt.textContent = e ? "Show total time" : "Show time left");
 		};
 		Tt(), Ct.addEventListener("click", () => {
-			fe("timeMode", (k.timeMode ?? Sf.timeMode) === "left" ? "total" : "left"), Tt();
+			fe("timeMode", (k.timeMode ?? Cf.timeMode) === "left" ? "total" : "left"), Tt();
 		});
 		let Et = (e, t) => {
 			let n = r(e);
@@ -11048,7 +11068,7 @@ var Qf = class extends HTMLElement {
 					e = i.matches(":-webkit-full-screen");
 				} catch {}
 			}
-			let t = i.clientWidth, n = !this.getAttribute("ratio") && !e && !i.hasAttribute("data-docpip") && t > 0 && t <= Mf;
+			let t = i.clientWidth, n = !this.getAttribute("ratio") && !e && !i.hasAttribute("data-docpip") && t > 0 && t <= Nf;
 			n !== i.hasAttribute("data-dock") && (i.toggleAttribute("data-dock", n), N());
 			let r = n ? Lt.offsetHeight : 0;
 			kt.style.paddingTop = n ? `${r}px` : "", kt.style.setProperty("--l10-dock-top", `${r}px`), kt.style.paddingBottom = n ? `${Ot.offsetHeight}px` : "", At.toggleAttribute("disabled", !n), jt.toggleAttribute("disabled", n), R && (R.style.height = `${i.offsetHeight}px`, R.style.top = n ? `${r}px` : ""), kt.style.setProperty("--l10-dock-h", n ? `${Ot.offsetHeight}px` : "0px");
@@ -11069,7 +11089,7 @@ var Qf = class extends HTMLElement {
 				2,
 				4
 			].map((e) => parseInt(t[1].slice(e, e + 2), 16) / 255).map((e) => e <= .04045 ? e / 12.92 : ((e + .055) / 1.055) ** 2.4), a = .2126 * n + .7152 * r + .0722 * i;
-			return (a + .05) / .0557 >= 1.05 / (a + .05) ? "#14110a" : "#ffffff";
+			return (a + .05) / .05 >= 1.05 / (a + .05) ? "#000000" : "#ffffff";
 		};
 		this.#t = () => {
 			let e = this.getAttribute("next-title");
@@ -11106,5 +11126,5 @@ var Qf = class extends HTMLElement {
 		}, this.#r(), this.#i = () => m.map((e) => ({ ...e })), v();
 	}
 };
-customElements.get("line10-player") || customElements.define("line10-player", Qf);
+customElements.get("line10-player") || customElements.define("line10-player", $f);
 export { gf as SERVICES };

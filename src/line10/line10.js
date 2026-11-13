@@ -90,6 +90,14 @@ const PREFS = {
   capShadow: [['glow', 'All around'], ['br', 'Down-right ↘'], ['b', 'Down ↓'], ['bl', 'Down-left ↙'], ['off', 'Off']],
   capBrackets: [['square', '[ ]'], ['round', '( )'], ['double', '“ ”'], ['single', '‘ ’'], ['none', 'No brackets']],
 };
+// the focus ring uses the line colour, unless it is too dark to see on the player's dark panels (then white)
+const focusFor = (hex) => {
+  const m = /^#?([0-9a-f]{6})$/i.exec((hex || '').trim());
+  if (!m) return '';
+  const [r, g, b] = [0, 2, 4].map((k) => parseInt(m[1].slice(k, k + 2), 16) / 255).map((c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+  const L = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  return (L + 0.05) / (0.0074 + 0.05) >= 3 ? `#${m[1]}` : '#ffffff';   // at least 3:1, as WCAG asks for focus rings
+};
 const BOARD_ROWS = [['boardSize', 'Size'], ['boardStyle', 'Background']];
 // two-choice settings: one tap flips them, no page of choices
 const BOARD_SWITCHES = [['boardPos', 'Position'], ['boardFlip', 'Flip letters']];
@@ -257,7 +265,7 @@ function template(o) {
     ? `<mux-video src="https://stream.mux.com/${esc(o.playbackId)}.m3u8" playsinline preload="metadata" crossorigin="anonymous">${tracks}</mux-video>`
     : `<video src="${esc(o.src)}" playsinline preload="metadata" crossorigin="anonymous">${tracks}
       ${o.storyboard ? `<track kind="metadata" label="thumbnails" src="${esc(o.storyboard)}" default>` : ''}</video>`;
-  const style = [o.line ? `--l10-line:${esc(o.line)}` : '', o.ratio ? `aspect-ratio:${esc(o.ratio)}` : ''].filter(Boolean).join(';');
+  const style = [o.line ? `--l10-line:${esc(o.line)}` : '', focusFor(o.line) ? `--l10-focus:${focusFor(o.line)}` : '', o.ratio ? `aspect-ratio:${esc(o.ratio)}` : ''].filter(Boolean).join(';');
   const num = esc(o.number || '10');
 
   return `
@@ -557,7 +565,12 @@ class Line10Player extends HTMLElement {
   static observedAttributes = ['line', 'next-title', 'next-number', 'next-line', 'stations', 'board', 'share', 'stops'];
   attributeChangedCallback(name, _old, value) {
     if (this.dataset.ready == null) return;
-    if (name === 'line') this.querySelector('.l10')?.style.setProperty('--l10-line', value || '');
+    if (name === 'line') {
+      const el = this.querySelector('.l10');
+      el?.style.setProperty('--l10-line', value || '');
+      const f = focusFor(value);
+      if (f) el?.style.setProperty('--l10-focus', f); else el?.style.removeProperty('--l10-focus');
+    }
     else if (name === 'stations' || name === 'stops') this.#restation?.();
     else if (name === 'board' || name === 'share') this.#parts?.();
     else this.#offerNext?.();
@@ -1559,9 +1572,9 @@ class Line10Player extends HTMLElement {
       const m = /^#?([0-9a-f]{6})$/i.exec((hex || '').trim());
       if (!m) return '#14110a';
       const [r, g, b] = [0, 2, 4].map((k) => parseInt(m[1].slice(k, k + 2), 16) / 255).map((c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
-      // pick whichever text colour reads better on it: dark (#14110a, luminance ~0.0057) or white (1)
+      // pick whichever reads better on it, black or white (one of them always reaches 4.5:1)
       const L = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-      return (L + 0.05) / (0.0057 + 0.05) >= 1.05 / (L + 0.05) ? '#14110a' : '#ffffff';
+      return (L + 0.05) / 0.05 >= 1.05 / (L + 0.05) ? '#000000' : '#ffffff';
     };
     this.#offerNext = () => {
       const name = this.getAttribute('next-title');
