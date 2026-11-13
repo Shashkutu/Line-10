@@ -11068,8 +11068,8 @@ var Qf = class extends HTMLElement {
 				0,
 				2,
 				4
-			].map((e) => parseInt(t[1].slice(e, e + 2), 16) / 255).map((e) => e <= .04045 ? e / 12.92 : ((e + .055) / 1.055) ** 2.4);
-			return .2126 * n + .7152 * r + .0722 * i > .32 ? "#14110a" : "#ffffff";
+			].map((e) => parseInt(t[1].slice(e, e + 2), 16) / 255).map((e) => e <= .04045 ? e / 12.92 : ((e + .055) / 1.055) ** 2.4), a = .2126 * n + .7152 * r + .0722 * i;
+			return (a + .05) / .0557 >= 1.05 / (a + .05) ? "#14110a" : "#ffffff";
 		};
 		this.#t = () => {
 			let e = this.getAttribute("next-title");

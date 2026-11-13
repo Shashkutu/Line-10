@@ -1559,7 +1559,9 @@ class Line10Player extends HTMLElement {
       const m = /^#?([0-9a-f]{6})$/i.exec((hex || '').trim());
       if (!m) return '#14110a';
       const [r, g, b] = [0, 2, 4].map((k) => parseInt(m[1].slice(k, k + 2), 16) / 255).map((c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
-      return 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.32 ? '#14110a' : '#ffffff';
+      // pick whichever text colour reads better on it: dark (#14110a, luminance ~0.0057) or white (1)
+      const L = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+      return (L + 0.05) / (0.0057 + 0.05) >= 1.05 / (L + 0.05) ? '#14110a' : '#ffffff';
     };
     this.#offerNext = () => {
       const name = this.getAttribute('next-title');
