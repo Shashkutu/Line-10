@@ -503,7 +503,7 @@ function template(o) {
       <media-dialog-popup class="l10-dialog">
         <span class="l10-dialog-tag" aria-hidden="true">Service notice</span>
         <media-dialog-title class="l10-dialog-title"></media-dialog-title>
-        <p class="l10-dialog-help">This train can't run right now. Check your connection and try again.</p>
+        <p class="l10-dialog-help" id="${id('err-help')}">This train can't run right now. Check your connection and try again.</p>
         <media-dialog-description class="l10-dialog-text"></media-dialog-description>
         <media-dialog-close class="l10-btn l10-pill l10-dialog-close"></media-dialog-close>
       </media-dialog-popup>
@@ -1193,6 +1193,10 @@ class Line10Player extends HTMLElement {
     }, true));
 
     // volume keys while the controls are hidden: show only the volume bubble
+    // error notice: screen readers get the friendly sentence, not the browser's technical message
+    const errDlg = $('.l10-dialog'), errHelp = $('.l10-dialog-help');
+    const errDesc = () => { if (errDlg && errHelp && errDlg.getAttribute('aria-describedby') !== errHelp.id) errDlg.setAttribute('aria-describedby', errHelp.id); };
+    if (errDlg) { new MutationObserver(errDesc).observe(errDlg, { attributes: true, attributeFilter: ['aria-describedby'] }); errDesc(); }
     const controlsEl = $('.l10-controls');
     const quiet = (on) => root.toggleAttribute('data-quiet', on);
     const onQuietKey = (e) => {

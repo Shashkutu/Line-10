@@ -1377,7 +1377,7 @@ media-error-dialog:not([data-open]) .l10-backdrop { display: none; }
 /* phones: next stop, then picture-in-picture, step into Settings when the bar runs out of room */
 @container l10 (max-width: 480px) { .l10 .l10-nextstop:not([hidden]) { display: none; } }
 @container l10 (max-width: 400px) { .l10 .l10-pip { display: none; } }
-@container l10 (max-width: 340px) { .l10-time { padding: 1px 6px 0; font-size: 11px; } }
+@container l10 (max-width: 340px) { .l10-time { margin-left: 0; padding: 1px 5px 0; font-size: 11px; } }
 /* very short players (a 16:9 player on a small phone): the board steps aside so the controls fit */
 @container l10 (max-height: 215px) {
   .l10:not([data-dock]) .l10-board { display: none; }
@@ -1465,7 +1465,7 @@ media-error-dialog:not([data-open]) .l10-backdrop { display: none; }
 .l10-csopt .l10-menu-check { display: grid; color: var(--l10-line); }
 .l10-csopt .l10-menu-check svg { width: 16px; height: 16px; }
 .l10-m-cc { display: none; }            /* captions stay on the bar… */
-@container l10 (max-width: 345px) { .l10 .l10-cc { display: none; } .l10-moremenu .l10-m-cc { display: grid; } }   /* …except on small phones (Captions moves into Settings) */
+@container l10 (max-width: 325px) { .l10 .l10-cc { display: none; } .l10-moremenu .l10-m-cc { display: grid; } }   /* …except on small phones (Captions moves into Settings) */
 .l10-m-next, .l10-m-pip { display: none; }          /* only when the bar has no room for them */
 @container l10 (max-width: 480px) { .l10-moremenu .l10-m-next { display: grid; } }
 @container l10 (max-width: 400px) { .l10-moremenu .l10-m-pip { display: grid; } }
@@ -1689,3 +1689,15 @@ button.l10-time { pointer-events: auto; }
 
 /* phone (portrait): no preview card while dragging the train; it was almost as big as the video */
 .l10[data-dock] .l10-sign { display: none; }
+
+/* error notice: the friendly text only, not the browser's technical message */
+.l10-dialog-text { display: none; }
+
+/* while you point at the line, the centre buttons step out of the way of the station preview */
+.l10:not([data-dock]):has(.l10-slider[data-pointing]) .l10-center { opacity: 0; }
+.l10:not([data-dock]):has(.l10-slider[data-pointing]) .l10-center * { pointer-events: none !important; }
+
+/* touch screens: bigger invisible tap areas on the line and the time (the look stays the same) */
+.l10[data-touch] .l10-slider::before { content: ""; position: absolute; inset: -7px 0; }
+.l10[data-touch] button.l10-time { position: relative; }
+.l10[data-touch] button.l10-time::before { content: ""; position: absolute; inset: -7px -2px; }
