@@ -1554,7 +1554,7 @@ media-tooltip.l10-tip:is([trigger$="-gear"], [trigger$="-share"]) { translate: 0
 }
 .l10-toast-btn svg { width: 16px; height: 16px; }
 .l10-toast-btn:hover { background: rgb(255 255 255 / 0.18); }
-.l10-toast-btn:focus-visible { outline: 2px solid var(--l10-line); outline-offset: 2px; }
+.l10-toast-btn:focus-visible { outline: 2px solid var(--l10-focus); outline-offset: 2px; }
 .l10[data-dock] .l10-toast { bottom: var(--l10-pad); }
 .l10[data-terminus] .l10-toast { display: none; }
 @container l10 (max-width: 420px) { .l10-toast { font-size: 12px; gap: 8px; } .l10-toast-btn span { display: none; } .l10-toast-btn { padding: 0 8px; min-width: 32px; justify-content: center; } }
@@ -1612,7 +1612,7 @@ media-tooltip.l10-tip:is([trigger$="-gear"], [trigger$="-share"]) { translate: 0
   border: 1px solid rgb(255 255 255 / 0.2);
   border-radius: 6px;
 }
-.l10-toast-link:focus-visible { outline: 2px solid var(--l10-line); outline-offset: 1px; }
+.l10-toast-link:focus-visible { outline: 2px solid var(--l10-focus); outline-offset: 1px; }
 .l10-toast-text:has(.l10-toast-link) { display: flex; align-items: center; gap: 10px; }
 .l10-menu-item[hidden] { display: none; }
 
@@ -1623,7 +1623,7 @@ button.l10-time { color: inherit; cursor: pointer; font-family: var(--l10-mono);
 .l10[data-time="left"] .l10-time-dur { display: none; }
 .l10-time-left { color: var(--l10-dim); }
 @media (hover: hover) and (pointer: fine) { button.l10-time:hover { background: rgb(255 255 255 / 0.14); } }
-button.l10-time:focus-visible { outline: 2px solid var(--l10-line); outline-offset: 2px; }
+button.l10-time:focus-visible { outline: 2px solid var(--l10-focus); outline-offset: 2px; }
 @container l10 (max-width: 770px) { button.l10-time { font-size: 12px; } }
 @container l10 (max-width: 340px) { button.l10-time { font-size: 11px; } .l10-time-in { gap: 3px; } }   /* room for the phone's mute button */
 
